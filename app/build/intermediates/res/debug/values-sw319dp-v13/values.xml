@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/values-sw319dp/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+    <dimen name="app_logo_text_size">30sp</dimen>
+    <dimen name="password_input_margin_top">10dp</dimen>
+    <dimen name="remember_password_height">30dp</dimen>
+    <dimen name="user_email_margin_top">20dp</dimen>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+
+    <dimen name="app_logo_text_size">30sp</dimen>
+    <dimen name="user_email_margin_top">20dp</dimen>
+    <dimen name="password_input_margin_top">10dp</dimen>
+    <dimen name="remember_password_height">30dp</dimen>
+</resources>
