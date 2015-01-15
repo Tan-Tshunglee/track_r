@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
     <dimen name="activity_vertical_margin">5dp</dimen>
 
     <dimen name="app_logo_text_size">30sp</dimen>
-    <dimen name="user_email_margin_top">20dp</dimen>
+    <dimen name="user_email_margin_top">10dp</dimen>
     <dimen name="password_input_margin_top">10dp</dimen>
     <dimen name="remember_password_height">30dp</dimen>
+    <dimen name="registration_logo_margin_top">5dp</dimen>
+    <dimen name="registration_btn_margin_top">10dp</dimen>
+    <dimen name="title_bar_height">48dp</dimen>
+    <dimen name="main_add_btn_margin_top">20dp</dimen>
+    <dimen name="add_hint_margin_top">10dp</dimen>
+    <dimen name="binding_step_textview_margin_top">50dp</dimen>
+    <dimen name="binding_pictures_margin">30dp</dimen>
+    <dimen name="binding_pictures_margin_bottom">20dp</dimen>
+    <dimen name="connectingTrackPictures">150dp</dimen>
+    <dimen name="connect_failed_title_margin_top">100dp</dimen>
+    <dimen name="try_again_btn_margin_bottom">50dp</dimen>
 </resources>

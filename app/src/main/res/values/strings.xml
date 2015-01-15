@@ -9,5 +9,11 @@
     <string name="remember_password">Remember Password</string>
     <string name="sign_in">Sign In</string>
     <string name="forget_password">Forget Password?</string>
+    <string name="email_input_hint">Your email address</string>
+    <string name="password_input_hint">Password</string>
+    <string name="password_confirm_input_hint">Password confirm</string>
+    <string name="registration">Registration</string>
+    <string name="title_activity_bind">BindActivity</string>
+    <string name="title_activity_binding">BindingActivity</string>
 
 </resources>

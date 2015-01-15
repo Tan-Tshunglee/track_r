@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.antilost.app.activity.MainActivity" >
+    tools:context="com.antilost.app.activity.LoginActivity" >
 
     <Button
         android:id="@+id/userRegistrationBtn"
@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:hint="@string/email_input_hint"
             android:background="@android:color/transparent"
             android:inputType="textEmailAddress" />
     </LinearLayout>
@@ -78,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:hint="@string/password_input_hint"
             android:background="@android:color/transparent"
             android:inputType="textPassword" />
     </LinearLayout>
@@ -149,4 +151,4 @@
 
             />
     </RelativeLayout>
-</RelativeLayout><!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/layout/activity_main.xml -->
+</RelativeLayout><!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/layout/activity_login.xml -->

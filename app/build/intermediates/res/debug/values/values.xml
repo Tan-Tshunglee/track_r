@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">TrackR</string>
+    <string name="email_input_hint">Your email address</string>
     <string name="forget_password">Forget Password?</string>
     <string name="hello_world">Hello world!</string>
     <string name="new_user_registration">User Registration</string>
+    <string name="password_confirm_input_hint">Password confirm</string>
+    <string name="password_input_hint">Password</string>
+    <string name="registration">Registration</string>
     <string name="remember_password">Remember Password</string>
     <string name="sign_in">Sign In</string>
+    <string name="title_activity_bind">BindActivity</string>
     <string name="user_icon">user icon</string>
     <!-- From: file:/F:/MY_WORKSPACE/Android%20Studio/TrackR/app/src/main/res/values/styles.xml -->
     <eat-comment/>
