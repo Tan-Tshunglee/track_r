@@ -1,4 +1,0 @@
-F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\classes\debug
-F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-eb28b17a2d1e0095a5185886e0fc974fefd33d8f.jar
-F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-924e5d230f645a671b9042a7ffaf25222e737ca1.jar
-F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\classes-c0083bae3c97fcc3270c7d32fa565f1504f1317f.jar
