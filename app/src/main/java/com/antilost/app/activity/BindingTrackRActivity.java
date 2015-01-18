@@ -15,12 +15,12 @@ import android.widget.RelativeLayout;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 
-public class BindingActivity extends Activity implements View.OnClickListener {
+public class BindingTrackRActivity extends Activity implements View.OnClickListener {
 
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
     public static final int MSG_SHOW_FIRST_PAGE = 3;
-    private static final String LOG_TAG = "BindingActivity";
+    private static final String LOG_TAG = "BindingTrackRActivity";
     private Handler mHandler;
 
     private RelativeLayout mFirstPage;
@@ -41,6 +41,8 @@ public class BindingActivity extends Activity implements View.OnClickListener {
         mFailedPage.setVisibility(View.GONE);
         mBackBtn = (ImageButton) findViewById(R.id.backBtn);
         mBackBtn.setOnClickListener(this);
+
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -90,7 +92,7 @@ public class BindingActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        mHandler.sendEmptyMessageDelayed(MSG_SHOW_CONNECTING_PAGE, 5);
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_CONNECTING_PAGE, 5000);
     }
 
     @Override

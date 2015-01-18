@@ -50,13 +50,14 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/key_large_icon"/>
 
-            <Button android:id="@+id/changImage"
+            <Button android:id="@+id/changeImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/centerLargeImage"
                 android:layout_marginTop="20dp"
                 android:text="Change"
-                android:background="@drawable/change_picture"/>
+                android:background="@drawable/change_picture"
+                android:textColor="@android:color/white" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"

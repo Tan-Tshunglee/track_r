@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name=".activity.BindingActivity"
+            android:name=".activity.BindingTrackRActivity"
             android:label="@string/title_activity_binding"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>

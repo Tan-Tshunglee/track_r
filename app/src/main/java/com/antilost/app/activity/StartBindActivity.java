@@ -3,8 +3,6 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +51,7 @@ public class StartBindActivity extends Activity implements View.OnClickListener 
             case R.id.btnUserProfile:
                 break;
             case R.id.mainAddBtn:
-                Intent i = new Intent(this, BindingActivity.class);
+                Intent i = new Intent(this, BindingTrackRActivity.class);
                 startActivity(i);
                 finish();
                 break;
