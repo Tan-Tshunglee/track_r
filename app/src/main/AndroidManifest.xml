@@ -41,30 +41,29 @@
         <activity
             android:name=".activity.RegistrationActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
-
-
         <activity
             android:name=".activity.StartBindActivity"
             android:label="@string/title_activity_bind"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
-
         <activity
             android:name=".activity.BindingTrackRActivity"
             android:label="@string/title_activity_binding"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
-
         <activity
             android:name=".activity.TrackREditActivity"
             android:label="@string/title_activity_track_redit"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
-
         <activity
             android:name=".activity.MainTrackRListActivity"
             android:label="@string/title_activity_main_track_rlist"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activity.PhotoEditActivity"
+            android:label="@string/title_activity_photo_edit" >
         </activity>
     </application>
 
