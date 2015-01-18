@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/bkg">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/btnOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:text="OK"/>
+
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/track_r_large_icon_layout_height"
+            android:background="#4fff" >
+            <ImageView
+                android:id="@+id/centerLargeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/key_large_icon"/>
+
+            <Button android:id="@+id/changImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/centerLargeImage"
+                android:layout_marginTop="20dp"
+                android:text="Change"
+                android:background="@drawable/change_picture"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/track_r_large_icon_layout_height"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/track_r_type_icon_margin"
+                android:paddingRight="@dimen/track_r_type_icon_margin"
+                android:layout_weight="1">
+                <ImageButton android:id="@+id/key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/key"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/wallet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wallet"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/bag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bag"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/computer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/computer"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingLeft="@dimen/track_r_type_icon_margin"
+                android:paddingRight="@dimen/track_r_type_icon_margin"
+                android:layout_weight="1">
+                <ImageButton android:id="@+id/pet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pet"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/car"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/child"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/child"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+                <ImageButton android:id="@+id/other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/other"
+                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:background="@drawable/large_circle_btn_bkg" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/track_r_type_name"
+            android:layout_width="match_parent"
+            android:background="@drawable/track_r_descript_bkg"
+            android:text="Key"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textColor="@android:color/white"
+            android:layout_height="@dimen/type_descript_textview_height" />
+    </LinearLayout>
+
+
+</RelativeLayout>

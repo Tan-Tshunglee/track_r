@@ -15,5 +15,9 @@
     <string name="registration">Registration</string>
     <string name="title_activity_bind">BindActivity</string>
     <string name="title_activity_binding">BindingActivity</string>
+    <string name="title_activity_track_redit">TrackREditActivity</string>
+    <string name="cancel">Cancel</string>
+    <string name="click_to_add">Click To Add</string>
+    <string name="title_activity_main_track_rlist">MainTrackRListActivity</string>
 
 </resources>

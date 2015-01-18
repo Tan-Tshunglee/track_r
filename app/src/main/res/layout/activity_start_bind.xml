@@ -9,7 +9,7 @@
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bkg">
         <ImageButton
-            android:id="@+id/backBtn"
+            android:id="@+id/btnUserProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/portrait"
@@ -34,6 +34,15 @@
         android:layout_marginTop="@dimen/main_add_btn_margin_top"
         android:layout_below="@id/titleBarLayout"
         android:src="@drawable/main_add_btn" />
+
+    <TextView android:id="@+id/clickToAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleBarLayout"
+        android:layout_marginTop="@dimen/click_to_add_margin_top"
+        android:text="@string/click_to_add"/>
 
     <TextView android:id="@+id/addHint"
         android:background="@drawable/hint_bkg"

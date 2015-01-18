@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bkg">
@@ -26,44 +25,49 @@
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
     </RelativeLayout>
-
-
-    <TextView
-        android:id="@+id/bindingSteps"
-        android:text="1.请确认手机蓝牙处于开启状态\n2.拿起TrackR靠近手机\n3.按下贴边上的按键直到听到 “滴” 的一声并闪灯"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titleBarLayout"
-        android:padding="20dp"
-        android:layout_marginTop="@dimen/binding_step_textview_margin_top"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true" />
-
     <RelativeLayout
-        android:id="@id/bindingPicturesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:layout_marginBottom="@dimen/binding_pictures_margin_bottom">
-        <ImageView android:layout_height="wrap_content"
+        android:layout_below="@id/titleBarLayout"
+        android:id="@+id/firstPage">
+        <TextView
+            android:id="@+id/bindingSteps"
+            android:text="1.请确认手机蓝牙处于开启状态\n2.拿起TrackR靠近手机\n3.按下贴边上的按键直到听到 “滴” 的一声并闪灯"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/binding_pictures_margin"
-            android:src="@drawable/phone" />
+            android:layout_height="wrap_content"
 
-        <ImageView android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="@dimen/binding_pictures_margin"
-            android:src="@drawable/track_r" />
+            android:padding="20dp"
+            android:layout_marginTop="@dimen/binding_step_textview_margin_top"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:id="@+id/bindingPicturesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/binding_pictures_margin_bottom">
+            <ImageView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/binding_pictures_margin"
+                android:src="@drawable/phone" />
+
+            <ImageView android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="@dimen/binding_pictures_margin"
+                android:src="@drawable/track_r" />
+        </RelativeLayout>
     </RelativeLayout>
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/connectingTrackR"
+        android:id="@+id/connectingPage"
         android:layout_alignParentBottom="true"
         android:visibility="gone">
 
@@ -98,7 +102,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/failedPage"
+        android:visibility="gone">
         <TextView
             android:id="@+id/connectingFailedTitle"
             android:layout_width="wrap_content"

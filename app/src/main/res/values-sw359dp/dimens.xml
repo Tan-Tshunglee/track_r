@@ -19,4 +19,12 @@
     <dimen name="connectingTrackPictures">300dp</dimen>
     <dimen name="connect_failed_title_margin_top">100dp</dimen>
     <dimen name="try_again_btn_margin_bottom">50dp</dimen>
+    <dimen name="click_to_add_margin_top">220dp</dimen>
+    <dimen name="track_r_large_icon_layout_height">180dp</dimen>
+    <dimen name="track_r_type_icon_margin">14dp</dimen>
+    <dimen name="type_descript_textview_height">54dp</dimen>
+    <dimen name="track_r_listview_item_height">90dp</dimen>
+    <dimen name="track_type_textview_max_width">90dp</dimen>
+    <dimen name="track_listview_item_track_type_textsize">18sp</dimen>
+    <dimen name="track_listview_item_track_type_width">54dp</dimen>
 </resources>

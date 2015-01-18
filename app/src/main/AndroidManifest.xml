@@ -15,11 +15,11 @@
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
-    <android:uses-permission
+    <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
@@ -41,14 +41,30 @@
         <activity
             android:name=".activity.RegistrationActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
+
+
         <activity
             android:name=".activity.StartBindActivity"
             android:label="@string/title_activity_bind"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
+
         <activity
             android:name=".activity.BindingActivity"
-            android:label="@string/title_activity_binding" >
+            android:label="@string/title_activity_binding"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".activity.TrackREditActivity"
+            android:label="@string/title_activity_track_redit"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".activity.MainTrackRListActivity"
+            android:label="@string/title_activity_main_track_rlist"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         </activity>
     </application>
 
