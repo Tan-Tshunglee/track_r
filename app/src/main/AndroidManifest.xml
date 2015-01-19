@@ -65,6 +65,10 @@
             android:name=".activity.PhotoEditActivity"
             android:label="@string/title_activity_photo_edit" >
         </activity>
+        <activity
+            android:name=".activity.TrackRActivity"
+            android:label="@string/title_activity_track_r" >
+        </activity>
     </application>
 
 </manifest>

@@ -21,6 +21,14 @@
             android:layout_centerVertical="true"
             android:text="@string/cancel"/>
 
+        <TextView android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crop Image"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white" />
+
         <Button
             android:id="@+id/btnOK"
             android:layout_width="wrap_content"

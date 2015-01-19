@@ -11,7 +11,7 @@
     <dimen name="registration_logo_margin_top">5dp</dimen>
     <dimen name="registration_btn_margin_top">10dp</dimen>
     <dimen name="title_bar_height">48dp</dimen>
-    <dimen name="main_add_btn_margin_top">20dp</dimen>
+    <dimen name="main_add_btn_margin_top">15dp</dimen>
     <dimen name="add_hint_margin_top">10dp</dimen>
     <dimen name="binding_step_textview_margin_top">50dp</dimen>
     <dimen name="binding_pictures_margin">30dp</dimen>
@@ -27,4 +27,13 @@
     <dimen name="track_type_textview_max_width">80dp</dimen>
     <dimen name="track_listview_item_track_type_textsize">16sp</dimen>
     <dimen name="track_listview_item_track_type_width">48dp</dimen>
+    <dimen name="track_r_bottom_button">80dp</dimen>
+    <dimen name="track_r_photo_size">144dp</dimen>
+    <dimen name="distance_level_width">150dp</dimen>
+    <dimen name="distance_level_height">108dp</dimen>
+    <dimen name="small_phone_height">40dp</dimen>
+    <dimen name="small_phone_width">25dp</dimen>
+    <dimen name="distance_level_margin_top">0dp</dimen>
+    <dimen name="track_r_bottom_padding_top">8dp</dimen>
+    <dimen name="track_r_bottom_padding_bottom">15dp</dimen>
 </resources>
