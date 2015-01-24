@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -63,11 +65,32 @@
         </activity>
         <activity
             android:name=".activity.PhotoEditActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:label="@string/title_activity_photo_edit" >
         </activity>
         <activity
             android:name=".activity.TrackRActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:label="@string/title_activity_track_r" >
+        </activity>
+
+        <service
+            android:name=".service.MonitorService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+
+        <receiver android:name=".Receiver" />
+        <receiver
+            android:name=".receiver.Receiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <activity
+            android:name=".activity.ForgetPasswordActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:label="@string/title_activity_forget_password" >
         </activity>
     </application>
 

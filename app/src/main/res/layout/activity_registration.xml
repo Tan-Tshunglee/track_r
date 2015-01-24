@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@string/user_icon"/>
 
         <EditText
@@ -49,6 +50,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:hint="@string/email_input_hint"
+            android:textColor="@android:color/white"
             android:background="@android:color/transparent"
             android:inputType="textEmailAddress" />
     </LinearLayout>
@@ -69,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@string/user_icon"/>
 
         <EditText
@@ -76,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
             android:hint="@string/password_input_hint"
             android:background="@android:color/transparent"
             android:inputType="textPassword" />
@@ -96,6 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@string/user_icon"/>
 
         <EditText
@@ -104,6 +109,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:hint="@string/password_confirm_input_hint"
+            android:textColor="@android:color/white"
             android:background="@android:color/transparent"
             android:inputType="textPassword" />
     </LinearLayout>

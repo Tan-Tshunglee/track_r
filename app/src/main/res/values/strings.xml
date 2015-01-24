@@ -22,5 +22,8 @@
     <string name="change_image">Change Image</string>
     <string name="title_activity_photo_edit">PhotoEditActivity</string>
     <string name="title_activity_track_r">TrackRActivity</string>
+    <string name="title_activity_forget_password">ForgetPassword</string>
+    <string name="send">Send</string>
+    <string name="ble_not_support">ble not support.</string>
 
 </resources>

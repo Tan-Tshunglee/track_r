@@ -10,15 +10,24 @@ import android.widget.ListView;
 
 import com.antilost.app.R;
 import com.antilost.app.adapter.TrackRListAdapter;
+import com.antilost.app.prefs.PrefsManager;
+
+import java.util.Set;
 
 public class MainTrackRListActivity extends Activity implements View.OnClickListener{
 
+    private static final int REQUEST_CODE_ADD_TRACK_R = 1;
+
+
+
     private TrackRListAdapter mListViewAdapter;
     private ListView mListView;
+    private PrefsManager mPrefsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPrefsManager = PrefsManager.singleInstance(this);
         setContentView(R.layout.activity_main_track_rlist);
         mListView = (ListView) findViewById(R.id.listview);
         mListViewAdapter = new TrackRListAdapter(getLayoutInflater());
@@ -26,6 +35,18 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         findViewById(R.id.btnUserProfile).setOnClickListener(this);
         findViewById(R.id.btnLocation).setOnClickListener(this);
         findViewById(R.id.btnAdd).setOnClickListener(this);
+
+        Set<String> trackIds = mPrefsManager.getTrackIds();
+        if(trackIds == null || trackIds.isEmpty()) {
+            addNewTrackR();
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
 
@@ -78,4 +99,5 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         Intent i = new Intent(this, StartBindActivity.class);
         startActivity(i);
     }
+
 }

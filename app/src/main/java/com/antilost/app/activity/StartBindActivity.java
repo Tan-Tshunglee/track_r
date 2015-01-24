@@ -11,8 +11,6 @@ import com.antilost.app.R;
 
 public class StartBindActivity extends Activity implements View.OnClickListener {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
