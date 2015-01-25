@@ -64,6 +64,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mUserRegistration = (Button) findViewById(R.id.userRegistrationBtn);
         mUserRegistration.setOnClickListener(this);
 
+        mPasswordInput.setText(mPrefsManager.getPassword());
+        mEmailInput.setText(mPrefsManager.getEmail());
     }
 
     @Override
@@ -109,9 +111,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         }
     }
 
+
+
     private void onUserClickRememberMe() {
         mRememberPasswordTextView.setSelected(!mRememberPasswordTextView.isSelected());
-
     }
 
     private void validateUserInputAndLogin() {
@@ -143,6 +146,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         });
         mProgressDialog.show();
+        
+        updateRememberPassword(email, password);
 
         Thread t  = new Thread() {
             @Override
@@ -178,5 +183,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
         };
         t.start();
+    }
+
+    private void updateRememberPassword(String email, String password) {
+        boolean rememberPassword = mRememberPasswordTextView.isSelected();
+        mPrefsManager.setEmail(email);
+        if(rememberPassword) {
+            mPrefsManager.setPassword(password);
+        } else {
+            mPrefsManager.setPassword("");
+        }
     }
 }

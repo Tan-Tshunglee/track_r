@@ -16,6 +16,7 @@ public class PrefsManager {
     public static final String PREFS_NAME_KEY = "name";
     public static final String PREFS_PASSWORD_KEY = "password";
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
+    public static final String PREFS_EMAIL_KEY = "email";
     private final SharedPreferences mPrefs;
 
     public static final PrefsManager singleInstance(Context ctx) {
@@ -63,5 +64,23 @@ public class PrefsManager {
     public boolean alreadyLogin() {
 
         return /*BuildConfig.DEBUG ? true :*/ getUid() > 0;
+    }
+
+    public void setEmail(String email) {
+        mPrefs.edit().putString(PREFS_EMAIL_KEY, email).commit();
+    }
+
+
+    public String getEmail() {
+        return mPrefs.getString(PREFS_EMAIL_KEY, "");
+    }
+
+    public void setPassword(String password) {
+        mPrefs.edit().putString(PREFS_PASSWORD_KEY, password).commit();
+    }
+
+
+    public String getPassword() {
+        return mPrefs.getString(PREFS_PASSWORD_KEY, "");
     }
 }
