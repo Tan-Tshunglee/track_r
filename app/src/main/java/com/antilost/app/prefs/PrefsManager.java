@@ -17,6 +17,7 @@ public class PrefsManager {
     public static final String PREFS_PASSWORD_KEY = "password";
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
+
     private final SharedPreferences mPrefs;
 
     public static final PrefsManager singleInstance(Context ctx) {
@@ -77,6 +78,15 @@ public class PrefsManager {
 
     public void setPassword(String password) {
         mPrefs.edit().putString(PREFS_PASSWORD_KEY, password).commit();
+
+    }
+
+    public void addPrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mPrefs.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void removePrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        mPrefs.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
 

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.MonitorService;
 
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     private static final String LOG_TAG = "BindingTrackRActivity";
 
     // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 10000  * 3;
     private static final String TAG = "BindingTrackRActivity";
 
 
@@ -58,16 +59,16 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                         public void run() {
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
-                            if(mTrackIds.contains(deviceAddress)) {
-                                Log.v(TAG, "found already add id(bluetooth address)");
-                                return;
+                            if(!mTrackIds.contains(deviceAddress)) {
+                                mPrefsManager.addTrackIds(deviceAddress);
                             }
 
-                            mPrefsManager.addTrackIds(deviceAddress);
 
+                            finish();
 
-                            //Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
                             Log.v(TAG, "found bluetooth device address + " + deviceAddress);
+                            startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
 
                         }
                     });
@@ -170,12 +171,13 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                 }
             }, SCAN_PERIOD);
-
+            Log.v(TAG, "scanLeDevice " + enable);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            Log.v(TAG, "stop device scan");
         }
         invalidateOptionsMenu();
     }
