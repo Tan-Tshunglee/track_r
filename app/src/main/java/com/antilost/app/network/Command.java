@@ -7,7 +7,7 @@ import java.util.HashMap;
 public abstract class Command {
 
     public static final String SERVER_URL = "http://www.ieasytec.com/communication";
-    private static final String LOG_TAG = "Command";
+    public static final String LOG_TAG = "Command";
     public static final String LINE_SPLITTER = "\r\n";
 
     private boolean mStatusBad = false;

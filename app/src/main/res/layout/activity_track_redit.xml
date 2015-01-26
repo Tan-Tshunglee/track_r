@@ -129,7 +129,7 @@
             </LinearLayout>
 
         </LinearLayout>
-        <TextView
+        <EditText
             android:id="@+id/track_r_type_name"
             android:layout_width="match_parent"
             android:background="@drawable/track_r_descript_bkg"

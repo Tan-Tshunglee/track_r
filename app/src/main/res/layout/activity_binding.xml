@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/titleBarLayout"
+        android:visibility="gone"
         android:id="@+id/firstPage">
         <TextView
             android:id="@+id/bindingSteps"
@@ -68,8 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/connectingPage"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:layout_centerInParent="true">
 
         <RelativeLayout
             android:id="@+id/connectingTrackPictures"
@@ -80,7 +80,7 @@
             <ImageView android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="@dimen/binding_pictures_margin"
-                android:src="@drawable/track_r" />
+                android:src="@drawable/ic_launcher" />
 
             <ImageView android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

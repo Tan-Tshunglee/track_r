@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +17,20 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
     public static final int REQUEST_CODE_TAKE_PHOTO = 1;
     public static final int REQUEST_CODE_CHOOSE_PICTURE = 2;
+
+    public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
     private AlertDialog mImageSourceDialog;
+    private String mBluetoothDeviceAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_redit);
+        mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
+        if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
+            finish();
+            return;
+        }
         findViewById(R.id.changeImage).setOnClickListener(this);
         findViewById(R.id.btnCancel).setOnClickListener(this);
         findViewById(R.id.btnOK).setOnClickListener(this);

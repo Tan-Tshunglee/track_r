@@ -40,18 +40,20 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
     private HashMap<String, BluetoothGatt> mGattMap = new HashMap<String, BluetoothGatt>();
 
 
-    private BluetoothGattService alertService;
 
     private BluetoothGattCallback mBluetoothGattCallback = new BluetoothGattCallback() {
         public void onConnectionStateChange(BluetoothGatt gatt, int status,
                                             int newState) {
             if(newState == BluetoothProfile.STATE_CONNECTED) {
+                Log.v(LOG_TAG, "BluetoothGatt Connected.");
                 mBluetoothGatt.discoverServices();
             }
         }
 
         //we can read all service data;
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+
+            //send alarm
 //            alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
 //            List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
 //            for(BluetoothGattCharacteristic c: characteristics) {
@@ -67,69 +69,125 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
 //                    } else {
 //                        Log.e(LOG_TAG, "null data!");
 //                    }
-//                    byte[] sendData = new byte[] {0x01};
+//                    byte[] sendData = new byte[] {0x01}; //{0x02}; 低音 高音
 //                    c.setValue(sendData);
 //                    mBluetoothGatt.writeCharacteristic(c);
 //                };
 //
 //            }
 
-            BluetoothGattService keyPressService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID));
-            List<BluetoothGattCharacteristic> cs = alertService.getCharacteristics(); {
-                for(BluetoothGattCharacteristic c : cs) {
-                    UUID uuid = c.getUuid();
-                    if(uuid.toString().startsWith(com.antilost.app.bluetooth.UUID.KEY_PRESS_CHARACTERISTIC_UUID_PREFIX)) {
-                        setCharacteristicNotification(mBluetoothGatt, UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID), uuid, true);
-                    }
+//            //register key press notification
+//            BluetoothGattService keyPressService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID));
+//            List<BluetoothGattCharacteristic> cs = keyPressService.getCharacteristics(); {
+//                for(BluetoothGattCharacteristic c : cs) {
+//                    UUID uuid = c.getUuid();
+//                    if(uuid.toString().startsWith(com.antilost.app.bluetooth.UUID.KEY_PRESS_CHARACTERISTIC_UUID_PREFIX)) {
+//                        setCharacteristicNotification(mBluetoothGatt, UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID), uuid, true);
+//                    }
+//                }
+//            }
+
+            //request battery level read
+//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID));
+//            List<BluetoothGattCharacteristic> cs = batteryLevel.getCharacteristics();
+//                for(BluetoothGattCharacteristic c: cs) {
+//                String uuid = c.getUuid().toString();
+//                if(uuid.startsWith(com.antilost.app.bluetooth.UUID.BATTERY_LEVEL_CHARACTERISTIC_UUID_PREFIX)) {
+//                    mBluetoothGatt.readCharacteristic(c);
+//
+//                }
+//            }
+
+            //request battery level read
+//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID));
+//            List<BluetoothGattCharacteristic> cs = batteryLevel.getCharacteristics();
+//            for(BluetoothGattCharacteristic c: cs) {
+//                String uuid = c.getUuid().toString();
+//                if(uuid.startsWith(com.antilost.app.bluetooth.UUID.BATTERY_LEVEL_CHARACTERISTIC_UUID_PREFIX)) {
+//                    mBluetoothGatt.readCharacteristic(c);
+//
+//                }
+//            }
+
+            //
+            BluetoothGattService linkLossService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERICE_UUID));
+            List<BluetoothGattCharacteristic> cs = linkLossService.getCharacteristics();
+            for(BluetoothGattCharacteristic c: cs) {
+                String uuid = c.getUuid().toString();
+                if(uuid.startsWith(com.antilost.app.bluetooth.UUID.ALERT_LEVEL_CHARACTERISTIC_UUID_PREFIX)) {
+                    c.setValue(new byte[] {01});
+                    mBluetoothGatt.writeCharacteristic(c);
+
                 }
             }
-
         }
 
         protected final UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
         public boolean setCharacteristicNotification(BluetoothGatt gatt, UUID serviceUuid, UUID characteristicUuid,
                                                      boolean enable) {
-            if (BuildConfig.DEBUG)
-                Log.d(LOG_TAG, "setCharacteristicNotification(device=" + "  UUID="
-                        + characteristicUuid + ", enable=" + enable + " )");
-            BluetoothGattCharacteristic characteristic = gatt.getService(serviceUuid).getCharacteristic(characteristicUuid);
-            gatt.setCharacteristicNotification(characteristic, enable);
-            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
-            descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-            return gatt.writeDescriptor(descriptor); //descriptor write operation successfully started?
+            try {
+                if (BuildConfig.DEBUG)
+                    Log.d(LOG_TAG, "setCharacteristicNotification(device=" + "  UUID="
+                            + characteristicUuid + ", enable=" + enable + " )");
+                BluetoothGattCharacteristic characteristic = gatt.getService(serviceUuid).getCharacteristic(characteristicUuid);
+                gatt.setCharacteristicNotification(characteristic, enable);
+                BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
+                descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                return gatt.writeDescriptor(descriptor); //descriptor write operation successfully started?
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
                                          int status) {
-
-            Log.v(LOG_TAG, " read c is " + characteristic.getValue());
+            //read battery level call back
+//            int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+//            if(characteristic.getUuid().toString().startsWith(
+//                    com.antilost.app.bluetooth.UUID.BATTERY_LEVEL_CHARACTERISTIC_UUID_PREFIX)) {
+//                Log.v(LOG_TAG, "battery level is " + level);
+//            }
         }
 
         public void onCharacteristicWrite(BluetoothGatt gatt,
                                           BluetoothGattCharacteristic characteristic, int status) {
 
             if(characteristic.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.ALARM_CHARACTERISTIC_UUID_PREFIX)) {
-                Log.v(LOG_TAG, "write status is " + status);
-                Toast.makeText(MonitorService.this, "onCharacteristicWrite  status " + status, Toast.LENGTH_SHORT).show();
+                Log.v(LOG_TAG, "write status is " + status + " characteristic uuid is " + characteristic.getUuid());
             }
         }
 
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+            //key press notification
+
+//            UUID uuid = characteristic.getUuid();
+//            Log.v(LOG_TAG, "onCharacteristicChanged service uuid. " + uuid);
+//            if(characteristic.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.KEY_PRESS_CHARACTERISTIC_UUID_PREFIX)) {
+//                byte[] data = characteristic.getValue();
+//                int key = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+//                //key down is 0 and key up is 2;
+//                Log.v(LOG_TAG, "onCharacteristicChanged value is " + key);
+//            }
         }
 
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                                      int status) {
+            Log.v(LOG_TAG, "onDescriptorRead value is " + descriptor.getValue());
         }
 
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                                       int status) {
+            Log.v(LOG_TAG, "onDescriptorWrite value is " + descriptor.getValue());
         }
         public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+            Log.v(LOG_TAG, "onReliableWriteCompleted");
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            Log.v(LOG_TAG, "onReliableWriteCompleted");
         }
 
     };
@@ -155,27 +213,28 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        updateBluetoothDeviceList();
+        connectOneBluetoothGatt();
         return Service.START_STICKY;
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.v(LOG_TAG, "onSharedPreferenceChanged key is " + key);
         if(PrefsManager.PREFS_UID_KEY.equals(key)) {
-            updateBluetoothDeviceList();
+            connectOneBluetoothGatt();
         }
     }
 
-    private void updateBluetoothDeviceList() {
+    private void connectOneBluetoothGatt() {
         mIds = mPrefsManager.getTrackIds();
         String id = (String) mIds.toArray()[0];
         BluetoothDevice device = mBluetoothAdpater.getRemoteDevice(id);
         mBluetoothGatt  = device.connectGatt(this, false, mBluetoothGattCallback);
+        //mBluetoothGatt.disconnect();
 
     }
 

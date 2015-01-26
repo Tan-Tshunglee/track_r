@@ -65,13 +65,13 @@
         </activity>
         <activity
             android:name=".activity.PhotoEditActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:label="@string/title_activity_photo_edit" >
+            android:label="@string/title_activity_photo_edit"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
         <activity
             android:name=".activity.TrackRActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:label="@string/title_activity_track_r" >
+            android:label="@string/title_activity_track_r"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
 
         <service
@@ -80,7 +80,6 @@
             android:exported="false" >
         </service>
 
-        <receiver android:name=".Receiver" />
         <receiver
             android:name=".receiver.Receiver"
             android:enabled="true"
@@ -89,9 +88,15 @@
 
         <activity
             android:name=".activity.ForgetPasswordActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:label="@string/title_activity_forget_password" >
+            android:label="@string/title_activity_forget_password"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
+
+        <service
+            android:name=".service.BluetoothLeService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

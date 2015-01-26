@@ -6,18 +6,20 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.network.BindCommand;
+import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.MonitorService;
 
@@ -28,11 +30,14 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
     public static final int MSG_SHOW_FIRST_PAGE = 3;
+
+    public static final int MSG_RETRY_SCAN_LE = 100;
+
     private static final String LOG_TAG = "BindingTrackRActivity";
 
     // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000  * 3;
-    private static final String TAG = "BindingTrackRActivity";
+    private static final long SCAN_PERIOD = 5000;
+
 
 
     private Handler mHandler;
@@ -41,11 +46,13 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     private RelativeLayout mConnectingPage;
     private RelativeLayout mFailedPage;
     private ImageButton mBackBtn;
+    private Button mTryAgain;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothManager mBluetoothManager;
     private boolean mScanning;
     private PrefsManager mPrefsManager;
     private Set<String> mTrackIds;
+    private int mScanedTime = 0;
 
 
     // Device scan callback.
@@ -57,23 +64,45 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
                             if(!mTrackIds.contains(deviceAddress)) {
                                 mPrefsManager.addTrackIds(deviceAddress);
                             }
 
+                            
 
-                            finish();
-
-                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
-                            Log.v(TAG, "found bluetooth device address + " + deviceAddress);
+                            //Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+                            Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
                             startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
-
+//                            startBindTackOnServer(deviceAddress);
                         }
                     });
                 }
             };
+
+    private void startBindTackOnServer(final String deviceAddress) {
+        mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final BindCommand command = new BindCommand(String.valueOf(mPrefsManager.getUid()), deviceAddress, deviceAddress, String.valueOf(1));
+                command.execTask();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(command.success()) {
+                            Toast.makeText(BindingTrackRActivity.this, "Binding Success!", Toast.LENGTH_SHORT).show();
+                        } else if(command.err()) {
+                            Toast.makeText(BindingTrackRActivity.this, "Binding Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+        t.start();
+    }
 
 
 
@@ -106,6 +135,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         mBackBtn.setOnClickListener(this);
 
 
+        mTryAgain = (Button) findViewById(R.id.tryAgain);
+        mTryAgain.setOnClickListener(this);
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -115,19 +146,28 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                         mFirstPage.setVisibility(View.GONE);
                         mConnectingPage.setVisibility(View.VISIBLE);
                         mFailedPage.setVisibility(View.GONE);
-                        sendEmptyMessageDelayed(MSG_SHOW_SEARCH_FAILED_PAGE, 5000);
                         break;
                     case MSG_SHOW_SEARCH_FAILED_PAGE:
                         mFirstPage.setVisibility(View.GONE);
                         mConnectingPage.setVisibility(View.GONE);
                         mFailedPage.setVisibility(View.VISIBLE);
-                        sendEmptyMessageDelayed(MSG_SHOW_FIRST_PAGE, 5000);
                         break;
                     case MSG_SHOW_FIRST_PAGE:
                         mFirstPage.setVisibility(View.VISIBLE);
                         mConnectingPage.setVisibility(View.GONE);
                         mFailedPage.setVisibility(View.GONE);
-                        sendEmptyMessageDelayed(MSG_SHOW_CONNECTING_PAGE, 5000);
+                        break;
+                    case MSG_RETRY_SCAN_LE:
+
+                        mScanedTime += SCAN_PERIOD;
+                        scanLeDevice(false);
+                        if(mScanedTime < 5 * SCAN_PERIOD) {
+                            Log.v(LOG_TAG, "scan last time " + mScanedTime / 1000);
+                            scanLeDevice(true);
+                            return;
+                        }
+                        mScanedTime = 0;
+                        sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                         break;
                 }
             }
@@ -135,8 +175,9 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
     }
 
-    private void finishAndEdit() {
+    private void finishAndEdit(String deviceAddress) {
         Intent i = new Intent(this, TrackREditActivity.class);
+        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
         startActivity(i);
         finish();
     }
@@ -161,55 +202,34 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     }
 
 
+
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                }
-            }, SCAN_PERIOD);
-            Log.v(TAG, "scanLeDevice " + enable);
+            Log.v(LOG_TAG, "scanLeDevice " + enable);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
+            mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, 5000);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            Log.v(TAG, "stop device scan");
+            mHandler.removeMessages(MSG_RETRY_SCAN_LE);
+            Log.v(LOG_TAG, "stop device scan");
         }
         invalidateOptionsMenu();
     }
     
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_binding, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.backBtn:
                 finish();
+                break;
+            case R.id.tryAgain:
+                mHandler.sendEmptyMessage(MSG_SHOW_FIRST_PAGE);
+                scanLeDevice(true);
                 break;
         }
     }
