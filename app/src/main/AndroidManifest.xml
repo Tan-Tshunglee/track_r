@@ -74,11 +74,11 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
 
-        <service
-            android:name=".service.MonitorService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
+        <!--<service-->
+            <!--android:name=".service.MonitorService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false" >-->
+        <!--</service>-->
 
         <receiver
             android:name=".receiver.Receiver"

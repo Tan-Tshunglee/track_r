@@ -26,7 +26,7 @@
                 android:maxWidth="@dimen/track_type_textview_max_width"/>
             <TextView
                 android:id="@+id/trackRState"
-                android:text="connected"
+                android:text="connecting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"

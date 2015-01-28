@@ -67,6 +67,7 @@ public class BluetoothLeService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String address = gatt.getDevice().getAddress();
             mGattStates.put(address, newState);
+            mBluetoothGatts.put(address, gatt);
             String intentAction;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = ACTION_GATT_CONNECTED;
@@ -74,18 +75,20 @@ public class BluetoothLeService extends Service {
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" + gatt.discoverServices());
-
-
-
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
+                mGattStates.remove(address);
+                mBluetoothGatts.remove(address);
+                gatt.disconnect();
+
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            Log.i(TAG, "onServicesDiscovered ....");
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
             } else {
@@ -131,6 +134,38 @@ public class BluetoothLeService extends Service {
             intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
         }
         sendBroadcast(intent);
+    }
+
+    public void ringTrackR(String bluetoothDeviceAddress) {
+        Integer state = mGattStates.get(bluetoothDeviceAddress);
+        Log.v(TAG, "state is " + state);
+        BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
+        BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
+        if(alertService == null) {
+            Log.w(TAG, "no IMMEDIATE_ALERT_SERVICE_UUID");
+            return;
+        }
+        List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
+
+        for (BluetoothGattCharacteristic c : characteristics) {
+            if (c.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.ALARM_CHARACTERISTIC_UUID_PREFIX)) {
+                int permissions = c.getPermissions();
+                Log.v(TAG, "permission is " + permissions);
+                byte[] data = c.getValue();
+                if (data != null) {
+                    final StringBuilder sb = new StringBuilder(data.length);
+                    for (byte byteChar : data)
+                        sb.append(String.format("%02X ", byteChar));
+                    Log.v(TAG, "value is " + sb);
+                } else {
+                    Log.e(TAG, "null data!");
+                }
+                byte[] sendData = new byte[]{0x02}; //高音 {0x01}; 低音
+                c.setValue(sendData);
+                gatt.writeCharacteristic(c);
+            }
+            ;
+        }
     }
 
     public class LocalBinder extends Binder {
@@ -225,14 +260,15 @@ public class BluetoothLeService extends Service {
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
 
+        mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
         BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
         if(bluetoothGatt != null) {
+            bluetoothGatt.connect();
             return true;
         }
 
         bluetoothGatt = device.connectGatt(this, false, mGattCallback);
         mBluetoothGatts.put(address, bluetoothGatt);
-        mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
         Log.d(TAG, "Trying to create a new connection.");
         return true;
     }

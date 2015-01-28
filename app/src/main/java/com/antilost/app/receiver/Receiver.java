@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.service.MonitorService;
 
 public class Receiver extends BroadcastReceiver {
@@ -21,7 +22,7 @@ public class Receiver extends BroadcastReceiver {
     }
 
     private void startBluetoothMonitor(Context context) {
-        Intent i = new Intent(context, MonitorService.class);
+        Intent i = new Intent(context, BluetoothLeService.class);
         context.startService(i);
     }
 }

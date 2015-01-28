@@ -78,14 +78,13 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
-        unbindService(mServiceConnection);
-        mBluetoothLeService = null;
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(mServiceConnection);
+        mBluetoothLeService = null;
     }
 
     @Override
@@ -96,6 +95,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btnSettings:
                 break;
+
+            case R.id.ring:
+                makeTrackRRing();
+                break;
+        }
+    }
+
+    private void makeTrackRRing() {
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.ringTrackR(mBluetoothDeviceAddress);
         }
     }
 }
