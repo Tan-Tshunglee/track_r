@@ -97,6 +97,12 @@
             android:enabled="true"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".activity.UserProfileActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>

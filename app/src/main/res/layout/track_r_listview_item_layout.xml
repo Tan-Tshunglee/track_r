@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="@dimen/track_r_listview_item_height">
 
     <LinearLayout
@@ -25,7 +26,7 @@
                 android:maxWidth="@dimen/track_type_textview_max_width"/>
             <TextView
                 android:id="@+id/trackRState"
-                android:text="Keykeykeykeykeyike"
+                android:text="connected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -44,7 +45,7 @@
             android:layout_weight="1" >
             <TextView
                 android:id="@+id/lastTimeAndLocation"
-                android:text="最后一次时间和地点"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -56,7 +57,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageButton android:id="@+id/other"
+    <ImageButton android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/other"

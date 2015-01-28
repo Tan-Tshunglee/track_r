@@ -22,6 +22,7 @@ public class BindCommand extends Command {
     protected String makeRequestString() {
         StringBuilder sb = new StringBuilder();
         sb.append("cmd:bind").append(LINE_SPLITTER)
+                .append("uid:").append(mUid).append(LINE_SPLITTER)
                 .append("type:").append(mCustomType).append(LINE_SPLITTER)
                 .append("lossername:").append(mTrackName).append(LINE_SPLITTER)
                 .append("losserid:").append(mTrackId).append(LINE_SPLITTER);

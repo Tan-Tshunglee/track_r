@@ -26,4 +26,17 @@
     <string name="send">Send</string>
     <string name="ble_not_support">ble not support.</string>
 
+    <string-array name="default_type_names">
+        <item>Key</item>
+        <item>Wallet</item>
+        <item>Bag</item>
+        <item>Computer</item>
+        <item>Pet</item>
+        <item>Car</item>
+        <item>Child</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+
 </resources>

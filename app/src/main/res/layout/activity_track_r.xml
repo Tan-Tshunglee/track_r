@@ -150,7 +150,7 @@
         <Button android:id="@+id/share"
             android:layout_width="@dimen/track_r_bottom_button"
             android:layout_height="@dimen/track_r_bottom_button"
-            android:text="Photo"
+            android:text="Share"
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"

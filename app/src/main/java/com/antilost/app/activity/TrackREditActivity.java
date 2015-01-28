@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.model.TrackR;
+import com.antilost.app.prefs.PrefsManager;
 
 public class TrackREditActivity extends Activity implements View.OnClickListener {
 
@@ -19,8 +22,60 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     public static final int REQUEST_CODE_CHOOSE_PICTURE = 2;
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
+    private static final String LOG_TAG = "TrackREditActivity";
     private AlertDialog mImageSourceDialog;
     private String mBluetoothDeviceAddress;
+    private EditText mTrackRName;
+    private PrefsManager mPrefs;
+    private TrackR mTrack;
+    private Resources mResource;
+
+    public static int[] TypeIds = {
+            R.id.key,
+            R.id.wallet,
+            R.id.bag,
+            R.id.computer,
+            R.id.pet,
+            R.id.car,
+            R.id.child,
+            R.id.other
+    };
+
+    public static int[] DrawableIds = {
+            R.drawable.key,
+            R.drawable.wallet,
+            R.drawable.bag,
+            R.drawable.computer,
+            R.drawable.pet,
+            R.drawable.car,
+            R.drawable.child,
+            R.drawable.other
+    };
+
+    private int mPositionSelected;
+    private View.OnClickListener mTypesIconClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = positionOfView(v);
+            if(position != -1) {
+                mPositionSelected = position;
+            }
+            int drawableId = DrawableIds[mPositionSelected];
+            mImageView.setImageResource(drawableId);
+        }
+
+        private int positionOfView(View v) {
+            int id = v.getId();
+
+            for(int i = 0; i < TypeIds.length; i++) {
+                if(TypeIds[i] == id) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    };
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +89,30 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         findViewById(R.id.changeImage).setOnClickListener(this);
         findViewById(R.id.btnCancel).setOnClickListener(this);
         findViewById(R.id.btnOK).setOnClickListener(this);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_track_redit, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        mTrackRName = (EditText) findViewById(R.id.track_r_type_name);
+        mPrefs = PrefsManager.singleInstance(this);
+        mTrack = mPrefs.getTrack(mBluetoothDeviceAddress);
+        if(mTrack == null) {
+            mTrack = new TrackR();
+            mTrack.address = mBluetoothDeviceAddress;
         }
+        mResource = getResources();
+        mImageView = (ImageView) findViewById(R.id.centerLargeImage);
+        mImageView.setImageResource(DrawableIds[mTrack.type]);
+        mTrackRName.setText(mTrack.name);
 
-        return super.onOptionsItemSelected(item);
+        for(int id: TypeIds) {
+            findViewById(id).setOnClickListener(mTypesIconClickListener);
+        }
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -75,8 +130,22 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
             case R.id.btnOK:
+                saveTrackRSetting();
+                finish();
                 break;
         }
+    }
+
+    private void saveTrackRSetting() {
+        String name = mTrackRName.getText().toString();
+        if(!TextUtils.isEmpty(name)) {
+            mTrack.name = name;
+        }
+
+        mTrack.type = mPositionSelected;
+        mPrefs.addTrackIds(mBluetoothDeviceAddress);
+        mPrefs.setTrack(mBluetoothDeviceAddress, mTrack);
+
     }
 
 

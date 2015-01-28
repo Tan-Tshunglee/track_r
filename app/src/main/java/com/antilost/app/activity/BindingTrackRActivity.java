@@ -17,12 +17,14 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.network.BindCommand;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.MonitorService;
 
+import java.security.SecureRandom;
 import java.util.Set;
 
 public class BindingTrackRActivity extends Activity implements View.OnClickListener {
@@ -67,16 +69,16 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                             scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
-                            if(!mTrackIds.contains(deviceAddress)) {
-                                mPrefsManager.addTrackIds(deviceAddress);
+                            if(mTrackIds.contains(deviceAddress)) {
+                                //mPrefsManager.addTrackIds(deviceAddress);
+                                Log.v(LOG_TAG, "find already bind device");
+                                return;
                             }
 
-                            
-
-                            //Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
                             Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
-                            startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
-//                            startBindTackOnServer(deviceAddress);
+//                            startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
+                            startBindTackOnServer(deviceAddress);
                         }
                     });
                 }
@@ -87,18 +89,35 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                final BindCommand command = new BindCommand(String.valueOf(mPrefsManager.getUid()), deviceAddress, deviceAddress, String.valueOf(1));
+                SecureRandom random = new SecureRandom();
+
+                String Id = BuildConfig.DEBUG ?  String.valueOf(random.nextInt()) : deviceAddress;
+                final BindCommand command = new BindCommand(String.valueOf(mPrefsManager.getUid()), deviceAddress, Id, String.valueOf(1));
                 command.execTask();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         if(command.success()) {
                             Toast.makeText(BindingTrackRActivity.this, "Binding Success!", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(BindingTrackRActivity.this, TrackREditActivity.class);
+                            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
+                            startActivity(i);
+                            finish();
+                            return;
                         } else if(command.err()) {
-                            Toast.makeText(BindingTrackRActivity.this, "Binding Error!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BindingTrackRActivity.this, "Already Binded!", Toast.LENGTH_SHORT).show();
+                        } else if(command.isNetworkError()) {
+                            Log.v(LOG_TAG, "network status error!");
+                        } else if(command.isStatusBad()) {
+                            Log.v(LOG_TAG, "server bad  status error!");
+                        } else {
+                            Log.v(LOG_TAG, "unkown error!");
                         }
+//                        mPrefsManager.removeTrackIds(deviceAddress);
+                        mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                     }
                 });
+
             }
         });
         t.start();
@@ -173,6 +192,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
             }
         };
 
+        scanLeDevice(true);
     }
 
     private void finishAndEdit(String deviceAddress) {
@@ -198,7 +218,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                 mBluetoothAdapter.enable();
             }
         }
-        scanLeDevice(true);
+
     }
 
 

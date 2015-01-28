@@ -45,9 +45,10 @@
             android:background="#4fff" >
             <ImageView
                 android:id="@+id/centerLargeImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/track_edit_imageview_size"
+                android:layout_height="153dp"
                 android:layout_centerInParent="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/key_large_icon"/>
 
             <Button android:id="@+id/changeImage"

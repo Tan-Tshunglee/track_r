@@ -26,7 +26,7 @@
     <dimen name="track_r_listview_item_height">80dp</dimen>
     <dimen name="track_type_textview_max_width">80dp</dimen>
     <dimen name="track_listview_item_track_type_textsize">16sp</dimen>
-    <dimen name="track_listview_item_track_type_width">48dp</dimen>
+    <dimen name="track_listview_item_track_type_width">68dp</dimen>
     <dimen name="track_r_bottom_button">80dp</dimen>
     <dimen name="track_r_photo_size">144dp</dimen>
     <dimen name="distance_level_width">150dp</dimen>
@@ -36,4 +36,5 @@
     <dimen name="distance_level_margin_top">0dp</dimen>
     <dimen name="track_r_bottom_padding_top">8dp</dimen>
     <dimen name="track_r_bottom_padding_bottom">15dp</dimen>
+    <dimen name="track_edit_imageview_size">136dp</dimen>
 </resources>

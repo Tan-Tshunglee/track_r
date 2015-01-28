@@ -4,6 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.antilost.app.model.TrackR;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +27,8 @@ public class PrefsManager {
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
 
-    private final SharedPreferences mPrefs;
+    private Context mCtx;
+    private SharedPreferences mPrefs;
 
     public static final PrefsManager singleInstance(Context ctx) {
         if(instance == null) {
@@ -30,6 +40,7 @@ public class PrefsManager {
     private static PrefsManager instance;
     private PrefsManager(Context ctx) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mCtx = ctx;
     }
 
     public int getUid() {
@@ -92,5 +103,41 @@ public class PrefsManager {
 
     public String getPassword() {
         return mPrefs.getString(PREFS_PASSWORD_KEY, "");
+
+    }
+
+    public boolean setTrack(String address, TrackR track) {
+        File dir = mCtx.getDir("tracks", 0);
+        File trackFile = new File(dir, address);
+        try {
+            FileOutputStream out = new FileOutputStream(trackFile);
+            ObjectOutputStream objOut = new ObjectOutputStream(out);
+            objOut.writeObject(track);
+            objOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public TrackR getTrack(String address) {
+        File dir = mCtx.getDir("tracks", 0);
+
+        File trackFile = new File(dir, address);
+        if(!trackFile.exists()) {
+            return null;
+        }
+
+        try {
+            FileInputStream in = new FileInputStream(trackFile);
+            ObjectInputStream objIn = new ObjectInputStream(in);
+            TrackR track = (TrackR) objIn.readObject();
+            objIn.close();
+            return track;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
