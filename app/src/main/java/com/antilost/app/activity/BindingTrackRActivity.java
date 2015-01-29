@@ -22,6 +22,7 @@ import com.antilost.app.R;
 import com.antilost.app.network.BindCommand;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.service.MonitorService;
 
 import java.security.SecureRandom;
@@ -37,7 +38,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
     private static final String LOG_TAG = "BindingTrackRActivity";
 
-    // Stops scanning after 10 seconds.
+    //Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 5000;
 
 
@@ -191,7 +192,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                 }
             }
         };
-
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        startService(gattServiceIntent);
         scanLeDevice(true);
     }
 

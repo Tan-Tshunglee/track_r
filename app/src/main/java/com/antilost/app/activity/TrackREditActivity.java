@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.BluetoothLeService;
 
 public class TrackREditActivity extends Activity implements View.OnClickListener {
 
@@ -105,6 +107,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         for(int id: TypeIds) {
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
+
+        startService(new Intent(this, BluetoothLeService.class));
     }
 
 
@@ -166,6 +170,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 mImageSourceDialog.dismiss();
             }
         });
+
         mImageSourceDialog = b.create();
         mImageSourceDialog.show();
     }

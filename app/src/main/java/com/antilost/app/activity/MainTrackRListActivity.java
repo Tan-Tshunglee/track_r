@@ -41,12 +41,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {
-                Log.e(LOG_TAG, "Unable to initialize Bluetooth");
-                finish();
-            }
-            // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.initialize();
+
         }
 
         @Override
@@ -117,10 +112,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
-
-        if(mBluetoothLeService != null) {
-            mBluetoothLeService.initialize();
-        }
     }
 
 

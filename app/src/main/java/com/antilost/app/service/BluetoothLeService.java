@@ -1,6 +1,7 @@
 package com.antilost.app.service;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -14,12 +15,15 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 
 import com.antilost.app.BuildConfig;
+import com.antilost.app.R;
+import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 
@@ -32,8 +36,9 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeService extends Service {
-    private final static String TAG = BluetoothLeService.class.getSimpleName();
+public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private final static String TAG = "BluetoothLeService";
+    private static final int ONGOING_NOTIFICATION = 1;
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -59,10 +64,19 @@ public class BluetoothLeService extends Service {
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.v(TAG, "BluetoothLeService onSharedPreferenceChanged() key " + key);
+        if(PrefsManager.PREFS_TRACK_IDS_KEY.equals(key)) {
+            initialize();
+        }
+    }
+
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
-    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+
+    private class MyBluetootGattCallback  extends  BluetoothGattCallback {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String address = gatt.getDevice().getAddress();
@@ -89,6 +103,7 @@ public class BluetoothLeService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.i(TAG, "onServicesDiscovered ....");
+            mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
             } else {
@@ -110,7 +125,31 @@ public class BluetoothLeService extends Service {
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
-    };
+
+        public void onCharacteristicWrite(BluetoothGatt gatt,
+                                          BluetoothGattCharacteristic characteristic, int status) {
+        }
+
+        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                     int status) {
+        }
+
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                      int status) {
+        }
+
+        public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+
+        }
+
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+
+        }
+    }
+
+
+
+
     private AlarmManager mAlarmManager;
     private PrefsManager mPrefsManager;
 
@@ -140,6 +179,12 @@ public class BluetoothLeService extends Service {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
         Log.v(TAG, "state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
+
+        if(gatt == null) {
+            Log.w(TAG, "gatt has not connected...");
+            initialize();
+            return;
+        }
         BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
         if(alertService == null) {
             Log.w(TAG, "no IMMEDIATE_ALERT_SERVICE_UUID");
@@ -149,17 +194,6 @@ public class BluetoothLeService extends Service {
 
         for (BluetoothGattCharacteristic c : characteristics) {
             if (c.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.ALARM_CHARACTERISTIC_UUID_PREFIX)) {
-                int permissions = c.getPermissions();
-                Log.v(TAG, "permission is " + permissions);
-                byte[] data = c.getValue();
-                if (data != null) {
-                    final StringBuilder sb = new StringBuilder(data.length);
-                    for (byte byteChar : data)
-                        sb.append(String.format("%02X ", byteChar));
-                    Log.v(TAG, "value is " + sb);
-                } else {
-                    Log.e(TAG, "null data!");
-                }
                 byte[] sendData = new byte[]{0x02}; //高音 {0x01}; 低音
                 c.setValue(sendData);
                 gatt.writeCharacteristic(c);
@@ -197,15 +231,33 @@ public class BluetoothLeService extends Service {
         PendingIntent pendingIntent  = PendingIntent.getBroadcast(this, 0, new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION), 0);
         mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.uptimeMillis(), ALARM_REPEAT_PERIOD, pendingIntent);
         mPrefsManager = PrefsManager.singleInstance(this);
+
+        mPrefsManager.addPrefsListener(this);
+        Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running),System.currentTimeMillis());
+
+
+        Intent notificationIntent = new Intent(this, MainTrackRListActivity.class);
+        pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, getString(R.string.track_r_is_running),
+                getString(R.string.track_r_is_running), pendingIntent);
+        startForeground(ONGOING_NOTIFICATION, notification);
+
         initialize();
 
     }
+
+    @Override
+    public void onDestroy() {
+//        super.onDestroy();
+        mPrefsManager.removePrefsListener(this);
+    }
+
     /**
      * Initializes a reference to the local Bluetooth adapter.
      *
      * @return Return true if the initialization is successful.
      */
-    public boolean initialize() {
+    private boolean initialize() {
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
         if (mBluetoothManager == null) {
@@ -225,11 +277,6 @@ public class BluetoothLeService extends Service {
         Set<String> ids = mPrefsManager.getTrackIds();
         for(String address:ids) {
             connect(address);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         return true;
 
@@ -246,7 +293,7 @@ public class BluetoothLeService extends Service {
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
-    public boolean connect(final String address) {
+    private boolean connect(final String address) {
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
@@ -262,14 +309,17 @@ public class BluetoothLeService extends Service {
 
         mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
         BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
-        if(bluetoothGatt != null) {
-            bluetoothGatt.connect();
+        int oldState = mGattStates.get(address);
+        if(bluetoothGatt != null && oldState == BluetoothProfile.STATE_CONNECTED) {
+            Log.d(TAG, "device already connected");
             return true;
         }
 
-        bluetoothGatt = device.connectGatt(this, false, mGattCallback);
+
+
+        bluetoothGatt = device.connectGatt(this, false, new MyBluetootGattCallback());
         mBluetoothGatts.put(address, bluetoothGatt);
-        Log.d(TAG, "Trying to create a new connection.");
+        Log.i(TAG, "Trying to create a new connection to " + address);
         return true;
     }
 
