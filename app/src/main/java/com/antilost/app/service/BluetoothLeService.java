@@ -29,6 +29,7 @@ import com.antilost.app.receiver.Receiver;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -248,8 +249,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     @Override
     public void onDestroy() {
-//        super.onDestroy();
+        super.onDestroy();
         mPrefsManager.removePrefsListener(this);
+
+        Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
+        for(Map.Entry<String, BluetoothGatt> entry: gatts) {
+            entry.getValue().disconnect();
+        }
     }
 
     /**
