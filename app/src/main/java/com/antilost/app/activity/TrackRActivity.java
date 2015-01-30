@@ -5,11 +5,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +25,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private TextView mConnection;
     private ImageView mDistanceImage;
     private ImageView mBatteryLeve;
-
+    private boolean mRingBtnSend = false;
+    private Handler mHandler = new Handler();
     private BluetoothLeService mBluetoothLeService;
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -72,6 +71,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
+
     }
 
     @Override
@@ -91,8 +91,37 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.ring:
-                makeTrackRRing();
+                if(!mRingBtnSend) {
+                    makeTrackRRing();
+                    mRingBtnSend = true;
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRingBtnSend = false;
+                        }
+                    }, 10 * 1000);
+                } else {
+                    silentRing();
+                }
                 break;
+
+            case R.id.location:
+                if(mBluetoothLeService != null) {
+                    mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, true);
+                }
+                break;
+
+            case R.id.share:
+                if(mBluetoothLeService != null) {
+                    mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, false);
+                }
+                break;
+        }
+    }
+
+    private void silentRing() {
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.silentRing(mBluetoothDeviceAddress);
         }
     }
 

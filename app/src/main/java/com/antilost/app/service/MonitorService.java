@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.prefs.PrefsManager;
@@ -77,12 +76,12 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
 //            }
 
 //            //register key press notification
-//            BluetoothGattService keyPressService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID));
+//            BluetoothGattService keyPressService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID));
 //            List<BluetoothGattCharacteristic> cs = keyPressService.getCharacteristics(); {
 //                for(BluetoothGattCharacteristic c : cs) {
 //                    UUID uuid = c.getUuid();
 //                    if(uuid.toString().startsWith(com.antilost.app.bluetooth.UUID.KEY_PRESS_CHARACTERISTIC_UUID_PREFIX)) {
-//                        setCharacteristicNotification(mBluetoothGatt, UUID.fromString(com.antilost.app.bluetooth.UUID.KEY_PRESS_SERVICE_UUID), uuid, true);
+//                        setCharacteristicNotification(mBluetoothGatt, UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID), uuid, true);
 //                    }
 //                }
 //            }
@@ -110,7 +109,7 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
 //            }
 
             //
-            BluetoothGattService linkLossService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERICE_UUID));
+            BluetoothGattService linkLossService = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
             List<BluetoothGattCharacteristic> cs = linkLossService.getCharacteristics();
             for(BluetoothGattCharacteristic c: cs) {
                 String uuid = c.getUuid().toString();
