@@ -145,7 +145,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                                          BluetoothGattCharacteristic characteristic,
                                          int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+
+                UUID cId = characteristic.getUuid();
+                if(cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
+                    int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+                    Log.v(LOG_TAG, "battery level is " + level);
+                } else {
+                    broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                }
+
             }
         }
 
@@ -204,7 +212,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-
+            Log.v(LOG_TAG, "rssi is "   + rssi);
         }
     }
 
@@ -529,4 +537,24 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
     }
 
+    public void readBatteryLevel(String bluetoothDeviceAddress) {
+        Integer state = mGattStates.get(bluetoothDeviceAddress);
+        Log.v(LOG_TAG, "readBatteryLevel state is " + state);
+        BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
+
+        if(gatt == null) {
+            Log.w(LOG_TAG, "gatt has not connected....");
+            initialize();
+        } else {
+            BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
+            BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
+            gatt.readCharacteristic(c);
+        }
+    }
+
+    public void readRssLevel(String bluetoothDeviceAddress) {
+        Integer state = mGattStates.get(bluetoothDeviceAddress);
+        Log.v(LOG_TAG, "readRssLevel state is " + state);
+
+    }
 }

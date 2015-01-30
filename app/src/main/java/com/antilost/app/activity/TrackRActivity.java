@@ -107,7 +107,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
             case R.id.location:
                 if(mBluetoothLeService != null) {
-                    mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, true);
+                    mBluetoothLeService.readBatteryLevel(mBluetoothDeviceAddress);
                 }
                 break;
 

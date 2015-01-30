@@ -87,12 +87,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="248010dc-3c85-4b2e-9e26-c58c84238aa4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/model_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/model_data.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/bluetooth/UUID.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/bluetooth/UUID.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TrackR.iws" />
@@ -124,20 +122,20 @@
       <file leaf-file-name="BluetoothLeService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.91897655" vertical-offset="2495" max-vertical-offset="9614">
-              <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6759062" vertical-offset="3179" max-vertical-offset="10146">
+              <caret line="214" column="48" selection-start-line="214" selection-start-column="48" selection-end-line="214" selection-end-column="48" />
               <folding>
-                <element signature="e#9415#9416#0" expanded="true" />
-                <element signature="e#9466#9467#0" expanded="true" />
-                <element signature="e#9501#9502#0" expanded="true" />
-                <element signature="e#9550#9551#0" expanded="true" />
-                <element signature="e#10737#10738#0" expanded="true" />
-                <element signature="e#10767#10768#0" expanded="true" />
-                <element signature="e#11804#11842#0" expanded="true" />
-                <element signature="e#12088#12126#0" expanded="true" />
-                <element signature="e#12144#12182#0" expanded="true" />
-                <element signature="e#17549#17550#0" expanded="true" />
-                <element signature="e#17587#17588#0" expanded="true" />
+                <element signature="e#9835#9836#0" expanded="true" />
+                <element signature="e#9886#9887#0" expanded="true" />
+                <element signature="e#9921#9922#0" expanded="true" />
+                <element signature="e#9970#9971#0" expanded="true" />
+                <element signature="e#11157#11158#0" expanded="true" />
+                <element signature="e#11187#11188#0" expanded="true" />
+                <element signature="e#12224#12262#0" expanded="true" />
+                <element signature="e#12508#12546#0" expanded="true" />
+                <element signature="e#12564#12602#0" expanded="true" />
+                <element signature="e#17969#17970#0" expanded="true" />
+                <element signature="e#18007#18008#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,8 +144,18 @@
       <file leaf-file-name="MonitorService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3848" max-vertical-offset="4218">
-              <caret line="214" column="5" selection-start-line="214" selection-start-column="5" selection-end-line="214" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2083" max-vertical-offset="4218">
+              <caret line="148" column="62" selection-start-line="148" selection-start-column="18" selection-end-line="148" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UUID.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/bluetooth/UUID.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="665">
+              <caret line="20" column="72" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -156,8 +164,8 @@
       <file leaf-file-name="TrackRActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="2394">
-              <caret line="115" column="48" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1554" max-vertical-offset="2394">
+              <caret line="109" column="46" selection-start-line="109" selection-start-column="46" selection-end-line="109" selection-end-column="46" />
               <folding>
                 <element signature="e#3401#3593#0" expanded="true" />
                 <element signature="e#3570#3571#0" expanded="true" />
@@ -1203,9 +1211,9 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_track_redit.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_binding.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/bluetooth/UUID.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
       </list>
     </option>
@@ -1295,6 +1303,56 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="TrackR" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TrackR" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TrackR" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TrackR" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bluetooth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1549,7 +1607,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
@@ -1610,24 +1668,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2926" max-vertical-offset="3857">
-          <caret line="154" column="16" selection-start-line="154" selection-start-column="16" selection-end-line="154" selection-end-column="79" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_binding.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1634" max-vertical-offset="2755">
-          <caret line="86" column="51" selection-start-line="86" selection-start-column="51" selection-end-line="86" selection-end-column="51" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/track_r.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1960,24 +2000,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/bluetooth/UUID.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5891892" vertical-offset="53" max-vertical-offset="608">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="665">
+          <caret line="20" column="72" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="72" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java">
+    <entry file="jar://E:/android-sdk-windows/platforms/android-18/android.jar!/android/bluetooth/BluetoothGattCharacteristic.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3848" max-vertical-offset="4218">
-          <caret line="214" column="5" selection-start-line="214" selection-start-column="5" selection-end-line="214" selection-end-column="5" />
+        <state vertical-scroll-proportion="-0.12937063" vertical-offset="169" max-vertical-offset="1482">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1782" max-vertical-offset="2394">
-          <caret line="115" column="48" selection-start-line="115" selection-start-column="48" selection-end-line="115" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1554" max-vertical-offset="2394">
+          <caret line="109" column="46" selection-start-line="109" selection-start-column="46" selection-end-line="109" selection-end-column="46" />
           <folding>
             <element signature="e#3401#3593#0" expanded="true" />
             <element signature="e#3570#3571#0" expanded="true" />
@@ -1985,22 +2025,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/MonitorService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2083" max-vertical-offset="4218">
+          <caret line="148" column="62" selection-start-line="148" selection-start-column="18" selection-end-line="148" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/android-sdk-windows/platforms/android-18/android.jar!/android/bluetooth/BluetoothGattCallback.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.081023455" vertical-offset="57" max-vertical-offset="589">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.91897655" vertical-offset="2495" max-vertical-offset="9614">
-          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6759062" vertical-offset="3179" max-vertical-offset="10146">
+          <caret line="214" column="48" selection-start-line="214" selection-start-column="48" selection-end-line="214" selection-end-column="48" />
           <folding>
-            <element signature="e#9415#9416#0" expanded="true" />
-            <element signature="e#9466#9467#0" expanded="true" />
-            <element signature="e#9501#9502#0" expanded="true" />
-            <element signature="e#9550#9551#0" expanded="true" />
-            <element signature="e#10737#10738#0" expanded="true" />
-            <element signature="e#10767#10768#0" expanded="true" />
-            <element signature="e#11804#11842#0" expanded="true" />
-            <element signature="e#12088#12126#0" expanded="true" />
-            <element signature="e#12144#12182#0" expanded="true" />
-            <element signature="e#17549#17550#0" expanded="true" />
-            <element signature="e#17587#17588#0" expanded="true" />
+            <element signature="e#9835#9836#0" expanded="true" />
+            <element signature="e#9886#9887#0" expanded="true" />
+            <element signature="e#9921#9922#0" expanded="true" />
+            <element signature="e#9970#9971#0" expanded="true" />
+            <element signature="e#11157#11158#0" expanded="true" />
+            <element signature="e#11187#11188#0" expanded="true" />
+            <element signature="e#12224#12262#0" expanded="true" />
+            <element signature="e#12508#12546#0" expanded="true" />
+            <element signature="e#12564#12602#0" expanded="true" />
+            <element signature="e#17969#17970#0" expanded="true" />
+            <element signature="e#18007#18008#0" expanded="true" />
           </folding>
         </state>
       </provider>

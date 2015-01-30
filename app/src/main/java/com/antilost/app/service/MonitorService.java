@@ -87,7 +87,7 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
 //            }
 
             //request battery level read
-//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID));
+//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID_STRING));
 //            List<BluetoothGattCharacteristic> cs = batteryLevel.getCharacteristics();
 //                for(BluetoothGattCharacteristic c: cs) {
 //                String uuid = c.getUuid().toString();
@@ -98,7 +98,7 @@ public class MonitorService extends Service implements SharedPreferences.OnShare
 //            }
 
             //request battery level read
-//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID));
+//            BluetoothGattService batteryLevel = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID_STRING));
 //            List<BluetoothGattCharacteristic> cs = batteryLevel.getCharacteristics();
 //            for(BluetoothGattCharacteristic c: cs) {
 //                String uuid = c.getUuid().toString();
