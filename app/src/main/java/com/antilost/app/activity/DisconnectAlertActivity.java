@@ -113,4 +113,10 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private void playAlertSound() {
         mSoundPool.play(mAlertSoundId, 1.0f, 1.0f, 1, 0, 1.0f);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSoundPool.stop(mAlertSoundId);
+    }
 }

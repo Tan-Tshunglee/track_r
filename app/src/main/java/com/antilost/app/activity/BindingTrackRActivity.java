@@ -151,7 +151,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                         } else {
                             Log.v(LOG_TAG, "unkown error!");
                         }
-//                        mPrefsManager.removeTrackIds(deviceAddress);
+//                        mPrefsManager.removeTrackId(deviceAddress);
                         mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                     }
                 });

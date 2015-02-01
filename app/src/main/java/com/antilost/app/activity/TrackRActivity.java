@@ -88,6 +88,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.btnSettings:
+                Intent i = new Intent(this, TrackRSettingActivity.class);
+                i.putExtra(TrackRSettingActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
+                startActivity(i);
                 break;
 
             case R.id.ring:
@@ -106,15 +109,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.location:
-                if(mBluetoothLeService != null) {
-                    mBluetoothLeService.readBatteryLevel(mBluetoothDeviceAddress);
-                }
+
                 break;
 
             case R.id.share:
-                if(mBluetoothLeService != null) {
-                    mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, false);
-                }
+
                 break;
         }
     }

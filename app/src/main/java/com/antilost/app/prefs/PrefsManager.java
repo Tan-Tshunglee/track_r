@@ -26,6 +26,7 @@ public class PrefsManager {
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
     public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
+    public static final String PREFS_BIDIRECTIONAL_ALERT_PREFIX = "bidirectional_alert_prefix";
 
     private Context mCtx;
     private SharedPreferences mPrefs;
@@ -65,7 +66,7 @@ public class PrefsManager {
         return false;
     }
 
-    public boolean removeTrackIds(String trackId) {
+    public boolean removeTrackId(String trackId) {
         Set<String> ids = getTrackIds();
         if(ids.remove(trackId)) {
             return mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
@@ -157,5 +158,15 @@ public class PrefsManager {
         location.setLongitude(114.07);
         location.setLatitude(22.62);
         return location;
+    }
+
+    public void setBidirectionalAlert(String address, boolean enable) {
+        String key = PREFS_BIDIRECTIONAL_ALERT_PREFIX + address;
+        mPrefs.edit().putBoolean(key, enable).commit();
+    }
+
+    public boolean getBidirectionalAlert(String address) {
+        String key = PREFS_BIDIRECTIONAL_ALERT_PREFIX + address;
+        return mPrefs.getBoolean(key, false);
     }
 }
