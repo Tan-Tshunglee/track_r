@@ -37,4 +37,5 @@
     <dimen name="track_r_bottom_padding_top">9dp</dimen>
     <dimen name="track_r_bottom_padding_bottom">15dp</dimen>
     <dimen name="track_edit_imageview_size">153dp</dimen>
+    <dimen name="track_r_setting_icon_size">90dp</dimen>
 </resources>

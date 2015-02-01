@@ -106,9 +106,13 @@
         </activity>
         <activity
             android:name=".activity.DisconnectAlertActivity"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
+            android:label="@string/title_activity_disconnect_alert"
             android:launchMode="singleInstance"
-            android:label="@string/title_activity_disconnect_alert" >
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activity.TrackRSettingActivity"
+            android:label="@string/title_activity_track_rsetting" >
         </activity>
     </application>
 
