@@ -25,6 +25,7 @@ import android.util.Log;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
+import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
@@ -102,6 +103,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 }
 
                 mPrefsManager.saveMissedTrack(address, true);
+                alertUserTrackDisconnected(address);
             }
             //even device is power off the newState can be STATE_CONNECTEDe,
             //we think device is connected after onServicesDiscovered if called();
@@ -222,6 +224,14 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             Log.i(LOG_TAG, "rssi is "   + rssi);
         }
+    }
+
+    private void alertUserTrackDisconnected(String address) {
+        Log.v(LOG_TAG, "alertUserTrackDisconnected() " + address);
+        Intent i = new Intent(this, DisconnectAlertActivity.class);
+        i.putExtra(DisconnectAlertActivity.EXTRA_KEY_DEVICE_ADDRESS, address);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
 

@@ -36,6 +36,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
     public static final int MSG_SHOW_FIRST_PAGE = 3;
 
+    public static final int MAX_COUNT = 5;
     public static final int MSG_RETRY_SCAN_LE = 100;
 
     private static final String LOG_TAG = "BindingTrackRActivity";
@@ -180,6 +181,12 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         }
 
         mPrefsManager = PrefsManager.singleInstance(this);
+
+        if(mPrefsManager.getTrackIds().size() == 5) {
+            Toast.makeText(this,  "Max device count limit reach", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_binding);
         mFirstPage = (RelativeLayout) findViewById(R.id.firstPage);
         mConnectingPage = (RelativeLayout) findViewById(R.id.connectingPage);

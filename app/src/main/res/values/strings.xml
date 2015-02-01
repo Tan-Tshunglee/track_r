@@ -39,5 +39,6 @@
 
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="track_r_is_running">TrackR is running.</string>
+    <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
 
 </resources>
