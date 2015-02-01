@@ -64,6 +64,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             }
             int drawableId = DrawableIds[mPositionSelected];
             mImageView.setImageResource(drawableId);
+            mTrackRName.setText(mTypeNames[mPositionSelected]);
         }
 
         private int positionOfView(View v) {
@@ -78,6 +79,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         }
     };
     private ImageView mImageView;
+    private String[] mTypeNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +104,13 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mResource = getResources();
         mImageView = (ImageView) findViewById(R.id.centerLargeImage);
         mImageView.setImageResource(DrawableIds[mTrack.type]);
-        mTrackRName.setText(mTrack.name);
 
+        mTypeNames = getResources().getStringArray(R.array.default_type_names);
+        if(!TextUtils.isEmpty(mTrack.name)) {
+            mTrackRName.setText(mTrack.name);
+        } else {
+            mTrackRName.setText(mTypeNames[mTrack.type]);
+        }
         for(int id: TypeIds) {
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
@@ -148,7 +155,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
         mTrack.type = mPositionSelected;
         mPrefs.addTrackIds(mBluetoothDeviceAddress);
-        mPrefs.setTrack(mBluetoothDeviceAddress, mTrack);
+        mPrefs.saveTrack(mBluetoothDeviceAddress, mTrack);
 
     }
 

@@ -1,26 +1,32 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.antilost.app.R;
 import com.antilost.app.adapter.TrackRListAdapter;
+import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
+import java.util.Locale;
 import java.util.Set;
 
 public class MainTrackRListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -75,6 +81,18 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             }
         }
     };
+    private AlertDialog mDisconnectedDialog;
+
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +110,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             addNewTrackR();
         }
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        startService(gattServiceIntent);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         mListViewAdapter.updateData();
 
@@ -123,37 +142,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
 
 
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_track_rlist, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View v) {
@@ -186,7 +176,52 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String address = (String) mListViewAdapter.getItem(position);
-        editBluetoothDevice(address);
+
+        int state = mBluetoothLeService.getGattConnectState(address);
+        if(state == BluetoothProfile.STATE_DISCONNECTED) {
+            showDisconnectedTrack(address);
+        } else if(state == BluetoothProfile.STATE_CONNECTED){
+            editBluetoothDevice(address);
+        }
+
+
+    }
+
+    private void showDisconnectedTrack(String address) {
+        TrackR track = mPrefsManager.getTrack(address);
+        String name = track.name;
+        if(TextUtils.isEmpty(name)) {
+            name = getResources().getStringArray(R.array.default_type_names)[track.type];
+        }
+        ensureDialog(name, address);
+        mDisconnectedDialog.show();
+
+    }
+
+    private void ensureDialog(String name, final String address) {
+        if(mDisconnectedDialog != null) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Disconnected  " + name);
+        builder.setMessage("Reconnect or Find This TrackR?");
+        builder.setPositiveButton("Reconnect", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addNewTrackR();
+            }
+        });
+
+        builder.setNegativeButton("Find", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Location loc = mPrefsManager.getTrackLocMissed(address);
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            }
+        });
+        mDisconnectedDialog = builder.create();
     }
 
     private void editBluetoothDevice(String deviceAddress) {
@@ -197,5 +232,16 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
     public BluetoothLeService getBluetoothLeService() {
         return mBluetoothLeService;
+    }
+
+    public boolean isBluetoothConnected(String address) {
+        if(mBluetoothLeService == null) {
+            return false;
+        }
+
+        if(mBluetoothLeService.isGattConnected(address)) {
+            return true;
+        }
+        return false;
     }
 }

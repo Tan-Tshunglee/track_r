@@ -123,7 +123,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                             Toast.makeText(RegistrationActivity.this, "Registration Success", Toast.LENGTH_SHORT).show();
                             finish();
                         } else if(command.err()) {
-                            Toast.makeText(RegistrationActivity.this, "Email already been used.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, "Email has been registered.", Toast.LENGTH_LONG).show();
                             Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
                             startActivity(i);
                             finish();

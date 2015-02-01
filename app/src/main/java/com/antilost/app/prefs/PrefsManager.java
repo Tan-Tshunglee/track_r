@@ -2,15 +2,14 @@ package com.antilost.app.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.antilost.app.model.TrackR;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
@@ -26,6 +25,7 @@ public class PrefsManager {
     public static final String PREFS_PASSWORD_KEY = "password";
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
+    public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
 
     private Context mCtx;
     private SharedPreferences mPrefs;
@@ -106,7 +106,7 @@ public class PrefsManager {
 
     }
 
-    public boolean setTrack(String address, TrackR track) {
+    public boolean saveTrack(String address, TrackR track) {
         File dir = mCtx.getDir("tracks", 0);
         File trackFile = new File(dir, address);
         try {
@@ -139,5 +139,23 @@ public class PrefsManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void saveMissedTrack(String address, boolean missing) {
+        String key = PREFS_MISSING_KEY_PREFIX + address;
+        mPrefs.edit().putBoolean(key, missing).commit();
+        return;
+    }
+
+    public boolean isMissedTrack(String address) {
+        String key = PREFS_MISSING_KEY_PREFIX + address;
+        return mPrefs.getBoolean(key, false);
+    }
+
+    public Location getTrackLocMissed(String address) {
+        Location location = new Location("custom");
+        location.setLongitude(114.07);
+        location.setLatitude(22.62);
+        return location;
     }
 }

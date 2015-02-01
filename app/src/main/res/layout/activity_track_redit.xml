@@ -135,8 +135,10 @@
             android:layout_width="match_parent"
             android:background="@drawable/track_r_descript_bkg"
             android:text="Key"
+            android:hint="Custom Name"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
+            android:maxLength="10"
             android:textColor="@android:color/white"
             android:layout_height="@dimen/type_descript_textview_height" />
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,10 +13,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.network.SendPassowdCommand;
 
 public class ForgetPasswordActivity extends Activity implements View.OnClickListener{
 
+    private static final String LOG_TAG = "ForgetPasswordActivity";
     private EditText mEmailInput;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +63,13 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
     }
 
     private void trySendPasswordToMyEmail() {
-        String email = mEmailInput.getText().toString();
+        final String email = mEmailInput.getText().toString();
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(this, "Invalid Email Address!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
         mProgressDialog.setTitle("正在发送密码邮件");//设置标题
         mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
@@ -80,5 +84,37 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
         });
 
         mProgressDialog.show();
+
+        Thread t  = new Thread() {
+            @Override
+            public void run() {
+                final SendPassowdCommand command = new SendPassowdCommand(email);
+                command.execTask();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if(!mProgressDialog.isShowing()) {
+                            Log.d(LOG_TAG, "user cancel send password");
+                            return;
+                        }
+                        mProgressDialog.dismiss();
+                        if(command.success()) {
+                            Toast.makeText(ForgetPasswordActivity.this, "Sned Password to Your Email", Toast.LENGTH_LONG).show();
+                            finish();
+                        } else if(command.err()) {
+                            Toast.makeText(ForgetPasswordActivity.this, "Invalid Email", Toast.LENGTH_SHORT).show();
+                        } else if(command.isNetworkError()){
+                            Toast.makeText(ForgetPasswordActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        } else if(command.isStatusBad()) {
+                            Toast.makeText(ForgetPasswordActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ForgetPasswordActivity.this, "Unkown Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        };
+        t.start();;
     }
 }

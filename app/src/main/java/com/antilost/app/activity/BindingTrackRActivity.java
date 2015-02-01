@@ -1,15 +1,18 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,11 +22,10 @@ import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
+import com.antilost.app.model.TrackR;
 import com.antilost.app.network.BindCommand;
-import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
-import com.antilost.app.service.MonitorService;
 
 import java.security.SecureRandom;
 import java.util.Set;
@@ -43,7 +45,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
 
 
-    private Handler mHandler;
+
 
     private RelativeLayout mFirstPage;
     private RelativeLayout mConnectingPage;
@@ -57,6 +59,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     private Set<String> mTrackIds;
     private int mScanedTime = 0;
 
+    private Handler mHandler;
 
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
@@ -70,7 +73,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                             scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
-                            if(mTrackIds.contains(deviceAddress)) {
+                            if(mTrackIds.contains(deviceAddress) && !mPrefsManager.isMissedTrack(deviceAddress)) {
                                 //mPrefsManager.addTrackIds(deviceAddress);
                                 Log.v(LOG_TAG, "find already bind device");
                                 return;
@@ -79,11 +82,44 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 //                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
                             Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
 //                            startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
-                            startBindTackOnServer(deviceAddress);
+
+                            if(mPrefsManager.isMissedTrack(deviceAddress)) {
+                                reconnectMissingTrack(deviceAddress);
+                            } else {
+                                startBindTackOnServer(deviceAddress);
+                            }
+
                         }
                     });
                 }
             };
+
+    private Dialog mReconnectDialog;
+    private void reconnectMissingTrack(String deviceAddress) {
+        TrackR track = mPrefsManager.getTrack(deviceAddress);
+        String[] typesNames = getResources().getStringArray(R.array.default_type_names);
+        String name = TextUtils.isEmpty(track.name) ? typesNames[track.type] : track.name;
+        if(mReconnectDialog == null) {
+            createReconnectDialog(name, deviceAddress);
+        }
+        mReconnectDialog.show();
+
+    }
+
+    private void createReconnectDialog(String name, final String address) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Reconnect to " + name);
+        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    mPrefsManager.saveMissedTrack(address, false);
+                    startService(new Intent(BindingTrackRActivity.this, BluetoothLeService.class));
+                    finish();
+                 }
+            });
+        mReconnectDialog = builder.create();
+    }
 
     private void startBindTackOnServer(final String deviceAddress) {
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);

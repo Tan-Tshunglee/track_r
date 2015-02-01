@@ -1,7 +1,5 @@
 package com.antilost.app.adapter;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -10,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.activity.MainTrackRListActivity;
@@ -22,8 +20,6 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by Tan on 2015/1/17.
@@ -129,9 +125,14 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         int position = (Integer) v.getTag();
         String address = (String) getItem(position);
-        Intent i = new Intent(mActivity, TrackRActivity.class);
-        i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
-        mActivity.startActivity(i);
+        if(mActivity.isBluetoothConnected(address)) {
+            Intent i = new Intent(mActivity, TrackRActivity.class);
+            i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
+            mActivity.startActivity(i);
+        } else {
+            Toast.makeText(mActivity, "Device Not Connected", Toast.LENGTH_SHORT).show();
+        };
+
     }
 
 }

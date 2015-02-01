@@ -17,7 +17,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -61,6 +63,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public final static String ACTION_GATT_KEY_PRESSED =
             "com.antilost.bluetooth.le.ACTION_KEY_PRESSED";
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.v(LOG_TAG, "BluetoothLeService onSharedPreferenceChanged() key " + key);
@@ -89,6 +92,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 // Attempts to discover services after successful connection.
                 Log.i(LOG_TAG, "Attempting to start service discovery:" + gatt.discoverServices());
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+
                 intentAction = ACTION_GATT_DISCONNECTED;
                 Log.i(LOG_TAG, "Disconnected from GATT server.");
                 //if user manually close track r connection;
@@ -97,16 +101,20 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     broadcastUpdate(intentAction);
                 }
 
-                mGattStates.remove(address);
-                mBluetoothGatts.remove(address);
-                gatt.disconnect();
-
+                mPrefsManager.saveMissedTrack(address, true);
+            }
+            //even device is power off the newState can be STATE_CONNECTEDe,
+            //we think device is connected after onServicesDiscovered if called();
+            if(newState == BluetoothProfile.STATE_CONNECTED) {
+                mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.i(LOG_TAG, "onServicesDiscovered ....");
+            String address = gatt.getDevice().getAddress();
+            mGattStates.put(address, BluetoothProfile.STATE_CONNECTED);
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
@@ -212,10 +220,18 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            Log.v(LOG_TAG, "rssi is "   + rssi);
+            Log.i(LOG_TAG, "rssi is "   + rssi);
         }
     }
 
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            }
+        }
+    };
     private void onTrackKeyDown() {
         Log.v(LOG_TAG, "onTrackKeyDown...");
     }
@@ -261,6 +277,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     @Override
     public IBinder onBind(Intent intent) {
+
         return mBinder;
     }
 
@@ -308,6 +325,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        initialize();
+        return START_STICKY;
+    }
+
     /**
      * Initializes a reference to the local Bluetooth adapter.
      *
@@ -352,6 +375,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if (mBluetoothAdapter == null || address == null) {
             Log.w(LOG_TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
+        }
+
+        if(mPrefsManager.isMissedTrack(address)) {
+            mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+            Log.w(LOG_TAG, "trying to connect to a disconnected track");
+            return true;
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -436,7 +465,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public int getGattConnectState(String address) {
         Integer state = mGattStates.get(address);
-        return state == null ? BluetoothProfile.STATE_CONNECTING : state;
+        return state == null ? BluetoothProfile.STATE_DISCONNECTED : state;
+    }
+
+
+    public boolean isGattConnected(String address) {
+        Integer state = mGattStates.get(address);
+        return state == null ? false : state == BluetoothProfile.STATE_CONNECTED;
     }
 
     public HashMap<String, BluetoothGatt> getBluetoothGatts() {
