@@ -55,7 +55,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_track_r);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.btnSettings).setOnClickListener(this);
-//        findViewById(R.id.batteryStatus).setOnClickListener(this);
+        findViewById(R.id.batteryStatus).setOnClickListener(this);
+        findViewById(R.id.distanceLevel).setOnClickListener(this);
 
         findViewById(R.id.location).setOnClickListener(this);
         findViewById(R.id.ring).setOnClickListener(this);
@@ -114,6 +115,15 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
             case R.id.share:
 
+                break;
+
+            case R.id.batteryStatus:
+
+                mBluetoothLeService.readBatteryLevel(mBluetoothDeviceAddress);
+                break;
+            case R.id.distanceLevel:
+
+                mBluetoothLeService.requestRssiLevel(mBluetoothDeviceAddress);
                 break;
         }
     }

@@ -50,6 +50,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private HashMap<String, BluetoothGatt> mBluetoothGatts = new HashMap<String, BluetoothGatt>();
     private HashMap<String, Integer> mGattStates = new HashMap<String, Integer>();
 
+    private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
+
     public static final int ALARM_REPEAT_PERIOD = BuildConfig.DEBUG ? 1000 * 5 : 1000 * 5 * 60;
 
     public final static String ACTION_GATT_CONNECTED =
@@ -64,6 +66,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             "com.antilost.bluetooth.le.EXTRA_DATA";
     public final static String ACTION_GATT_KEY_PRESSED =
             "com.antilost.bluetooth.le.ACTION_KEY_PRESSED";
+    public final static String ACTION_BATTERY_LEVEL_READ =
+            "com.antilost.bluetooth.le.ACTION_BATTERY_LEVEL_READ";
+
+    public final static String ACTION_RSSI_READ =
+            "com.antilost.bluetoot.le.ACTION_RSSI_READ";
 
 
     @Override
@@ -167,9 +174,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             if (status == BluetoothGatt.GATT_SUCCESS) {
 
                 UUID cId = characteristic.getUuid();
+                UUID sId = characteristic.getService().getUuid();
                 if(cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
                     int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
                     Log.v(LOG_TAG, "battery level is " + level);
+                } if(sId.equals(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID)
+                        && cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
+                    int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+                    Log.d(LOG_TAG, "onCharacteristicRead callback battery is " + level);
+                    broadcastBatteryLevel(level);
                 } else {
                     broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
                 }
@@ -229,8 +242,21 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            Log.i(LOG_TAG, "rssi is "   + rssi);
+            Log.i(LOG_TAG, "rssi is " + rssi);
+            mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
+            broadcastRssiRead();
         }
+    }
+
+    private void broadcastRssiRead() {
+        final Intent intent = new Intent(ACTION_BATTERY_LEVEL_READ);
+        sendBroadcast(intent);
+    }
+
+    private void broadcastBatteryLevel(int level) {
+        final Intent intent = new Intent(ACTION_BATTERY_LEVEL_READ);
+        intent.putExtra(EXTRA_DATA, level);
+        sendBroadcast(intent);
     }
 
     private void alertUserTrackDisconnected(String address) {
@@ -639,13 +665,42 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         } else {
             BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
             BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
+//            int battery = c.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+//            Log.v(LOG_TAG, "direct read battery level is " + battery);
             gatt.readCharacteristic(c);
         }
     }
 
-    public void readRssLevel(String bluetoothDeviceAddress) {
+    public void requestRssiLevel(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
         Log.v(LOG_TAG, "readRssLevel state is " + state);
 
+        if(state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
+            if(gatt != null) {
+                gatt.readRemoteRssi();
+            }
+        }
     }
+
+    public int getRssiLevel(String address) {
+        Integer rssi = mGattsRssis.get(address);
+        return rssi == null ? 0 :rssi;
+    }
+
+    protected static double calculateAccuracy(int txPower, double rssi) {
+        if (rssi == 0) {
+            return -1.0; // if we cannot determine accuracy, return -1.
+        }
+
+        double ratio = rssi*1.0/txPower;
+        if (ratio < 1.0) {
+            return Math.pow(ratio,10);
+        }
+        else {
+            double accuracy =  (0.89976)*Math.pow(ratio,7.7095) + 0.111;
+            return accuracy;
+        }
+    }
+
 }
