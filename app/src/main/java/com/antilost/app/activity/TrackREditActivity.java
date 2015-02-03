@@ -81,6 +81,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     private ImageView mImageView;
     private String[] mTypeNames;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +120,13 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         startService(new Intent(this, BluetoothLeService.class));
     }
 
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     @Override
     protected void onDestroy() {

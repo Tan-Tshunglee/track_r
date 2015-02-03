@@ -1,13 +1,16 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +45,18 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         }
     };
 
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_BATTERY_LEVEL_READ.equals(action)) {
+                int level = intent.getIntExtra(BluetoothLeService.EXTRA_DATA, -1);
+            } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
+                int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
+            }
+            Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,6 +95,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mBluetoothLeService != null) {
+            if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                finish();
+            };
+        }
     }
 
     @Override

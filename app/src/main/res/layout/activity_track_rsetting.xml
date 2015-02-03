@@ -111,9 +111,10 @@
         android:id="@+id/turnOffTrackR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="0dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:background="@drawable/blue_bkg"
+        android:textColor="@android:color/white"
         android:text="Turn off TrackR"/>
     
     <Button
@@ -121,8 +122,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Unbind TrackR"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_marginTop="0dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@drawable/red_bkg"
+        android:textColor="@android:color/white"
         />
 </LinearLayout>

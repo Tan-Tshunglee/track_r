@@ -1,8 +1,11 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -40,11 +43,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private PrefsManager mPrefsManager;
     private Switch mBidirectionalAlert;
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
+    private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
 
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
@@ -67,7 +77,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         boolean bidirectionalAlertEnabled = mPrefsManager.getBidirectionalAlert(mBluetoothDeviceAddress);
         mBidirectionalAlert.setChecked(bidirectionalAlertEnabled);
-
         mBidirectionalAlert.setOnCheckedChangeListener(this);
 
     }
@@ -76,6 +85,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     protected void onDestroy() {
         unbindService(mServiceConnection);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -91,7 +112,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 }
 
                 mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
-                finish();
                 break;
             case R.id.unbindTrackR:
                 if(mBluetoothLeService == null) {
@@ -100,7 +120,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 }
 
                 mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
-                finish();
                 break;
         }
     }

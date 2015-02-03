@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.antilost.app.service.BluetoothLeService;
-import com.antilost.app.service.MonitorService;
 
 public class Receiver extends BroadcastReceiver {
     public static final String REPEAT_BROADCAST_RECEIVER_ACTION = "REPEAT_ALARM_SERVICE";

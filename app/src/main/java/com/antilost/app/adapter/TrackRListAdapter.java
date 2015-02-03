@@ -3,6 +3,7 @@ package com.antilost.app.adapter;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
  */
 public class TrackRListAdapter extends BaseAdapter implements View.OnClickListener {
 
+    private static final String LOG_TAG = "TrackRListAdapter";
     private final LayoutInflater mInflater;
     private final PrefsManager mPrefs;
     private final MainTrackRListActivity mActivity;
@@ -94,6 +96,8 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         if(service != null) {
             int stateValue =  service.getGattConnectState(address);
             state.setText(getString(stateValue));
+        } else {
+            Log.v(LOG_TAG, "service is null");
         }
 
 
