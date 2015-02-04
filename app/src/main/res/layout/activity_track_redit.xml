@@ -29,7 +29,7 @@
             android:background="@android:color/transparent"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_centerVertical="true"
-            android:text="OK"/>
+            android:text="@string/ok"/>
 
     </RelativeLayout>
     
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/centerLargeImage"
                 android:layout_marginTop="20dp"
-                android:text="Change"
+                android:text="@string/change"
                 android:background="@drawable/change_picture"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
@@ -134,8 +134,8 @@
             android:id="@+id/track_r_type_name"
             android:layout_width="match_parent"
             android:background="@drawable/track_r_descript_bkg"
-            android:text="Key"
-            android:hint="Custom Name"
+            android:text="@string/key"
+            android:hint="@string/custom_name"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:maxLength="10"

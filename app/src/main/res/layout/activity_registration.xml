@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textColor="@android:color/white"
-            android:text="Or Use"/>
+            android:text="@string/or_use"/>
 
         <ImageView
             android:id="@+id/facebook"

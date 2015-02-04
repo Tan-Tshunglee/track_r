@@ -23,7 +23,7 @@
         <TextView android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My TrackR"
+            android:text="@string/my_track_r"
             android:textSize="20sp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
@@ -72,13 +72,13 @@
             android:textColor="@android:color/white"
             android:layout_toLeftOf="@id/track_r_photo"
             android:layout_marginRight="10dp"
-            android:text="Sleep On\n\n22:00 - 7:00"/>
+            android:text="@string/sleep_on_and_time"/>
 
         <TextView
             android:id="@+id/connectState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connected"
+            android:text="@string/connected"
             android:gravity="center"
             android:textSize="16sp"
             android:layout_toRightOf="@id/track_r_photo"
@@ -89,7 +89,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Distance to TrackR"
+        android:text="@string/distance_to_track_r"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:layout_gravity="center"/>
@@ -120,7 +120,7 @@
         <Button android:id="@+id/location"
             android:layout_width="@dimen/track_r_bottom_button"
             android:layout_height="@dimen/track_r_bottom_button"
-            android:text="Loc"
+            android:text="@string/loc"
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
@@ -130,7 +130,7 @@
         <Button android:id="@+id/ring"
             android:layout_width="@dimen/track_r_bottom_button"
             android:layout_height="@dimen/track_r_bottom_button"
-            android:text="Ring"
+            android:text="@string/ring"
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
@@ -140,7 +140,7 @@
         <Button android:id="@+id/photo"
             android:layout_width="@dimen/track_r_bottom_button"
             android:layout_height="@dimen/track_r_bottom_button"
-            android:text="Photo"
+            android:text="@string/photo"
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
@@ -150,7 +150,7 @@
         <Button android:id="@+id/share"
             android:layout_width="@dimen/track_r_bottom_button"
             android:layout_height="@dimen/track_r_bottom_button"
-            android:text="Share"
+            android:text="@string/share"
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"

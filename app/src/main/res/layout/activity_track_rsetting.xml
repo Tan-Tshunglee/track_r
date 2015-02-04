@@ -21,7 +21,7 @@
         <TextView android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add TrackR"
+            android:text="@string/add_track_r"
             android:textSize="20sp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            android:text="Key"
+            android:text="@string/key"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/icon"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                android:text="Bidirect anti-lost"
+                android:text="@string/bidirectional_anti_lost"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:textSize="20sp"/>
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                android:text="Alert level"
+                android:text="@string/alert_level"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:textSize="20sp"/>
@@ -115,13 +115,13 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:background="@drawable/blue_bkg"
         android:textColor="@android:color/white"
-        android:text="Turn off TrackR"/>
+        android:text="@string/turn_off_track_r"/>
     
     <Button
         android:id="@+id/unbindTrackR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Unbind TrackR"
+        android:text="@string/unbind_track_r"
         android:layout_marginTop="0dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@drawable/red_bkg"
