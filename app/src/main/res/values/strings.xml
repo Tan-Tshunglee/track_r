@@ -45,7 +45,7 @@
     <string name="add_track_r">Add TrackR</string>
     <string name="connecting_with_track_r">Connecting with TrackR</string>
     <string name="connecting_failed">Connecting Failed</string>
-    <string name="try_again_steps">You cound try：\n1.Make sure the phone's bluetooth is enabled.\n2.Make sure that trackr is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
+    <string name="try_again_steps">You could try:\n1.Make sure the phone\'s bluetooth is enabled.\n2.Make sure that TrackR is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
@@ -63,12 +63,16 @@
     <string name="share">Share</string>
     <string name="change">Change</string>
     <string name="key">Key</string>
-    <string name="custom_name">Custom Name</string>
     <string name="bidirectional_anti_lost">Bidirect anti-lost</string>
     <string name="alert_level">Alert level</string>
     <string name="turn_off_track_r">Turn off TrackR</string>
     <string name="unbind_track_r">Unbind TrackR</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_picture">Choose Picture</string>
-
+    <string name="reconect_to_s">"Reconnect to %s"</string>
+    <string name="binding_success">Binding Success!</string>
+    <string name="already_binded">Already Binded!</string>
+    <string name="your_device_no_ble_support">Your device has no bluetooth support.</string>
+    <string name="max_device_limit_reached">Max device count limit reach</string>
+    <string name="custom_name">Custom Name</string>
 </resources>

@@ -109,8 +109,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
     private void createReconnectDialog(String name, final String address) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Reconnect to " + name);
-        builder.setPositiveButton("OK", new Dialog.OnClickListener() {
+        builder.setTitle(String.format(getString(R.string.reconect_to_s), name));
+        builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
              @Override
              public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -136,14 +136,14 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                     @Override
                     public void run() {
                         if(command.success()) {
-                            Toast.makeText(BindingTrackRActivity.this, "Binding Success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BindingTrackRActivity.this, getString(R.string.binding_success), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(BindingTrackRActivity.this, TrackREditActivity.class);
                             i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
                             startActivity(i);
                             finish();
                             return;
                         } else if(command.err()) {
-                            Toast.makeText(BindingTrackRActivity.this, "Already Binded!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BindingTrackRActivity.this, getString(R.string.already_binded), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()) {
                             Log.v(LOG_TAG, "network status error!");
                         } else if(command.isStatusBad()) {
@@ -175,7 +175,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
         // Checks if Bluetooth is supported on the device.
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this,  "Your device has no bluetooth support.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  getString(R.string.your_device_no_ble_support), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -183,7 +183,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         mPrefsManager = PrefsManager.singleInstance(this);
 
         if(mPrefsManager.getTrackIds().size() == 5) {
-            Toast.makeText(this,  "Max device count limit reach", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  getString(R.string.max_device_limit_reached), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

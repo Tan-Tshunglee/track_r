@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -22,12 +24,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
     private static final String LOG_TAG = "TrackRActivity";
+    private static final int TIMER_PERIOD_IN_MS = 10000;
+    private static final int MAX_LEVEL = -33;
+    private static final int MIN_LEVEL = -129;
     private String mBluetoothDeviceAddress;
     private ImageView mTrackImage;
     private TextView mSleepTime;
     private TextView mConnection;
     private ImageView mDistanceImage;
     private ImageView mBatteryLeve;
+    private ImageView mTrackRIcon;
     private boolean mRingBtnSend = false;
     private Handler mHandler = new Handler();
     private BluetoothLeService mBluetoothLeService;
@@ -37,6 +43,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            updateRssi();
         }
 
         @Override
@@ -53,10 +60,47 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 int level = intent.getIntExtra(BluetoothLeService.EXTRA_DATA, -1);
             } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
                 int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
+                //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
+                updateIconPosition(rssi);
             }
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
+
+
+    private void updateIconPosition(int rssi) {
+        if(rssi > MAX_LEVEL || rssi < MIN_LEVEL) {
+            return;
+        }
+
+        int to_min = rssi - MIN_LEVEL;
+        float percentage = to_min / (float) (MAX_LEVEL - MIN_LEVEL);
+        int top = mDistanceImage.getTop();
+        int bottom = mDistanceImage.getBottom();
+
+        int marginTop = (int) ((bottom - top) * percentage);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTrackRIcon.getLayoutParams();
+        params.topMargin = marginTop;
+        mTrackRIcon.setLayoutParams(params);
+
+        Log.v(LOG_TAG, percentage + " margin top " + marginTop);
+
+    }
+
+    private Runnable mTimerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mHandler.postDelayed(mTimerRunnable, TIMER_PERIOD_IN_MS);
+            updateRssi();
+        }
+    };
+
+    private void updateRssi() {
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.requestRssiLevel(mBluetoothDeviceAddress);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -83,6 +127,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mSleepTime = (TextView) findViewById(R.id.sleepModeAndTime);
         mConnection = (TextView) findViewById(R.id.connectState);
         mDistanceImage = (ImageView) findViewById(R.id.distanceLevel);
+        mTrackRIcon = (ImageView) findViewById(R.id.trackIcon);
         mBatteryLeve = (ImageView) findViewById(R.id.batteryStatus);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -100,11 +145,22 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_RSSI_READ));
         if(mBluetoothLeService != null) {
             if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                 finish();
+                return;
             };
         }
+        mHandler.postDelayed(mTimerRunnable, TIMER_PERIOD_IN_MS);
+        updateRssi();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHandler.removeCallbacksAndMessages(null);
+        unregisterReceiver(mGattUpdateReceiver);
     }
 
     @Override

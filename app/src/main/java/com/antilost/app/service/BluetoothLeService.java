@@ -43,6 +43,9 @@ import java.util.UUID;
 public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
+    private static final int MSG_RETRY_SCAN_LE = 1;
+
+    private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -50,6 +53,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private HashMap<String, BluetoothGatt> mBluetoothGatts = new HashMap<String, BluetoothGatt>();
     private HashMap<String, Integer> mGattStates = new HashMap<String, Integer>();
 
+    private HashMap<String, MyBluetootGattCallback> mGattsCallbacks = new HashMap<String, MyBluetootGattCallback>();
     private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
 
     public static final int ALARM_REPEAT_PERIOD = BuildConfig.DEBUG ? 1000 * 5 : 1000 * 5 * 60;
@@ -83,7 +87,25 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
     }
 
+    // Device scan callback.
+    private BluetoothAdapter.LeScanCallback mLeScanCallback =
+            new BluetoothAdapter.LeScanCallback() {
 
+                @Override
+                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                    Set<String> ids = mPrefsManager.getTrackIds();
+                    String deviceAddress = device.getAddress();
+                    if (ids.contains(deviceAddress)) {
+                        reconnectMissingTrack(deviceAddress);
+                        return;
+                    }
+                }
+            };
+
+    private void reconnectMissingTrack(String address) {
+        mPrefsManager.saveMissedTrack(address, false);
+        initialize();
+    }
 
 
     // Implements callback methods for GATT events that the app cares about.  For example,
@@ -264,7 +286,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     }
 
     private void broadcastRssiRead() {
-        final Intent intent = new Intent(ACTION_BATTERY_LEVEL_READ);
+        final Intent intent = new Intent(ACTION_RSSI_READ);
         sendBroadcast(intent);
     }
 
@@ -288,6 +310,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case MSG_RETRY_SCAN_LE:
+                    break;
             }
         }
     };
@@ -369,6 +393,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         startForeground(ONGOING_NOTIFICATION, notification);
 
         initialize();
+;
 
     }
 
@@ -460,8 +485,14 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.d(LOG_TAG, "device already connected");
             return true;
         }
+        MyBluetootGattCallback gattCallback = mGattsCallbacks.get(address);
 
-        bluetoothGatt = device.connectGatt(this, false, new MyBluetootGattCallback());
+        if(gattCallback == null) {
+            gattCallback = new MyBluetootGattCallback();
+            mGattsCallbacks.put(address, gattCallback);
+        }
+
+        bluetoothGatt = device.connectGatt(this, false, gattCallback);
         mBluetoothGatts.put(address, bluetoothGatt);
         Log.i(LOG_TAG, "Trying to create a new connection to " + address);
         return true;

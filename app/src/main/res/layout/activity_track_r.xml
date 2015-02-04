@@ -97,15 +97,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/distanceLevel"
             android:layout_width="@dimen/distance_level_width"
             android:layout_height="@dimen/distance_level_height"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/distance_level_margin_top"
-            android:src="@drawable/track_r_icon"
-            android:scaleType="centerInside"
-            android:background="@drawable/distance_level"/>
+            android:src="@drawable/distance_level"
+            android:scaleType="centerInside" />
+
         <ImageView
             android:layout_width="@dimen/small_phone_width"
             android:layout_height="@dimen/small_phone_height"
@@ -113,6 +114,12 @@
             android:layout_below="@id/distanceLevel"
             android:layout_centerHorizontal="true"
             />
+
+        <ImageView android:id="@+id/trackIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/track_r_icon_green" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
