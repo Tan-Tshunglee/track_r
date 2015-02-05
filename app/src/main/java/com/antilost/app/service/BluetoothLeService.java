@@ -505,9 +505,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         //already send an connect request;
         if(bluetoothGatt != null) {
-            Log.v(LOG_TAG, "waiting the connect request to finish.");
-            return false;
+            Log.v(LOG_TAG, "closing waiting the connect request.");
+            bluetoothGatt.close();
         }
+
         MyBluetootGattCallback gattCallback = new MyBluetootGattCallback();
 
         if(gattCallback == null) {
