@@ -16,6 +16,9 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -323,6 +326,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     };
     private void onTrackKeyDown() {
         Log.v(LOG_TAG, "onTrackKeyDown...");
+        Uri uri = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
+        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+        if(!ringtone.isPlaying()) {
+            ringtone.play();
+        }
     }
 
     private void onTrackKeyUp() {
