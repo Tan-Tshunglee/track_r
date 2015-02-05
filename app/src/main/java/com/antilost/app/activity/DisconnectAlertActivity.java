@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
@@ -37,6 +39,11 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
         setContentView(R.layout.activity_disconnect_alert);
         mPrefsManager = PrefsManager.singleInstance(this);
         mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);

@@ -85,6 +85,10 @@
             android:name=".receiver.Receiver"
             android:enabled="true"
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.antilost.app.ACTION_REPEAT_ALARM_SERVICE" />
+            </intent-filter>
         </receiver>
 
         <activity
@@ -108,7 +112,7 @@
             android:name=".activity.DisconnectAlertActivity"
             android:label="@string/title_activity_disconnect_alert"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" >
         </activity>
         <activity
             android:name=".activity.TrackRSettingActivity"
