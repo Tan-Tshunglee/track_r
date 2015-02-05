@@ -115,6 +115,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if(status != BluetoothGatt.GATT_SUCCESS) {
                 Log.v(LOG_TAG, "gatt status is not success." );
+                gatt.disconnect();
+                mBluetoothGatts.remove(gatt.getDevice().getAddress());
                 return;
             }
             String address = gatt.getDevice().getAddress();
@@ -149,6 +151,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 Log.w(LOG_TAG, "disconnected state before state not connected...");
                 if(gatt != null) {
                     gatt.close();
+                    mBluetoothGatts.remove(address);
                 }
             }
             //even device is power off the newState can be STATE_CONNECTEDe,
@@ -490,6 +493,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.d(LOG_TAG, "device already connected");
             return true;
         }
+
+
+        //already send an connect request;
+        if(bluetoothGatt != null) {
+            Log.v(LOG_TAG, "waiting the connect request to finish.");
+            return false;
+        }
         MyBluetootGattCallback gattCallback = new MyBluetootGattCallback();
 
         if(gattCallback == null) {
@@ -497,7 +507,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mGattsCallbacks.put(address, gattCallback);
         }
 
-        bluetoothGatt = device.connectGatt(this, false, gattCallback);
+        bluetoothGatt = device.connectGatt(this, true, gattCallback);
         mBluetoothGatts.put(address, bluetoothGatt);
         Log.i(LOG_TAG, "Trying to create a new connection to " + address);
         return true;
