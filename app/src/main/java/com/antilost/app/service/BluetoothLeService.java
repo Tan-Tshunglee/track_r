@@ -46,6 +46,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
     private static final int MSG_RETRY_SCAN_LE = 1;
+    private static final int MSG_CLEANUP_UNCONNECTED_GATT = 2;
 
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
@@ -106,7 +107,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private void reconnectMissingTrack(String address) {
         mPrefsManager.saveMissedTrack(address, false);
-        initialize();
+        connect(address);
     }
 
 
@@ -321,6 +322,20 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             switch (msg.what) {
                 case MSG_RETRY_SCAN_LE:
                     break;
+                case MSG_CLEANUP_UNCONNECTED_GATT:
+                    Set<Map.Entry<String, Integer>> entrys = mGattStates.entrySet();
+                    for(Map.Entry<String, Integer> entry: entrys) {
+                        String address = entry.getKey();
+                        Integer state = entry.getValue();
+                        if(state != null && state != BluetoothProfile.STATE_CONNECTED) {
+                            Log.e(LOG_TAG, "clean up unconnected " + address);
+                            BluetoothGatt gatt = mBluetoothGatts.get(address);
+                            gatt.disconnect();
+                            gatt.close();
+                            mBluetoothGatts.remove(address);
+                        }
+                    }
+                    break;
             }
         }
     };
@@ -419,7 +434,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> entry : gatts) {
+            String address = entry.getKey();
             entry.getValue().disconnect();
+            mBluetoothGatts.remove(address);
+
         }
     }
 
@@ -464,6 +482,24 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     }
 
+    private void scanLeDevice(final boolean enable) {
+        if (enable) {
+            // Stops scanning after a pre-defined scan period.
+            Log.v(LOG_TAG, "scanLeDevice " + enable);
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanLeDevice(false);
+                }
+            }, 5 * 1000);
+        } else {
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            mHandler.removeMessages(MSG_RETRY_SCAN_LE);
+            Log.v(LOG_TAG, "stop device scan");
+        }
+    }
+
     /**
      * Connects to the GATT server hosted on the Bluetooth LE device.
      *
@@ -481,8 +517,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         if(mPrefsManager.isMissedTrack(address)) {
             mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            mPrefsManager.saveMissedTrack(address, false);
+            //mPrefsManager.saveMissedTrack(address, false);
             Log.w(LOG_TAG, "trying to connect to a disconnected track");
+            scanLeDevice(true);
+            return false;
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -505,8 +543,14 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         //already send an connect request;
         if(bluetoothGatt != null) {
-            Log.v(LOG_TAG, "closing waiting the connect request.");
-            bluetoothGatt.close();
+            Log.e(LOG_TAG, "closing waiting the connect request.");
+//            bluetoothGatt.disconnect();
+//            bluetoothGatt.close();
+//            mBluetoothGatts.remove(address);
+            mHandler.sendEmptyMessageDelayed(MSG_CLEANUP_UNCONNECTED_GATT, 20 * 1000);
+            Log.i(LOG_TAG,  "clean up unconnected gatt after 20 second.");
+            return false;
+
         }
 
         MyBluetootGattCallback gattCallback = new MyBluetootGattCallback();
@@ -516,7 +560,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mGattsCallbacks.put(address, gattCallback);
         }
 
-        bluetoothGatt = device.connectGatt(this, true, gattCallback);
+        bluetoothGatt = device.connectGatt(this, false, gattCallback);
         mBluetoothGatts.put(address, bluetoothGatt);
         Log.i(LOG_TAG, "Trying to create a new connection to " + address);
         return true;
@@ -670,6 +714,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 //            }
 //        }
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+        if(c == null) {
+            return;
+        }
         c.setValue(new byte[] {02});
         gatt.writeCharacteristic(c);
     }
@@ -728,7 +775,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void readBatteryLevel(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
-        Log.v(LOG_TAG, "readBatteryLevel state is " + state);
+        if(state != null && state != BluetoothProfile.STATE_CONNECTED) {
+            Log.w(LOG_TAG, "read a unconnected device battery level.");
+            return;
+        }
+        Log.w(LOG_TAG, "readBatteryLevel state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if(gatt == null) {
@@ -745,8 +796,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void requestRssiLevel(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
-        Log.v(LOG_TAG, "readRssLevel state is " + state);
+        Log.d(LOG_TAG, "readRssLevel state is " + state);
 
+        if(state != null && state != BluetoothProfile.STATE_CONNECTED) {
+            Log.w(LOG_TAG, "read a unconnected device rssi level.");
+            return;
+        }
         if(state == BluetoothProfile.STATE_CONNECTED) {
             BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
             if(gatt != null) {

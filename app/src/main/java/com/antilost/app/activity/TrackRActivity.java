@@ -24,7 +24,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
     private static final String LOG_TAG = "TrackRActivity";
-    private static final int TIMER_PERIOD_IN_MS = 10000;
+    private static final int TIMER_PERIOD_IN_MS = 20000;
     private static final int MAX_LEVEL = -33;
     private static final int MIN_LEVEL = -129;
     private String mBluetoothDeviceAddress;
@@ -87,13 +87,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private Runnable mTimerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mHandler.postDelayed(mTimerRunnable, TIMER_PERIOD_IN_MS);
-            updateRssi();
-        }
-    };
 
     private void updateRssi() {
         if(mBluetoothLeService != null) {
@@ -152,7 +145,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 return;
             };
         }
-        mHandler.postDelayed(mTimerRunnable, TIMER_PERIOD_IN_MS);
         updateRssi();
     }
 
