@@ -340,10 +340,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     break;
                 case MSG_LOOP_READ_RSSI:
                     String address = (String) msg.obj;
+                    Log.v(LOG_TAG, "will read rssi, whose address is " + address);
                     Integer state = mGattStates.get(address);
                     if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
-                        readBatteryLevel(address);
+                        Log.v(LOG_TAG, "readBatteryLevel()");
+                        requestRssiLevel(address);
+                    } else {
+                        Log.w(LOG_TAG, "can not read rssi of disconnected device. state is " + state);
                     }
+                    mHandler.removeMessages(MSG_LOOP_READ_RSSI);
                     msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
                     mHandler.sendMessageDelayed(msg, SCAN_PERIOD_IN_MS);
                     break;
@@ -450,7 +455,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mBluetoothGatts.remove(address);
         }
 
-        startReadRssi(false);
+        startReadRssi(false, null);
     }
 
     @Override
@@ -826,10 +831,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     }
 
 
-    public void startReadRssi(boolean enabled) {
+    public void startReadRssi(boolean enabled, String address) {
         if(enabled) {
             mHandler.removeMessages(MSG_LOOP_READ_RSSI);
-            mHandler.sendEmptyMessageDelayed(MSG_LOOP_READ_RSSI, SCAN_PERIOD_IN_MS);
+            Message msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
+            mHandler.sendMessageDelayed(msg, SCAN_PERIOD_IN_MS);
         } else {
             mHandler.removeMessages(MSG_LOOP_READ_RSSI);
         }

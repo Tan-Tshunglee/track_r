@@ -54,6 +54,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             updateRssi();
             updateBatteryLevel();
+
+            updateStateUi();
         }
 
         @Override
@@ -117,7 +119,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     private void updateRssi() {
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.startReadRssi(true);
+            mBluetoothLeService.startReadRssi(true, mBluetoothDeviceAddress);
         }
     }
 
@@ -168,6 +170,25 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
         updateRssi();
         updateBatteryLevel();
+
+        updateStateUi();
+    }
+
+    private void updateStateUi() {
+        if(mBluetoothLeService == null) {
+            mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+        } else {
+            if(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
+                mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);
+                mConnection.setText(R.string.connected);
+            } else {
+                mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+                mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
+                mConnection.setText(R.string.disconnected);
+            }
+
+        }
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {
@@ -188,6 +209,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         super.onPause();
         mHandler.removeCallbacksAndMessages(null);
         unregisterReceiver(mGattUpdateReceiver);
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.startReadRssi(false, mBluetoothDeviceAddress);
+        }
     }
 
     @Override

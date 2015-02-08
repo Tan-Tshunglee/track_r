@@ -56,6 +56,7 @@
     <string name="prepare_track_r_to_bind">Prepare TrackR to Bind</string>
     <string name="sleep_on_and_time">Sleep On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
     <string name="distance_to_track_r">Distance to TrackR</string>
     <string name="loc">Loc</string>
     <string name="ring">Ring</string>

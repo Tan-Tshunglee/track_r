@@ -15,9 +15,9 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="60dp"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@android:color/transparent" />
 
         <TextView android:id="@+id/titleText"
@@ -81,16 +81,16 @@
             android:text="@string/connected"
             android:gravity="center"
             android:textSize="16sp"
+            android:singleLine="true"
+            android:drawableLeft="@drawable/green_dot"
             android:layout_toRightOf="@id/track_r_photo"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/white"/>
+            android:layout_marginLeft="5dp"/>
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/distance_to_track_r"
-        android:textColor="@android:color/white"
         android:textSize="16sp"
         android:layout_gravity="center"/>
 
@@ -120,6 +120,36 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/track_r_icon_green" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_level_height"
+            android:layout_toLeftOf="@id/distanceLevel"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+            <TextView
+                android:text="远"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:text="中"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:text="近"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
