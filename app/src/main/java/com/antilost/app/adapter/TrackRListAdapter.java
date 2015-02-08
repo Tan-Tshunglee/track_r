@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.activity.MainTrackRListActivity;
@@ -129,13 +128,14 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         int position = (Integer) v.getTag();
         String address = (String) getItem(position);
-        if(mActivity.isBluetoothConnected(address)) {
-            Intent i = new Intent(mActivity, TrackRActivity.class);
-            i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
-            mActivity.startActivity(i);
-        } else {
-            Toast.makeText(mActivity, "Device Not Connected", Toast.LENGTH_SHORT).show();
-        };
+//        if(mActivity.isBluetoothConnected(address)) {
+//
+//        } else {
+//            Toast.makeText(mActivity, "Device Not Connected", Toast.LENGTH_SHORT).show();
+//        };
+        Intent i = new Intent(mActivity, TrackRActivity.class);
+        i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
+        mActivity.startActivity(i);
 
     }
 

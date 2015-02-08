@@ -33,6 +33,8 @@ public class PrefsManager {
     public static final String PREFS_OTHER_WIFI_SSID_KEY = "other_wifi_ssid";
 
     public static final String PREFS_SAFE_ZONE_ENABLED = "safe_zone_enabled";
+
+    public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
     private final Context mCtx;
     private SharedPreferences mPrefs;
 
@@ -203,5 +205,13 @@ public class PrefsManager {
 
     public String getOtherSsid() {
         return mPrefs.getString(PREFS_OTHER_WIFI_SSID_KEY, "");
+    }
+
+    public void setAlertRingEnabled(boolean b) {
+        mPrefs.edit().putBoolean(PREFS_ALERT_RING_ENABLED, b);
+    }
+
+    public boolean getAlertRingEnabled() {
+        return mPrefs.getBoolean(PREFS_ALERT_RING_ENABLED, true);
     }
 }

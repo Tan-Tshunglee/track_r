@@ -47,6 +47,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private static final int ONGOING_NOTIFICATION = 1;
     private static final int MSG_RETRY_SCAN_LE = 1;
     private static final int MSG_CLEANUP_UNCONNECTED_GATT = 2;
+    private static final int MSG_LOOP_READ_RSSI = 3;
 
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
@@ -215,10 +216,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
                 UUID cId = characteristic.getUuid();
                 UUID sId = characteristic.getService().getUuid();
-                if(cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
-                    int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-                    Log.v(LOG_TAG, "battery level is " + level);
-                } if(sId.equals(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID)
+                if(sId.equals(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID)
                         && cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
                     int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
                     Log.d(LOG_TAG, "onCharacteristicRead callback battery is " + level);
@@ -340,6 +338,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                         }
                     }
                     break;
+                case MSG_LOOP_READ_RSSI:
+                    String address = (String) msg.obj;
+                    Integer state = mGattStates.get(address);
+                    if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+                        readBatteryLevel(address);
+                    }
+                    msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
+                    mHandler.sendMessageDelayed(msg, SCAN_PERIOD_IN_MS);
+                    break;
             }
         }
     };
@@ -441,8 +448,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             String address = entry.getKey();
             entry.getValue().disconnect();
             mBluetoothGatts.remove(address);
-
         }
+
+        startReadRssi(false);
     }
 
     @Override
@@ -792,8 +800,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         } else {
             BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
             BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
-//            int battery = c.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-//            Log.v(LOG_TAG, "direct read battery level is " + battery);
             gatt.readCharacteristic(c);
         }
     }
@@ -819,6 +825,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         return rssi == null ? 0 :rssi;
     }
 
+
+    public void startReadRssi(boolean enabled) {
+        if(enabled) {
+            mHandler.removeMessages(MSG_LOOP_READ_RSSI);
+            mHandler.sendEmptyMessageDelayed(MSG_LOOP_READ_RSSI, SCAN_PERIOD_IN_MS);
+        } else {
+            mHandler.removeMessages(MSG_LOOP_READ_RSSI);
+        }
+    }
     protected static double calculateAccuracy(int txPower, double rssi) {
         if (rssi == 0) {
             return -1.0; // if we cannot determine accuracy, return -1.

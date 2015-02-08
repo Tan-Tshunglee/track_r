@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
     private static final String LOG_TAG = "TrackRActivity";
     private static final int TIMER_PERIOD_IN_MS = 20000;
+
     private static final int MAX_LEVEL = -33;
     private static final int MIN_LEVEL = -129;
     private String mBluetoothDeviceAddress;
@@ -35,7 +37,14 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private ImageView mBatteryLeve;
     private ImageView mTrackRIcon;
     private boolean mRingBtnSend = false;
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+
+            }
+        }
+    };
     private BluetoothLeService mBluetoothLeService;
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -44,6 +53,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             updateRssi();
+            updateBatteryLevel();
         }
 
         @Override
@@ -58,6 +68,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_BATTERY_LEVEL_READ.equals(action)) {
                 int level = intent.getIntExtra(BluetoothLeService.EXTRA_DATA, -1);
+                updateBatteryIcon(level);
             } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
                 int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
                 //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
@@ -66,6 +77,22 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
+
+    private void updateBatteryIcon(int level) {
+        Log.i(LOG_TAG, "updateBatteryIcon " + level);
+        int resId = R.drawable.battery_2;
+        if(level < 25) {
+            resId = R.drawable.battery_1;
+        } else if(level < 50) {
+            resId = R.drawable.battery_2;
+        } else if(level < 75) {
+            resId = R.drawable.battery_3;
+        } else if(level <= 100) {
+            resId = R.drawable.battery_4;
+        }
+
+        mBatteryLeve.setImageResource(resId);
+    }
 
 
     private void updateIconPosition(int rssi) {
@@ -90,7 +117,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     private void updateRssi() {
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.requestRssiLevel(mBluetoothDeviceAddress);
+            mBluetoothLeService.startReadRssi(true);
         }
     }
 
@@ -138,14 +165,22 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_RSSI_READ));
-        if(mBluetoothLeService != null) {
-            if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
-                finish();
-                return;
-            };
-        }
+        registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
         updateRssi();
+        updateBatteryLevel();
+    }
+
+    private IntentFilter makeBroadcastReceiverIntentFilter() {
+        IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_RSSI_READ);
+        filter.addAction(BluetoothLeService.ACTION_BATTERY_LEVEL_READ);
+        return filter;
+    }
+
+    private void updateBatteryLevel() {
+        if(mBluetoothLeService != null) {
+            Log.v(LOG_TAG, "updateBattery....");
+            mBluetoothLeService.readBatteryLevel(mBluetoothDeviceAddress);
+        }
     }
 
     @Override
@@ -211,5 +246,12 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         if(mBluetoothLeService != null) {
             mBluetoothLeService.ringTrackR(mBluetoothDeviceAddress);
         }
+    }
+
+    private boolean isGattConnected() {
+        if(mBluetoothLeService != null) {
+            return mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress);
+        }
+        return false;
     }
 }

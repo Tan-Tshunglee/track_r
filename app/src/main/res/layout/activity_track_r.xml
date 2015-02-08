@@ -42,7 +42,7 @@
             android:id="@+id/batteryStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/battery"
+            android:src="@drawable/battery_2"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/btnSettings"
             android:layout_marginRight="5dp"

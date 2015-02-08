@@ -79,6 +79,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
     public void initWidgetState() {
         // TODO Auto-generated method stub
         cbSafeZone.setChecked(mPrefsManager.getSafeZoneEnable());
+        cbSafeZone.setChecked(mPrefsManager.getAlertRingEnabled());
 
     }
 
@@ -128,6 +129,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
             }
         });
         cbSafeZone.setOnCheckedChangeListener(this);
+        cbAppring.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -142,6 +144,9 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
         switch (id) {
             case R.id.cbuser_safezoneswitch:
                 mPrefsManager.setSafeZoneEnable(b);
+                break;
+            case R.id.cbuser_appringswitch:
+                mPrefsManager.setAlertRingEnabled(b);
                 break;
         }
     }
