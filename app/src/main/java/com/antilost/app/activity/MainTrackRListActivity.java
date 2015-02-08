@@ -165,6 +165,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     }
 
     private void showUserProfile() {
+        Intent i = new Intent(this, UserProfileActivity.class);
+        startActivity(i);
 
     }
 

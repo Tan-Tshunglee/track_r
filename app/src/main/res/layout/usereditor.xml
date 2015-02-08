@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addModelcontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/user_bgd"
+    >
+	<!-- 标题栏 -->
+	<RelativeLayout 
+		android:id="@+id/rlusereditor_topback"
+		android:layout_width="fill_parent"
+	    android:layout_height="60dp" >
+	    <include layout="@layout/csst_title_layout"/>
+	</RelativeLayout>
+	<!-- 分隔符 -->
+		<TextView 
+   		    android:layout_width="fill_parent"
+   		    android:layout_height="wrap_content"
+   		    android:visibility="invisible"
+	    />
+		<!-- 上半部分编辑界面-->
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_margin="20dp"
+	    android:background="@color/whitesmoke"
+	    >
+	    <!-- 编辑ITEM -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="75dp"
+		    android:id="@+id/rlusereditor_icon"
+		    android:gravity="center_vertical"
+		    android:layout_marginLeft="15dp"
+		    android:background="@android:color/transparent"
+	        >
+	         <!-- 头像文本 -->
+	        <TextView 
+	          android:layout_marginRight="15dp"
+	          android:id="@+id/tvusereditor_icontext"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:layout_marginTop="20dp"
+              android:layout_centerVertical="true"
+              android:text="@string/user_usericon"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- 头像 -->
+	        <TextView 
+	           android:layout_marginRight="10dp"
+	          android:id="@+id/tvusereditor_icon"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:drawableLeft="@drawable/user_usericondefault"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentTop="true"
+            />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/black"
+           />
+	      <!-- 昵称 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50sp"
+		    android:layout_marginRight="15dp"
+		    android:id="@+id/rlusereditor_smallname"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- name text -->
+	        <TextView 
+	           android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusereditor_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:text="@string/user_smallname"
+              android:textColor="@color/whitesmoke"
+              android:layout_marginTop="15dp"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- appring switch-->
+       		<ImageButton
+		    android:id="@+id/imgbtusereditorname"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	     <!-- 出生年月 -->
+	      <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50sp"
+		    android:id="@+id/rlusereditor_borad"
+		    android:layout_marginRight="15dp"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- bord text -->
+	        <TextView 
+            	android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusereditor_board"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/user_borddate"
+              android:textColor="@color/whitesmoke"
+              android:layout_marginTop="15dp"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- bord !-->
+       		<ImageButton
+			    android:id="@+id/imgbtusereditorbord"
+			    android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:layout_alignParentRight="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginRight="10dp"
+		        android:src="@drawable/tri_right"
+		        android:background="@android:color/transparent"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	       <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	    
+	      <!-- 安全区域 -->
+	        <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	    <!-- 血型选择 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rlusereditor_xuexing"
+		    android:layout_marginRight="15dp"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- xuexing text-->
+	        <TextView 
+	          android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusereditorxuexing"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_xuexing"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!-- xuexing -->
+	       <ImageButton
+		    android:id="@+id/imgusereditorxuexing"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- likes -->
+	    <RelativeLayout 
+	        android:layout_marginRight="15dp"
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rlusereditor_likes"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- likes text-->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusereditorlikes"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_liks"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!-- likes -->
+	       <ImageButton
+		    android:id="@+id/imgusereditorlikes"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+       </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- 个性签名-->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rlusereditor_qianming"
+		    android:layout_marginRight="15dp"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- 个性签名 text-->
+	        <TextView 
+             android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserbacktip"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_editorself"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!--tip switch -->
+	       <ImageButton
+		    android:id="@+id/imgusereidtoreditorself"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+       </RelativeLayout>
+	       <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	    
+	       <!-- 主页 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rlusereditor_homepage"
+		    android:layout_marginRight="15dp"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- homepage text-->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusereditorhomepage"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_homepage"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!-- homepage -->
+	       <ImageButton
+		    android:id="@+id/imgusereditorhomepage"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	    </LinearLayout>
+   		
+</LinearLayout>

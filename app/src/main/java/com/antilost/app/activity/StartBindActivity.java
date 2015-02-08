@@ -26,6 +26,7 @@ public class StartBindActivity extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnUserProfile:
+                showUserProfile();
                 break;
             case R.id.mainAddBtn:
                 Intent i = new Intent(this, BindingTrackRActivity.class);
@@ -34,5 +35,12 @@ public class StartBindActivity extends Activity implements View.OnClickListener 
                 break;
 
         }
+    }
+
+    private void showUserProfile() {
+        Intent i = new Intent(this, UserProfileActivity.class);
+        startActivity(i);
+        this.finish();
+
     }
 }

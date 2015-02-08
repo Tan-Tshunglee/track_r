@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addModelcontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/currentmainmidbackgrund"
+    >
+	<!-- 标题栏 -->
+	<RelativeLayout 
+		android:id="@+id/rluser_topback"
+		android:layout_width="fill_parent"
+	    android:layout_height="60dp" >
+	    <include layout="@layout/csst_title_layout_trigle"/>
+	</RelativeLayout>
+	<!-- 分隔符 -->
+		<TextView 
+   		    android:layout_width="fill_parent"
+   		    android:layout_height="5dp"
+   		    android:visibility="invisible"
+	    />
+		<!-- 上半部分编辑界面-->
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="223dp"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:background="@drawable/itembgd_big"
+	    >
+	    <!-- 编辑ITEM -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="75dp"
+		    android:id="@+id/rluser_editor"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- 头像 -->
+	        <TextView 
+	            android:layout_marginLeft="10dp"
+	          android:id="@+id/tvusericon"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:drawableLeft="@drawable/user_usericondefault"
+              android:text="@string/user_usericon"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- 编辑 -->
+	        <TextView 
+	          android:layout_marginRight="15dp"
+	          android:id="@+id/tvuser_editor"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:layout_marginTop="20dp"
+              android:layout_centerVertical="true"
+              android:text="@string/user_editor"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:paddingRight="20dp"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentTop="true"
+            />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	 <!-- 分隔线 -->
+    	<!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- Appring -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50sp"
+		    android:id="@+id/rluser_appring"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- Appring text -->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserappring"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:text="@string/user_app_ring"
+              android:textColor="@color/whitesmoke"
+              android:layout_marginTop="15dp"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- appring switch-->
+       		 <CheckBox
+       		     android:layout_marginRight="15dp"
+	            android:id="@+id/cbuser_appringswitch"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_centerVertical="true"
+	            android:paddingRight="20dp"
+	            android:button="@drawable/custom_switch_button" />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	     <!-- 提醒时长 -->
+	      <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50sp"
+		    android:id="@+id/rluser_notice"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- Appring text -->
+	        <TextView 
+            	android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusernotice"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="@string/user_timering"
+              android:textColor="@color/whitesmoke"
+              android:layout_marginTop="15dp"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- appring switch-->
+       		 <TextView 
+   		      android:layout_marginRight="15dp"
+	          android:id="@+id/tvtime"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:drawableRight="@drawable/tri_right"
+              android:layout_marginTop="15dp"
+              android:text="3S"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:paddingRight="20dp"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentTop="true"
+            />
+	    </RelativeLayout>
+	       <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	    
+	      <!-- 安全区域 -->
+	      <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50sp"
+		    android:id="@+id/rluser_safezone"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- safezone text -->
+	        <TextView 
+	          android:layout_marginLeft="20dp"
+	          android:id="@+id/tvusersafezone"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_airsafe"
+              android:drawableLeft="@drawable/wifiicon"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- zone  switch-->
+       		<CheckBox
+       		    android:layout_marginRight="15dp"
+	            android:id="@+id/cbuser_safezoneswitch"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_centerVertical="true"
+	            android:paddingRight="20dp"
+	            android:button="@drawable/custom_switch_button" />
+	    </RelativeLayout>
+	    
+	</LinearLayout>
+
+	<TextView 
+           android:layout_width="fill_parent"
+           android:layout_height="20dp"
+           android:background="@color/whitesmoke"
+           android:visibility="invisible"
+          />
+		<!-- 下部分编辑界面-->
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="205dp"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:background="@drawable/itembgd_big"
+	    >
+	    <!-- 语言选择 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rluser_langauage"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- language text-->
+	        <TextView 
+	          android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserlangauage"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_language"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+            />
+	         <!-- 编辑 -->
+	       <ImageButton
+	           android:layout_marginRight="15dp"
+		    android:id="@+id/imguserlanguage"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:paddingRight="20dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- 背景选择 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rluser_selectbackground"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- selectbackground text-->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserselectbackground"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_background"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!-- select switch-->
+	       <ImageButton
+		    android:id="@+id/imguserselectbackground"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:paddingRight="20dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+       </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- 意见反馈 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rluser_backtip"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- tip text-->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserbacktip"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_tip"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!--tip switch -->
+	       <ImageButton
+		    android:id="@+id/imguserbacktip"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:paddingRight="20dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+       </RelativeLayout>
+	       <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	    
+	       <!-- 背景选择 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="50dp"
+		    android:id="@+id/rluser_version"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- language text-->
+	        <TextView 
+	            android:layout_marginLeft="20dp"
+	          android:id="@+id/tvuserversion"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:text="@string/user_version"
+              android:textColor="@color/whitesmoke"
+              android:textSize="20sp"
+              android:layout_alignParentLeft="true"
+            />
+	         <!-- 编辑 -->
+	       <ImageButton
+		    android:id="@+id/imgusersversion"
+		    android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:paddingRight="20dp"
+	        android:src="@drawable/tri_right"
+	        android:background="@android:color/transparent"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+        />
+	    </RelativeLayout>
+	</LinearLayout>
+	<TextView 
+           android:layout_width="fill_parent"
+           android:layout_height="10dp"
+           android:background="@color/whitesmoke"
+           android:visibility="invisible"
+          />
+	<Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="20dp"
+           android:layout_marginRight="20dp"
+           android:background="@drawable/itembgd_red"
+           android:id="@+id/mbtnuserexit"
+           android:text="@string/user_exitcount"
+           android:textSize="@dimen/text_title_size"
+           android:textColor="@color/whitesmoke"
+          />
+   		
+   		
+</LinearLayout>

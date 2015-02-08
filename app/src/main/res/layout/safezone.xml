@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addModelcontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/currentmainmidbackgrund"
+    >
+	<!-- 标题栏 -->
+	<RelativeLayout 
+		android:id="@+id/rluser_topback"
+		android:layout_width="fill_parent"
+	    android:layout_height="60dp" >
+	    <include layout="@layout/csst_title_layout_trigle"/>
+	</RelativeLayout>
+	<!-- 分隔符 -->
+	<TextView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:visibility="invisible"
+    />
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="230sp"
+	    android:orientation="vertical"
+	    android:layout_margin="20dp"
+	    android:background="@drawable/itembgd_big"
+	    >
+	    <!-- 家 -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="75dp"
+		    android:id="@+id/rlsafezone_home"
+		    android:gravity="center_vertical"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- 图片家 -->
+	        <TextView 
+	           android:paddingLeft="15dp"
+	          android:id="@+id/tvsafezonehomeicon"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableLeft="@drawable/home"
+              android:text="@string/safezone_home"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/itemtextsize"
+              android:layout_alignParentLeft="true"
+            />
+	       <!--家 点击wifi-->
+	        <TextView 
+	         android:paddingRight="15dp"
+	          android:id="@+id/tvsafezonehomeadd"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableRight="@drawable/tri_right"
+              android:text="@string/safezone_addwifi"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/normal_textsize"
+              android:layout_alignParentRight="true"
+            />	 
+           </RelativeLayout>
+    	<!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	      <!-- OFFICE -->
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="75dp"
+		    android:id="@+id/rlsafezone_office"
+		    android:background="@android:color/transparent"
+	        >
+	        <!-- office -->
+	        <TextView 
+	           android:paddingLeft="15dp"
+	          android:id="@+id/tvsafezone_officicon"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableLeft="@drawable/office"
+              android:text="@string/safezone_office"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/itemtextsize"
+              android:layout_alignParentLeft="true"
+            />
+	       <!-- office add wifi -->
+	        <TextView 
+	         android:paddingRight="15dp"
+	          android:id="@+id/tvsafezone_officeadd"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableRight="@drawable/tri_right"
+              android:text="@string/safezone_addwifi"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/normal_textsize"
+              android:layout_alignParentRight="true"
+            />	 
+	    </RelativeLayout>
+	    <!-- 分隔线 -->
+    	<TextView 
+             android:layout_width="fill_parent"
+             android:layout_height="1dp"
+             android:background="@color/whitesmoke"
+           />
+	     <!--other -->
+	      <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="75dp"
+		    android:id="@+id/rlsafezone_other"
+		    android:background="@android:color/transparent"
+	        >
+	          <!-- other icon -->
+	        <TextView 
+	           android:paddingLeft="15dp"
+	          android:id="@+id/tvsafezone_other"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableLeft="@drawable/other"
+              android:text="@string/safezone_other"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/itemtextsize"
+              android:layout_alignParentLeft="true"
+            />
+	       <!-- other text -->
+	        <TextView 
+	         android:paddingRight="15dp"
+	          android:id="@+id/tvsafezone_officeadd"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:gravity="center"
+              android:drawableRight="@drawable/tri_right"
+              android:text="@string/safezone_addwifi"
+              android:textColor="@color/whitesmoke"
+              android:textSize="@dimen/normal_textsize"
+              android:layout_alignParentRight="true"
+            />	 
+	    </RelativeLayout>
+	</LinearLayout>
+
+	<TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@color/whitesmoke"
+        android:visibility="invisible"
+       />
+	<TextView 
+	    android:padding="25dp"
+        android:layout_width="fill_parent"
+        android:id="@+id/tvsafezone_tip"
+        android:layout_height="wrap_content"
+        android:textColor="@color/whitesmoke"
+        android:textSize="@dimen/normal_textsize"
+        android:text="@string/safezone_message"
+        android:maxLines="5"
+       />
+	
+   		
+   		
+</LinearLayout>

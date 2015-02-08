@@ -1,40 +1,137 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import com.antilost.app.common.*;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.antilost.app.R;
 
-public class UserProfileActivity extends Activity {
+import org.w3c.dom.UserDataHandler;
+
+public class UserProfileActivity extends Activity  implements TrackRInitialize {
+
+    private ImageButton imgBack;
+    private TextView tvtitle,tvuser_usericon;
+    private RelativeLayout rluser_editor,rluser_noticetimer,rluser_language,
+            rluser_tipback,rluser_background,rluser_version,rluser_topback,rluser_safezone;
+    private Button btmexit;
+    private CheckBox cbAppring,cbSafeZone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
-    }
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.userdata);
+        initWidget();
+        initWidgetState();
+        initWidgetListener();
+        initDataSource();
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_profile, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void initDataSource() {
+        // TODO Auto-generated method stub
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void initWidget() {
+        // TODO Auto-generated method stub
+        imgBack = (ImageButton)findViewById(R.id.mBtnCancel);
+        tvtitle = (TextView)findViewById(R.id.mTVTitle);
+        rluser_topback = (RelativeLayout)findViewById(R.id.rluser_topback);
+        tvuser_usericon= (TextView)findViewById(R.id.tvusericon);
+        rluser_editor = (RelativeLayout)findViewById(R.id.rluser_editor);
+        rluser_noticetimer = (RelativeLayout)findViewById(R.id.rluser_notice);
+        rluser_language = (RelativeLayout)findViewById(R.id.rluser_langauage);
+        rluser_tipback = (RelativeLayout)findViewById(R.id.rluser_backtip);
+        rluser_version = (RelativeLayout)findViewById(R.id.rluser_version);
+        rluser_background= (RelativeLayout)findViewById(R.id.rluser_selectbackground);
+        rluser_safezone= (RelativeLayout)findViewById(R.id.rluser_safezone);
+        btmexit = (Button)findViewById(R.id.mbtnuserexit);
+        cbAppring = (CheckBox)findViewById(R.id.cbuser_appringswitch);
+        cbSafeZone = (CheckBox)findViewById(R.id.cbuser_safezoneswitch);
+
+
+    }
+
+    @Override
+    public void initWidgetState() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void initWidgetListener() {
+        // TODO Auto-generated method stub
+        rluser_editor.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(UserProfileActivity.this, TrackrUsereditor.class);
+                startActivity(intent);
+//				UserProfileActivity.this.finish();
+            }
+        });
+        rluser_safezone.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(UserProfileActivity.this, SafeZonewifi.class);
+                startActivity(intent);
+//				UserProfileActivity.this.finish();
+            }
+        });
+        btmexit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+
+                Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                UserProfileActivity.this.finish();
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
+                startActivity(intent);
+                UserProfileActivity.this.finish();
+
+            }
+        });
+    }
+
+    @Override
+    public void addWidgetListener() {
+        // TODO Auto-generated method stub
+
+    }
+
 }
+
