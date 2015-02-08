@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_title">我</string>
+    <string name="user_data">个人资料</string>
+    <string name="user_app_ring">APP报警铃声</string>
+    <string name="user_timering">提醒时长</string>
+    <string name="user_airsafe">安全网络区域</string>
+    <string name="user_language">语言选择</string>
+    <string name="user_background">背景选择</string>
+    <string name="user_tip">意见反馈</string>
+    <string name="user_version">新版本检测</string>
+    <string name="user_exitcount">退出登录</string>
+    <string name="user_editor">编辑</string>
+    <string name="user_usericon">头像</string>
+    <string name="user_smallname">昵称</string>
+    <string name="user_borddate">出生日期</string>
+    <string name="user_xingzuo">星座</string>
+    <string name="user_xuexing">血型</string>
+    <string name="user_liks">爱好</string>
+    <string name="user_editorself">个性签名</string>
+    <string name="user_homepage">主页</string>
+    <string name="done">完成</string>
+    <string name="back">返回</string>
+
+    <string name="safezone_title">安全区域</string>
+    <string name="safezone_message">添加信任WIFI，当手机连接信任WIFI时系统判断为安全区域，TrackR APP将减少提醒，以免你受到干扰。</string>
+    <string name="safezone_home">家</string>
+    <string name="safezone_office">办公室</string>
+    <string name="safezone_other">其他</string>
+    <string name="safezone_modifywifi">已设置，点击修改</string>
+    <string name="safezone_addwifi">点击添加WIFI</string>
+    <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
+    <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
+    <string name="wifisameple">WIFI</string>
+</resources>

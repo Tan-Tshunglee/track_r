@@ -1,11 +1,9 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import com.antilost.app.common.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
-
-import org.w3c.dom.UserDataHandler;
+import com.antilost.app.common.TrackRInitialize;
+import com.antilost.app.prefs.PrefsManager;
 
 public class UserProfileActivity extends Activity  implements TrackRInitialize {
 
@@ -27,6 +25,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
             rluser_tipback,rluser_background,rluser_version,rluser_topback,rluser_safezone;
     private Button btmexit;
     private CheckBox cbAppring,cbSafeZone;
+    private PrefsManager mPrefsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +33,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.userdata);
+        mPrefsManager = PrefsManager.singleInstance(this);
         initWidget();
         initWidgetState();
         initWidgetListener();
@@ -77,6 +77,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
     @Override
     public void initWidgetState() {
         // TODO Auto-generated method stub
+        cbSafeZone.setChecked(mPrefsManager.getSafeZoneEnable());
 
     }
 
@@ -98,7 +99,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(UserProfileActivity.this, SafeZonewifi.class);
+                Intent intent = new Intent(UserProfileActivity.this, SafeZonewifiActivity.class);
                 startActivity(intent);
 //				UserProfileActivity.this.finish();
             }

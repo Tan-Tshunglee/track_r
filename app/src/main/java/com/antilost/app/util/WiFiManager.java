@@ -1,7 +1,5 @@
 package com.antilost.app.util;
 
-import java.util.List;
-
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -9,7 +7,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
-public class myWiFi { 
+import java.util.List;
+
+public class WiFiManager {
     // 定义WifiManager对象  
     private WifiManager mWifiManager; 
     // 定义WifiInfo对象  
@@ -18,7 +18,7 @@ public class myWiFi {
     private List<ScanResult> mWifiList; 
     // 网络连接列表  
     private List<WifiConfiguration> mWifiConfiguration; 
-    // 定义�?��WifiLock  
+    // 定义 WifiLock
     WifiLock mWifiLock; 
     //NO PWS
     public static int  WIFICIPHER_NOPASS =1;
@@ -29,8 +29,7 @@ public class myWiFi {
     		
     		
  
-    // 构�?�? 
-    public myWiFi(Context context) { 
+    public WiFiManager(Context context) {
         // 取得WifiManager对象  
         mWifiManager = (WifiManager) context 
                 .getSystemService(Context.WIFI_SERVICE); 

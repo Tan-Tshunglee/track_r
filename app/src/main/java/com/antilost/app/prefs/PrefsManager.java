@@ -28,7 +28,12 @@ public class PrefsManager {
     public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
     public static final String PREFS_BIDIRECTIONAL_ALERT_PREFIX = "bidirectional_alert_prefix";
 
-    private Context mCtx;
+    public static final String PREFS_HOME_WIFI_SSID_KEY = "home_wifi_ssid";
+    public static final String PREFS_OFFICE_WIFI_SSID_KEY = "office_wifi_ssid";
+    public static final String PREFS_OTHER_WIFI_SSID_KEY = "other_wifi_ssid";
+
+    public static final String PREFS_SAFE_ZONE_ENABLED = "safe_zone_enabled";
+    private final Context mCtx;
     private SharedPreferences mPrefs;
 
     public static final PrefsManager singleInstance(Context ctx) {
@@ -40,8 +45,9 @@ public class PrefsManager {
 
     private static PrefsManager instance;
     private PrefsManager(Context ctx) {
+        ctx = ctx.getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mCtx = ctx;
+        mCtx = ctx.getApplicationContext();
     }
 
     public int getUid() {
@@ -60,10 +66,7 @@ public class PrefsManager {
 
     public boolean addTrackIds(String trackId) {
         Set<String> ids = getTrackIds();
-        if(ids.add(trackId)) {
-            return mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
-        }
-        return false;
+        return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
     }
 
     public boolean removeTrackId(String trackId) {
@@ -168,5 +171,37 @@ public class PrefsManager {
     public boolean getBidirectionalAlert(String address) {
         String key = PREFS_BIDIRECTIONAL_ALERT_PREFIX + address;
         return mPrefs.getBoolean(key, false);
+    }
+
+    public void setSafeZoneEnable(boolean enabled) {
+        mPrefs.edit().putBoolean(PREFS_SAFE_ZONE_ENABLED, enabled).commit();
+    }
+
+    public boolean getSafeZoneEnable() {
+        return mPrefs.getBoolean(PREFS_SAFE_ZONE_ENABLED, false);
+    }
+
+    public void setHomeWifiSsid(String ssid) {
+        mPrefs.edit().putString(PREFS_HOME_WIFI_SSID_KEY, ssid).commit();
+    }
+
+    public String getHomeWifiSsid() {
+        return mPrefs.getString(PREFS_HOME_WIFI_SSID_KEY, "");
+    }
+
+    public void setOfficeSsid(String ssid) {
+        mPrefs.edit().putString(PREFS_OFFICE_WIFI_SSID_KEY, ssid).commit();
+    }
+
+    public String getOfficeSsid() {
+        return mPrefs.getString(PREFS_OFFICE_WIFI_SSID_KEY, "");
+    }
+
+    public void setOtherSsid(String ssid) {
+        mPrefs.edit().putString(PREFS_OTHER_WIFI_SSID_KEY, ssid).commit();
+    }
+
+    public String getOtherSsid() {
+        return mPrefs.getString(PREFS_OTHER_WIFI_SSID_KEY, "");
     }
 }

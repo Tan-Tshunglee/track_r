@@ -492,7 +492,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 public void run() {
                     scanLeDevice(false);
                 }
-            }, 5 * 1000);
+            }, 10 * 1000);
         } else {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mHandler.removeMessages(MSG_RETRY_SCAN_LE);
