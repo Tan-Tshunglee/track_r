@@ -75,7 +75,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
     public void initWidgetState() {
         // TODO Auto-generated method stub
         cbSafeZone.setChecked(mPrefsManager.getSafeZoneEnable());
-        cbSafeZone.setChecked(mPrefsManager.getAlertRingEnabled());
+        cbAppring.setChecked(mPrefsManager.getAlertRingEnabled());
 
     }
 

@@ -208,7 +208,7 @@ public class PrefsManager {
     }
 
     public void setAlertRingEnabled(boolean b) {
-        mPrefs.edit().putBoolean(PREFS_ALERT_RING_ENABLED, b);
+        mPrefs.edit().putBoolean(PREFS_ALERT_RING_ENABLED, b).commit();
     }
 
     public boolean getAlertRingEnabled() {
