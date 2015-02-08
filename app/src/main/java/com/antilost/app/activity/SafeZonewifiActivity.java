@@ -153,6 +153,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
     @Override
     protected void onResume() {
         super.onResume();
-
+        initWidgetState();
     }
 }

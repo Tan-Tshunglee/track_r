@@ -271,7 +271,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
-            Log.v(LOG_TAG, "scanLeDevice " + enable);
+            Log.w(LOG_TAG, "scanLeDevice " + enable);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
             mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, 5000);

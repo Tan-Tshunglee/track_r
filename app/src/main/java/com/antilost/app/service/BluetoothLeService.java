@@ -330,8 +330,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                         if(state != null && state != BluetoothProfile.STATE_CONNECTED) {
                             Log.e(LOG_TAG, "clean up unconnected " + address);
                             BluetoothGatt gatt = mBluetoothGatts.get(address);
-                            gatt.disconnect();
-                            gatt.close();
+                            if(gatt != null) {
+                                gatt.disconnect();
+                                gatt.close();
+                            }
+
+
                             mBluetoothGatts.remove(address);
                         }
                     }
