@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.prefs.PrefsManager;
 
-public class UserProfileActivity extends Activity  implements TrackRInitialize {
+public class UserProfileActivity extends Activity  implements TrackRInitialize, CompoundButton.OnCheckedChangeListener {
 
     private ImageButton imgBack;
     private TextView tvtitle,tvuser_usericon;
@@ -126,6 +127,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
 
             }
         });
+        cbSafeZone.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -134,5 +136,14 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize {
 
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        int id = compoundButton.getId();
+        switch (id) {
+            case R.id.cbuser_safezoneswitch:
+                mPrefsManager.setSafeZoneEnable(b);
+                break;
+        }
+    }
 }
 
