@@ -15,7 +15,7 @@
         android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
         android:text="@string/new_user_registration"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/user_data_text" />
 
     <TextView
         android:id="@+id/appNameText"
@@ -24,7 +24,7 @@
         android:layout_below="@id/userRegistrationBtn"
         android:layout_centerHorizontal="true"
         android:text="@string/app_name"
-        android:textColor="@android:color/white"
+        android:textColor="@color/register_text"
         android:textSize="@dimen/app_logo_text_size" />
 
     <LinearLayout
@@ -95,7 +95,7 @@
         android:layout_below="@id/passwordInputLayout"
         android:text="@string/remember_password"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
+        android:textColor="@color/user_data_text"
         android:drawableLeft="@drawable/check_icon"
         android:textSize="20sp"
         />
@@ -115,7 +115,7 @@
         android:layout_below="@id/signInBtn"
         android:text="@string/forget_password"
         android:layout_marginTop="20dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/user_data_text"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/user_data_text"
             android:text="@string/or_use"/>
 
         <ImageView

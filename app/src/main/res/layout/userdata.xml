@@ -3,7 +3,7 @@
     android:id="@+id/addModelcontent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/currentmainmidbackgrund"
+    android:background="@drawable/user_bgd"
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <!-- 标题栏 -->
@@ -45,7 +45,7 @@
                 android:drawableLeft="@drawable/user_usericondefault"
                 android:gravity="center"
                 android:text="@string/user_usericon"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- 编辑 -->
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_marginTop="20dp"
                 android:paddingRight="20dp"
                 android:text="@string/user_editor"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
         </RelativeLayout>
         <!-- 分隔线 -->
@@ -68,7 +68,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!-- Appring -->
         <RelativeLayout
             android:id="@+id/rluser_appring"
@@ -86,7 +86,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/user_app_ring"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- appring switch-->
             <CheckBox
@@ -103,7 +103,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!-- 提醒时长 -->
         <RelativeLayout
             android:id="@+id/rluser_notice"
@@ -121,7 +121,7 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text="@string/user_timering"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- appring switch-->
             <TextView
@@ -136,14 +136,14 @@
                 android:gravity="center"
                 android:paddingRight="20dp"
                 android:text="3S"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
         </RelativeLayout>
         <!-- 分隔线 -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
 
         <!-- 安全区域 -->
         <RelativeLayout
@@ -162,7 +162,7 @@
                 android:drawableLeft="@drawable/wifiicon"
                 android:gravity="center"
                 android:text="@string/user_airsafe"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- zone  switch-->
             <CheckBox
@@ -175,13 +175,17 @@
                 android:button="@drawable/custom_switch_button"
                 android:paddingRight="20dp" />
         </RelativeLayout>
-
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text"
+            />
     </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="20dp"
-        android:background="@color/whitesmoke"
+        android:background="@color/user_data_text"
         android:visibility="invisible" />
     <!-- 下部分编辑界面-->
     <LinearLayout
@@ -191,6 +195,11 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/itembgd_big"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text"
+            />
         <!-- 语言选择 -->
         <RelativeLayout
             android:id="@+id/rluser_langauage"
@@ -208,7 +217,7 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:text="@string/user_language"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- 编辑 -->
             <ImageButton
@@ -217,7 +226,6 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
                 android:background="@android:color/transparent"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -228,7 +236,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!-- 背景选择 -->
         <RelativeLayout
             android:id="@+id/rluser_selectbackground"
@@ -245,7 +253,7 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:text="@string/user_background"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- select switch-->
             <ImageButton
@@ -264,7 +272,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!-- 意见反馈 -->
         <RelativeLayout
             android:id="@+id/rluser_backtip"
@@ -281,7 +289,7 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:text="@string/user_tip"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!--tip switch -->
             <ImageButton
@@ -300,7 +308,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
 
         <!-- 背景选择 -->
         <RelativeLayout
@@ -318,7 +326,7 @@
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:text="@string/user_version"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- 编辑 -->
             <ImageButton
@@ -338,7 +346,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="10dp"
-        android:background="@color/whitesmoke"
+        android:background="@color/user_data_text"
         android:visibility="invisible" />
 
     <Button
@@ -349,7 +357,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/itembgd_red"
         android:text="@string/user_exitcount"
-        android:textColor="@color/whitesmoke"
+        android:textColor="@color/user_data_text"
         android:textSize="@dimen/text_title_size" />
 
 

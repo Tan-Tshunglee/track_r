@@ -16,7 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:src="@drawable/trig"
+        android:src="@drawable/back_arrow"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:textColor="@color/whitesmoke"

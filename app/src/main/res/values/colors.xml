@@ -204,6 +204,7 @@
 	<color name="black">#000000</color><!--黑色 -->
 
     <color name="register_text">#b2bcdd</color><!--黑色 -->
+    <color name="user_data_text">#787d81</color><!--灰色-->
 
 
 </resources>

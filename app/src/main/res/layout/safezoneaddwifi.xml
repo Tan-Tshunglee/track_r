@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@color/currentmainmidbackgrund"
+    android:background="@drawable/user_bgd"
     >
 	<!-- 标题栏 -->
 	<RelativeLayout 
@@ -27,7 +27,7 @@
         android:layout_width="fill_parent"
         android:id="@+id/tvsafezone_tip"
         android:layout_height="wrap_content"
-        android:textColor="@color/whitesmoke"
+        android:textColor="@color/user_data_text"
         android:textSize="@dimen/normal_textsize"
         android:text="@string/safezone_wifitip"
         android:maxLines="5"
