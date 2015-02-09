@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.antilost.app.R;
 import com.antilost.app.activity.MainTrackRListActivity;
-import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.activity.TrackREditActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
@@ -133,8 +132,8 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 //        } else {
 //            Toast.makeText(mActivity, "Device Not Connected", Toast.LENGTH_SHORT).show();
 //        };
-        Intent i = new Intent(mActivity, TrackRActivity.class);
-        i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
+        Intent i = new Intent(mActivity, TrackREditActivity.class);
+        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
         mActivity.startActivity(i);
 
     }

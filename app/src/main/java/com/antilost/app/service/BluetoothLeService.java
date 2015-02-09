@@ -16,6 +16,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
@@ -51,15 +53,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
-    private BluetoothManager mBluetoothManager;
-    private BluetoothAdapter mBluetoothAdapter;
-
-    private HashMap<String, BluetoothGatt> mBluetoothGatts = new HashMap<String, BluetoothGatt>();
-    private HashMap<String, Integer> mGattStates = new HashMap<String, Integer>();
-
-    private HashMap<String, MyBluetootGattCallback> mGattsCallbacks = new HashMap<String, MyBluetootGattCallback>();
-    private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
-
     public static final int ALARM_REPEAT_PERIOD = BuildConfig.DEBUG ? SCAN_PERIOD_IN_MS : 1000 * 5 * 60;
 
     public final static String ACTION_GATT_CONNECTED =
@@ -81,6 +74,20 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             "com.antilost.bluetoot.le.ACTION_RSSI_READ";
     public final static String ACTION_DEVICE_CLOSED =
             "com.antilost.bluetoot.le.ACTION_DEVICE_CLOSED";
+
+
+
+
+    private BluetoothManager mBluetoothManager;
+    private BluetoothAdapter mBluetoothAdapter;
+
+    private HashMap<String, BluetoothGatt> mBluetoothGatts = new HashMap<String, BluetoothGatt>();
+    private HashMap<String, Integer> mGattStates = new HashMap<String, Integer>();
+
+    private HashMap<String, MyBluetootGattCallback> mGattsCallbacks = new HashMap<String, MyBluetootGattCallback>();
+    private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
+
+    private LocationManager mLocationManager;
 
 
     @Override
@@ -441,8 +448,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_REPEAT_PERIOD, ALARM_REPEAT_PERIOD, pendingIntent);
         mPrefsManager = PrefsManager.singleInstance(this);
-
         mPrefsManager.addPrefsListener(this);
+
+        mLocationManager =        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
         Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
 
 
@@ -453,6 +462,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         startForeground(ONGOING_NOTIFICATION, notification);
 
         initialize();
+
+        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, getString(R.string.gps_disable_hint), Toast.LENGTH_SHORT).show();
+        }
+
+//        mLocationManager.
 ;
 
     }

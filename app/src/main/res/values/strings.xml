@@ -111,6 +111,7 @@
     <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
     <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
     <string name="wifisameple">WIFI</string>
+    <string name="gps_disable_hint">GPS is disabled , TrackR can\'t save the location info</string>
 
 
 </resources>

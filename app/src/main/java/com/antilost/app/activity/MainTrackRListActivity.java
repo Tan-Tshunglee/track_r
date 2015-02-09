@@ -2,7 +2,6 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -179,12 +178,15 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String address = (String) mListViewAdapter.getItem(position);
 
-        int state = mBluetoothLeService.getGattConnectState(address);
-        if(state == BluetoothProfile.STATE_DISCONNECTED) {
-            showDisconnectedTrack(address);
-        } else if(state == BluetoothProfile.STATE_CONNECTED){
-            editBluetoothDevice(address);
-        }
+//        int state = mBluetoothLeService.getGattConnectState(address);
+//        if(state == BluetoothProfile.STATE_DISCONNECTED) {
+//            showDisconnectedTrack(address);
+//        } else if(state == BluetoothProfile.STATE_CONNECTED){
+//            editBluetoothDevice(address);
+//        }
+        Intent i = new Intent(this, TrackRActivity.class);
+        i.putExtra(TrackRActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
+        startActivity(i);
 
 
     }
