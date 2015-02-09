@@ -45,7 +45,7 @@
                 android:drawableLeft="@drawable/user_usericondefault"
                 android:gravity="center"
                 android:text="@string/user_usericon"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
             <!-- 编辑 -->
             <TextView
@@ -136,7 +136,7 @@
                 android:gravity="center"
                 android:paddingRight="20dp"
                 android:text="3S"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="20sp" />
         </RelativeLayout>
         <!-- 分隔线 -->
@@ -226,7 +226,6 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
                 android:background="@android:color/transparent"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
