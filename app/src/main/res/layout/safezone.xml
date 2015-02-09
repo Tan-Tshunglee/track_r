@@ -3,7 +3,7 @@
     android:id="@+id/addModelcontent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/currentmainmidbackgrund"
+    android:background="@drawable/user_bgd"
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <!-- 标题栏 -->
@@ -43,7 +43,7 @@
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_home"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/itemtextsize" />
             <!--家 点击wifi-->
             <TextView
@@ -55,14 +55,14 @@
                 android:gravity="center"
                 android:paddingRight="15dp"
                 android:text="@string/safezone_addwifi"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
         <!-- 分隔线 -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!-- OFFICE -->
         <RelativeLayout
             android:id="@+id/rlsafezone_office"
@@ -79,7 +79,7 @@
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_office"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/itemtextsize" />
             <!-- office add wifi -->
             <TextView
@@ -91,14 +91,14 @@
                 android:gravity="center"
                 android:paddingRight="15dp"
                 android:text="@string/safezone_addwifi"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
         <!-- 分隔线 -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/whitesmoke" />
+            android:background="@color/user_data_text" />
         <!--other -->
         <RelativeLayout
             android:id="@+id/rlsafezone_other"
@@ -115,7 +115,7 @@
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_other"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/itemtextsize" />
             <!-- other text -->
             <TextView
@@ -127,7 +127,7 @@
                 android:gravity="center"
                 android:paddingRight="15dp"
                 android:text="@string/safezone_addwifi"
-                android:textColor="@color/whitesmoke"
+                android:textColor="@color/user_data_text"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
     </LinearLayout>
@@ -135,7 +135,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="10dp"
-        android:background="@color/whitesmoke"
+        android:background="@color/user_data_text"
         android:visibility="invisible" />
 
     <TextView
@@ -145,7 +145,7 @@
         android:maxLines="5"
         android:padding="25dp"
         android:text="@string/safezone_message"
-        android:textColor="@color/whitesmoke"
+        android:textColor="@color/user_data_text"
         android:textSize="@dimen/normal_textsize" />
 
 

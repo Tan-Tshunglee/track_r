@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
-    android:background="@color/currentmainmidbackgrund"
+    android:background="@android:color/transparent"
     >
 	<!-- 一组-->
 	<LinearLayout 
@@ -20,6 +20,7 @@
 	    android:gravity="center"
 	    android:background="@drawable/itembgdwhite"
 	    >
+
  <!-- wifi 名称 -->
 	<TextView 
 	    android:layout_height="fill_parent"
@@ -28,7 +29,7 @@
 	    android:text="@string/wifisameple"
 	    android:gravity="center"
 	    android:singleLine="true"
-	    android:textColor="@color/white"
+	    android:textColor="@color/user_data_text"
 	    android:textSize="@dimen/normal_textsize_test"
 	    android:layout_weight="1"
 	    />
@@ -50,6 +51,12 @@
             android:src="@drawable/unselect" />
     </LinearLayout>
 	</LinearLayout>
-	
-	
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_weight="1" />
+
+
 </LinearLayout>
