@@ -158,6 +158,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mBluetoothDeviceAddress = intent.getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
+        if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
+            finish();
+            return;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(mServiceConnection);

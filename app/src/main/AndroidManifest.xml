@@ -85,6 +85,7 @@
         <activity
             android:name=".activity.TrackRActivity"
             android:label="@string/title_activity_track_r"
+            android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
 
