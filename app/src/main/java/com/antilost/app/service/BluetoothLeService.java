@@ -16,11 +16,14 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -44,7 +47,7 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener, LocationListener{
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
     private static final int MSG_RETRY_SCAN_LE = 1;
@@ -88,6 +91,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
 
     private LocationManager mLocationManager;
+    private Location mLastLocation;
 
 
     @Override
@@ -121,6 +125,30 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         connect(address);
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        if(location != null) {
+            mLastLocation =  location;
+        }
+
+        Log.i(LOG_TAG, "get current location is " + mLastLocation);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -142,8 +170,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mBluetoothGatts.put(address, gatt);
             String intentAction;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                intentAction = ACTION_GATT_CONNECTED;
-                broadcastUpdate(intentAction);
+
                 Log.i(LOG_TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
                 Log.i(LOG_TAG, "Attempting to start service discovery:" + gatt.discoverServices());
@@ -195,6 +222,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     Log.d(LOG_TAG, "enable bidirectional alert...");
                     twowayMonitor(address, true);
                 }
+
+                String intentAction = ACTION_GATT_CONNECTED;
+                broadcastUpdate(intentAction);
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered received: " + status);
             }
@@ -465,10 +495,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, getString(R.string.gps_disable_hint), Toast.LENGTH_SHORT).show();
+            return;
         }
 
 //        mLocationManager.
-;
+
+;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,20,  20, this);
 
     }
 
@@ -559,6 +592,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         Log.d(LOG_TAG, "connect().. connecting to " + address);
         if (mBluetoothAdapter == null || address == null) {
             Log.w(LOG_TAG, "BluetoothAdapter not initialized or unspecified address.");
+            return false;
+        }
+
+        if(mPrefsManager.isClosedTrack(address)) {
+            Log.d(LOG_TAG, "don't connected to closed trackr");
             return false;
         }
 
@@ -670,7 +708,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.w(LOG_TAG, "can not close unconnected track r");
             return;
         }
-        mPrefsManager.saveMissedTrack(address, true);
+        mPrefsManager.saveClosedTrack(address, true);
         mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
     }
 

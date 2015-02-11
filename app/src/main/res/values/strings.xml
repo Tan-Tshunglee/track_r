@@ -79,39 +79,42 @@
 
 
 
-    <string name="user_title">我</string>
-    <string name="user_data">个人资料</string>
-    <string name="user_app_ring">APP报警铃声</string>
-    <string name="user_timering">提醒时长</string>
-    <string name="user_airsafe">安全网络区域</string>
-    <string name="user_language">语言选择</string>
-    <string name="user_background">背景选择</string>
-    <string name="user_tip">意见反馈</string>
-    <string name="user_version">新版本检测</string>
-    <string name="user_exitcount">退出登录</string>
-    <string name="user_editor">编辑</string>
-    <string name="user_usericon">头像</string>
-    <string name="user_smallname">昵称</string>
-    <string name="user_borddate">出生日期</string>
-    <string name="user_xingzuo">星座</string>
-    <string name="user_xuexing">血型</string>
-    <string name="user_liks">爱好</string>
-    <string name="user_editorself">个性签名</string>
-    <string name="user_homepage">主页</string>
-    <string name="done">完成</string>
-    <string name="back">返回</string>
+    <string name="user_title">Myself</string>
+    <string name="user_data">About me</string>
+    <string name="user_app_ring">APP Alram Bell</string>
+    <string name="user_timering">Alarm Time</string>
+    <string name="user_airsafe">Safe wifi area</string>
+    <string name="user_language">Language</string>
+    <string name="user_background">Background</string>
+    <string name="user_tip">Feedback</string>
+    <string name="user_version">New Version</string>
+    <string name="user_exitcount">Log out</string>
+    <string name="user_editor">Edit</string>
+    <string name="user_usericon">Portrait</string>
+    <string name="user_smallname">Nickname</string>
+    <string name="user_borddate">Birthday</string>
+    <string name="user_xingzuo">Sign</string>
+    <string name="user_xuexing">Blood type</string>
+    <string name="user_liks">Hobby</string>
+    <string name="user_editorself">Signature</string>
+    <string name="user_homepage">Homepage</string>
+    <string name="done">Done</string>
+    <string name="back">Back</string>
 
-    <string name="safezone_title">安全区域</string>
-    <string name="safezone_message">添加信任WIFI，当手机连接信任WIFI时系统判断为安全区域，TrackR APP将减少提醒，以免你受到干扰。</string>
-    <string name="safezone_home">家</string>
-    <string name="safezone_office">办公室</string>
-    <string name="safezone_other">其他</string>
-    <string name="safezone_modifywifi">已设置，点击修改</string>
-    <string name="safezone_addwifi">点击添加WIFI</string>
-    <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
-    <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
+    <string name="safezone_title">Safe zone</string>
+    <string name="safezone_message">Add safe wifi, when phone connected to safa wifi, Track App will only alarm far distance.</string>
+    <string name="safezone_home">Home</string>
+    <string name="safezone_office">Office</string>
+    <string name="safezone_other">Other</string>
+    <string name="safezone_modifywifi">Set, click to change</string>
+    <string name="safezone_addwifi">Click to add wifi</string>
+    <string name="safezone_wifiselcettitle">Choose safe wifi</string>
+    <string name="safezone_wifitip">When connected to safe wifi ,Track App will only alarm for disconnected.</string>
     <string name="wifisameple">WIFI</string>
     <string name="gps_disable_hint">GPS is disabled , TrackR can\'t save the location info</string>
+    <string name="connecting">Connecting</string>
+    <string name="disconnecting">Disconnecting</string>
+    <string name="closed">closed</string>
 
 
 </resources>

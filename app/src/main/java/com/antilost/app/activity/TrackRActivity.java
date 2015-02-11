@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
+import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
 public class TrackRActivity extends Activity implements View.OnClickListener {
@@ -79,6 +80,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
+    private PrefsManager mPrefsManager;
 
     private void updateBatteryIcon(int level) {
         Log.i(LOG_TAG, "updateBatteryIcon " + level);
@@ -133,6 +135,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             return;
         }
 
+        mPrefsManager = PrefsManager.singleInstance(this);
         setContentView(R.layout.activity_track_r);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.btnSettings).setOnClickListener(this);
@@ -188,16 +191,21 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
         } else {
-            if(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
-                mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
-                mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);
-                mConnection.setText(R.string.connected);
-            } else {
+            if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
-                mConnection.setText(R.string.disconnected);
+                mConnection.setText(R.string.closed);
+            } else {
+                if(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
+                    mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);
+                    mConnection.setText(R.string.connected);
+                } else {
+                    mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+                    mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
+                    mConnection.setText(R.string.disconnected);
+                }
             }
-
         }
     }
 

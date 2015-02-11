@@ -91,12 +91,32 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         icon.setTag(position);
         icon.setOnClickListener(this);
         BluetoothLeService service = mActivity.getBluetoothLeService();
-        if(service != null) {
-            int stateValue =  service.getGattConnectState(address);
-            state.setText(getString(stateValue));
+
+        if (mPrefs.isClosedTrack(address)) {
+            state.setText(mActivity.getString(R.string.closed));
+            icon.setBackgroundResource(R.drawable.closed_icon_bkg);
         } else {
-            Log.v(LOG_TAG, "service is null");
+            if(service != null) {
+                int stateValue =  service.getGattConnectState(address);
+                state.setText(getString(stateValue));
+                switch (stateValue) {
+                    case BluetoothProfile.STATE_DISCONNECTED:
+                        icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                        break;
+                    case BluetoothProfile.STATE_CONNECTED:
+                        icon.setBackgroundResource(R.drawable.connected_icon_bkg);
+                        break;
+                    case BluetoothProfile.STATE_CONNECTING:
+                    case BluetoothProfile.STATE_DISCONNECTING:
+                        icon.setBackgroundResource(R.drawable.connecting_icon_bkg);
+                        break;
+                }
+            } else {
+                Log.v(LOG_TAG, "service is null");
+                icon.setBackgroundResource(R.drawable.closed_icon_bkg);
+            }
         }
+
 
 
 
@@ -104,13 +124,14 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 
     private String getString(int stateValue) {
         if(stateValue == BluetoothProfile.STATE_CONNECTED) {
-            return "Connected";
+            return mActivity.getString(R.string.connected);
         } else if(stateValue == BluetoothProfile.STATE_DISCONNECTED) {
-            return "Disconnected";
+            return mActivity.getString(R.string.disconnected);
         } else if(stateValue == BluetoothProfile.STATE_CONNECTING) {
-            return "Connecting";
+            return mActivity.getString(R.string.connecting);
         } else {
-            return "Disconnecting";
+            return mActivity.getString(R.string.disconnecting)
+                    ;
         }
     }
 

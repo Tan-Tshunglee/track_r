@@ -26,6 +26,7 @@ public class PrefsManager {
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
     public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
+    public static final String PREFS_CLOSED_KEY_PREFIX = "closed_track_prefix";
     public static final String PREFS_BIDIRECTIONAL_ALERT_PREFIX = "bidirectional_alert_prefix";
 
     public static final String PREFS_HOME_WIFI_SSID_KEY = "home_wifi_ssid";
@@ -155,6 +156,16 @@ public class PrefsManager {
 
     public boolean isMissedTrack(String address) {
         String key = PREFS_MISSING_KEY_PREFIX + address;
+        return mPrefs.getBoolean(key, false);
+    }
+
+    public void saveClosedTrack(String address, boolean cloased) {
+        String key = PREFS_CLOSED_KEY_PREFIX + address;
+        mPrefs.edit().putBoolean(key, cloased).commit();
+    }
+
+    public boolean isClosedTrack(String address) {
+        String key = PREFS_CLOSED_KEY_PREFIX + address;
         return mPrefs.getBoolean(key, false);
     }
 
