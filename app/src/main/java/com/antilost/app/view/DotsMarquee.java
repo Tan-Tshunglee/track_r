@@ -16,9 +16,10 @@ import com.antilost.app.R;
 public class DotsMarquee extends LinearLayout {
 
     public static final String LOG_TAG = "DotsMarquee";
-    public static final int DELAY_MILLIS = 1000;
+    public static final int DELAY_MILLIS = 500;
     private final int mDotMargin;
     private int mLimit = 0;
+    private boolean mFlip = true;
     private static final int MSG_ADD_LIMIT = 0;
 
     private Handler mHandler  = new Handler() {
@@ -28,6 +29,9 @@ public class DotsMarquee extends LinearLayout {
                 case MSG_ADD_LIMIT:
                     mLimit++;
                     mLimit %= 6;
+                    if(mLimit == 0) {
+                        mFlip = !mFlip;
+                    }
                     updateUi();
                     sendEmptyMessageDelayed(MSG_ADD_LIMIT, DELAY_MILLIS);
                     break;
@@ -38,11 +42,20 @@ public class DotsMarquee extends LinearLayout {
     private void updateUi() {
         Log.v(LOG_TAG, "updateUi...");
         for(int i = 0; i < 6; i++) {
-            if(i <= mLimit) {
-                getChildAt(i).setSelected(true);
+            if(mFlip) {
+                if(i <= mLimit) {
+                    getChildAt(i).setSelected(true);
+                } else {
+                    getChildAt(i).setSelected(false);
+                }
             } else {
-                getChildAt(i).setSelected(false);
+                if(i <= mLimit) {
+                    getChildAt(i).setSelected(false);
+                } else {
+                    getChildAt(i).setSelected(true);
+                }
             }
+
         }
     }
 
