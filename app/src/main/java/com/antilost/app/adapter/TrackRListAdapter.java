@@ -2,6 +2,7 @@ package com.antilost.app.adapter;
 
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +95,7 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 
         if (mPrefs.isClosedTrack(address)) {
             state.setText(mActivity.getString(R.string.closed));
+            state.setTextColor(Color.LTGRAY);
             icon.setBackgroundResource(R.drawable.closed_icon_bkg);
         } else {
             if(service != null) {
@@ -102,18 +104,23 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
                 switch (stateValue) {
                     case BluetoothProfile.STATE_DISCONNECTED:
                         icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                        state.setTextColor(Color.RED);
                         break;
                     case BluetoothProfile.STATE_CONNECTED:
                         icon.setBackgroundResource(R.drawable.connected_icon_bkg);
+                        state.setTextColor(Color.GREEN);
                         break;
                     case BluetoothProfile.STATE_CONNECTING:
                     case BluetoothProfile.STATE_DISCONNECTING:
                         icon.setBackgroundResource(R.drawable.connecting_icon_bkg);
+                        state.setTextColor(Color.RED);
                         break;
                 }
             } else {
                 Log.v(LOG_TAG, "service is null");
                 icon.setBackgroundResource(R.drawable.closed_icon_bkg);
+                state.setText(mActivity.getString(R.string.disconnected));
+                state.setTextColor(Color.RED);
             }
         }
 

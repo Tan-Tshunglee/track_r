@@ -187,6 +187,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 if(oldState == BluetoothProfile.STATE_CONNECTED) {
                     Log.v(LOG_TAG, "found disconnected device.");
                     mPrefsManager.saveMissedTrack(address, true);
+                    mPrefsManager.saveLastLostLocation(mLastLocation, address);
                     alertUserTrackDisconnected(address);
                 }
 
@@ -501,7 +502,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 //        mLocationManager.
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,20,  20, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 10 * 1000,  20, this);
 
     }
 

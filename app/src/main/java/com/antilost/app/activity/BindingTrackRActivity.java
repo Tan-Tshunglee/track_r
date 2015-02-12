@@ -23,6 +23,7 @@ import com.antilost.app.R;
 import com.antilost.app.network.BindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.view.DotsMarquee;
 
 import java.security.SecureRandom;
 import java.util.Set;
@@ -106,6 +107,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
+    private DotsMarquee mBindingDotsMarquee;
+    private DotsMarquee mConnecingDotsMarquee;
 
 
     private void reconnectedClosedTrackR(String address) {
@@ -204,6 +207,10 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
         mTryAgain = (Button) findViewById(R.id.tryAgain);
         mTryAgain.setOnClickListener(this);
+
+        mBindingDotsMarquee = (DotsMarquee) findViewById(R.id.bindingDotsMarquee);
+        mConnecingDotsMarquee = (DotsMarquee) findViewById(R.id.connectingDotsMarquee);
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -257,6 +264,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         super.onPause();
         scanLeDevice(false);
         unregisterReceiver(mGattUpdateReceiver);
+        mBindingDotsMarquee.stopMarquee();
+        mConnecingDotsMarquee.stopMarquee();
     }
 
     @Override
@@ -270,6 +279,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
         }
 
         registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
+        mBindingDotsMarquee.startMarquee();
+        mConnecingDotsMarquee.startMarquee();
 
     }
 

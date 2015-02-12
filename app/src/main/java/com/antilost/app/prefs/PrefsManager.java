@@ -6,6 +6,7 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 
 import com.antilost.app.model.TrackR;
+import com.antilost.app.util.LocUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +37,8 @@ public class PrefsManager {
     public static final String PREFS_SAFE_ZONE_ENABLED = "safe_zone_enabled";
 
     public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
+    public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
+
     private final Context mCtx;
     private SharedPreferences mPrefs;
 
@@ -224,5 +227,22 @@ public class PrefsManager {
 
     public boolean getAlertRingEnabled() {
         return mPrefs.getBoolean(PREFS_ALERT_RING_ENABLED, true);
+    }
+
+    public void saveLastLostLocation(Location loc, String address) {
+
+        String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
+        mPrefs.edit().putString(key, LocUtils.convertLocation(loc));
+    }
+
+    public Location getLastLostLocation(String address) {
+        String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
+        String loc = mPrefs.getString(key, null);
+        if(loc == null) {
+            return null;
+        }
+
+        return LocUtils.convertLocation(loc);
+
     }
 }
