@@ -2,6 +2,7 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -81,6 +82,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         }
     };
     private AlertDialog mDisconnectedDialog;
+    private BluetoothAdapter mBluetoothAdapter;
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -104,6 +106,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         findViewById(R.id.btnLocation).setOnClickListener(this);
         findViewById(R.id.btnAdd).setOnClickListener(this);
 
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<String> trackIds = mPrefsManager.getTrackIds();
         if(trackIds == null || trackIds.isEmpty()) {
             addNewTrackR();
@@ -130,6 +133,9 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
+        if(!mBluetoothAdapter.isEnabled()) {
+
+        }
     }
 
 

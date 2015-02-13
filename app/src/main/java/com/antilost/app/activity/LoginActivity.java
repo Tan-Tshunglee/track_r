@@ -122,22 +122,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if(!matcher.matches()) {
-            Toast.makeText(this, "Invalid Email Address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
             return;
         }
         final String password = mPasswordInput.getText().toString();
 
         if(password.length() < 6 || password.length() > 18) {
-            Toast.makeText(this, "Password length of 6 to 18 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.password_length_is_6_to_18_chars), Toast.LENGTH_SHORT).show();
             return;
         }
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-        mProgressDialog.setTitle("Signing In");//设置标题
+        mProgressDialog.setTitle(getString(R.string.signing_in));//设置标题
         mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
         mProgressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
-        mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -165,18 +165,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         mProgressDialog.dismiss();
                         if(command.success()) {
                             mPrefsManager.setUid(command.getUid());
-                            Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
                             startActivity(i);
                             finish();
                         } else if(command.err()) {
-                            Toast.makeText(LoginActivity.this, "Invalid Email or Password!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()){
-                            Toast.makeText(LoginActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                         } else if(command.isStatusBad()) {
-                            Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Unkown Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -84,14 +84,14 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private void ensureDialog() {
         if(mAlertDialog == null) {
             AlertDialog.Builder  builder = new AlertDialog.Builder(this);
-            builder.setTitle("Warning");
+            builder.setTitle(getString(R.string.warning));
             String name = mTrackR.name;
             if(TextUtils.isEmpty(name)) {
                 name = getResources().getStringArray(R.array.default_type_names)[mTrackR.type];
             }
-            builder.setMessage("name\n disconnected");
-            builder.setNegativeButton("I know", this);
-            builder.setPositiveButton("Find", this);
+            builder.setMessage(getString(R.string.name_connected));
+            builder.setNegativeButton(getString(R.string.i_known), this);
+            builder.setPositiveButton(getString(R.string.find), this);
             mAlertDialog = builder.create();
         }
     }

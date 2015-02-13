@@ -115,6 +115,24 @@
     <string name="connecting">Connecting</string>
     <string name="disconnecting">Disconnecting</string>
     <string name="closed">closed</string>
+    <string name="invalid_email_address">Invalid Email Address!</string>
+    <string name="password_length_is_6_to_18_chars">Password length of 6 to 18 characters</string>
+    <string name="signing_in">Signing In</string>
+    <string name="login_success">Login Success</string>
+    <string name="invalid_email_or_password">Invalid Email or Password!</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_status_error">Login Error</string>
+    <string name="unknow_error">Unkown Error</string>
+    <string name="warning">Warning</string>
+    <string name="name_connected">name\n disconnected</string>
+    <string name="i_known">I know</string>
+    <string name="find">Find</string>
+    <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>
+    <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
+    <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
+    <string name="registration_success">Registration Success</string>
+    <string name="email_has_been_used">Email has been used.</string>
+    <string name="registration_error">Registration Error</string>
 
 
 </resources>

@@ -109,6 +109,12 @@
             android:src="@drawable/distance_level"
             android:scaleType="centerInside" />
 
+        <ImageView android:id="@+id/centerLine"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="@dimen/distance_level_height"
+            android:src="@drawable/center_line" />
+
         <ImageView
             android:layout_width="@dimen/small_phone_width"
             android:layout_height="@dimen/small_phone_height"

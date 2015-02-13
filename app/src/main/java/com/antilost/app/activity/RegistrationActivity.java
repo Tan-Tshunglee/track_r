@@ -72,29 +72,29 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if(!matcher.matches()) {
-            Toast.makeText(this, "Invalid Email Address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_email_address, Toast.LENGTH_SHORT).show();
             return;
         }
 
         final String password = mPasswordInput.getText().toString();
 
         if(password.length() < 6 || password.length() > 18) {
-            Toast.makeText(this, "Password length of 6 to 18 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT).show();
             return;
         }
 
         String passwordConfirm = mPasswordInput.getText().toString();
         if(!password.equals(passwordConfirm)) {
-            Toast.makeText(this, "The two passwords  do not match. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.the_two_passwords_do_not_match), Toast.LENGTH_SHORT).show();
             return;
         }
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-        mProgressDialog.setTitle("Signing Up");//设置标题
+        mProgressDialog.setTitle(R.string.signing_in);//设置标题
         mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
         mProgressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
-        mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -120,19 +120,19 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            Toast.makeText(RegistrationActivity.this, "Registration Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show();
                             finish();
                         } else if(command.err()) {
-                            Toast.makeText(RegistrationActivity.this, "Email has been registered.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
                             Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
                             startActivity(i);
                             finish();
                         } else if(command.isNetworkError()) {
-                            Toast.makeText(RegistrationActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                         } else if(command.isStatusBad()) {
-                            Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, getString(R.string.registration_error), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(RegistrationActivity.this, "Unkonwn Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

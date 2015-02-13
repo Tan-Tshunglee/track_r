@@ -141,10 +141,10 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 showImageSourceDialog();
                 break;
             case R.id.takePhoto:
-                Toast.makeText(this, "Take Photo", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
                 break;
             case R.id.choosePicture:
-                Toast.makeText(this, "Choose Picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_LONG).show();
                 break;
             case R.id.btnCancel:
                 finish();

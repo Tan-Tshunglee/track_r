@@ -65,13 +65,13 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
     private void trySendPasswordToMyEmail() {
         final String email = mEmailInput.getText().toString();
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Invalid Email Address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
             return;
         }
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-        mProgressDialog.setTitle("正在发送密码邮件");//设置标题
+        mProgressDialog.setTitle(getString(R.string.sending_mail_which_contains_your_password));//设置标题
         mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
         mProgressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
         mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -100,16 +100,16 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
                         }
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            Toast.makeText(ForgetPasswordActivity.this, "Sned Password to Your Email", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.password_has_been_sent_to_your_email), Toast.LENGTH_LONG).show();
                             finish();
                         } else if(command.err()) {
-                            Toast.makeText(ForgetPasswordActivity.this, "Invalid Email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()){
-                            Toast.makeText(ForgetPasswordActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                         } else if(command.isStatusBad()) {
-                            Toast.makeText(ForgetPasswordActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(ForgetPasswordActivity.this, "Unkown Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

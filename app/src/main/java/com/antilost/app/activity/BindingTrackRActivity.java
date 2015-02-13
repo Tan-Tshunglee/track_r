@@ -35,6 +35,8 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     public static final int MSG_SHOW_FIRST_PAGE = 3;
 
     public static final int MAX_COUNT = 5;
+
+    public static final int MAX_RETRY_TIMES = 12;
     public static final int MSG_RETRY_SCAN_LE = 100;
 
     private static final String LOG_TAG = "BindingTrackRActivity";
@@ -189,7 +191,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
-        if(mPrefsManager.getTrackIds().size() == 5) {
+        if(mPrefsManager.getTrackIds().size() == MAX_COUNT) {
             Toast.makeText(this,  getString(R.string.max_device_limit_reached), Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -235,7 +237,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
                         mScanedTime += SCAN_PERIOD;
                         scanLeDevice(false);
-                        if(mScanedTime < 5 * SCAN_PERIOD) {
+                        if(mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
                             Log.v(LOG_TAG, "scan last time " + mScanedTime / 1000);
                             scanLeDevice(true);
                             return;
@@ -292,7 +294,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
             Log.w(LOG_TAG, "scanLeDevice " + enable);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-            mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, 5000);
+            mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
