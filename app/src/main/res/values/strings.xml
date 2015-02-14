@@ -131,5 +131,10 @@
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
     <string name="i_am_here">I am here</string>
+    <string name="sleep_mode">Sleep Mode</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="everyday">Everyday</string>
+    <string name="help">Help</string>
 
 </resources>
