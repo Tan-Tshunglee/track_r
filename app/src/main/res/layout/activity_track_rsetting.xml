@@ -148,6 +148,14 @@
                     android:padding="@dimen/activity_horizontal_margin"
                     android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/moreIcon"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/tri_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content" />
+
                     <TextView
                         android:id="@+id/labelStart"
                         android:layout_width="wrap_content"
@@ -170,7 +178,8 @@
                     <TextView
                         android:id="@+id/startTimeText"
                         android:text="22:00"
-                        android:layout_alignParentRight="true"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"/>
@@ -179,17 +188,13 @@
                         android:id="@+id/endTimeText"
                         android:layout_below="@id/startTimeText"
                         android:text="22:00"
-                        android:layout_alignParentRight="true"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/tri_right"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_height="wrap_content" />
+
                 </RelativeLayout>
                 <View android:layout_height="1dp"
                     android:layout_width="match_parent"
