@@ -103,10 +103,13 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
                 finish();
                 break;
             case DialogInterface.BUTTON_POSITIVE:
-                Location loc = mPrefsManager.getTrackLocMissed(mAddress);
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                startActivity(intent);
+                Location loc = mPrefsManager.getLastLostLocation(mAddress);
+                if(loc != null) {
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
+
                 finish();
                 break;
         }

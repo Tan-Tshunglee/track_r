@@ -76,9 +76,6 @@
     <string name="your_device_no_ble_support">Your device has no bluetooth support.</string>
     <string name="max_device_limit_reached">Max device count limit reach</string>
     <string name="custom_name">Custom Name</string>
-
-
-
     <string name="user_title">Myself</string>
     <string name="user_data">About me</string>
     <string name="user_app_ring">APP Alram Bell</string>
@@ -100,7 +97,6 @@
     <string name="user_homepage">Homepage</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
-
     <string name="safezone_title">Safe zone</string>
     <string name="safezone_message">Add safe wifi, when phone connected to safa wifi, Track App will only alarm far distance.</string>
     <string name="safezone_home">Home</string>
@@ -133,6 +129,7 @@
     <string name="registration_success">Registration Success</string>
     <string name="email_has_been_used">Email has been used.</string>
     <string name="registration_error">Registration Error</string>
-
+    <string name="title_activity_findme">FindmeActivity</string>
+    <string name="i_am_here">I am here</string>
 
 </resources>

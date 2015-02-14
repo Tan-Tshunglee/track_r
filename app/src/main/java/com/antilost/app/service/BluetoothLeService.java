@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.activity.DisconnectAlertActivity;
+import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
@@ -414,6 +415,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(!ringtone.isPlaying()) {
             ringtone.play();
         }
+
+        Intent i = new Intent(this, FindmeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
     private void onTrackKeyUp() {
