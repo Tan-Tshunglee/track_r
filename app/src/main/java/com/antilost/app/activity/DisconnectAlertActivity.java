@@ -5,17 +5,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.location.Location;
-import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
@@ -33,8 +36,8 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private String mAddress;
     private TrackR mTrackR;
     private Vibrator mVibrator;
-    private SoundPool mSoundPool;
-    private int mAlertSoundId;
+    private MediaPlayer mMediaPlayer;
+    private LayoutInflater mLayoutInflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +51,14 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mPrefsManager = PrefsManager.singleInstance(this);
         mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         AssetManager assets = getAssets();
+        mMediaPlayer = new MediaPlayer();
         try {
-            AssetFileDescriptor fd = assets.openFd("alert.mp3");
-            mSoundPool = new SoundPool(1, AudioManager.STREAM_ALARM, 0);
-            mAlertSoundId = mSoundPool.load(fd, 0);
-            mSoundPool.setOnLoadCompleteListener(this);
+            mMediaPlayer.setDataSource(assets.openFd("alert.mp3").getFileDescriptor());
         } catch (IOException e) {
             e.printStackTrace();
-            mAlertSoundId = -1;
         }
+
+        mLayoutInflater = getLayoutInflater();
         initAlertDialog();
     }
 
@@ -84,14 +86,24 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private void ensureDialog() {
         if(mAlertDialog == null) {
             AlertDialog.Builder  builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.warning));
-            String name = mTrackR.name;
-            if(TextUtils.isEmpty(name)) {
-                name = getResources().getStringArray(R.array.default_type_names)[mTrackR.type];
+            String name = "";
+            if(mTrackR != null) {
+                name = mTrackR.name;
+                if(TextUtils.isEmpty(name)) {
+                    name = getResources().getStringArray(R.array.default_type_names)[mTrackR.type];
+                }
             }
-            builder.setMessage(getString(R.string.name_connected));
+
+            View v = mLayoutInflater.inflate(R.layout.custom_dialog_layout, null);
+            builder.setView(v);
+            ImageView iv = (ImageView) v.findViewById(R.id.dialogIcon);
+            TextView tv = (TextView) v.findViewById(R.id.dialogText);
+
+            //builder.setMessage(getString(R.string.name_connected, name));
+            tv.setText(getString(R.string.name_connected, name));
             builder.setNegativeButton(getString(R.string.i_known), this);
             builder.setPositiveButton(getString(R.string.find), this);
+            builder.setCancelable(false);
             mAlertDialog = builder.create();
         }
     }
@@ -121,12 +133,24 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     }
 
     private void playAlertSound() {
-        mSoundPool.play(mAlertSoundId, 1.0f, 1.0f, 1, 0, 1.0f);
+        try {
+            mMediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mMediaPlayer.start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mSoundPool.stop(mAlertSoundId);
+        mMediaPlayer.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
     }
 }

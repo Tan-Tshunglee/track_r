@@ -120,7 +120,7 @@
     <string name="network_status_error">Login Error</string>
     <string name="unknow_error">Unkown Error</string>
     <string name="warning">Warning</string>
-    <string name="name_connected">name\n disconnected</string>
+    <string name="name_connected">%s\n disconnected</string>
     <string name="i_known">I know</string>
     <string name="find">Find</string>
     <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>

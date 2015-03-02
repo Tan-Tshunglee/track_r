@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.antilost.app.model.TrackR;
 import com.antilost.app.util.LocUtils;
@@ -132,6 +133,9 @@ public class PrefsManager {
     }
 
     public TrackR getTrack(String address) {
+        if(TextUtils.isEmpty(address)) {
+            return null;
+        }
         File dir = mCtx.getDir("tracks", 0);
 
         File trackFile = new File(dir, address);

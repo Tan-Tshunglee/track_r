@@ -22,6 +22,8 @@ import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,7 +59,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
-    public static final int ALARM_REPEAT_PERIOD = BuildConfig.DEBUG ? SCAN_PERIOD_IN_MS : 1000 * 5 * 60;
+    public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS ;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -93,6 +95,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private LocationManager mLocationManager;
     private Location mLastLocation;
+    private WifiManager mWifiManager;
 
 
     @Override
@@ -131,7 +134,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(location != null) {
             mLastLocation =  location;
         }
-
         Log.i(LOG_TAG, "get current location is " + mLastLocation);
     }
 
@@ -186,9 +188,25 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 }
 
                 if(oldState == BluetoothProfile.STATE_CONNECTED) {
-                    Log.v(LOG_TAG, "found disconnected device.");
+
+                    String homeWifiSsid = mPrefsManager.getHomeWifiSsid();
+                    String officeSsid = mPrefsManager.getOfficeSsid();
+                    String otherSsid = mPrefsManager.getOtherSsid();
                     mPrefsManager.saveMissedTrack(address, true);
                     mPrefsManager.saveLastLostLocation(mLastLocation, address);
+                    WifiInfo info = mWifiManager.getConnectionInfo();
+                    String ssid = info.getSSID();
+                    if(ssid != null &&(
+                            ssid.equals(homeWifiSsid)
+                            || ssid.equals(officeSsid)
+                            || ssid.equals(otherSsid)
+                            )) {
+                        Log.i(LOG_TAG, "we are in safe wifi zone, don't alert user");
+                        return;
+                    }
+                    Log.v(LOG_TAG, "found disconnected device.");
+
+
                     alertUserTrackDisconnected(address);
                 }
 
@@ -490,7 +508,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
 
-
+        mWifiManager = (WifiManager)
+                getSystemService(Context.WIFI_SERVICE);
         Intent notificationIntent = new Intent(this, MainTrackRListActivity.class);
         pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         notification.setLatestEventInfo(this, getString(R.string.track_r_is_running),
@@ -507,7 +526,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 //        mLocationManager.
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 10 * 1000,  20, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 10 * 1000,  20, this);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2 * 10 * 1000, 20 ,this);
 
     }
 

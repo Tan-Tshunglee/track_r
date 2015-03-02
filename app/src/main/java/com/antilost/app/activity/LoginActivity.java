@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
@@ -38,11 +39,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, R.string.ble_not_support, Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+
+        if(!BuildConfig.DEBUG) {
+            if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+                Toast.makeText(this, R.string.ble_not_support, Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
         }
+
         mPrefsManager = PrefsManager.singleInstance(this);
         if (mPrefsManager.alreadyLogin()) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
