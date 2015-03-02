@@ -41,6 +41,8 @@ import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -104,6 +106,74 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if (PrefsManager.PREFS_TRACK_IDS_KEY.equals(key)) {
             initialize();
         }
+
+        if(PrefsManager.PREFS_SLEEP_MODE_KEY.equals(key)) {
+           onSleepModeChang();
+        }
+    }
+
+    private void onSleepModeChang() {
+        boolean sleepMode = mPrefsManager.getSleepMode();
+
+        if(sleepMode) {
+            if(inSleepTime()) {
+                sleepAllTrackR();
+            } else {
+                wakeAllTrackR();
+            }
+        } else {
+            wakeAllTrackR();
+        }
+    }
+
+    private void sleepAllTrackR() {
+        Set<String> addresses = mBluetoothGatts.keySet();
+        for(String address: addresses) {
+
+        }
+    }
+
+    private void wakeAllTrackR() {
+        Set<String> addresses = mBluetoothGatts.keySet();
+        for(String address: addresses) {
+
+        }
+    }
+
+    private boolean inSleepTime() {
+        boolean sleepMode = mPrefsManager.getSleepMode();
+
+        if(!sleepMode) {
+            return false;
+        }
+        long startTime = mPrefsManager.getSleepTime(true);
+        long endTime = mPrefsManager.getSleepTime(false);
+        GregorianCalendar now = new GregorianCalendar();
+        GregorianCalendar startDate = new GregorianCalendar();
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+        startDate.set(Calendar.SECOND, 0);
+        startDate.set(Calendar.MILLISECOND, 0);
+
+        startDate.add(Calendar.MILLISECOND, (int) startTime);
+
+        GregorianCalendar endDate = new GregorianCalendar();
+        endDate.set(Calendar.HOUR_OF_DAY, 0);
+        endDate.set(Calendar.MINUTE, 0);
+        endDate.set(Calendar.SECOND, 0);
+        endDate.set(Calendar.MILLISECOND, 0);
+
+        endDate.add(Calendar.MILLISECOND, (int) endTime);
+
+        boolean result = false;
+        //cross the midnight
+        if(startTime > endTime) {
+            result = now.after(startDate) || now.before(endTime);
+        } else {
+            result = now.after(startDate) && now.before(endDate);
+        }
+
+        return result;
     }
 
     // Device scan callback.
@@ -526,8 +596,16 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 //        mLocationManager.
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 10 * 1000,  20, this);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2 * 10 * 1000, 20 ,this);
+        try {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 10 * 1000,  20, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2 * 10 * 1000, 20 ,this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

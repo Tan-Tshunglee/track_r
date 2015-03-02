@@ -42,6 +42,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     };
     private PrefsManager mPrefsManager;
     private Switch mBidirectionalAlert;
+    private Switch mSleepMode;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -78,6 +79,12 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         boolean bidirectionalAlertEnabled = mPrefsManager.getBidirectionalAlert(mBluetoothDeviceAddress);
         mBidirectionalAlert.setChecked(bidirectionalAlertEnabled);
         mBidirectionalAlert.setOnCheckedChangeListener(this);
+
+        boolean sleepMode = mPrefsManager.getSleepMode();
+
+        mSleepMode = (Switch) findViewById(R.id.sleepModeSwitch);
+        mSleepMode.setChecked(sleepMode);
+        mSleepMode.setOnCheckedChangeListener(this);
 
     }
 
@@ -130,6 +137,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             case R.id.bidirect_checkbox:
                 mPrefsManager.setBidirectionalAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, b);
+            break;
+
+            case R.id.sleepModeSwitch:
+                mPrefsManager.setSleepMode(b);
             break;
         }
     }

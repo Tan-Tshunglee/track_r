@@ -21,7 +21,7 @@
         <TextView android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_track_r"
+            android:text="@string/track_r_settings"
             android:textSize="20sp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
@@ -138,7 +138,8 @@
                         android:layout_width="100dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
                 </RelativeLayout>
                 <View android:layout_height="1dp"
                     android:layout_width="match_parent"
@@ -187,7 +188,7 @@
                     <TextView
                         android:id="@+id/endTimeText"
                         android:layout_below="@id/startTimeText"
-                        android:text="22:00"
+                        android:text="8:00"
                         android:layout_toLeftOf="@id/moreIcon"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"

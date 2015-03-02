@@ -40,6 +40,14 @@ public class PrefsManager {
     public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
     public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
 
+    public static final String PREFS_SLEEP_MODE_KEY = "sleep_mode_prefs_key";
+
+    public static final String PREFS_SLEEP_START_TIME_KEY = "sleep_mode_start_time_key";
+    public static final String PREFS_SLEEP_END_TIME_KEY = "sleep_mode_end_time_key";
+
+    public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
+    public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
+
     private final Context mCtx;
     private SharedPreferences mPrefs;
 
@@ -248,5 +256,25 @@ public class PrefsManager {
 
         return LocUtils.convertLocation(loc);
 
+    }
+
+
+    public void setSleepMode(boolean enable) {
+        mPrefs.edit().putBoolean(PREFS_SLEEP_MODE_KEY, enable).commit();
+    }
+
+    public boolean getSleepMode() {
+        return mPrefs.getBoolean(PREFS_SLEEP_MODE_KEY, false);
+    }
+
+    public void setSleepTime(boolean start, long timestamp) {
+        String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
+        mPrefs.edit().putLong(key, timestamp);
+    }
+
+    public long getSleepTime(boolean start) {
+        String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
+        int defaultTime = start ? SLEEP_MODE_STATR_TIME_OFFSET : SLEEP_MODE_END_TIME_OFFSET;
+        return mPrefs.getInt(key, defaultTime);
     }
 }

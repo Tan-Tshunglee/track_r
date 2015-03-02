@@ -136,5 +136,6 @@
     <string name="end">End</string>
     <string name="everyday">Everyday</string>
     <string name="help">Help</string>
+    <string name="track_r_settings">TrackR Setting</string>
 
 </resources>
