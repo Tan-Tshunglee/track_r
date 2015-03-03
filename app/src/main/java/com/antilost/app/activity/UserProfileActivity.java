@@ -16,14 +16,14 @@ import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.prefs.PrefsManager;
 
-public class UserProfileActivity extends Activity  implements TrackRInitialize, CompoundButton.OnCheckedChangeListener {
+public class UserProfileActivity extends Activity implements TrackRInitialize, CompoundButton.OnCheckedChangeListener {
 
     private ImageButton imgBack;
-    private TextView tvtitle,tvuser_usericon;
-    private RelativeLayout rluser_editor,rluser_noticetimer,rluser_language,
-            rluser_tipback,rluser_background,rluser_version,rluser_topback,rluser_safezone;
+    private TextView tvtitle, tvuser_usericon;
+    private RelativeLayout rluser_editor, rluser_noticetimer, rluser_language,
+            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone;
     private Button btmexit;
-    private CheckBox cbAppring,cbSafeZone;
+    private CheckBox cbAppring, cbSafeZone;
     private PrefsManager mPrefsManager;
 
     @Override
@@ -53,22 +53,20 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
     @Override
     public void initWidget() {
         // TODO Auto-generated method stub
-        imgBack = (ImageButton)findViewById(R.id.mBtnCancel);
-        tvtitle = (TextView)findViewById(R.id.mTVTitle);
-        rluser_topback = (RelativeLayout)findViewById(R.id.rluser_topback);
-        tvuser_usericon= (TextView)findViewById(R.id.tvusericon);
-        rluser_editor = (RelativeLayout)findViewById(R.id.rluser_editor);
-        rluser_noticetimer = (RelativeLayout)findViewById(R.id.rluser_notice);
-        rluser_language = (RelativeLayout)findViewById(R.id.rluser_langauage);
-        rluser_tipback = (RelativeLayout)findViewById(R.id.rluser_backtip);
-        rluser_version = (RelativeLayout)findViewById(R.id.rluser_version);
-        rluser_background= (RelativeLayout)findViewById(R.id.rluser_selectbackground);
-        rluser_safezone= (RelativeLayout)findViewById(R.id.rluser_safezone);
-        btmexit = (Button)findViewById(R.id.mbtnuserexit);
-        cbAppring = (CheckBox)findViewById(R.id.cbuser_appringswitch);
-        cbSafeZone = (CheckBox)findViewById(R.id.cbuser_safezoneswitch);
-
-
+        imgBack = (ImageButton) findViewById(R.id.mBtnCancel);
+        tvtitle = (TextView) findViewById(R.id.mTVTitle);
+        rluser_topback = (RelativeLayout) findViewById(R.id.rluser_topback);
+        tvuser_usericon = (TextView) findViewById(R.id.tvusericon);
+        rluser_editor = (RelativeLayout) findViewById(R.id.rluser_editor);
+        rluser_noticetimer = (RelativeLayout) findViewById(R.id.rluser_notice);
+        rluser_language = (RelativeLayout) findViewById(R.id.rluser_langauage);
+        rluser_tipback = (RelativeLayout) findViewById(R.id.rluser_backtip);
+        rluser_version = (RelativeLayout) findViewById(R.id.rluser_version);
+        rluser_background = (RelativeLayout) findViewById(R.id.rluser_selectbackground);
+        rluser_safezone = (RelativeLayout) findViewById(R.id.rluser_safezone);
+        btmexit = (Button) findViewById(R.id.mbtnuserexit);
+        cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
+        cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
     }
 
     @Override
@@ -108,8 +106,9 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
 
+                mPrefsManager.setUid(-1);
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
-                intent.putExtra("exitcounter","1");
+                intent.putExtra("exitcounter", "1");
                 startActivity(intent);
                 UserProfileActivity.this.finish();
             }

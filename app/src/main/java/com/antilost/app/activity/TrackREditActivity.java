@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,23 +19,9 @@ import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.CsstSHImageData;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.UUID;
-import com.antilost.app.util.CsstSHImageData;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 
 public class TrackREditActivity extends Activity implements View.OnClickListener {
 
@@ -51,15 +39,10 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
     public static final int     REQUEST_CODE_PICK_PICTURE = 1;
     public static final int     REQUEST_CODE_TAKE_PICTURE = 2;
-    /** Í¨¹ý×¨¼­»ñµÃ·âÃæ */
     private static final int GET_ICON_FROM_ALBUM = 0x00;
-    /** ¼ôÇÐ»ñµÃÍ¼Æ¬ */
     private static final int GET_ICON_FROM_CROP = 0x01;
-    /** Í¨¹ýÅÄÕÕ»ñµÃ·âÃæ */
     private static final int GET_ICON_FROM_TAKE = 0x02;
-    /** É¨ÃèÉè±¸idÇëÇó */
     private static final int SCAN_UUID_REQUEST = 0x03;
-    /** Éè±¸·âÃæÍ¼Æ¬ÁÙÊ±ÎÄ¼þ */
     private File mDeviceIconTempFile = null;
     private String              mLastUpdatedIconFileName  = null;
 
@@ -137,7 +120,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mResource = getResources();
         mImageView = (ImageView) findViewById(R.id.centerLargeImage);
         mImageView.setImageResource(DrawableIds[mTrack.type]);
-        // Éè±¸·âÃæÁÙÊ±ÎÄ¼þ
+        // ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä¼ï¿½
         mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
 
 
@@ -200,7 +183,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
                 if (RESULT_OK == resultCode){
-                    //¼ôÇÐÅÄµÄÕÕÆ¬
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½Æ¬
                     CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
                 }
                 break;
@@ -211,9 +194,9 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         Bundle extras = data.getExtras();
                         Bitmap source = extras.getParcelable("data");
                         mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
-                        //Ëõ·ÅÍ¼Æ¬
+                        //ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
                         source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
-                        //¸üÐÂÉè±¸·âÃæÍ¼Æ¬
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
                         mImageView.setImageBitmap(source);
                     }catch(Exception ex ){
                         System.out.println("the error is "+ex.toString());
@@ -225,7 +208,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case GET_ICON_FROM_ALBUM:
                 if (resultCode == RESULT_OK){
                     Uri uri = data.getData();
-                    //¼ôÇÐÅÄµÄÕÕÆ¬
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½Æ¬
                     CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
                 }
                 break;

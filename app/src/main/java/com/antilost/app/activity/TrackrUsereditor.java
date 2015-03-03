@@ -25,7 +25,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private RelativeLayout rluser_smallname, rluser_bord, rluser_xuexing,
             rluser_likes, rluser_qianming, rluser_homepage, rlusereditor_icon;
     private TextView tvusereditor_name,tvusereditor_board,tvusereditorxuexing,tvusereditorlikes,tvSignature,tvusereditorhomepage;
-    /** °´¼ü¼àÌý*/
     private BtnListener mBtnListener = null;
 
     @Override
@@ -112,10 +111,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         rluser_homepage.setOnClickListener(mBtnListener);
 
     }
-    /**
-     * °´¼ü¼àÌý
-     *
-     */
+
     private final class BtnListener implements View.OnClickListener {
 
         @Override
