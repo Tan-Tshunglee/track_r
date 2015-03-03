@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +18,7 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
 
     private AlertDialog mAlertDialog;
     private LayoutInflater mLayoutInflater;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,11 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_findme);
         mLayoutInflater = getLayoutInflater();
+        mHandler = new Handler();
         ensureDialog();
     }
 
@@ -34,6 +38,17 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
     protected void onResume() {
         super.onResume();
         mAlertDialog.show();
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        }, 60 * 1000);
     }
 
     private void ensureDialog() {
