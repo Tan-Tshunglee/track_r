@@ -43,7 +43,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     private static final int GET_ICON_FROM_CROP = 0x01;
     private static final int GET_ICON_FROM_TAKE = 0x02;
     private static final int SCAN_UUID_REQUEST = 0x03;
-    private File mDeviceIconTempFile = null;
+    private File                mDeviceIconTempFile = null;
     private String              mLastUpdatedIconFileName  = null;
 
     public static int[] TypeIds = {
@@ -120,7 +120,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mResource = getResources();
         mImageView = (ImageView) findViewById(R.id.centerLargeImage);
         mImageView.setImageResource(DrawableIds[mTrack.type]);
-        // �豸������ʱ�ļ�
         mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
 
 
@@ -160,10 +159,12 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case R.id.takePhoto:
                 Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
                 CsstSHImageData.tackPhoto(TrackREditActivity.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                dismissImageSourceDialog();
                 break;
             case R.id.choosePicture:
                 Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_LONG).show();
                 CsstSHImageData.pickAlbum(TrackREditActivity.this, GET_ICON_FROM_ALBUM);
+                dismissImageSourceDialog();
                 break;
             case R.id.btnCancel:
                 finish();
@@ -175,6 +176,11 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         }
     }
 
+    private void dismissImageSourceDialog() {
+        if(mImageSourceDialog != null) {
+            mImageSourceDialog.dismiss();
+        }
+    }
 
 
     @Override
@@ -183,7 +189,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
                 if (RESULT_OK == resultCode){
-                    //�����ĵ���Ƭ
                     CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
                 }
                 break;
@@ -194,9 +199,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         Bundle extras = data.getExtras();
                         Bitmap source = extras.getParcelable("data");
                         mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
-                        //����ͼƬ
                         source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
-                        //�����豸����ͼƬ
                         mImageView.setImageBitmap(source);
                     }catch(Exception ex ){
                         System.out.println("the error is "+ex.toString());
@@ -208,7 +211,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case GET_ICON_FROM_ALBUM:
                 if (resultCode == RESULT_OK){
                     Uri uri = data.getData();
-                    //�����ĵ���Ƭ
                     CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
                 }
                 break;

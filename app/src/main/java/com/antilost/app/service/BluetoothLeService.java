@@ -270,7 +270,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     mPrefsManager.saveLastLostLocation(mLastLocation, address);
                     WifiInfo info = mWifiManager.getConnectionInfo();
                     String ssid = info.getSSID();
-                    if(ssid != null &&(
+                    boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
+                    if(safeWifiEnabled &&
+                            ssid != null &&(
                             ssid.equals(homeWifiSsid)
                             || ssid.equals(officeSsid)
                             || ssid.equals(otherSsid)
@@ -505,6 +507,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     @Override
     public IBinder onBind(Intent intent) {
+        //connect devices when activity connect
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                initialize();
+            }
+        });
         return mBinder;
     }
 
