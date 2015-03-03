@@ -1,0 +1,202 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg"
+    android:orientation="vertical"
+    tools:context="com.antilost.app.activity.TrackRActivity">
+
+    <RelativeLayout
+        android:id="@+id/titleBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bkg">
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="60dp"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent" />
+
+        <TextView android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_track_r"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/settings"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/batteryStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/battery_2"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btnSettings"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleBarLayout" >
+
+        <ImageButton
+            android:id="@+id/track_r_photo"
+            android:layout_width="@dimen/track_r_photo_size"
+            android:layout_height="@dimen/track_r_photo_size"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/main_add_btn_margin_top"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/key_photo"/>
+
+        <TextView
+            android:id="@+id/sleepModeAndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="@color/user_data_text"
+            android:layout_toLeftOf="@id/track_r_photo"
+            android:layout_marginRight="10dp"
+            android:text="@string/sleep_on_and_time"/>
+
+        <TextView
+            android:id="@+id/connectState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connected"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:textColor="@color/user_data_text"
+            android:drawableLeft="@drawable/green_dot"
+            android:layout_toRightOf="@id/track_r_photo"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/distance_to_track_r"
+        android:textColor="@color/user_data_text"
+        android:textSize="16sp"
+        android:layout_gravity="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/distanceLevel"
+            android:layout_width="@dimen/distance_level_width"
+            android:layout_height="@dimen/distance_level_height"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/distance_level_margin_top"
+            android:src="@drawable/distance_level"
+            android:scaleType="centerInside" />
+
+        <ImageView
+            android:layout_width="@dimen/small_phone_width"
+            android:layout_height="@dimen/small_phone_height"
+            android:src="@drawable/small_phone"
+            android:layout_below="@id/distanceLevel"
+            android:layout_centerHorizontal="true"
+            />
+
+        <ImageView android:id="@+id/trackIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/track_r_icon_green" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/distance_level_height"
+            android:layout_toLeftOf="@id/distanceLevel"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+            <TextView
+                android:text="远"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textColor="@color/user_data_text"
+                />
+            <TextView
+                android:text="中"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textColor="@color/user_data_text"
+                />
+            <TextView
+                android:text="近"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="18sp"
+                android:textColor="@color/user_data_text"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/location"
+            android:layout_width="@dimen/track_r_bottom_button"
+            android:layout_height="@dimen/track_r_bottom_button"
+            android:text="@string/loc"
+            android:textColor="@android:color/white"
+            android:paddingTop="@dimen/track_r_bottom_padding_top"
+            android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
+            android:drawableTop="@drawable/location_icon"
+            android:background="@drawable/large_circle_btn_bkg" />
+
+        <Button android:id="@+id/ring"
+            android:layout_width="@dimen/track_r_bottom_button"
+            android:layout_height="@dimen/track_r_bottom_button"
+            android:text="@string/ring"
+            android:textColor="@android:color/white"
+            android:paddingTop="@dimen/track_r_bottom_padding_top"
+            android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
+            android:drawableTop="@drawable/location_icon"
+            android:background="@drawable/large_circle_btn_bkg" />
+
+        <Button android:id="@+id/photo"
+            android:layout_width="@dimen/track_r_bottom_button"
+            android:layout_height="@dimen/track_r_bottom_button"
+            android:text="@string/photo"
+            android:textColor="@android:color/white"
+            android:paddingTop="@dimen/track_r_bottom_padding_top"
+            android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
+            android:drawableTop="@drawable/location_icon"
+            android:background="@drawable/large_circle_btn_bkg" />
+
+        <Button android:id="@+id/share"
+            android:layout_width="@dimen/track_r_bottom_button"
+            android:layout_height="@dimen/track_r_bottom_button"
+            android:text="@string/share"
+            android:textColor="@android:color/white"
+            android:paddingTop="@dimen/track_r_bottom_padding_top"
+            android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
+            android:drawableTop="@drawable/share"
+            android:background="@drawable/large_circle_btn_bkg" />
+        </LinearLayout>
+</LinearLayout>

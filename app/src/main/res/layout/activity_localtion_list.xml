@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg">
+    <RelativeLayout
+        android:id="@+id/titleBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bkg">
+
+        <ImageButton
+            android:id="@+id/btnlocatinBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_arrow"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent" />
+
+
+        <TextView android:id="@+id/tvlocationtitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_location_title"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btnlocationAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_btn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent" />
+
+
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/lslocation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/titleBarLayout"
+        >
+
+    </ListView>
+
+
+</RelativeLayout>

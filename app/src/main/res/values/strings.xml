@@ -138,5 +138,13 @@
     <string name="help">Help</string>
     <string name="track_r_settings">TrackR Setting</string>
     <string name="i_am_here_find_me">I am here, find me?</string>
+    <string name="my_location_title">Manually added Location</string>
+    <string name="feedback_title">FeedBack</string>
+    <string name="feedback_tip1">欢饮您留下宝贵的意见和建议，您留下的</string>
+    <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
+
+    <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
+    <string name="setting">setting</string>
+    <string name="feedbackpush">push</string>
 
 </resources>

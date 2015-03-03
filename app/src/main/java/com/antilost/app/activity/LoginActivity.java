@@ -33,6 +33,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button mForgetPassword;
     private Button mUserRegistration;
     private ProgressDialog mProgressDialog;
+    private String exitcounter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
         }
 
+		Intent intent = getIntent();
+        if (null != intent) {
+            exitcounter = (String) intent.getSerializableExtra("exitcounter");
+        }
         mPrefsManager = PrefsManager.singleInstance(this);
-        if (mPrefsManager.alreadyLogin()) {
+        if (mPrefsManager.alreadyLogin() && exitcounter==null) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
             startActivity(i);
             finish();

@@ -139,6 +139,16 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
         <activity
+            android:name=".activity.FeedBackEditor"
+            android:label="@string/feedback_title"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activity.ManualAddLocationActivity"
+            android:label="@string/my_location_title"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+        </activity>
+        <activity
             android:name=".activity.DisconnectAlertActivity"
             android:label="@string/title_activity_disconnect_alert"
             android:launchMode="singleInstance"

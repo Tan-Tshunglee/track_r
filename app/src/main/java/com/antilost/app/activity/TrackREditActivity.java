@@ -18,6 +18,23 @@ import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.UUID;
+import com.antilost.app.util.CsstSHImageData;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+
 public class TrackREditActivity extends Activity implements View.OnClickListener {
 
     public static final int REQUEST_CODE_TAKE_PHOTO = 1;
@@ -31,6 +48,20 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     private PrefsManager mPrefs;
     private TrackR mTrack;
     private Resources mResource;
+
+    public static final int     REQUEST_CODE_PICK_PICTURE = 1;
+    public static final int     REQUEST_CODE_TAKE_PICTURE = 2;
+    /** 通过专辑获得封面 */
+    private static final int GET_ICON_FROM_ALBUM = 0x00;
+    /** 剪切获得图片 */
+    private static final int GET_ICON_FROM_CROP = 0x01;
+    /** 通过拍照获得封面 */
+    private static final int GET_ICON_FROM_TAKE = 0x02;
+    /** 扫描设备id请求 */
+    private static final int SCAN_UUID_REQUEST = 0x03;
+    /** 设备封面图片临时文件 */
+    private File mDeviceIconTempFile = null;
+    private String              mLastUpdatedIconFileName  = null;
 
     public static int[] TypeIds = {
             R.id.key,
@@ -106,6 +137,9 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mResource = getResources();
         mImageView = (ImageView) findViewById(R.id.centerLargeImage);
         mImageView.setImageResource(DrawableIds[mTrack.type]);
+        // 设备封面临时文件
+        mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
+
 
         mTypeNames = getResources().getStringArray(R.array.default_type_names);
         if(!TextUtils.isEmpty(mTrack.name)) {
@@ -142,9 +176,11 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.takePhoto:
                 Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
+                CsstSHImageData.tackPhoto(TrackREditActivity.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                 break;
             case R.id.choosePicture:
                 Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_LONG).show();
+                CsstSHImageData.pickAlbum(TrackREditActivity.this, GET_ICON_FROM_ALBUM);
                 break;
             case R.id.btnCancel:
                 finish();
@@ -155,6 +191,48 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
         }
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GET_ICON_FROM_TAKE:
+                if (RESULT_OK == resultCode){
+                    //剪切拍的照片
+                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
+                }
+                break;
+
+            case GET_ICON_FROM_CROP:
+                if (null != data){
+                    try{
+                        Bundle extras = data.getExtras();
+                        Bitmap source = extras.getParcelable("data");
+                        mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
+                        //缩放图片
+                        source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
+                        //更新设备封面图片
+                        mImageView.setImageBitmap(source);
+                    }catch(Exception ex ){
+                        System.out.println("the error is "+ex.toString());
+                    }
+
+                }
+                break;
+
+            case GET_ICON_FROM_ALBUM:
+                if (resultCode == RESULT_OK){
+                    Uri uri = data.getData();
+                    //剪切拍的照片
+                    CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
+                }
+                break;
+        }
+    }
+
+
 
     private void saveTrackRSetting() {
         String name = mTrackRName.getText().toString();

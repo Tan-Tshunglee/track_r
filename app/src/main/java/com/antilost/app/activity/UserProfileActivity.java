@@ -109,6 +109,7 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
                 // TODO Auto-generated method stub
 
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                intent.putExtra("exitcounter","1");
                 startActivity(intent);
                 UserProfileActivity.this.finish();
             }
@@ -118,14 +119,25 @@ public class UserProfileActivity extends Activity  implements TrackRInitialize, 
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
+//                startActivity(intent);
                 UserProfileActivity.this.finish();
 
             }
         });
         cbSafeZone.setOnCheckedChangeListener(this);
         cbAppring.setOnCheckedChangeListener(this);
+        rluser_tipback.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(UserProfileActivity.this, FeedBackEditor.class);
+                startActivity(intent);
+                UserProfileActivity.this.finish();
+
+            }
+        });
     }
 
     @Override

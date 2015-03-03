@@ -166,7 +166,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     }
 
     private void showLocations() {
-
+        Intent i = new Intent(this, ManualAddLocationActivity.class);
+        startActivity(i);
     }
 
     private void showUserProfile() {

@@ -1,20 +1,22 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.antilost.app.R;
-import com.antilost.app.common.*;
+import com.antilost.app.common.TrackRInitialize;
 
 public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
@@ -22,6 +24,9 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private TextView tvtitle, tvuser_usericon;
     private RelativeLayout rluser_smallname, rluser_bord, rluser_xuexing,
             rluser_likes, rluser_qianming, rluser_homepage, rlusereditor_icon;
+    private TextView tvusereditor_name,tvusereditor_board,tvusereditorxuexing,tvusereditorlikes,tvSignature,tvusereditorhomepage;
+    /** °´¼ü¼àÌý*/
+    private BtnListener mBtnListener = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +69,31 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         rluser_qianming = (RelativeLayout) findViewById(R.id.rlusereditor_qianming);
         rluser_homepage = (RelativeLayout) findViewById(R.id.rlusereditor_homepage);
 
+        tvusereditor_name=(TextView) findViewById(R.id.tvusereditor_name);
+        tvusereditor_board=(TextView) findViewById(R.id.tvusereditor_board);
+        tvusereditorxuexing=(TextView) findViewById(R.id.tvusereditorxuexing);
+        tvusereditorlikes=(TextView) findViewById(R.id.tvusereditorlikes);
+        tvSignature=(TextView) findViewById(R.id.tvSignature);
+        tvusereditorhomepage=(TextView) findViewById(R.id.tvusereditorhomepage);
+
     }
 
     @Override
     public void initWidgetState() {
         // TODO Auto-generated method stub
-
+        mBtnListener = new BtnListener();
     }
 
     @Override
     public void initWidgetListener() {
         // TODO Auto-generated method stub
+
     }
 
     @Override
     public void addWidgetListener() {
         // TODO Auto-generated method stub
         btmBack.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
@@ -90,7 +102,82 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                 TrackrUsereditor.this.finish();
             }
         });
+        tvuser_usericon.setOnClickListener(mBtnListener);
+        rlusereditor_icon.setOnClickListener(mBtnListener);
+        rluser_smallname.setOnClickListener(mBtnListener);
+        rluser_bord.setOnClickListener(mBtnListener);
+        rluser_xuexing.setOnClickListener(mBtnListener);
+        rluser_likes.setOnClickListener(mBtnListener);
+        rluser_qianming.setOnClickListener(mBtnListener);
+        rluser_homepage.setOnClickListener(mBtnListener);
 
+    }
+    /**
+     * °´¼ü¼àÌý
+     *
+     */
+    private final class BtnListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+                Dailog(v);
+//            switch (v.getId()) {
+//                case R.id.tvusereditor_icon:
+//                    break;
+//                case R.id.rlusereditor_icon:
+//                    break;
+//                case R.id.rlusereditor_borad:
+//                    break;
+//                case R.id.rlusereditor_xuexing:
+//                    break;
+//                case R.id.rlusereditor_likes:
+//                    break;
+//                case R.id.rlusereditor_qianming:
+//                    break;
+//                case R.id.rlusereditor_homepage:
+//                    break;
+//            }
+        }
+
+    }
+    private void Dailog(View view){
+        final View v = view;
+        final EditText inputServer = new EditText(TrackrUsereditor.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUsereditor.this);
+        builder.setTitle(getString(R.string.setting));
+        builder.setView(inputServer);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String  Name = inputServer.getText().toString().trim();
+                        switch (v.getId()) {
+                            case R.id.tvusereditor_icon:
+                                tvusereditor_name.setText(Name);
+                                break;
+                            case R.id.rlusereditor_icon:
+                                tvusereditor_name.setText(getResources().getString(R.string.user_smallname)+": "+Name);
+                                break;
+                            case R.id.rlusereditor_borad:
+                                tvusereditor_board.setText(getResources().getString(R.string.user_borddate)+": "+Name);
+                                break;
+                            case R.id.rlusereditor_xuexing:
+                                tvusereditorxuexing.setText(getResources().getString(R.string.user_xuexing)+": "+Name);
+                                break;
+                            case R.id.rlusereditor_likes:
+                                tvusereditorlikes.setText(getResources().getString(R.string.user_liks)+": "+Name);
+                                break;
+                            case R.id.rlusereditor_qianming:
+                                tvSignature.setText(getResources().getString(R.string.user_editorself)+": "+Name);
+                                break;
+                            case R.id.rlusereditor_homepage:
+                                tvusereditorhomepage.setText(getResources().getString(R.string.user_homepage)+": "+Name);
+                                break;
+                        }
+                    }
+                }
+        );
+        builder.show();
 
     }
 
