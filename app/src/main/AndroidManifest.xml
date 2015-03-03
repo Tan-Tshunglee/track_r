@@ -152,7 +152,7 @@
         <activity
             android:name=".activity.FindmeActivity"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
             android:label="@string/title_activity_findme" >
         </activity>
     </application>

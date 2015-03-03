@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private Vibrator mVibrator;
     private MediaPlayer mMediaPlayer;
     private LayoutInflater mLayoutInflater;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_disconnect_alert);
         mPrefsManager = PrefsManager.singleInstance(this);
@@ -58,8 +61,11 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             e.printStackTrace();
         }
 
+        mMediaPlayer.setVolume(1.0f, 1.0f);
         mLayoutInflater = getLayoutInflater();
         initAlertDialog();
+
+
     }
 
 
@@ -69,7 +75,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         super.onNewIntent(intent);
         setIntent(intent);
         initAlertDialog();
-        playAlertSound();
+
     }
 
     private void initAlertDialog() {
@@ -139,6 +145,23 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             e.printStackTrace();
         }
         mMediaPlayer.start();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playAlertSound();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        }, 60 * 1000);
     }
 
     @Override
