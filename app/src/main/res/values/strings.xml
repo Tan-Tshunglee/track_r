@@ -148,5 +148,6 @@
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the TrackR\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
+    <string name="enable_network_before_login">Enable network before login.</string>
 
 </resources>

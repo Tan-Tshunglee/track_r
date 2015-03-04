@@ -48,7 +48,6 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -72,6 +71,7 @@
         </activity>
         <activity
             android:name=".activity.MainTrackRListActivity"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_main_track_rlist"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>

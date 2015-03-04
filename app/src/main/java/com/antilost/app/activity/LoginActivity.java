@@ -1,11 +1,16 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -20,9 +25,11 @@ import com.antilost.app.prefs.PrefsManager;
 
 import java.util.regex.Matcher;
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener, Dialog.OnClickListener {
 
     public  static final String LOG_TAG = "LoginActivity";
+    public static final int PROMPT_OPEN_NETWORK_ID = 1;
+
     private Button mSignInBtn;
     private PrefsManager mPrefsManager;
     private EditText mEmailInput;
@@ -32,6 +39,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button mUserRegistration;
     private ProgressDialog mProgressDialog;
     private String exitcounter = null;
+    private ConnectivityManager mConnectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         mPasswordInput.setText(mPrefsManager.getPassword());
         mEmailInput.setText(mPrefsManager.getEmail());
+
+        mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
     }
 
 
@@ -182,6 +192,46 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             mPrefsManager.setPassword(password);
         } else {
             mPrefsManager.setPassword("");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        validateNetworkConnectivity();
+    }
+
+    private void validateNetworkConnectivity() {
+        NetworkInfo info = mConnectivityManager.getActiveNetworkInfo();
+        if(info == null || !info.isConnected()) {
+            showDialog(PROMPT_OPEN_NETWORK_ID);
+        }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if(id == PROMPT_OPEN_NETWORK_ID) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warm_prompt);
+            builder.setMessage(getString(R.string.enable_network_before_login));
+            builder.setNegativeButton(R.string.cancel, this);
+            builder.setPositiveButton(R.string.ok, this);
+            return builder.create();
+        }
+        return null;
+    }
+
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+        switch (i) {
+            case DialogInterface.BUTTON_POSITIVE:
+                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                finish();
+                break;
         }
     }
 }
