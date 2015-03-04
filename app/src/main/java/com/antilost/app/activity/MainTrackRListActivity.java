@@ -52,6 +52,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             mListViewAdapter.updateData();
+            mBluetoothLeService.tryConnect();
         }
 
         @Override
@@ -116,13 +117,15 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         if(trackIds == null || trackIds.isEmpty()) {
             addNewTrackR();
         }
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        startService(gattServiceIntent);
-        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
         mListViewAdapter.updateData();
 
         mListView.setOnItemClickListener(this);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        startService(gattServiceIntent);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.BluetoothLeService;
 
 public class UserProfileActivity extends Activity implements TrackRInitialize, CompoundButton.OnCheckedChangeListener {
 
@@ -112,6 +113,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                 startActivity(intent);
                 UserProfileActivity.this.finish();
 
+                startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

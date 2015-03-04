@@ -228,6 +228,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         Log.d("LocationManager", s + " is disabled");
     }
 
+    public void tryConnect() {
+        initialize();
+    }
+
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -680,8 +684,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
 
         int uid = mPrefsManager.getUid();
-
+        Log.v(LOG_TAG, "current uid is " + uid);
         if(uid == -1) {
+            Log.v(LOG_TAG, "user has logout, exit.");
             cleanupAndExit();
             return true;
         }
@@ -717,6 +722,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         mAlarmManager.cancel(mPendingIntent);
         mLocationManager.removeUpdates(this);
+        stopForeground(true);
         stopSelf();
 
     }
