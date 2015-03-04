@@ -16,19 +16,19 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/w01" >
+            android:background="@drawable/w001" >
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/w02" >
+            android:background="@drawable/w002" >
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/w03" >
+            android:background="@drawable/w003" >
 		<!-- 点击该按钮后就进入OtherActivit了 -->
             <Button
                 android:id="@+id/startBtn"
@@ -40,7 +40,7 @@
                 android:layout_marginBottom="90dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/button_bg"
+                android:background="@drawable/button_bkg"
                 android:text="@string/firststart"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
