@@ -120,7 +120,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
         @Override
         public void onClick(View v) {
-            Dailog(v);
             switch (v.getId()) {
                 case R.id.tvusereditor_icon:
 
