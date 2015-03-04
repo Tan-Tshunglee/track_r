@@ -7,7 +7,7 @@
     android:gravity="center_vertical"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true" 
-    android:background="@drawable/itembgd">
+    android:background="@drawable/usertitle_bkg">
 	<!-- 返回 -->
 	<ImageButton
 	    android:id="@+id/mBtnCancel"
