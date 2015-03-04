@@ -146,5 +146,6 @@
     <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
     <string name="setting">setting</string>
     <string name="feedbackpush">push</string>
+    <string name="firststart">开始我的iTrackR</string>
 
 </resources>
