@@ -29,8 +29,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
@@ -63,6 +63,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
 
     public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS ;
+
+    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 5 * 60 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -99,6 +101,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private LocationManager mLocationManager;
     private Location mLastLocation;
     private WifiManager mWifiManager;
+    private PendingIntent mPendingIntent;
 
 
     @Override
@@ -207,22 +210,22 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(location != null) {
             mLastLocation =  location;
         }
-        Log.i(LOG_TAG, "get current location is " + mLastLocation);
+        Log.i("LocationManager", "get current location is " + mLastLocation);
     }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
+        Log.d("LocationManager", s + " status changed.");
     }
 
     @Override
     public void onProviderEnabled(String s) {
-
+        Log.d("LocationManager", s + " is enabled");
     }
 
     @Override
     public void onProviderDisabled(String s) {
-
+        Log.d("LocationManager", s + " is disabled");
     }
 
 
@@ -584,44 +587,55 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         };
 
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION), 0);
+        mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION), 0);
 
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_REPEAT_PERIOD, ALARM_REPEAT_PERIOD, pendingIntent);
+
+        mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        mLocationManager =        (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_REPEAT_PERIOD, ALARM_REPEAT_PERIOD, mPendingIntent);
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
-        mLocationManager =        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
-
-        mWifiManager = (WifiManager)
-                getSystemService(Context.WIFI_SERVICE);
-        Intent notificationIntent = new Intent(this, MainTrackRListActivity.class);
-        pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(this, getString(R.string.track_r_is_running),
-                getString(R.string.track_r_is_running), pendingIntent);
-        startForeground(ONGOING_NOTIFICATION, notification);
-
-        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, getString(R.string.gps_disable_hint), Toast.LENGTH_SHORT).show();
+        if(!mPrefsManager.alreadyLogin()) {
+            Log.i(LOG_TAG, "user not login, return");
+            stopSelf();
             return;
         }
 
-//        mLocationManager.
+        Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
+        Intent notificationIntent = new Intent(this, MainTrackRListActivity.class);
+        mPendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, getString(R.string.track_r_is_running),
+                getString(R.string.track_r_is_running), mPendingIntent);
+        startForeground(ONGOING_NOTIFICATION, notification);
+
+//        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            try {
+//                startActivity(openGpsIntent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
+
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 10 * 1000,  20, this);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS,  20, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2 * 10 * 1000, 20 ,this);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, 20 ,this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
     }
 
@@ -656,8 +670,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
      * @return Return true if the initialization is successful.
      */
     private boolean initialize() {
-        // For API level 18 and above, get a reference to BluetoothAdapter through
-        // BluetoothManager.
+
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
@@ -666,6 +679,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             }
         }
 
+        int uid = mPrefsManager.getUid();
+
+        if(uid == -1) {
+            cleanupAndExit();
+            return true;
+        }
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
             Log.e(LOG_TAG, "Unable to obtain a BluetoothAdapter.");
@@ -679,6 +698,48 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         return true;
 
 
+    }
+
+    private void cleanupAndExit() {
+
+        Set<Map.Entry<String, BluetoothGatt>> entrys = mBluetoothGatts.entrySet();
+        for(Map.Entry<String, BluetoothGatt> e : entrys) {
+            String address = e.getKey();
+            if(!TextUtils.isEmpty(address)) {
+                silentlyTurnOffTrack(address);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        mAlarmManager.cancel(mPendingIntent);
+        mLocationManager.removeUpdates(this);
+        stopSelf();
+
+    }
+
+    private void silentlyTurnOffTrack(String address) {
+        Integer state = mGattStates.get(address);
+
+        if (state == null) {
+            Log.w(LOG_TAG, "trying to turn off an unknown state track.");
+            return;
+        }
+        if (state == BluetoothProfile.STATE_CONNECTED) {
+            mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+            alertLevelChar.setValue(new byte[]{03});
+            gatt.writeCharacteristic(alertLevelChar);
+        } else {
+            Log.w(LOG_TAG, "can not close unconnected track r");
+            return;
+        }
+        mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
     }
 
     private void scanLeDevice() {
@@ -834,7 +895,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         Integer state = mGattStates.get(address);
 
         if(state == null) {
-            Log.w(LOG_TAG, "trying to turn off an unknown track.");
+            Log.w(LOG_TAG, "trying to turn off an unknown state track.");
             return;
         }
         if(state == BluetoothProfile.STATE_CONNECTED) {

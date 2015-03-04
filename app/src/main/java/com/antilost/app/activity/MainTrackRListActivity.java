@@ -2,6 +2,7 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -11,9 +12,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +32,11 @@ import com.antilost.app.service.BluetoothLeService;
 import java.util.Locale;
 import java.util.Set;
 
-public class MainTrackRListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainTrackRListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener, Dialog.OnClickListener {
 
     private static final int REQUEST_CODE_ADD_TRACK_R = 1;
     private static final String LOG_TAG = "MainTrackRListActivity";
+    public static final int PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID = 1;
 
 
     private TrackRListAdapter mListViewAdapter;
@@ -83,6 +87,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     };
     private AlertDialog mDisconnectedDialog;
     private BluetoothAdapter mBluetoothAdapter;
+    private LocationManager mLocationManager;
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -117,6 +122,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         mListViewAdapter.updateData();
 
         mListView.setOnItemClickListener(this);
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
@@ -136,8 +142,39 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         if(!mBluetoothAdapter.isEnabled()) {
 
         }
+        if(!mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            try {
+//                startActivity(openGpsIntent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
+
+            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
+        }
     }
 
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID:
+                return createPromptOpenLocationServiceDialog();
+        }
+        return null;
+    }
+
+    private Dialog createPromptOpenLocationServiceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.warm_prompt));
+        builder.setMessage(getString(R.string.warm_prompt_open_location_service));
+        builder.setPositiveButton(R.string.ok, this);
+        builder.setNegativeButton(R.string.cancel, this);
+        return builder.create();
+    }
 
     @Override
     protected void onPause() {
@@ -254,5 +291,23 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+        switch (i) {
+            case DialogInterface.BUTTON_POSITIVE:
+                Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(openGpsIntent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                //do nothing
+                break;
+        }
     }
 }

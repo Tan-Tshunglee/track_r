@@ -161,9 +161,9 @@
         </activity>
         <activity
             android:name=".activity.FindmeActivity"
+            android:label="@string/title_activity_findme"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
-            android:label="@string/title_activity_findme" >
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         </activity>
     </application>
 

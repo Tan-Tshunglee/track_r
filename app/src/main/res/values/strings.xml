@@ -107,7 +107,7 @@
     <string name="safezone_wifiselcettitle">Choose safe wifi</string>
     <string name="safezone_wifitip">When connected to safe wifi ,Track App will only alarm for disconnected.</string>
     <string name="wifisameple">WIFI</string>
-    <string name="gps_disable_hint">GPS is disabled , TrackR can\'t save the location info</string>
+    <string name="gps_disable_hint">Location is disabled , TrackR can\'t save the location info</string>
     <string name="connecting">Connecting</string>
     <string name="disconnecting">Disconnecting</string>
     <string name="closed">closed</string>
@@ -142,9 +142,11 @@
     <string name="feedback_title">FeedBack</string>
     <string name="feedback_tip1">欢饮您留下宝贵的意见和建议，您留下的</string>
     <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
-
     <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
     <string name="setting">setting</string>
     <string name="feedbackpush">push</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+    <string name="warm_prompt_open_location_service">In order to record the TrackR\'s lost location info, you need open the location service.</string>
+    <string name="warm_prompt">Warm Prompt</string>
 
 </resources>

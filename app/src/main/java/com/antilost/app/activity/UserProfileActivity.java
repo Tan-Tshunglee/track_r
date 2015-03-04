@@ -111,6 +111,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                 intent.putExtra("exitcounter", "1");
                 startActivity(intent);
                 UserProfileActivity.this.finish();
+
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

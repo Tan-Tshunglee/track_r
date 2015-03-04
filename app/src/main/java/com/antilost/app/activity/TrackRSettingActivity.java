@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -51,6 +52,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
     };
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
+    private ConnectivityManager mConnectivityManager;
 
 
     @Override
@@ -85,6 +87,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         mSleepMode = (Switch) findViewById(R.id.sleepModeSwitch);
         mSleepMode.setChecked(sleepMode);
         mSleepMode.setOnCheckedChangeListener(this);
+
+        mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
     }
 
