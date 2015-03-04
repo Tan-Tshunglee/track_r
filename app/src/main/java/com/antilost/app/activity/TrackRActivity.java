@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.LocUtils;
 
 public class TrackRActivity extends Activity implements View.OnClickListener {
 
@@ -262,6 +264,25 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.location:
+
+                if(mBluetoothLeService != null && mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    Location location = mBluetoothLeService.getLastLocation();
+                    if(location != null) {
+                        LocUtils.viewLocation(this, location);
+                    }
+                } else {
+                    Location location = mPrefsManager.getLastLostLocation(mBluetoothDeviceAddress);
+
+                    if(location == null) {
+                        location = mBluetoothLeService.getLastLocation();
+                        if(location != null) {
+                            LocUtils.viewLocation(this, location);
+                        }
+                    } else {
+                        LocUtils.viewLocation(this, location);
+                    }
+                }
+
 
                 break;
 

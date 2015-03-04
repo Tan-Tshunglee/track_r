@@ -1,7 +1,12 @@
 package com.antilost.app.util;
 
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+
+import java.util.Locale;
 
 /**
  * Created by Tan on 2015/2/12.
@@ -24,5 +29,11 @@ public class LocUtils {
         location.setLongitude(longitude);
 
         return location;
+    }
+
+    public static final void viewLocation(Context context, Location loc) {
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        context.startActivity(intent);
     }
 }

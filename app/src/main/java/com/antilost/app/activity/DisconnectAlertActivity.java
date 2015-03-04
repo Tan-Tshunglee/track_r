@@ -9,7 +9,6 @@ import android.content.res.AssetManager;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -24,9 +23,9 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.util.LocUtils;
 
 import java.io.IOException;
-import java.util.Locale;
 
 public class DisconnectAlertActivity extends Activity implements DialogInterface.OnClickListener, SoundPool.OnLoadCompleteListener {
 
@@ -123,9 +122,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             case DialogInterface.BUTTON_POSITIVE:
                 Location loc = mPrefsManager.getLastLostLocation(mAddress);
                 if(loc != null) {
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    startActivity(intent);
+                    LocUtils.viewLocation(this, loc);
                 }
 
                 finish();

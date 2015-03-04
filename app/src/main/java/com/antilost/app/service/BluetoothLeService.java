@@ -232,6 +232,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         initialize();
     }
 
+    public Location getLastLocation() {
+        return mLastLocation;
+    }
+
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -274,7 +278,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     String officeSsid = mPrefsManager.getOfficeSsid();
                     String otherSsid = mPrefsManager.getOtherSsid();
                     mPrefsManager.saveMissedTrack(address, true);
-                    mPrefsManager.saveLastLostLocation(mLastLocation, address);
+                    if(mLastLocation != null) {
+                        mPrefsManager.saveLastLostLocation(mLastLocation, address);
+                    }
+
                     WifiInfo info = mWifiManager.getConnectionInfo();
                     String ssid = info.getSSID();
                     boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
@@ -712,11 +719,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             String address = e.getKey();
             if(!TextUtils.isEmpty(address)) {
                 silentlyTurnOffTrack(address);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
             }
         }
 
