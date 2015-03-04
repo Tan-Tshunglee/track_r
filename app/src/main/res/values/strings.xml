@@ -88,13 +88,13 @@
     <string name="user_exitcount">Log out</string>
     <string name="user_editor">Edit</string>
     <string name="user_usericon">Portrait</string>
-    <string name="user_smallname">Nickname</string>
-    <string name="user_borddate">Birthday</string>
-    <string name="user_xingzuo">Sign</string>
-    <string name="user_xuexing">Blood type</string>
-    <string name="user_liks">Hobby</string>
-    <string name="user_editorself">Signature</string>
-    <string name="user_homepage">Homepage</string>
+    <string name="user_smallname">Nickname:</string>
+    <string name="user_borddate">Birthday:</string>
+    <string name="user_xingzuo">Sign:</string>
+    <string name="user_xuexing">Blood type:</string>
+    <string name="user_liks">Hobby:</string>
+    <string name="user_editorself">Signature:</string>
+    <string name="user_homepage">Homepage:</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="safezone_title">Safe zone</string>
@@ -150,5 +150,7 @@
     <string name="warm_prompt">Warm Prompt</string>
     <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">开始我的iTrackR</string>
+    <string name="locationsetting">定位名称：</string>
 
+    <string name="locationtime">时间：</string>
 </resources>

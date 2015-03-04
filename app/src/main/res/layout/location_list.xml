@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+    <RelativeLayout
+        android:id="@+id/rllocation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_bar_bkg">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:padding="25dp"
+            >
+            <TextView android:id="@+id/tvlocationtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locationsetting"
+                android:textSize="20sp"
+                android:textColor="@android:color/white" />
+
+            <TextView android:id="@+id/tvlocationtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locationtime"
+                android:textSize="20sp"
+                android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        <ImageButton
+            android:id="@+id/btnlocation"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:src="@drawable/location"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="25dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent" />
+
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

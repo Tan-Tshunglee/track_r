@@ -12,13 +12,13 @@
     <string name="user_exitcount">退出登录</string>
     <string name="user_editor">编辑</string>
     <string name="user_usericon">头像</string>
-    <string name="user_smallname">昵称</string>
-    <string name="user_borddate">出生日期</string>
-    <string name="user_xingzuo">星座</string>
-    <string name="user_xuexing">血型</string>
-    <string name="user_liks">爱好</string>
-    <string name="user_editorself">个性签名</string>
-    <string name="user_homepage">主页</string>
+    <string name="user_smallname">昵称：</string>
+    <string name="user_borddate">出生日期：</string>
+    <string name="user_xingzuo">星座：</string>
+    <string name="user_xuexing">血型：</string>
+    <string name="user_liks">爱好：</string>
+    <string name="user_editorself">个性签名：</string>
+    <string name="user_homepage">主页：</string>
     <string name="done">完成</string>
     <string name="back">返回</string>
 
@@ -32,4 +32,17 @@
     <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
     <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
     <string name="wifisameple">WIFI</string>
+
+
+    <string name="feedback_tip1">欢饮您留下宝贵的意见和建议，您留下的</string>
+    <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
+
+    <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
+    <string name="setting">setting</string>
+    <string name="feedbackpush">push</string>
+    <string name="firststart">开始我的iTrackR</string>
+    <string name="locationsetting">定位名称：</string>
+
+    <string name="locationtime">时间：</string>
+
 </resources>
