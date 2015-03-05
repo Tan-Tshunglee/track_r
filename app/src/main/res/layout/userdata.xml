@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addModelcontent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/user_bgd"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/rluser_topback"
         android:layout_width="fill_parent"
-        android:layout_height="60dp">
+        android:layout_height="@dimen/title_bar_height">
 
         <include layout="@layout/csst_title_layout_trigle" />
     </RelativeLayout>
@@ -35,18 +35,19 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical">
             <!-- 头像 -->
-            <TextView
+            <ImageButton
                 android:id="@+id/tvusericon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/user_usericondefault"
+                android:src="@drawable/user_usericondefault"
                 android:gravity="center"
                 android:text="@string/user_usericon"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:background="@android:color/transparent"/>
             <!-- 编辑 -->
             <TextView
                 android:id="@+id/tvuser_editor"
