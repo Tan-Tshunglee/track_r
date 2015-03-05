@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,17 +69,18 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             R.drawable.other
     };
 
-    private int mPositionSelected;
     private View.OnClickListener mTypesIconClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = positionOfView(v);
             if(position != -1) {
-                mPositionSelected = position;
+                mTrack.type  = position;
             }
-            int drawableId = DrawableIds[mPositionSelected];
+            int drawableId = DrawableIds[mTrack.type];
             mImageView.setImageResource(drawableId);
-            mTrackRName.setText(mTypeNames[mPositionSelected]);
+            mTrackRName.setText(mTypeNames[mTrack.type]);
+
+            new File(CsstSHImageData.TRACKR_IMAGE_FOLDER, mBluetoothDeviceAddress).delete();
         }
 
         private int positionOfView(View v) {
@@ -122,6 +124,11 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mImageView.setImageResource(DrawableIds[mTrack.type]);
         mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
 
+        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+
+        if(customIconUri != null) {
+            mImageView.setImageURI(customIconUri);
+        }
 
         mTypeNames = getResources().getStringArray(R.array.default_type_names);
         if(!TextUtils.isEmpty(mTrack.name)) {
@@ -198,8 +205,20 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                     try{
                         Bundle extras = data.getExtras();
                         Bitmap source = extras.getParcelable("data");
-                        mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
-                        source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
+                        String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
+                        source = CsstSHImageData.zoomBitmap(source, path);
+                        File pngFile = new File(path);
+
+                        File folder = new File(CsstSHImageData.TRACKR_IMAGE_FOLDER);
+                        if(folder.exists() && folder.isFile()) {
+                            folder.delete();
+                            folder.mkdir();
+                        } else if(!folder.exists()) {
+                            folder.mkdir();
+                        }
+                        if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
+                            Log.e(LOG_TAG, "Rename to address failed");
+                        };
                         mImageView.setImageBitmap(source);
                     }catch(Exception ex ){
                         System.out.println("the error is "+ex.toString());
@@ -225,7 +244,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mTrack.name = name;
         }
 
-        mTrack.type = mPositionSelected;
         mPrefs.addTrackIds(mBluetoothDeviceAddress);
         mPrefs.saveTrack(mBluetoothDeviceAddress, mTrack);
 
@@ -247,6 +265,16 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mImageSourceDialog.dismiss();
+            }
+        });
+        b.setPositiveButton(getString(R.string.reset), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(!new File(CsstSHImageData.TRACKR_IMAGE_FOLDER, mBluetoothDeviceAddress).delete()) {
+                    Log.w(LOG_TAG, "reset track custom image failed.");
+                    int drawableId = DrawableIds[mTrack.type];
+                    mImageView.setImageResource(drawableId);
+                };
             }
         });
 

@@ -55,8 +55,8 @@
     </LinearLayout>
 
     <ImageButton android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/track_r_listview_icon_size"
+        android:layout_height="@dimen/track_r_listview_icon_size"
         android:src="@drawable/other"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

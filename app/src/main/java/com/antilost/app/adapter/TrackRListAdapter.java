@@ -3,6 +3,7 @@ package com.antilost.app.adapter;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -18,6 +20,7 @@ import com.antilost.app.activity.TrackREditActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.CsstSHImageData;
 
 import java.util.ArrayList;
 
@@ -85,9 +88,16 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
             type.setText(names[track.type]);
         }
 
-        if(TextUtils.isEmpty(track.path)) {
+        Uri customIconUri = CsstSHImageData.getIconImageUri(address);
+
+        if(customIconUri != null) {
+            icon.setImageURI(customIconUri);
+            icon.setScaleType(ImageView.ScaleType.FIT_XY);
+        } else {
             icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
+
 
         icon.setTag(position);
         icon.setOnClickListener(this);

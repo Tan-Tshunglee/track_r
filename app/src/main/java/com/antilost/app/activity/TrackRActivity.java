@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.LocUtils;
 
 public class TrackRActivity extends Activity implements View.OnClickListener {
@@ -160,6 +162,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 
+        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+
+        if(customIconUri != null) {
+            mTrackImage.setImageURI(customIconUri);
+        }
     }
 
     @Override

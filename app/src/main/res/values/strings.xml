@@ -150,5 +150,6 @@
     <string name="warm_prompt">Warm Prompt</string>
     <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">开始我的iTrackR</string>
+    <string name="reset">Reset</string>
 
 </resources>
