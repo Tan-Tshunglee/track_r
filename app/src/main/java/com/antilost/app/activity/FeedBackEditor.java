@@ -1,6 +1,7 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -79,8 +80,8 @@ public class FeedBackEditor extends Activity implements TrackRInitialize {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-//                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
+                startActivity(intent);
                 FeedBackEditor.this.finish();
             }
         });
@@ -89,9 +90,8 @@ public class FeedBackEditor extends Activity implements TrackRInitialize {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-//                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
-//                startActivity(intent);
-
+                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
+                startActivity(intent);
                 FeedBackEditor.this.finish();
             }
         });

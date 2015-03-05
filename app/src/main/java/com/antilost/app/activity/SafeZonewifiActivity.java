@@ -107,6 +107,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
                 startActivity(intent);
+                SafeZonewifiActivity.this.finish();
             }
         });
         rlsafezone_home.setOnClickListener(new OnClickListener() {
@@ -117,6 +118,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_HOME);
                 startActivity(intent);
+                SafeZonewifiActivity.this.finish();
 
             }
         });
@@ -129,6 +131,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OFFICE);
                 startActivity(intent);
+                SafeZonewifiActivity.this.finish();
             }
         });
 
@@ -140,6 +143,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OTHER);
                 startActivity(intent);
+                SafeZonewifiActivity.this.finish();
             }
         });
     }

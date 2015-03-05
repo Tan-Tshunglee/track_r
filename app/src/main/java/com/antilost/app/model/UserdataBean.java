@@ -53,8 +53,8 @@ public class UserdataBean implements Serializable {
      * @param mimage
      * @param mnickname
      */
-    public UserdataBean(int muserdataId, String muserdataName, String mimage,
-                        String mnickname, String malarmtime, String mbirthday, String mbloodType, String mHobby, String mSignature , String mHomePage ) {
+    public UserdataBean(int muserdataId, String muserdataName,
+                        String mimage,String mnickname, String malarmtime, String mbirthday, String mbloodType, String mHobby, String mSignature , String mHomePage ) {
         this.muserdataId = muserdataId;
         this.muserdataName = muserdataName;
         this.mimage = mimage;

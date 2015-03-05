@@ -3,7 +3,9 @@ package com.antilost.app.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.antilost.app.model.LocationBean;
 import com.antilost.app.model.UserdataBean;
 
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public class UserDataTable {
     }
     public long insert(SQLiteDatabase db, UserdataBean arg0)
             throws RuntimeException {
-        System.out.println(" LocationTable Action insert IN");
+        Log.d(TAG, " UserDataTable  insert IN");
         String table = GEN_TABLE_NAME;
         ContentValues cv = new ContentValues();
         cv.put(GEN_USERDATA_NAME, arg0.getMuserdataName());
@@ -101,5 +103,50 @@ public class UserDataTable {
         return db.update(table, cv, whereClause, whereArgs);
     }
 
+
+    public int countRecord(SQLiteDatabase db) {
+        String table = GEN_TABLE_NAME;
+        String[] columns = {"count(*)"};
+        Cursor c = db.query(table, columns, null, null, null, null, null);
+        if (c != null && c.moveToFirst()){
+            return c.getInt(0);
+        }
+        return 0;
+    }
+
+    public boolean isEmpty(SQLiteDatabase db) {
+        String table = GEN_TABLE_NAME;
+        Cursor c = db.query(table, null, null, null, null, null, null);
+        if (c != null){
+            return false;
+        }else{
+            return true;
+        }
+
+        // TODO Auto-generated method stub
+    }
+    public UserdataBean query(SQLiteDatabase db) {
+        String table = GEN_TABLE_NAME;
+        Cursor c = db.query(table, null, null, null, null, null, null);
+        UserdataBean userDataBean = null;
+        if (c != null && c.moveToFirst()){
+            int userDataId;
+             String muserdataName,  mimage,  mnickname,  malarmtime,  mbirthday,  mbloodType,  mHobby,  mSignature ,  mHomePage;
+            userDataId = c.getInt(c.getColumnIndexOrThrow(GEN_USERDATA_ID));
+            muserdataName = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_NAME));
+            mimage = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_IMAGE));
+            mnickname = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_NICKNAME));
+            malarmtime = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_ALARMTIME));
+            mbirthday = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_BIRTHDAY));
+            mbloodType = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_BLOODTYPE));
+            mHobby = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_HOBBY));
+            mSignature = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_SIGNATURE));
+            mHomePage = c.getString(c.getColumnIndexOrThrow(GEN_USERDATA_HOMEPAGE));
+            userDataBean = new UserdataBean(userDataId, muserdataName, mimage, mnickname, malarmtime,mbirthday,mbloodType,mHobby,mSignature,mHomePage);
+        }
+        c.close();
+        return userDataBean;
+        // TODO Auto-generated method stub
+    }
 
 }

@@ -35,18 +35,19 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical">
             <!-- 头像 -->
-            <TextView
+            <ImageButton
                 android:id="@+id/tvusericon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/user_usericondefault"
+                android:src="@drawable/user_usericondefault"
                 android:gravity="center"
                 android:text="@string/user_usericon"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:background="@android:color/transparent"/>
             <!-- 编辑 -->
             <TextView
                 android:id="@+id/tvuser_editor"

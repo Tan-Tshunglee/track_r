@@ -53,18 +53,18 @@
               android:layout_alignParentTop="true"
             />
 	         <!-- 头像 -->
-	        <TextView
-	           android:layout_marginRight="10dp"
+	        <ImageButton
+	          android:layout_marginRight="10dp"
 	          android:id="@+id/tvusereditor_icon"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:gravity="center"
-              android:drawableLeft="@drawable/user_usericondefault"
+              android:src="@drawable/user_usericondefault"
               android:textColor="@color/whitesmoke"
               android:textSize="20sp"
               android:layout_alignParentRight="true"
               android:layout_alignParentTop="true"
-            />
+              android:background="@android:color/transparent"/>
 	    </RelativeLayout>
 	    <!-- 分隔线 -->
     	<TextView
