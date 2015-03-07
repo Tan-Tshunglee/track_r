@@ -148,7 +148,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 //                            startActivity(i);
 //                            finish();
 //                            return;
-//                        } else if(command.err()) {
+//                        } else if(command.resultError()) {
 //                            Toast.makeText(BindingTrackRActivity.this, getString(R.string.already_binded), Toast.LENGTH_SHORT).show();
 //                        } else if(command.isNetworkError()) {
 //                            Log.v(LOG_TAG, "network status error!");

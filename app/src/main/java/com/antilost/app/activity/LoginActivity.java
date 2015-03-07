@@ -20,9 +20,11 @@ import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
+import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 
+import java.util.List;
 import java.util.regex.Matcher;
 
 public class LoginActivity extends Activity implements View.OnClickListener, Dialog.OnClickListener {
@@ -154,6 +156,21 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             public void run() {
                 final LoginCommand command = new LoginCommand(email, password);
                 command.execTask();
+
+                if(command.success()) {
+                    int uid = command.getUid();
+                    FetchAllTrackRCommand fetchCommand = new FetchAllTrackRCommand(uid);
+                    fetchCommand.execTask();
+
+                    if(fetchCommand.success()) {
+                        List<String> addresses = fetchCommand.getBoundTrackRAddress();
+                        for(String address: addresses) {
+                            Log.i(LOG_TAG, address);
+                        }
+                    } else {
+                        Log.e(LOG_TAG, "Login Activity fetch all trackr data failed");
+                    }
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -169,7 +186,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                             Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
                             startActivity(i);
                             finish();
-                        } else if(command.err()) {
+                        } else if(command.resultError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()){
                             Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();

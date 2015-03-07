@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
+import com.antilost.app.network.DownloadImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
@@ -178,7 +179,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.btnOK:
                 saveTrackRSetting();
-                finish();
                 break;
         }
     }
@@ -247,9 +247,53 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mPrefs.addTrackIds(mBluetoothDeviceAddress);
         mPrefs.saveTrack(mBluetoothDeviceAddress, mTrack);
 
+//        Thread t = new Thread() {
+//            @Override
+//            public void run() {
+//                final UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+//                command.execTask();
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(command.success()) {
+//                            Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
+//                        }
+//                        finish();
+//                    }
+//                });
+//            }
+//        };
+//        t.start();
+        testIconFileDownload();
     }
 
 
+
+    public void testIconFileDownload() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                final DownloadImageCommand command = new DownloadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                command.execTask();
+                byte[] rawImageData = command.getRawImageData();
+                if(rawImageData != null) {
+                    Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
+                } else {
+                    Log.e(LOG_TAG, "no rawImageData return.");
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                });
+
+            }
+        };
+        t.start();
+    }
     private void showImageSourceDialog() {
         if(mImageSourceDialog != null) {
             mImageSourceDialog.show();

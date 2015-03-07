@@ -158,6 +158,11 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
             showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
         }
+
+
+        if(!mPrefsManager.alreadyLogin()) {
+            finish();
+        }
     }
 
 

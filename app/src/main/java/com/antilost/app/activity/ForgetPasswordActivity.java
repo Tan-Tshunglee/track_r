@@ -102,7 +102,7 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
                         if(command.success()) {
                             Toast.makeText(ForgetPasswordActivity.this, getString(R.string.password_has_been_sent_to_your_email), Toast.LENGTH_LONG).show();
                             finish();
-                        } else if(command.err()) {
+                        } else if(command.resultError()) {
                             Toast.makeText(ForgetPasswordActivity.this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()){
                             Toast.makeText(ForgetPasswordActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();

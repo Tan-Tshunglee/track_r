@@ -1,6 +1,7 @@
 package com.antilost.app.network;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -19,11 +20,17 @@ public abstract class Command {
 
     public boolean execTask() {
         String request = makeRequestString();
-        String entity = HttpRequest.sendPost(SERVER_URL, request);
-        if(TextUtils.isEmpty(entity)) {
+        if(TextUtils.isEmpty(request)) {
+            Log.e(LOG_TAG, "execTask get empty request");
             return false;
+        } else {
+            String entity = HttpRequest.sendPost(SERVER_URL, request);
+            if(TextUtils.isEmpty(entity)) {
+                return false;
+            }
+            return parseResponse(entity);
         }
-        return parseResponse(entity);
+
     }
 
     private boolean parseResponse(String entity) {
@@ -54,13 +61,13 @@ public abstract class Command {
 
     }
 
-    public boolean err() {
+    public boolean resultError() {
         if(mResultMap == null) {
             return false;
         }
 
         String status = mResultMap.get("status");
-        return "err".equals(status);
+        return "resultError".equals(status);
     }
 
     public boolean isNetworkError() {
@@ -70,4 +77,15 @@ public abstract class Command {
     public boolean isStatusBad() {
         return  mStatusBad;
     }
+
+    public void dumpDebugInfo() {
+        if(isNetworkError()) {
+            Log.v(LOG_TAG, "network error");
+        } else if(isStatusBad()) {
+            Log.v(LOG_TAG, "status bad");
+        } else if(resultError()) {
+            Log.v(LOG_TAG, "result error");
+        }
+    }
 }
+

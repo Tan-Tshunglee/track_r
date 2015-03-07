@@ -148,8 +148,8 @@ public final class CsstSHImageData {
      * 缩放图片
      *
      * @param source    源图片
-     * @param newWidth  缩放宽度
-     * @param newHeight 缩放高度
+     *  newWidth  缩放宽度
+     *  newHeight 缩放高度
      * @return
      */
     public static final Bitmap zoomBitmap(Bitmap source, String file) {
@@ -212,6 +212,10 @@ public final class CsstSHImageData {
             return Uri.fromFile(imageFile);
         }
         return null;
+    }
+
+    public static final File getIconFile(String address) {
+        return new File(TRACKR_IMAGE_FOLDER, address);
     }
 
 }
