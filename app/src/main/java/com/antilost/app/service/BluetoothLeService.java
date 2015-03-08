@@ -925,11 +925,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public void turnOffTrackR(String address) {
         Integer state = mGattStates.get(address);
 
-        if(state == null) {
-            Log.w(LOG_TAG, "trying to turn off an unknown state track.");
-            return;
-        }
-        if(state == BluetoothProfile.STATE_CONNECTED) {
+        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
             mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
@@ -937,7 +933,13 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             alertLevelChar.setValue(new byte[]{03});
             gatt.writeCharacteristic(alertLevelChar);
         } else {
-            Log.w(LOG_TAG, "can not close unconnected track r");
+            Log.i(LOG_TAG, "turnoff disconnected TrackR");
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+            gatt.disconnect();
+            gatt.close();
+            mBluetoothGatts.remove(address);
+            broadcastDeviceOff();
             return;
         }
         mPrefsManager.saveClosedTrack(address, true);
