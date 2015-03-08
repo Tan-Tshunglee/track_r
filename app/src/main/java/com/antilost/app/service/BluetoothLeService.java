@@ -47,6 +47,7 @@ import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -679,6 +680,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(loc != null) {
            mLastLocation =  LocUtils.convertAmapLocation(loc);
         }
+
+        String sha1 = Utils.sHA1(this);
+        Log.w(LOG_TAG, "sha1 is " + sha1);
     }
 
     @Override

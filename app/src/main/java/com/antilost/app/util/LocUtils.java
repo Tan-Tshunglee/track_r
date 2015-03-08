@@ -58,21 +58,21 @@ public class LocUtils {
         }
         String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//        try {
-//            context.startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        }
-//    }
-        intent = new Intent(context, AmapActivity.class);
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(uri));
-
         try {
             context.startActivity(intent);
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
     }
+//        intent = new Intent(context, AmapActivity.class);
+//        intent.setAction(Intent.ACTION_VIEW);
+//        intent.setData(Uri.parse(uri));
+//
+//        try {
+//            context.startActivity(intent);
+//        } catch (Exception e1) {
+//            e1.printStackTrace();
+//        }
+//    }
 }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.MapView;
+
 import com.amap.api.maps2d.model.BitmapDescriptor;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
