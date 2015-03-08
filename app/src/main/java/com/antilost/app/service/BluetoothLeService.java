@@ -924,7 +924,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void turnOffTrackR(String address) {
         Integer state = mGattStates.get(address);
-
+        //turn off connected trackr;
         if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
             mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             BluetoothGatt gatt = mBluetoothGatts.get(address);
@@ -936,11 +936,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.i(LOG_TAG, "turnoff disconnected TrackR");
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            gatt.disconnect();
-            gatt.close();
+            if(gatt != null) {
+                gatt.disconnect();
+                gatt.close();
+            }
             mBluetoothGatts.remove(address);
             broadcastDeviceOff();
-            return;
         }
         mPrefsManager.saveClosedTrack(address, true);
         mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -949,15 +950,23 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void unbindTrackR(final String address) {
         Integer state = mGattStates.get(address);
-        if(state == BluetoothProfile.STATE_CONNECTED) {
+        //turn off connected trackr;
+        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             alertLevelChar.setValue(new byte[] {03});
             gatt.writeCharacteristic(alertLevelChar);
         } else {
-            Log.w(LOG_TAG, "can not close unconnected track r");
-            return;
+            Log.i(LOG_TAG, "unbind disconnected TrackR");
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+            if(gatt != null) {
+                gatt.disconnect();
+                gatt.close();
+            }
+            mBluetoothGatts.remove(address);
+            broadcastDeviceOff();
         }
         mPrefsManager.saveMissedTrack(address, false);
         mPrefsManager.removeTrackId(address);

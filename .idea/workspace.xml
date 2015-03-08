@@ -79,6 +79,7 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.antilost.app" />
   </component>
   <component name="BookmarkManager">
@@ -124,8 +125,8 @@
       <file leaf-file-name="TrackRSettingActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRSettingActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1221" max-vertical-offset="2010">
-              <caret line="124" column="44" selection-start-line="124" selection-start-column="44" selection-end-line="124" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1156" max-vertical-offset="2010">
+              <caret line="132" column="42" selection-start-line="132" selection-start-column="42" selection-end-line="132" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -134,22 +135,14 @@
       <file leaf-file-name="BluetoothLeService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58523726" vertical-offset="12447" max-vertical-offset="16095">
-              <caret line="935" column="55" selection-start-line="935" selection-start-column="55" selection-end-line="935" selection-end-column="55" />
+            <state vertical-scroll-proportion="0.6221441" vertical-offset="12891" max-vertical-offset="16275">
+              <caret line="966" column="13" selection-start-line="966" selection-start-column="13" selection-end-line="966" selection-end-column="13" />
               <folding>
                 <element signature="e#4068#4085#0" expanded="true" />
                 <element signature="e#4158#4175#0" expanded="true" />
+                <element signature="e#39002#39222#0" expanded="true" />
+                <element signature="e#39211#39212#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PrefsManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2107" max-vertical-offset="3825">
-              <caret line="176" column="16" selection-start-line="176" selection-start-column="16" selection-end-line="176" selection-end-column="16" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -2174,14 +2167,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRSettingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1221" max-vertical-offset="2010">
-          <caret line="124" column="44" selection-start-line="124" selection-start-column="44" selection-end-line="124" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2107" max-vertical-offset="3825">
@@ -2190,13 +2175,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRSettingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1156" max-vertical-offset="2010">
+          <caret line="132" column="42" selection-start-line="132" selection-start-column="42" selection-end-line="132" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58523726" vertical-offset="12447" max-vertical-offset="16095">
-          <caret line="935" column="55" selection-start-line="935" selection-start-column="55" selection-end-line="935" selection-end-column="55" />
+        <state vertical-scroll-proportion="0.6221441" vertical-offset="12891" max-vertical-offset="16275">
+          <caret line="966" column="13" selection-start-line="966" selection-start-column="13" selection-end-line="966" selection-end-column="13" />
           <folding>
             <element signature="e#4068#4085#0" expanded="true" />
             <element signature="e#4158#4175#0" expanded="true" />
+            <element signature="e#39002#39222#0" expanded="true" />
+            <element signature="e#39211#39212#0" expanded="true" />
           </folding>
         </state>
       </provider>
