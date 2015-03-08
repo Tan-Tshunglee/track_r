@@ -277,4 +277,8 @@ public class PrefsManager {
         int defaultTime = start ? SLEEP_MODE_STATR_TIME_OFFSET : SLEEP_MODE_END_TIME_OFFSET;
         return mPrefs.getInt(key, defaultTime);
     }
+
+    public void addTrackR(TrackR track) {
+
+    }
 }

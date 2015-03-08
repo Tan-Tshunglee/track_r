@@ -260,17 +260,13 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 final UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                 command.execTask();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(command.success()) {
-                            Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
-                        }
-                        finish();
-                    }
-                });
+                if(command.success()) {
+                    Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
+                }
             }
         };
+
+
         t.start();
 //        testIconFileDownload();
     }

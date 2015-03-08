@@ -1,5 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">TrackR</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="new_user_registration">User Registration</string>
+    <string name="user_icon">user icon</string>
+    <string name="remember_password">Remember Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="email_input_hint">Your email address</string>
+    <string name="password_input_hint">Password</string>
+    <string name="password_confirm_input_hint">Password confirm</string>
+    <string name="registration">Registration</string>
+    <string name="title_activity_bind">BindActivity</string>
+    <string name="title_activity_binding">BindingActivity</string>
+    <string name="title_activity_track_redit">TrackREditActivity</string>
+    <string name="cancel">Cancel</string>
+    <string name="click_to_add">Click To Add</string>
+    <string name="title_activity_main_track_rlist">MainTrackRListActivity</string>
+    <string name="change_image">Change Image</string>
+    <string name="title_activity_photo_edit">PhotoEditActivity</string>
+    <string name="title_activity_track_r">TrackRActivity</string>
+    <string name="title_activity_forget_password">ForgetPassword</string>
+    <string name="send">Send</string>
+    <string name="ble_not_support">ble not support.</string>
+
+    <string-array name="default_type_names">
+        <item>Key</item>
+        <item>Wallet</item>
+        <item>Bag</item>
+        <item>Computer</item>
+        <item>Pet</item>
+        <item>Car</item>
+        <item>Child</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="track_r_is_running">TrackR is running.</string>
+    <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
+    <string name="title_activity_track_rsetting">TrackRSettingActivity</string>
+    <string name="binding_steps_describe">1.Make sure the bluetooth is enabled.\n2.Make TrackR closed to phone\n3.Press the key on TrackR and track will beep</string>
+    <string name="add_track_r">Add TrackR</string>
+    <string name="connecting_with_track_r">Connecting with TrackR</string>
+    <string name="connecting_failed">Connecting Failed</string>
+    <string name="try_again_steps">You could try:\n1.Make sure the phone\'s bluetooth is enabled.\n2.Make sure that TrackR is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
+    <string name="try_again">Try Again</string>
+    <string name="send_password_to_my_email">Send Password to My Email</string>
+    <string name="or_use">Or Use</string>
+    <string name="my_track_list">My TrackR List</string>
+    <string name="crop_image">Crop Image</string>
+    <string name="ok">OK</string>
+    <string name="my_track_r">My TrackR</string>
+    <string name="prepare_track_r_to_bind">Prepare TrackR to Bind</string>
+    <string name="sleep_on_and_time">Sleep On\n\n22:00 - 7:00</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="distance_to_track_r">Distance to TrackR</string>
+    <string name="loc">Loc</string>
+    <string name="ring">Ring</string>
+    <string name="photo">Photo</string>
+    <string name="share">Share</string>
+    <string name="change">Change</string>
+    <string name="key">Key</string>
+    <string name="bidirectional_anti_lost">Bidirect anti-lost</string>
+    <string name="alert_level">Alert level</string>
+    <string name="turn_off_track_r">Turn off TrackR</string>
+    <string name="unbind_track_r">Unbind TrackR</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_picture">Choose Picture</string>
+    <string name="reconect_to_s">"Reconnect to %s"</string>
+    <string name="binding_success">Binding Success!</string>
+    <string name="already_binded">Already Binded!</string>
+    <string name="your_device_no_ble_support">Your device has no bluetooth support.</string>
+    <string name="max_device_limit_reached">Max device count limit reach</string>
+    <string name="custom_name">Custom Name</string>
     <string name="user_title">我</string>
     <string name="user_data">个人资料</string>
     <string name="user_app_ring">APP报警铃声</string>
@@ -32,17 +107,62 @@
     <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
     <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
     <string name="wifisameple">WIFI</string>
-
-
+    <string name="gps_disable_hint">Location is disabled , TrackR can\'t save the location info</string>
+    <string name="connecting">Connecting</string>
+    <string name="disconnecting">Disconnecting</string>
+    <string name="closed">closed</string>
+    <string name="invalid_email_address">Invalid Email Address!</string>
+    <string name="password_length_is_6_to_18_chars">Password length of 6 to 18 characters</string>
+    <string name="signing_in">Signing In</string>
+    <string name="login_success">Login Success</string>
+    <string name="invalid_email_or_password">Invalid Email or Password!</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_status_error">Login Error</string>
+    <string name="unknow_error">Unkown Error</string>
+    <string name="warning">Warning</string>
+    <string name="name_connected">%s\n disconnected</string>
+    <string name="i_known">I know</string>
+    <string name="find">Find</string>
+    <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>
+    <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
+    <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
+    <string name="registration_success">Registration Success</string>
+    <string name="email_has_been_used">Email has been used.</string>
+    <string name="registration_error">Registration Error</string>
+    <string name="title_activity_findme">FindmeActivity</string>
+    <string name="i_am_here">I am here</string>
+    <string name="sleep_mode">Sleep Mode</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="everyday">Everyday</string>
+    <string name="help">Help</string>
+    <string name="track_r_settings">TrackR Setting</string>
+    <string name="i_am_here_find_me">I am here, find me?</string>
+    <string name="my_location_title">Manually added Location</string>
+    <string name="feedback_title">FeedBack</string>
     <string name="feedback_tip1">欢饮您留下宝贵的意见和建议，您留下的</string>
     <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
 
     <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
     <string name="setting">setting</string>
     <string name="feedbackpush">push</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+    <string name="warm_prompt_open_location_service">In order to record the TrackR\'s lost location info, you need open the location service.</string>
+    <string name="warm_prompt">Warm Prompt</string>
+    <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">开始我的iTrackR</string>
+    <string name="reset">Reset</string>
     <string name="locationsetting">定位名称：</string>
 
     <string name="locationtime">时间：</string>
+
+    <string name="usereditor_select">请设置</string>
+    <string name="usereditor_select_bloodtp_o">O</string>
+    <string name="usereditor_select_bloodtp_A">A</string>
+    <string name="usereditor_select_bloodtp_B">B</string>
+    <string name="usereditor_select_bloodtp_AB">AB</string>
+    <string name="alarttime_tip">AlartTime:</string>
+    <string name="alarttime_second">S</string>
+    <string name="alarttime_title">AlartTime Setting</string>
 
 </resources>

@@ -94,14 +94,18 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                         (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
                         Path.Direction.CCW);
                 canvas.clipPath(path);
-                Bitmap sourceBitmap =BitmapFactory.decodeFile(curUserDataBean.getMimage());
-                canvas.drawBitmap(
-                        sourceBitmap,
-                        new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-                        new Rect(0, 0, targetWidth, targetHeight),
-                        null);
+                Bitmap sourceBitmap = BitmapFactory.decodeFile(curUserDataBean.getMimage());
 
-                imgUser_usericon.setImageBitmap(targetBitmap);
+                if(sourceBitmap != null) {
+
+                    canvas.drawBitmap(
+                            sourceBitmap,
+                            new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+                            new Rect(0, 0, targetWidth, targetHeight),
+                            null);
+
+                    imgUser_usericon.setImageBitmap(targetBitmap);
+                }
             }
             tvtime.setText(curUserDataBean.getMalarmtime()+"S");
 

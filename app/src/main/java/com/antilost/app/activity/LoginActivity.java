@@ -23,6 +23,7 @@ import com.antilost.app.R;
 import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.NetworkSyncService;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -191,6 +192,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                             Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
                             startActivity(i);
+
+                            Intent serviceIntent = new Intent(LoginActivity.this, NetworkSyncService.class);
+                            serviceIntent.setAction(NetworkSyncService.ACTION_SYNC_AFTER_LOGIN);
+
+                            startService(serviceIntent);
                             finish();
                         } else if(command.resultError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();

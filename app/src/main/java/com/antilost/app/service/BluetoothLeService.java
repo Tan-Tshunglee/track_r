@@ -46,6 +46,7 @@ import com.antilost.app.receiver.Receiver;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -654,13 +655,19 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+        List<String> allProviders = mLocationManager.getAllProviders();
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS,  20, this);
+            if(allProviders.contains(LocationManager.GPS_PROVIDER)) {
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS,  20, this);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, 20 ,this);
+            if(allProviders.contains(LocationManager.NETWORK_PROVIDER)) {
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, 20 ,this);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
