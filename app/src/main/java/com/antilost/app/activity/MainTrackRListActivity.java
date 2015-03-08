@@ -160,7 +160,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         }
 
 
-        if(!mPrefsManager.alreadyLogin()) {
+        if(!mPrefsManager.validUserLog()) {
             finish();
         }
     }

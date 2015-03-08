@@ -610,7 +610,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
-        if(!mPrefsManager.alreadyLogin()) {
+        if(!mPrefsManager.validUserLog()) {
             Log.i(LOG_TAG, "user not login, return");
             stopSelf();
             return;

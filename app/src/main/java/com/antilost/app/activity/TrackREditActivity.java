@@ -18,12 +18,15 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
-import com.antilost.app.network.DownloadImageCommand;
+import com.antilost.app.network.UploadImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class TrackREditActivity extends Activity implements View.OnClickListener {
 
@@ -209,13 +212,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         source = CsstSHImageData.zoomBitmap(source, path);
                         File pngFile = new File(path);
 
-                        File folder = new File(CsstSHImageData.TRACKR_IMAGE_FOLDER);
-                        if(folder.exists() && folder.isFile()) {
-                            folder.delete();
-                            folder.mkdir();
-                        } else if(!folder.exists()) {
-                            folder.mkdir();
-                        }
+                        File folder = ensureIconFolder();
                         if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
                             Log.e(LOG_TAG, "Rename to address failed");
                         };
@@ -236,6 +233,16 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         }
     }
 
+    private File ensureIconFolder() {
+        File folder = new File(CsstSHImageData.TRACKR_IMAGE_FOLDER);
+        if(folder.exists() && folder.isFile()) {
+            folder.delete();
+            folder.mkdir();
+        } else if(!folder.exists()) {
+            folder.mkdir();
+        }
+        return folder;
+    }
 
 
     private void saveTrackRSetting() {
@@ -247,53 +254,72 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mPrefs.addTrackIds(mBluetoothDeviceAddress);
         mPrefs.saveTrack(mBluetoothDeviceAddress, mTrack);
 
-//        Thread t = new Thread() {
-//            @Override
-//            public void run() {
-//                final UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
-//                command.execTask();
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if(command.success()) {
-//                            Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
-//                        }
-//                        finish();
-//                    }
-//                });
-//            }
-//        };
-//        t.start();
-        testIconFileDownload();
-    }
-
-
-
-    public void testIconFileDownload() {
         Thread t = new Thread() {
             @Override
             public void run() {
-                final DownloadImageCommand command = new DownloadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                final UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                 command.execTask();
-                byte[] rawImageData = command.getRawImageData();
-                if(rawImageData != null) {
-                    Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
-                } else {
-                    Log.e(LOG_TAG, "no rawImageData return.");
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(command.success()) {
+                            Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
+                        }
                         finish();
                     }
                 });
-
             }
         };
         t.start();
+//        testIconFileDownload();
     }
+
+
+
+//    public void testIconFileDownload() {
+//        Thread t = new Thread() {
+//            @Override
+//            public void run() {
+//                final DownloadImageCommand command = new DownloadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+//                command.execTask();
+//                byte[] rawImageData = command.getRawImageData();
+//                if(rawImageData != null) {
+//                    Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
+//                    saveDataToFile(rawImageData);
+//                } else {
+//                    Log.e(LOG_TAG, "no rawImageData return.");
+//                }
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        finish();
+//                    }
+//                });
+//
+//            }
+//        };
+//        t.start();
+//    }
+
+    private void saveDataToFile(byte[] rawImageData) {
+        File folder = ensureIconFolder();
+        File iconFile = new File(folder, mBluetoothDeviceAddress);
+        try {
+            FileOutputStream out = new FileOutputStream(iconFile);
+            out.write(rawImageData);
+            out.close();
+
+            Log.i(LOG_TAG, "saveDataToFile finish successfull .");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void showImageSourceDialog() {
         if(mImageSourceDialog != null) {
             mImageSourceDialog.show();

@@ -1,7 +1,6 @@
 package com.antilost.app.network;
 
 import android.util.Base64;
-import android.util.Log;
 
 import com.antilost.app.util.CsstSHImageData;
 
@@ -42,7 +41,7 @@ public class UploadImageCommand extends Command {
                 byte[] rawData = out.toByteArray();
                 String encodedData = Base64.encodeToString(rawData, Base64.NO_WRAP);
                 out.close();
-                Log.v(LOG_TAG, encodedData);
+//                Log.v(LOG_TAG, encodedData);
 
                 StringBuilder sb = new StringBuilder(encodedData.length() + 30);
                 sb.append("cmd:setpic").append(LINE_SPLITTER);

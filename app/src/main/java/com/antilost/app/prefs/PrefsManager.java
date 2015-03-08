@@ -92,7 +92,7 @@ public class PrefsManager {
         return false;
     }
 
-    public boolean alreadyLogin() {
+    public boolean validUserLog() {
 
         return /*BuildConfig.DEBUG ? true :*/ getUid() > 0;
     }

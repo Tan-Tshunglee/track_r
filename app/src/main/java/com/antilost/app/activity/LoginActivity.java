@@ -62,7 +62,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             exitcounter = (String) intent.getSerializableExtra("exitcounter");
         }
         mPrefsManager = PrefsManager.singleInstance(this);
-        if (mPrefsManager.alreadyLogin() && exitcounter==null) {
+        if (mPrefsManager.validUserLog() && exitcounter==null) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
             startActivity(i);
             finish();

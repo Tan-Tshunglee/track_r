@@ -35,7 +35,7 @@ public class FetchAllTrackRCommand extends Command {
                 for(String address: addresses) {
                     if(Utils.isValidMacAddress(address)) {
                         addressedArrayList.add(address);
-                        Log.d(LOG_TAG, "fetch one mac address is " + address);
+                        Log.d(LOG_TAG, "Fetch one mac address is " + address);
                     }
                 }
                 return addressedArrayList;
