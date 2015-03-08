@@ -302,6 +302,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     Location location = mBluetoothLeService.getLastLocation();
                     if(location != null) {
                         LocUtils.viewLocation(this, location);
+                    } else {
+                        Log.w(LOG_TAG, "no location found.");
                     }
                 } else {
                     Location location = mPrefsManager.getLastLostLocation(mBluetoothDeviceAddress);

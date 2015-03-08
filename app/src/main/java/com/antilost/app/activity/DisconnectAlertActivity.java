@@ -164,6 +164,10 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     @Override
     protected void onPause() {
         super.onPause();
+
+        if(mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
         mMediaPlayer.stop();
     }
 

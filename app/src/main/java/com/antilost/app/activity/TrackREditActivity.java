@@ -182,6 +182,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.btnOK:
                 saveTrackRSetting();
+                finish();
                 break;
         }
     }

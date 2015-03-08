@@ -39,6 +39,7 @@ public class PrefsManager {
 
     public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
     public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
+    public static final String PREFS_LAST_LOST_TIME_KEY_PREFIX = "last_lost_time";
 
     public static final String PREFS_SLEEP_MODE_KEY = "sleep_mode_prefs_key";
 
@@ -253,9 +254,19 @@ public class PrefsManager {
         if(loc == null) {
             return null;
         }
-
         return LocUtils.convertLocation(loc);
 
+    }
+
+    public void saveLastLostTime(String address) {
+        String key = PREFS_LAST_LOST_TIME_KEY_PREFIX + address;
+        long time = System.currentTimeMillis();
+        mPrefs.edit().putLong(key, time).commit();
+    }
+
+    public long getLastLostTime(String address) {
+        String key = PREFS_LAST_LOST_TIME_KEY_PREFIX + address;
+        return mPrefs.getLong(key, -1);
     }
 
 

@@ -5,7 +5,7 @@ android {
         development_key {
             keyAlias 'zql'
             keyPassword '13457662310'
-            storeFile file('./keystore.jks')
+            storeFile file('../keystore.jks')
             storePassword '13457662310'
         }
     }
@@ -15,11 +15,16 @@ android {
         applicationId "com.antilost.app"
         minSdkVersion 18
         targetSdkVersion 18
+        signingConfig signingConfigs.development_key
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.development_key
+        }
+        debug {
+            signingConfig signingConfigs.development_key
         }
     }
     productFlavors {
@@ -28,4 +33,5 @@ android {
 
 dependencies {
     compile files('src/main/libs/Android_Location_V1.3.1.jar')
+    compile files('src/main/libs/Android_2DMap_V2.4.0.jar')
 }

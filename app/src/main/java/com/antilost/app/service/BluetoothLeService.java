@@ -32,6 +32,10 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.activity.DisconnectAlertActivity;
@@ -42,6 +46,7 @@ import com.antilost.app.activity.TrackREditActivity;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
+import com.antilost.app.util.LocUtils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -55,7 +60,7 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener, LocationListener{
+public class BluetoothLeService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener, LocationListener, AMapLocationListener {
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
 
@@ -69,7 +74,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS;
 
-    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 5 * 60 * 1000;
+    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1 * 60 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -90,8 +95,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             "com.antilost.bluetoot.le.ACTION_RSSI_READ";
     public final static String ACTION_DEVICE_CLOSED =
             "com.antilost.bluetoot.le.ACTION_DEVICE_CLOSED";
-
-
+    public static final int MIN_DISTANCE = 20;
 
 
     private BluetoothManager mBluetoothManager;
@@ -109,6 +113,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private Location mLastLocation;
     private WifiManager mWifiManager;
     private PendingIntent mPendingIntent;
+    private LocationManagerProxy mAmapLocationManagerProxy;
 
 
     @Override
@@ -289,6 +294,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                         mPrefsManager.saveLastLostLocation(mLastLocation, address);
                     }
 
+                    mPrefsManager.saveLastLostTime(address);
+
                     WifiInfo info = mWifiManager.getConnectionInfo();
                     String ssid = info.getSSID();
                     boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
@@ -311,7 +318,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     alertUserTrackDisconnected(address);
                 }
 
-                Log.w(LOG_TAG, "disconnected state before state not connected...");
+                Log.w(LOG_TAG, "Disconnected state before state not connected...");
             }
             //even device is power off the newState can be STATE_CONNECTEDe,
             //we think device is connected after onServicesDiscovered is called();
@@ -567,6 +574,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case MSG_CLEANUP_DISCONNECTED_GATT:
+                        removeMessages(MSG_CLEANUP_DISCONNECTED_GATT);
                         Log.d(LOG_TAG, "handling MSG_CLEANUP_DISCONNECTED_GATT");
                         Set<Map.Entry<String, Integer>> entrys = mGattStates.entrySet();
                         for(Map.Entry<String, Integer> entry: entrys) {
@@ -641,16 +649,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 getString(R.string.track_r_is_running), mPendingIntent);
         startForeground(ONGOING_NOTIFICATION, notification);
 
-//        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//            openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            try {
-//                startActivity(openGpsIntent);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return;
-//        }
 
 
 ;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -658,7 +656,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         List<String> allProviders = mLocationManager.getAllProviders();
         try {
             if(allProviders.contains(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS,  20, this);
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, MIN_DISTANCE, this);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -666,13 +664,32 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         try {
             if(allProviders.contains(LocationManager.NETWORK_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, 20 ,this);
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_PERIOD_IN_MS, MIN_DISTANCE, this);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        //增加高德定位API
+        mAmapLocationManagerProxy = LocationManagerProxy.getInstance(this);
+        mAmapLocationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork, LOCATION_UPDATE_PERIOD_IN_MS, MIN_DISTANCE, this);
+
+        AMapLocation loc = mAmapLocationManagerProxy.getLastKnownLocation(LocationProviderProxy.AMapNetwork);
+
+        if(loc != null) {
+           mLastLocation =  LocUtils.convertAmapLocation(loc);
+        }
     }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        Location loc = LocUtils.convertAmapLocation(amapLocation);
+        if(loc != null) {
+            mLastLocation = loc;
+            Log.i(LOG_TAG, "get location info from amap location manager!!!");
+        }
+    }
+
 
     @Override
     public void onDestroy() {
@@ -686,6 +703,11 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mBluetoothGatts.remove(address);
         }
 
+
+        mLocationManager.removeUpdates(this);
+        mAmapLocationManagerProxy.removeUpdates(this);
+        mAmapLocationManagerProxy.destroy();
+        mAmapLocationManagerProxy = null;
         startReadRssiRepeat(false, null);
     }
 

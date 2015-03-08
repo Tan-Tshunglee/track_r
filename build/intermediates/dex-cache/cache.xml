@@ -2,25 +2,18 @@
 <items version="2" >
 
     <item
-        jar="F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="G:\workspace\track_r\app\src\main\libs\Android_2DMap_V2.4.0.jar"
         jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-924e5d230f645a671b9042a7ffaf25222e737ca1.jar" />
+        revision="19.1.0"
+        sha1="d0d5d6f4c13f4b1002dcdd6cc79588e8a7ee995f">
+        <dex dex="G:\workspace\track_r\app\build\intermediates\pre-dexed\debug\Android_2DMap_V2.4.0-e787365d8b504767e6e72a59ab7553dd73e231e0.jar" />
     </item>
     <item
-        jar="F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="G:\workspace\track_r\app\src\main\libs\Android_Location_V1.3.1.jar"
         jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\classes-c0083bae3c97fcc3270c7d32fa565f1504f1317f.jar" />
-    </item>
-    <item
-        jar="E:\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="F:\MY_WORKSPACE\Android Studio\TrackR\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-eb28b17a2d1e0095a5185886e0fc974fefd33d8f.jar" />
+        revision="19.1.0"
+        sha1="38a2f44a304a66fab0527c0a86e356ddd2cce30d">
+        <dex dex="G:\workspace\track_r\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.1-374d418ba2b3005992d7d688aa9d6bedbe77fd6c.jar" />
     </item>
 
 </items>

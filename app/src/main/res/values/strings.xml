@@ -162,5 +162,7 @@
     <string name="alarttime_tip">AlartTime:</string>
     <string name="alarttime_second">S</string>
     <string name="alarttime_title">AlartTime Setting</string>
+    <string name="title_activity_amap">AmapActivity</string>
+    <string name="place_lost">Place Lost</string>
 
 </resources>
