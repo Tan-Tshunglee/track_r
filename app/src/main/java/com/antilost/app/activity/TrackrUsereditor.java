@@ -120,7 +120,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
             }else{
                 Log.d(TAG," curUserDataBean!=null");
             }
-            if(curUserDataBean.getMimage()!="3"){
+            if(!curUserDataBean.getMimage().equals("3")){
                 Log.d(TAG,"the mlastupdateIconpath is "+curUserDataBean.getMimage());
                 mLastUpdatedIconFileName = curUserDataBean.getMimage();
                 Log.d(TAG,"the mlastupdateIconpath isqqqqq"+mLastUpdatedIconFileName);
