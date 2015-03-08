@@ -8,6 +8,43 @@
     android:orientation="vertical"
     android:background="@drawable/user_bgd"
     >
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/rlalarttime"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
 
+        <include layout="@layout/csst_title_layout" />
+    </RelativeLayout>
+    <!-- 分隔符 -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarttime_tip"
+        android:id="@+id/tvalarttime_tip"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/user_data_text"
+        android:textSize="@dimen/ert"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+    <!-- 分隔符 -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:visibility="invisible" />
+    <com.antilost.app.util.wheelview.WheelView
+        android:id="@+id/wvalartselect"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dip"
+        android:layout_marginRight="60dip"
+        ></com.antilost.app.util.wheelview.WheelView>
    		
 </LinearLayout>
