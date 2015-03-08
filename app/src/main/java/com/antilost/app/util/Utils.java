@@ -7,6 +7,7 @@ import android.text.TextUtils;
  */
 public class Utils {
 
+    public static final String DEVICE_NAME = "TrackR";
     public static final boolean isValidMacAddress(String mac) {
         if(TextUtils.isEmpty(mac)) {
             return false;

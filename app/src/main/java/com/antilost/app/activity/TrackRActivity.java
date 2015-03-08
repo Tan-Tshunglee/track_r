@@ -26,11 +26,18 @@ import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.LocUtils;
 
+import java.util.HashMap;
+
 public class TrackRActivity extends Activity implements View.OnClickListener {
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
     private static final String LOG_TAG = "TrackRActivity";
+
     private static final int TIMER_PERIOD_IN_MS = 20000;
+
+    public static final int MSG_RESET_RING_STATE = 1;
+
+    public static final int TIME_RINGING_STATE_KEEP = 10 * 1000;
 
     private static final int MAX_LEVEL = -33;
     private static final int MIN_LEVEL = -129;
@@ -41,12 +48,18 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private ImageView mDistanceImage;
     private ImageView mBatteryLeve;
     private ImageView mTrackRIcon;
-    private boolean mRingBtnSend = false;
+
+    //ring state of every trackr;
+    private HashMap<String, Boolean> mRingStateMap = new HashMap<String, Boolean>();
+
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-
+                case MSG_RESET_RING_STATE:
+                    mRingStateMap.put(mBluetoothDeviceAddress, false);
+                    break;
             }
         }
     };
@@ -125,7 +138,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     private void updateRssi() {
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.startReadRssi(true, mBluetoothDeviceAddress);
+            mBluetoothLeService.startReadRssiRepeat(true, mBluetoothDeviceAddress);
         }
     }
 
@@ -196,6 +209,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         updateBatteryLevel();
 
         updateStateUi();
+
     }
 
     private void updateStateUi() {
@@ -239,7 +253,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mHandler.removeCallbacksAndMessages(null);
         unregisterReceiver(mGattUpdateReceiver);
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.startReadRssi(false, mBluetoothDeviceAddress);
+            mBluetoothLeService.startReadRssiRepeat(false, mBluetoothDeviceAddress);
         }
     }
 
@@ -256,17 +270,19 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.ring:
-                if(!mRingBtnSend) {
-                    makeTrackRRing();
-                    mRingBtnSend = true;
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mRingBtnSend = false;
-                        }
-                    }, 10 * 1000);
-                } else {
+                Boolean ringing = mRingStateMap.get(mBluetoothDeviceAddress);
+
+                if(ringing == null) {
+                    ringing = false;
+                }
+                if(ringing) {
+                    Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
                     silentRing();
+                } else {
+                    Log.d(LOG_TAG, "make trackr ring.");
+                    makeTrackRRing();
+                    mRingStateMap.put(mBluetoothDeviceAddress, true);
+                    mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
                 }
                 break;
 

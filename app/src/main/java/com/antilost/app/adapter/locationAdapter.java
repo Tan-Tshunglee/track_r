@@ -37,13 +37,13 @@ import android.widget.RelativeLayout;
 /**
  * Created by Tan on 2015/1/17.
  */
-public class locationAdapter extends BaseAdapter implements View.OnClickListener {
+public class LocationAdapter extends BaseAdapter implements View.OnClickListener {
 
     private static final String LOG_TAG = "locationAdapter";
     private  List<LocationBean> locationBeans;
     private Context context;
 
-    public locationAdapter(Context context,   List<LocationBean> locationBeans) {
+    public LocationAdapter(Context context, List<LocationBean> locationBeans) {
         this.locationBeans = locationBeans;
         this.context = context;
     }
