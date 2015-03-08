@@ -41,7 +41,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
     private TrackRDataBase trackRDataBase;
     /** 数据库对象 */
     private SQLiteDatabase mDb = null;
-    public final String AlartTime = "AlartTime";
 
     private UserdataBean   curUserDataBean;
 
@@ -79,6 +78,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
             curUserDataBean = UserDataTable.getInstance().query(mDb);
             //setting icon
             if(curUserDataBean.getMimage()!="3"){
+
+
                 int targetWidth = 100;
                 int targetHeight = 100;
                 Bitmap targetBitmap = Bitmap.createBitmap(
@@ -102,7 +103,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
 
                 imgUser_usericon.setImageBitmap(targetBitmap);
             }
-            tvtime.setText(curUserDataBean.getMalarmtime()+getResources().getString(R.string.alarttime_second));
+            tvtime.setText(curUserDataBean.getMalarmtime()+"S");
 
             if(curUserDataBean==null){
                 Log.d(TAG," curUserDataBean==null");
@@ -186,19 +187,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                 // TODO Auto-generated method stub
 //                Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
 //                startActivity(intent);
-                UserProfileActivity.this.finish();
-
-            }
-        });
-
-        rluser_noticetimer.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
-                intent.putExtra(AlartTime,curUserDataBean.getMalarmtime());
-                startActivity(intent);
                 UserProfileActivity.this.finish();
 
             }
