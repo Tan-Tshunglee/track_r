@@ -147,7 +147,8 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
                 mPrefsManager.setOtherSsid(ssid);
                 break;
         }
-
-        finish();
+        Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
+        startActivity(intent);
+        SafeZoneAddWifiActivity.this.finish();
     }
 }

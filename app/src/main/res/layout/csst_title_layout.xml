@@ -11,13 +11,14 @@
 	<!-- 返回 -->
 	<Button
 	    android:id="@+id/mBtnCancel"
-	    android:layout_width="60dp"
-        android:layout_height="40dp"
+	    android:layout_width="150dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:paddingLeft="10dp"
         android:text="@string/back"
         android:focusable="true"
+        android:gravity="left|center_vertical"
         android:focusableInTouchMode="true"
         android:textColor="@color/whitesmoke"
         android:background="@android:color/transparent"
@@ -40,16 +41,17 @@
     <!-- 完成 -->
 	<Button
 	    android:id="@+id/mBtnDone"
-	    android:layout_width="60dp"
-        android:layout_height="40dp"
+	    android:layout_width="150dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
         android:background="@android:color/transparent"
         android:focusable="true"
         android:text="@string/done"
         android:focusableInTouchMode="true"
         android:textColor="@color/whitesmoke"
+        android:gravity="right|center_vertical"
+        android:paddingRight="10dp"
         />
    
 </RelativeLayout>

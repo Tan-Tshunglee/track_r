@@ -7,11 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bkg">
-
         <ImageButton
             android:id="@+id/btnUserProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="fill_parent"
             android:src="@drawable/user_profile"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -28,22 +27,22 @@
 
         <ImageButton
             android:id="@+id/btnAdd"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:src="@drawable/add_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_top_button"
             android:background="@android:color/transparent" />
 
         <ImageButton
             android:id="@+id/btnLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:src="@drawable/location"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/btnAdd"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="2dp"
             android:background="@android:color/transparent" />
     </RelativeLayout>
     <ListView

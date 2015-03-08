@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="activity_top_button">2dp</dimen>
+
 
     <dimen name="normal_textsize">18sp</dimen>
     <dimen name="normal_textsize_test">18sp</dimen>
@@ -19,4 +21,8 @@
 
     <dimen name="dot_marquee_padding">5dp</dimen>
     <dimen name="track_r_listview_icon_size">54dp</dimen>
+
+
+
+
 </resources>

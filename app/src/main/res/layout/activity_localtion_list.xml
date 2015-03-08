@@ -10,11 +10,11 @@
 
         <ImageButton
             android:id="@+id/btnlocatinBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="fill_parent"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_top_button"
             android:background="@android:color/transparent" />
 
 
@@ -28,12 +28,12 @@
 
         <ImageButton
             android:id="@+id/btnlocationAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="fill_parent"
             android:src="@drawable/add_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_top_button"
             android:background="@android:color/transparent" />
 
 
