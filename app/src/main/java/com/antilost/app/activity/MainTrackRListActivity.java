@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -29,6 +30,7 @@ import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -145,17 +147,17 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         if(!mBluetoothAdapter.isEnabled()) {
 
         }
-        if(!mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//            Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//            openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            try {
-//                startActivity(openGpsIntent);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return;
-//        }
+        List<String> locationProviders = mLocationManager.getAllProviders();
+        for(String providerName: locationProviders) {
+            Log.i(LOG_TAG, "get provider with name:" + providerName);
+        }
 
+
+        if(locationProviders.contains(LocationManager.NETWORK_PROVIDER)
+                && !mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
+        } else if(locationProviders.contains(LocationManager.GPS_PROVIDER)
+                && !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
         }
 

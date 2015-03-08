@@ -2,6 +2,7 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -18,9 +19,11 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.Utils;
 import com.antilost.app.view.DotsMarquee;
 
 import java.util.Set;
@@ -68,6 +71,17 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            String deviceName = device.getName();
+
+                            if(!Utils.DEVICE_NAME.equals(deviceName) ) {
+                                if(BuildConfig.DEBUG && "Keyfobdemo".equals(deviceName)) {
+                                    Log.i(LOG_TAG, "debug mode allow  device of name " + deviceName);
+                                } else {
+                                    Log.w(LOG_TAG, "get unkown device of name " + deviceName);
+                                    return;
+                                }
+
+                            }
                             scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();

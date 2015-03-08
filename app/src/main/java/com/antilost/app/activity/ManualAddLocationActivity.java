@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.antilost.app.R;
+import com.antilost.app.adapter.LocationAdapter;
 import com.antilost.app.dao.LocationTable;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.model.LocationBean;
-import com.antilost.app.adapter.locationAdapter;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     /*列表 */
     private List<LocationBean> locationBeans;
 
-    private locationAdapter locationadatper= null;
+    private LocationAdapter locationadatper= null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
         }
         if(LocationTable.getInstance().query(mDb)!=null){
             locationBeans =  LocationTable.getInstance().query(mDb);
-            locationadatper = new locationAdapter(this,locationBeans);
+            locationadatper = new LocationAdapter(this,locationBeans);
             mListView.setAdapter(locationadatper);
         }
 
@@ -118,7 +119,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
                         if(LocationTable.getInstance().query(mDb)!=null){
                             locationBeans =  LocationTable.getInstance().query(mDb);
-                            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans);
+                            locationadatper = new LocationAdapter(ManualAddLocationActivity.this,locationBeans);
                             mListView.setAdapter(locationadatper);
                         }
                     }

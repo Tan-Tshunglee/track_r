@@ -158,18 +158,24 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 command.execTask();
 
                 if(command.success()) {
-                    int uid = command.getUid();
-                    FetchAllTrackRCommand fetchCommand = new FetchAllTrackRCommand(uid);
-                    fetchCommand.execTask();
-
-                    if(fetchCommand.success()) {
-                        List<String> addresses = fetchCommand.getBoundTrackRAddress();
-                        for(String address: addresses) {
-                            Log.i(LOG_TAG, address);
-                        }
-                    } else {
-                        Log.e(LOG_TAG, "Login Activity fetch all trackr data failed");
-                    }
+//                    int uid = command.getUid();
+//                    FetchAllTrackRCommand fetchCommand = new FetchAllTrackRCommand(uid);
+//                    fetchCommand.execTask();
+//
+//                    if(fetchCommand.success()) {
+//                        List<String> addresses = fetchCommand.getBoundTrackRAddress();
+//                        if(addresses == null) {
+//                            Log.e(LOG_TAG, "addresses is null fetchCommand return");
+//                            return;
+//                        } else {
+//
+//                        }
+//                        for(String address: addresses) {
+//                            Log.i(LOG_TAG, address);
+//                        }
+//                    } else {
+//                        Log.e(LOG_TAG, "Login Activity fetch all trackr data failed");
+//                    }
                 }
                 runOnUiThread(new Runnable() {
                     @Override
