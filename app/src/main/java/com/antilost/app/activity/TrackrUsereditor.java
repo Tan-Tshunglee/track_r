@@ -2,14 +2,19 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -30,6 +36,13 @@ import com.antilost.app.model.UserdataBean;
 import com.antilost.app.util.CsstSHImageData;
 
 import java.io.File;
+import java.util.Calendar;
+
+import android.os.Bundle;
+
+import android.os.Handler;
+
+import android.os.Message;
 
 public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private String TAG = "TrackrUsereditor";
@@ -59,6 +72,18 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private String              mLastUpdatedIconFileName  = null;
 
     private AlertDialog mImageSourceDialog;
+
+
+
+    private static final int DATE_DIALOG_ID = 1;
+
+    private static final int SHOW_DATAPICK = 0;
+
+    private int mYear;
+
+    private int mMonth;
+
+    private int mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +124,33 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                 Log.d(TAG,"the mlastupdateIconpath is "+curUserDataBean.getMimage());
                 mLastUpdatedIconFileName = curUserDataBean.getMimage();
                 Log.d(TAG,"the mlastupdateIconpath isqqqqq"+mLastUpdatedIconFileName);
-                Imguser_usericon.setImageBitmap(BitmapFactory.decodeFile(mLastUpdatedIconFileName));
-                Log.d(TAG,"the the bitmap  is"+BitmapFactory.decodeFile(mLastUpdatedIconFileName));
+
+                int targetWidth = 100;
+                int targetHeight = 100;
+                Bitmap targetBitmap = Bitmap.createBitmap(
+                        targetWidth,
+                        targetHeight,
+                        Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(targetBitmap);
+                Path path = new Path();
+                path.addCircle(
+                        ((float)targetWidth - 1) / 2,
+                        ((float)targetHeight - 1) / 2,
+                        (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
+                        Path.Direction.CCW);
+                canvas.clipPath(path);
+                Bitmap sourceBitmap =BitmapFactory.decodeFile(curUserDataBean.getMimage());
+                canvas.drawBitmap(
+                        sourceBitmap,
+                        new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+                        new Rect(0, 0, targetWidth, targetHeight),
+                        null);
+
+//                imgUser_usericon.setImageBitmap(targetBitmap);
+
+
+                Imguser_usericon.setImageBitmap(targetBitmap);
+                Log.d(TAG,"the the bitmap  ismmmmm"+BitmapFactory.decodeFile(mLastUpdatedIconFileName));
                 Log.d(TAG,"the the bitmap  is"+ BitmapFactory.decodeFile(mLastUpdatedIconFileName));
 
             }
@@ -165,11 +215,14 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         Imguser_usericon.setOnClickListener(mBtnListener);
         rlusereditor_icon.setOnClickListener(mBtnListener);
         rluser_smallname.setOnClickListener(mBtnListener);
-        rluser_bord.setOnClickListener(mBtnListener);
+//        rluser_bord.setOnClickListener(mBtnListener);
+        rluser_bord.setOnClickListener(new DateButtonOnClickListener());
         rluser_xuexing.setOnClickListener(mBtnListener);
         rluser_likes.setOnClickListener(mBtnListener);
         rluser_qianming.setOnClickListener(mBtnListener);
         rluser_homepage.setOnClickListener(mBtnListener);
+
+
 
     }
 
@@ -190,7 +243,32 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                         Bitmap source = extras.getParcelable("data");
                         mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
                         source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
-                        Imguser_usericon.setImageBitmap(source);
+
+                        int targetWidth = 100;
+                        int targetHeight = 100;
+                        Bitmap targetBitmap = Bitmap.createBitmap(
+                                targetWidth,
+                                targetHeight,
+                                Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(targetBitmap);
+                        Path path = new Path();
+                        path.addCircle(
+                                ((float)targetWidth - 1) / 2,
+                                ((float)targetHeight - 1) / 2,
+                                (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
+                                Path.Direction.CCW);
+                        canvas.clipPath(path);
+                        Bitmap sourceBitmap =source;
+                        canvas.drawBitmap(
+                                sourceBitmap,
+                                new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+                                new Rect(0, 0, targetWidth, targetHeight),
+                                null);
+
+
+                        Imguser_usericon.setImageBitmap(targetBitmap);
+
+//                        Imguser_usericon.setImageBitmap(source);
                         curUserDataBean.setMimage(mLastUpdatedIconFileName);
                         UserDataTable.getInstance().update(mDb,curUserDataBean);
                     }catch(Exception ex ){
@@ -222,9 +300,10 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                 case R.id.rlusereditor_icon:
                     showImageSourceDialog();
                     break;
-                case R.id.rlusereditor_smallname:
-                case R.id.rlusereditor_borad:
                 case R.id.rlusereditor_xuexing:
+                    showBloodTypeSelector();
+                    break;
+                case R.id.rlusereditor_smallname:
                 case R.id.rlusereditor_likes:
                 case R.id.rlusereditor_qianming:
                 case R.id.rlusereditor_homepage:
@@ -242,6 +321,39 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                     break;
             }
         }
+    }
+
+    private void showBloodTypeSelector(){
+        new AlertDialog.Builder(TrackrUsereditor.this)
+                .setTitle(getResources().getString(R.string.usereditor_select) + getResources().getString(R.string.user_xuexing))
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setSingleChoiceItems(new String[]{"O", "A", "AB", "B"}, 0,
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        tvusereditorxuexing.setText(getResources().getString(R.string.user_xuexing) + "O");
+                                        curUserDataBean.setMbloodType(tvusereditorxuexing.getText().toString());
+                                        break;
+                                    case 1:
+                                        tvusereditorxuexing.setText(getResources().getString(R.string.user_xuexing) + "A");
+                                        curUserDataBean.setMbloodType(tvusereditorxuexing.getText().toString());
+                                        break;
+                                    case 2:
+                                        tvusereditorxuexing.setText(getResources().getString(R.string.user_xuexing) + "AB");
+                                        curUserDataBean.setMbloodType(tvusereditorxuexing.getText().toString());
+                                        break;
+                                    case 3:
+                                        tvusereditorxuexing.setText(getResources().getString(R.string.user_xuexing) + "B");
+                                        curUserDataBean.setMbloodType(tvusereditorxuexing.getText().toString());
+                                        break;
+                                }
+                                dialog.dismiss();
+                            }
+                        }
+                )
+                .show();
     }
 
     /**
@@ -280,22 +392,22 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUsereditor.this);
         switch (v.getId()) {
             case R.id.rlusereditor_smallname:
-                title= getResources().getString(R.string.user_smallname);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_smallname);
                 break;
             case R.id.rlusereditor_borad:
-                title= getResources().getString(R.string.user_borddate);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_borddate);
                 break;
             case R.id.rlusereditor_xuexing:
-                title= getResources().getString(R.string.user_xuexing);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_xuexing);
                 break;
             case R.id.rlusereditor_likes:
-                title= getResources().getString(R.string.user_liks);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_liks);
                 break;
             case R.id.rlusereditor_qianming:
-                title= getResources().getString(R.string.user_editorself);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_editorself);
                 break;
             case R.id.rlusereditor_homepage:
-                title= getResources().getString(R.string.user_homepage);
+                title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_homepage);
                 break;
         }
         builder.setTitle(title);
@@ -338,5 +450,182 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         builder.show();
 
     }
+
+
+
+
+
+
+    private void setDateTime() {
+
+        final Calendar c = Calendar.getInstance();
+
+        mYear = c.get(Calendar.YEAR);
+
+        mMonth = c.get(Calendar.MONTH);
+
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+
+        updateDisplay();
+
+    }
+
+
+
+    /**
+
+     * 更新日期
+
+     */
+
+    private void updateDisplay() {
+        tvusereditor_board.setText(getResources().getString(R.string.user_borddate) + new StringBuilder().append(mYear).append(
+
+                (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
+
+                (mDay < 10) ? "0" + mDay : mDay));
+        curUserDataBean.setMbirthday(tvusereditor_board.getText().toString());
+
+//
+//
+//        showDate.setText(new StringBuilder().append(mYear).append(
+//
+//                (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
+//
+//                (mDay < 10) ? "0" + mDay : mDay));
+
+    }
+
+
+
+    /**
+
+     * 日期控件的事件
+
+     */
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+
+                              int dayOfMonth) {
+
+            mYear = year;
+
+            mMonth = monthOfYear;
+
+            mDay = dayOfMonth;
+
+            updateDisplay();
+
+        }
+
+    };
+
+
+
+    /**
+
+     * 选择日期Button的事件处理
+
+     *
+
+     * @author Raul
+
+     *
+
+     */
+
+    class DateButtonOnClickListener implements
+
+            android.view.View.OnClickListener {
+
+        @Override
+
+        public void onClick(View v) {
+            final Calendar c = Calendar.getInstance();
+
+            mYear = c.get(Calendar.YEAR);
+
+            mMonth = c.get(Calendar.MONTH);
+
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            setDateTime();
+            Message msg = new Message();
+            msg.what = TrackrUsereditor.SHOW_DATAPICK;
+            TrackrUsereditor.this.saleHandler.sendMessage(msg);
+
+        }
+
+    }
+
+
+
+    @Override
+
+    protected Dialog onCreateDialog(int id) {
+
+        switch (id) {
+
+            case DATE_DIALOG_ID:
+
+                return new DatePickerDialog(this, mDateSetListener, mYear, mMonth,
+
+                        mDay);
+
+        }
+
+        return null;
+
+    }
+
+
+
+    @Override
+
+    protected void onPrepareDialog(int id, Dialog dialog) {
+
+        switch (id) {
+
+            case DATE_DIALOG_ID:
+
+                ((DatePickerDialog) dialog).updateDate(mYear, mMonth, mDay);
+
+                break;
+
+        }
+
+    }
+
+
+
+    /**
+
+     * 处理日期控件的Handler
+
+     */
+
+    Handler saleHandler = new Handler() {
+
+        @Override
+
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+
+                case TrackrUsereditor.SHOW_DATAPICK:
+
+                    showDialog(DATE_DIALOG_ID);
+
+                    break;
+
+            }
+
+        }
+
+    };
 
 }

@@ -153,4 +153,11 @@
     <string name="reset">Reset</string>
     <string name="locationsetting">定位名称：</string>
     <string name="locationtime">时间：</string>
+
+    <string name="usereditor_select">请设置</string>
+    <string name="usereditor_select_bloodtp_o">O</string>
+    <string name="usereditor_select_bloodtp_A">A</string>
+    <string name="usereditor_select_bloodtp_B">B</string>
+    <string name="usereditor_select_bloodtp_AB">AB</string>
+
 </resources>

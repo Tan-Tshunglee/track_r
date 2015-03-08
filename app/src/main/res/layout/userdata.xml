@@ -17,21 +17,21 @@
     <!-- 分隔符 -->
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="5dp"
+        android:layout_height="30dp"
         android:visibility="invisible" />
     <!-- 上半部分编辑界面-->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="223dp"
+        android:layout_width="fill_parent"
+        android:layout_height="255dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/itembgd_big"
+        android:background="@drawable/usereditor_bkg"
         android:orientation="vertical">
         <!-- 编辑ITEM -->
         <RelativeLayout
             android:id="@+id/rluser_editor"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="100dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical">
             <!-- 头像 -->
@@ -176,12 +176,12 @@
                 android:button="@drawable/custom_switch_button"
                 android:paddingRight="20dp" />
         </RelativeLayout>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text"
-            />
     </LinearLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"></TableRow>
 
     <TextView
         android:layout_width="fill_parent"
@@ -190,17 +190,12 @@
         android:visibility="invisible" />
     <!-- 下部分编辑界面-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="205dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/itembgd_big"
+        android:background="@drawable/usereditor_bkg"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text"
-            />
         <!-- 语言选择 -->
         <RelativeLayout
             android:id="@+id/rluser_langauage"

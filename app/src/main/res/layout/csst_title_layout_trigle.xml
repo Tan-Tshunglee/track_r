@@ -11,8 +11,8 @@
 	<!-- 返回 -->
 	<ImageButton
 	    android:id="@+id/mBtnCancel"
-	    android:layout_width="60dp"
-        android:layout_height="40dp"
+	    android:layout_width="150dp"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
@@ -21,6 +21,7 @@
         android:focusableInTouchMode="true"
         android:textColor="@color/whitesmoke"
         android:background="@android:color/transparent"
+        android:gravity= "left|center_vertical"
         />
 	<!-- 标题 -->
     <TextView
