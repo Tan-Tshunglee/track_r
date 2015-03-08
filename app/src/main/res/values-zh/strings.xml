@@ -155,6 +155,9 @@
     <string name="locationsetting">定位名称：</string>
 
     <string name="locationtime">时间：</string>
+    <string name="alarttime_tip">提醒时长：</string>
+    <string name="alarttime_second">秒</string>
+    <string name="alarttime_title">提醒时长设置</string>
 
     <string name="usereditor_select">请设置</string>
     <string name="usereditor_select_bloodtp_o">O</string>
