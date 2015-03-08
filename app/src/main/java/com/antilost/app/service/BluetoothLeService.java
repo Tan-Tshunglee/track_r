@@ -37,6 +37,8 @@ import com.antilost.app.R;
 import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
+import com.antilost.app.activity.TrackRActivity;
+import com.antilost.app.activity.TrackREditActivity;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
@@ -61,6 +63,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private static final int MSG_LOOP_READ_RSSI = 3;
 
     private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
+
+    private static final int SCAN_PERIOD_OF_RSSI_READ = 10 * 1000;
 
     public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS;
 
@@ -97,6 +101,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private HashMap<String, Integer> mGattStates = new HashMap<String, Integer>();
 
     private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
+    private HashMap<String, Integer> mGattsBatteryLevel = new HashMap<String, Integer>();
+
 
     private LocationManager mLocationManager;
     private Location mLastLocation;
@@ -336,6 +342,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 }
 
 
+                readBatteryLevel(address);
+                requestRssiLevel(address);
 
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
@@ -375,6 +383,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                         && cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
                     int level = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
                     Log.d(LOG_TAG, "onCharacteristicRead callback battery is " + level);
+                    mGattsBatteryLevel.put(gatt.getDevice().getAddress(), level);
                     broadcastBatteryLevel(level);
                 } else {
                     broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
@@ -411,6 +420,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.i(LOG_TAG, "onCharacteristicWrite is " + charUuid);
             int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
             Log.d(LOG_TAG, "onCharacteristicWrite value is " + value);
+
             //turn off track r command;
             if(serviceUuid.equals(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID)
@@ -439,7 +449,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            Log.i(LOG_TAG, "rssi is " + rssi);
+            Log.i(LOG_TAG, "onReadRemoteRssi callback rssi is " + rssi);
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
         }
@@ -598,7 +608,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                         }
                         mHandler.removeMessages(MSG_LOOP_READ_RSSI);
                         msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
-                        mHandler.sendMessageDelayed(msg, SCAN_PERIOD_IN_MS);
+                        mHandler.sendMessageDelayed(msg, SCAN_PERIOD_OF_RSSI_READ);
                         break;
                 }
             }
@@ -1069,16 +1079,22 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
     }
 
-    public void requestRssiLevel(String bluetoothDeviceAddress) {
+    public int requestRssiLevel(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
         Log.d(LOG_TAG, "readRssLevel state is " + state);
+
+        Integer rssiValue = mGattsRssis.get(bluetoothDeviceAddress);
+
+        if(rssiValue == null) {
+            rssiValue = TrackRActivity.MIN_RSSI_LEVEL;
+        }
 
         if(state == null) {
             state = BluetoothProfile.STATE_DISCONNECTED;
         }
         if(state != null && state != BluetoothProfile.STATE_CONNECTED) {
             Log.w(LOG_TAG, "read a unconnected device rssi level.");
-            return;
+            return rssiValue;
         }
         if(state == BluetoothProfile.STATE_CONNECTED) {
             BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
@@ -1086,15 +1102,27 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 gatt.readRemoteRssi();
             }
         }
+
+        return rssiValue;
     }
 
     public int getRssiLevel(String address) {
         Integer rssi = mGattsRssis.get(address);
-        return rssi == null ? 0 :rssi;
+        return rssi == null ? TrackRActivity.MIN_RSSI_LEVEL :rssi;
     }
 
+    public int getBatteryLevel(String address) {
+        Integer level = mGattsBatteryLevel.get(address) ;
+        return level == null ? 0 : level;
+    }
 
-    public void startReadRssiRepeat(boolean enabled, String address) {
+    public int startReadRssiRepeat(boolean enabled, String address) {
+        Integer rssi = mGattsRssis.get(address);
+        if(rssi == null) {
+            rssi = TrackRActivity.MIN_RSSI_LEVEL;
+        }
+
+
         if(enabled) {
             mHandler.removeMessages(MSG_LOOP_READ_RSSI);
             Message msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
@@ -1102,7 +1130,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         } else {
             mHandler.removeMessages(MSG_LOOP_READ_RSSI);
         }
+        return rssi;
     }
+
     protected static double calculateAccuracy(int txPower, double rssi) {
         if (rssi == 0) {
             return -1.0; // if we cannot determine accuracy, return -1.
