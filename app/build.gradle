@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        development_key {
+            keyAlias 'zql'
+            keyPassword '13457662310'
+            storeFile file('./keystore.jks')
+            storePassword '13457662310'
+        }
+    }
     compileSdkVersion 18
     buildToolsVersion '19.1.0'
     defaultConfig {
@@ -19,4 +27,5 @@ android {
 }
 
 dependencies {
+    compile files('src/main/libs/Android_Location_V1.3.1.jar')
 }
