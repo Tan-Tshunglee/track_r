@@ -31,11 +31,12 @@ import java.util.HashMap;
 public class TrackRActivity extends Activity implements View.OnClickListener {
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
-    private static final String LOG_TAG = "TrackRActivity";
 
+    private static final String LOG_TAG = "TrackRActivity";
     private static final int TIMER_PERIOD_IN_MS = 20000;
 
     public static final int MSG_RESET_RING_STATE = 1;
+    public static final int MSG_ENABLE_RING_BUTTON = 2;
 
     public static final int TIME_RINGING_STATE_KEEP = 10 * 1000;
 
@@ -59,6 +60,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case MSG_RESET_RING_STATE:
                     mRingStateMap.put(mBluetoothDeviceAddress, false);
+                    break;
+                case MSG_ENABLE_RING_BUTTON:
                     break;
             }
         }
@@ -138,6 +141,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     private void updateRssi() {
         if(mBluetoothLeService != null) {
+            Log.d(LOG_TAG, "read rssi repeat.");
             mBluetoothLeService.startReadRssiRepeat(true, mBluetoothDeviceAddress);
         }
     }
@@ -164,6 +168,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.photo).setOnClickListener(this);
         findViewById(R.id.share).setOnClickListener(this);
 
+//        findViewById(R.id.ring).setEnabled(false);
 
         mTrackImage = (ImageView) findViewById(R.id.track_r_photo);
         mSleepTime = (TextView) findViewById(R.id.sleepModeAndTime);
@@ -278,6 +283,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
                     silentRing();
+                    mRingStateMap.put(mBluetoothDeviceAddress, false);
                 } else {
                     Log.d(LOG_TAG, "make trackr ring.");
                     makeTrackRRing();

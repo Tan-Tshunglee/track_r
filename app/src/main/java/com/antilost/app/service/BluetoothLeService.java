@@ -245,9 +245,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if(status != BluetoothGatt.GATT_SUCCESS) {
                 Log.v(LOG_TAG, "gatt status is not success." );
-                gatt.disconnect();
-                gatt.close();
-                mBluetoothGatts.remove(gatt.getDevice().getAddress());
+//                gatt.disconnect();
+//                gatt.close();
+//                mBluetoothGatts.remove(gatt.getDevice().getAddress());
                 return;
             }
             String address = gatt.getDevice().getAddress();
@@ -321,17 +321,21 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
-
+                //registry key press notification;
                 if(setCharacteristicNotification(gatt,
                         UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID),
                         com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
                         true)) {
                     Log.v(LOG_TAG, "setCharacteristicNotification ok");
                 }
+
+                //bidirectional lost alert
                 if(mPrefsManager.getBidirectionalAlert(address)) {
                     Log.d(LOG_TAG, "enable bidirectional alert...");
                     twowayMonitor(address, true);
                 }
+
+
 
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
@@ -346,6 +350,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 if (BuildConfig.DEBUG)
                     Log.d(LOG_TAG, "setCharacteristicNotification(device=" + "  UUID="
                             + characteristicUuid + ", enable=" + enable + " )");
+
                 BluetoothGattCharacteristic characteristic = gatt.getService(serviceUuid).getCharacteristic(characteristicUuid);
                 gatt.setCharacteristicNotification(characteristic, enable);
                 BluetoothGattDescriptor descriptor = characteristic.getDescriptor(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
@@ -821,6 +826,14 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             bluetoothGatt.close();
             mGattStates.remove(address);
             mBluetoothGatts.remove(address);
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.w(LOG_TAG, "retry connect a long waiting trackr");
+                    connect(address);
+                }
+            });
             return false;
         }
 
@@ -952,13 +965,20 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void ringTrackR(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
-        Log.v(LOG_TAG, "silentRing state is " + state);
+        Log.v(LOG_TAG, "ringTrackR() gatt connection state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if (gatt == null) {
             Log.w(LOG_TAG, "gatt has not connected....");
             return;
         }
+
+        if(state != BluetoothProfile.STATE_CONNECTED) {
+            Log.w(LOG_TAG, "ring trackr whose state is not connected, bail out");
+            return;
+        }
+
+
         BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
         if (alertService == null) {
             Log.w(LOG_TAG, "silentRing No IMMEDIATE_ALERT_SERVICE_UUID....");
@@ -983,7 +1003,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public void silentRing(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
-        Log.v(LOG_TAG, "silentRing state is " + state);
+        Log.v(LOG_TAG, "silentRing() gatt connection state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if (gatt == null) {
