@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.antilost.app.activity.BindingTrackRActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,6 +51,7 @@ public class PrefsManager {
 
     public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
     public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
+    private static final String LOG_TAG = "PrefsManager";
 
     private final Context mCtx;
     private SharedPreferences mPrefs;
@@ -80,8 +84,11 @@ public class PrefsManager {
         return new HashSet<String>(mPrefs.getStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()));
     }
 
-    public boolean addTrackIds(String trackId) {
+    public boolean addTrackId(String trackId) {
         Set<String> ids = getTrackIds();
+        if(ids.size() >= BindingTrackRActivity.MAX_COUNT) {
+            return false;
+        }
         return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
     }
 
@@ -126,7 +133,7 @@ public class PrefsManager {
 
     }
 
-    public boolean saveTrack(String address, TrackR track) {
+    public boolean saveTrackToFile(String address, TrackR track) {
         File dir = mCtx.getDir("tracks", 0);
         File trackFile = new File(dir, address);
         try {
@@ -290,6 +297,17 @@ public class PrefsManager {
     }
 
     public void addTrackR(TrackR track) {
+        if(track != null) {
+            String address = track.address;
+            if(Utils.isValidMacAddress(address)) {
+                if(addTrackId(address)) {
+                    saveMissedTrack(address, true);
+                    saveTrackToFile(address, track);
+                    Log.v(LOG_TAG, "add one track with address " + address);
+                }
+
+            }
+        }
 
     }
 }

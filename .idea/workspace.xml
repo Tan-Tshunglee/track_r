@@ -5,7 +5,7 @@
       <filter>
         <option name="logLevel" value="verbose" />
         <option name="logMessagePattern" value="" />
-        <option name="logTagPattern" value="" />
+        <option name="logTagPattern" value="Command" />
         <option name="name" value="app: com.antilost.app" />
         <option name="packageNamePattern" value="com.antilost.app" />
         <option name="pid" value="" />
@@ -79,25 +79,36 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.antilost.app" />
   </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" line="107" mnemonic="1" />
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" line="44" />
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" line="43" />
     <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/RegistrationActivity.java" line="22" />
     <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/RegistrationActivity.java" line="116" />
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" line="236" />
-    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" line="95" />
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" line="252" />
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" line="115" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="248010dc-3c85-4b2e-9e26-c58c84238aa4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AmapActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AmapActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/locSDK_5_01.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/development.jks" afterPath="$PROJECT_DIR$/development.jks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginFirst.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginFirst.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/track_r.iml" afterPath="$PROJECT_DIR$/track_r.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TrackR.iws" />
@@ -129,8 +140,8 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="3255">
-              <caret line="45" column="68" selection-start-line="45" selection-start-column="54" selection-end-line="45" selection-end-column="68" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3513" max-vertical-offset="4370">
+              <caret line="194" column="72" selection-start-line="194" selection-start-column="72" selection-end-line="194" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -139,73 +150,8 @@
       <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="1215">
-              <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DisconnectAlertActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/DisconnectAlertActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="2340">
-              <caret line="168" column="35" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrackRActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3863" max-vertical-offset="4950">
-              <caret line="303" column="0" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AmapActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AmapActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1350">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_amap.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="165">
-              <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.04" vertical-offset="2109" max-vertical-offset="2595">
-              <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="165" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-77.68" vertical-offset="578" max-vertical-offset="2625">
-              <caret line="168" column="49" selection-start-line="168" selection-start-column="49" selection-end-line="168" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="539" max-vertical-offset="1406">
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -214,23 +160,97 @@
       <file leaf-file-name="BluetoothLeService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.568966" vertical-offset="8537" max-vertical-offset="16695">
-              <caret line="684" column="42" selection-start-line="684" selection-start-column="42" selection-end-line="684" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="13092" max-vertical-offset="21774">
+              <caret line="781" column="0" selection-start-line="781" selection-start-column="2" selection-end-line="782" selection-end-column="73" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="4655">
+              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
               <folding>
-                <element signature="e#8822#8823#0" expanded="true" />
-                <element signature="e#8858#8859#0" expanded="true" />
-                <element signature="e#22444#25546#0" expanded="true" />
-                <element signature="e#25535#25536#0" expanded="true" />
+                <element signature="e#1860#1884#0" expanded="true" />
+                <element signature="e#4385#4426#0" expanded="true" />
+                <element signature="e#4651#4703#0" expanded="true" />
+                <element signature="e#4933#4963#0" expanded="true" />
+                <element signature="e#5162#5188#0" expanded="true" />
+                <element signature="e#6625#8232#0" expanded="true" />
+                <element signature="e#7129#7162#0" expanded="true" />
+                <element signature="e#7555#7600#0" expanded="true" />
+                <element signature="e#7754#7787#0" expanded="true" />
+                <element signature="e#7939#7979#0" expanded="true" />
+                <element signature="e#8105#8137#0" expanded="true" />
+                <element signature="e#8213#8214#0" expanded="true" />
+                <element signature="e#9431#9451#0" expanded="true" />
+                <element signature="e#9485#9532#0" expanded="true" />
+                <element signature="e#9573#9588#0" expanded="true" />
+                <element signature="e#9635#9646#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocUtils.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java">
+      <file leaf-file-name="NetworkSyncService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.65464896" vertical-offset="420" max-vertical-offset="1110">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1159">
+              <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PrefsManager.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.13879" vertical-offset="4547" max-vertical-offset="5415">
+              <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TrackREditActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="4128" max-vertical-offset="6080">
+              <caret line="254" column="8" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BindingTrackRActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5776">
+              <caret line="35" column="37" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FetchAllTrackRCommand.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="631" max-vertical-offset="1786">
+              <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+              <folding>
+                <element signature="e#394#410#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Command.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="25" max-vertical-offset="1710">
+              <caret line="10" column="49" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -244,8 +264,8 @@
     </FindUsagesManager>
   </component>
   <component name="GenerateSignedApkSettings">
-    <option name="KEY_STORE_PATH" value=".\keystore.jks" />
-    <option name="KEY_ALIAS" value="zql" />
+    <option name="KEY_STORE_PATH" value="F:\MY_WORKSPACE\Android Studio\track_r\development.jks" />
+    <option name="KEY_ALIAS" value="test1" />
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
@@ -1060,7 +1080,7 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="validateDevelopment_keySigning" />
+                <option name="name" value="validateTest1Signing" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
@@ -1077,7 +1097,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4271361749678" />
+        <entry key="$PROJECT_DIR$" value="4270380288508" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1092,70 +1112,12 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.0.0/lint-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.0.0/lint-24.0.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.2.2/ecj-4.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.2.2/ecj-4.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.0.0/lint-checks-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.0.0/lint-checks-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.0.0/sdk-common-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.0.0/sdk-common-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.0.0/sdklib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.0.0/sdklib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.0.0/common-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.0.0/common-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.0.0/builder-test-api-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.0.0/builder-test-api-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.0.0/ddmlib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.0.0/ddmlib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.0.0/manifest-merger-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.0.0/manifest-merger-24.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.0.0/lint-api-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.0.0/lint-api-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/4.0/asm-analysis-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/4.0/asm-analysis-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.0.0/dvlib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.0.0/dvlib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.0.0/layoutlib-api-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.0.0/layoutlib-api-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/4.0/asm-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/4.0/asm-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/4.0/asm-tree-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/4.0/asm-tree-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$" />
@@ -1167,72 +1129,12 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.0.0/lint-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/24.0.0/lint-24.0.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-gradle/5.1/proguard-gradle-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.2.2/ecj-4.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.2.2/ecj-4.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.0.0/lint-checks-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/24.0.0/lint-checks-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.0.0/sdk-common-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/24.0.0/sdk-common-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.0.0/sdklib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/24.0.0/sdklib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.0.0/common-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/24.0.0/common-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.0.0/builder-test-api-1.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/1.0.0/builder-test-api-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.0.0/ddmlib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/24.0.0/ddmlib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.0.0/manifest-merger-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/24.0.0/manifest-merger-24.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.1/proguard-base-5.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.0.0/lint-api-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/24.0.0/lint-api-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/4.0/asm-analysis-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/4.0/asm-analysis-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.0.0/dvlib-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/24.0.0/dvlib-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.0.0/layoutlib-api-24.0.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/24.0.0/layoutlib-api-24.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/17.0/guava-17.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/4.0/asm-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/4.0/asm-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.2/lombok-ast-0.2.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/4.0/asm-tree-4.0-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/4.0/asm-tree-4.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpcore/4.1/httpcore-4.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
-                            <option value="$MODULE_DIR$/src/main/libs/Android_Location_V1.3.1.jar" />
-                            <option value="$MODULE_DIR$/src/main/libs/Android_2DMap_V2.4.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/app" />
@@ -1244,59 +1146,108 @@
               <option name="name" value="app" />
               <option name="projectBuildClasspath">
                 <list>
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/ant-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/ant-launcher-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-base-services-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-base-services-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-cli-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-core-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-docs-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-launcher-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-messaging-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-model-core-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-model-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-open-api-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-resources-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-tooling-api-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-ui-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/gradle-wrapper-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/groovy-all-2.3.6.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/ant-antlr-1.9.3.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-announce-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-antlr-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-build-comparison-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-build-init-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-code-quality-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-cunit-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-dependency-management-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-diagnostics-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ear-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ide-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ide-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-ivy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-jacoco-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-javascript-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-jetty-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-groovy-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-java-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-jvm-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-language-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-maven-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-osgi-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-base-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-jvm-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-platform-native-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugin-development-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugin-use-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-plugins-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-publish-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-reporting-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-resources-http-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-scala-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-signing-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/gradle-sonar-2.2.1.jar" />
-                  <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/plugins/ivy-2.2.0.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/announce" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/antlr" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/base-services-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-comparison" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/build-init" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cli" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/code-quality" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/core" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/cunit" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/dependency-management" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/diagnostics" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ear" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ide-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-integ-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/internal-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ivy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jacoco" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/javascript" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/jetty" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-java" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-jvm" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/language-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/launcher" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/maven" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/messaging" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-core" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/model-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/open-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/osgi" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-base" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-jvm" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/platform-native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-development" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugin-use" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/plugins" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/publish" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/reporting" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/resources-http" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/scala" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/signing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/sonar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/tooling-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/ui" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/src/wrapper" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/ant-launcher-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-base-services-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-cli-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-core-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-docs-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-launcher-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-messaging-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-core-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-model-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-open-api-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-resources-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-tooling-api-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-ui-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/gradle-wrapper-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/groovy-all-2.3.6.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ant-antlr-1.9.3.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-announce-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-antlr-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-comparison-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-build-init-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-code-quality-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-cunit-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-dependency-management-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-diagnostics-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ear-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ide-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-ivy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jacoco-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-javascript-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-jetty-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-groovy-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-java-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-jvm-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-language-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-maven-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-osgi-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-base-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-jvm-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-platform-native-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-development-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugin-use-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-plugins-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-publish-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-reporting-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-resources-http-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-scala-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-signing-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/gradle-sonar-2.2.1.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.2.1-all/c64ydeuardnfqctvr1gm30w53/gradle-2.2.1/lib/plugins/ivy-2.2.0.jar" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
                 </list>
@@ -1310,8 +1261,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/RegistrationActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/ForgetPasswordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_disconnect_alert.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-sw319dp/dimens.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/UnbindCommand.java" />
@@ -1345,22 +1294,24 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/adapter/locationAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/adapter/LocationAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/CommandPerformer.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/DisconnectAlertActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AmapActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginFirst.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
       </list>
     </option>
   </component>
@@ -1381,35 +1332,27 @@
             <id />
           </State>
           <State>
-            <id>Android</id>
-          </State>
-          <State>
             <id>Android Lint</id>
           </State>
           <State>
-            <id>Code style issues</id>
+            <id>GPath inspectionsGroovy</id>
           </State>
           <State>
-            <id>Encapsulation issues</id>
+            <id>General</id>
+          </State>
+          <State>
+            <id>Groovy</id>
           </State>
           <State>
             <id>Internationalization issues</id>
           </State>
           <State>
-            <id>Java language level migration aids</id>
-          </State>
-          <State>
-            <id>Probable bugs</id>
+            <id>Performance issues</id>
           </State>
           <State>
             <id>Properties Files</id>
           </State>
         </expanded-state>
-        <selected-state>
-          <State>
-            <id>Encapsulation issues</id>
-          </State>
-        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -1439,9 +1382,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1496,7 +1436,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="util" />
+              <option name="myItemId" value="service" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1510,43 +1450,14 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="track_r">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="track_r">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
+      <pane id="PackagesPane">
+        <subPane />
       </pane>
       <pane id="ProjectPane">
         <subPane>
@@ -1584,6 +1495,52 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track_r" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track_r" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="track_r">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="track_r">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -1596,22 +1553,23 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4df1cf87427a6f4f" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="4.0" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="3d9563c6" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="3_2_QVGA_ADP2_API_19" />
     <property name="DEBUGGABLE_DEVICE" value="samsung-gt_i9300-4df1cf87427a6f4f" />
     <property name="DEBUGGABLE_PROCESS" value="com.antilost.app" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="options.lastSelected" value="Errors" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="FullScreen" value="false" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="ExportApk.ApkPath" value="G:\workspace\track_r\app" />
+    <property name="ExportApk.ApkPath" value="F:\MY_WORKSPACE\Android Studio\track_r\app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/keystore.jks" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -1632,6 +1590,54 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.app">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -1651,14 +1657,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1700,46 +1698,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="app" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1825,39 +1783,39 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.60820895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="275" y="15" width="1464" height="894" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29365963" sideWeight="0.6231343" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34705228" sideWeight="0.35980812" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08584169" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34705228" sideWeight="0.35980812" order="13" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38487208" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38153505" sideWeight="0.6401919" order="12" side_tool="false" content_ui="combo" x="37" y="485" width="1876" height="367" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3065032" sideWeight="0.89603025" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2553305" sideWeight="0.49542683" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37041157" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38684505" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18443497" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32814237" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3846154" sideWeight="0.58102345" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.58862877" sideWeight="0.17643923" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37012264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08584169" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277592" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3411371" sideWeight="0.8235608" order="13" side_tool="false" content_ui="combo" x="37" y="485" width="1876" height="367" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34705228" sideWeight="0.35980812" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.49542683" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18443497" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38684505" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51282054" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3065032" sideWeight="0.89603025" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15273133" sideWeight="0.6231343" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51390433" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.60820895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="275" y="15" width="1464" height="894" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1881,27 +1839,77 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java</url>
-          <line>300</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java</url>
+          <line>39</line>
           <properties />
-          <option name="timeStamp" value="39" />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="40" />
+      <option name="time" value="43" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AmapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="190" max-vertical-offset="1710">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209">
+          <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2945" max-vertical-offset="3059">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="893" max-vertical-offset="1007">
+          <caret line="47" column="12" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="12996" max-vertical-offset="20976">
+          <caret line="684" column="40" selection-start-line="684" selection-start-column="40" selection-end-line="684" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="741">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/safezone.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1197" max-vertical-offset="3002">
           <caret line="20" column="41" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/switch_off.png">
@@ -1917,13 +1925,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/userdata.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8515406" vertical-offset="1425" max-vertical-offset="6878">
           <caret line="91" column="21" selection-start-line="91" selection-start-column="13" selection-end-line="91" selection-end-column="21" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/SafeZonewifiActivity.java">
@@ -1944,23 +1952,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_binding.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38714734" vertical-offset="0" max-vertical-offset="2736">
           <caret line="13" column="46" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start_bind.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start_bind.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23824452" vertical-offset="0" max-vertical-offset="1216">
           <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/SafeZoneAddWifiActivity.java">
@@ -1978,14 +1986,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_r.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="285" max-vertical-offset="3857">
           <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values-sw319dp/dimens.xml">
@@ -1996,21 +2004,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/android/bluetooth/BluetoothDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.525641" vertical-offset="8731" max-vertical-offset="17535">
-          <caret line="630" column="42" selection-start-line="630" selection-start-column="23" selection-end-line="630" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/android/bluetooth/BluetoothClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71794873" vertical-offset="1726" max-vertical-offset="5070">
-          <caret line="159" column="44" selection-start-line="159" selection-start-column="36" selection-end-line="159" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/adapter/LocationAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/adapter/locationAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15463917" vertical-offset="0" max-vertical-offset="885">
           <caret line="39" column="14" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
@@ -2027,32 +2021,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartBindActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3125" vertical-offset="0" max-vertical-offset="690">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/android/bluetooth/BluetoothGatt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.54916066" vertical-offset="16046" max-vertical-offset="17115">
-          <caret line="1119" column="25" selection-start-line="1119" selection-start-column="25" selection-end-line="1119" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/MainTrackRListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.9282178" vertical-offset="0" max-vertical-offset="4290">
           <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/java/lang/Integer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="4181" max-vertical-offset="10095">
-          <caret line="330" column="22" selection-start-line="330" selection-start-column="22" selection-end-line="330" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -2085,24 +2058,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="1080">
-          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
-          <folding>
-            <element signature="e#869#877#0" expanded="false" />
-            <element signature="e#1049#1057#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.862069" vertical-offset="523" max-vertical-offset="1020">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/BindCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
@@ -2110,153 +2065,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="4560">
-          <caret line="182" column="67" selection-start-line="182" selection-start-column="67" selection-end-line="182" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="1395">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/CommandPerformer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="645">
-          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/Android_Location_V1.3.1.jar!/com/amap/api/location/LocationManagerProxy.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13636364" vertical-offset="0" max-vertical-offset="2160">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/java/lang/System.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="1480" max-vertical-offset="8970">
-          <caret line="166" column="30" selection-start-line="166" selection-start-column="30" selection-end-line="166" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/android/content/SharedPreferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59358287" vertical-offset="2346" max-vertical-offset="5430">
-          <caret line="201" column="46" selection-start-line="201" selection-start-column="33" selection-end-line="201" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3051" max-vertical-offset="4050">
-          <caret line="244" column="36" selection-start-line="244" selection-start-column="16" selection-end-line="244" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2136" max-vertical-offset="3525">
-          <caret line="195" column="86" selection-start-line="195" selection-start-column="86" selection-end-line="195" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/苏/software/adt-bundle-windows-x86-20130917/adt-bundle-windows-x86-20130917/sdk/sources/android-18/android/net/Uri.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24447717" vertical-offset="2324" max-vertical-offset="32415">
-          <caret line="203" column="18" selection-start-line="203" selection-start-column="10" selection-end-line="203" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/Android_2DMap_V2.4.0.jar!/com/amap/api/maps2d/model/LatLng.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2522936" vertical-offset="0" max-vertical-offset="654">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/Android_2DMap_V2.4.0.jar!/com/amap/api/maps2d/model/MarkerOptions.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28440368" vertical-offset="249" max-vertical-offset="1110">
-          <caret line="30" column="90" selection-start-line="30" selection-start-column="90" selection-end-line="30" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3190" max-vertical-offset="4845">
-          <caret line="273" column="0" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/Android_Location_V1.3.1.jar!/com/amap/api/location/LocationProviderProxy.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23235801" vertical-offset="0" max-vertical-offset="690">
-          <caret line="10" column="41" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/DisconnectAlertActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="2340">
-          <caret line="168" column="35" selection-start-line="168" selection-start-column="35" selection-end-line="168" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3268" max-vertical-offset="3534">
+          <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/locSDK_5.01.jar!/com/baidu/location/BDNotifyListener.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59825325" vertical-offset="49" max-vertical-offset="532">
+          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80139375" vertical-offset="2751" max-vertical-offset="3325">
+          <caret line="169" column="12" selection-start-line="169" selection-start-column="12" selection-end-line="169" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.04" vertical-offset="2109" max-vertical-offset="2595">
-          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="165" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.80139375" vertical-offset="2713" max-vertical-offset="3287">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-77.68" vertical-offset="578" max-vertical-offset="2625">
-          <caret line="168" column="49" selection-start-line="168" selection-start-column="49" selection-end-line="168" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="496">
+          <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="3255">
-          <caret line="45" column="68" selection-start-line="45" selection-start-column="54" selection-end-line="45" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.568966" vertical-offset="8537" max-vertical-offset="16695">
-          <caret line="684" column="42" selection-start-line="684" selection-start-column="42" selection-end-line="684" selection-end-column="42" />
-          <folding>
-            <element signature="e#8822#8823#0" expanded="true" />
-            <element signature="e#8858#8859#0" expanded="true" />
-            <element signature="e#22444#25546#0" expanded="true" />
-            <element signature="e#25535#25536#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="1215">
-          <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2264,33 +2111,165 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1350">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="35" />
-          <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_amap.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="496">
-          <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3863" max-vertical-offset="4950">
-          <caret line="303" column="0" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.0" vertical-offset="5063" max-vertical-offset="6270">
+          <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/locSDK_5.01.jar!/com/baidu/location/LocationClientOption.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5302144" vertical-offset="1229" max-vertical-offset="1767">
+          <caret line="80" column="24" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/locSDK_5.01.jar!/com/baidu/location/f.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17431192" vertical-offset="0" max-vertical-offset="684">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/app/src/main/libs/locSDK_5.01.jar!/com/baidu/location/LocationClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34920636" vertical-offset="812" max-vertical-offset="2907">
+          <caret line="53" column="11" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65464896" vertical-offset="420" max-vertical-offset="1110">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="505" max-vertical-offset="1653">
+          <caret line="53" column="47" selection-start-line="53" selection-start-column="27" selection-end-line="53" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginFirst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="741">
+          <caret line="25" column="57" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="4655">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="e#1860#1884#0" expanded="true" />
+            <element signature="e#4385#4426#0" expanded="true" />
+            <element signature="e#4651#4703#0" expanded="true" />
+            <element signature="e#4933#4963#0" expanded="true" />
+            <element signature="e#5162#5188#0" expanded="true" />
+            <element signature="e#6625#8232#0" expanded="true" />
+            <element signature="e#7129#7162#0" expanded="true" />
+            <element signature="e#7555#7600#0" expanded="true" />
+            <element signature="e#7754#7787#0" expanded="true" />
+            <element signature="e#7939#7979#0" expanded="true" />
+            <element signature="e#8105#8137#0" expanded="true" />
+            <element signature="e#8213#8214#0" expanded="true" />
+            <element signature="e#9431#9451#0" expanded="true" />
+            <element signature="e#9485#9532#0" expanded="true" />
+            <element signature="e#9573#9588#0" expanded="true" />
+            <element signature="e#9635#9646#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/LoginCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="779">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="25" max-vertical-offset="1710">
+          <caret line="10" column="49" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="539" max-vertical-offset="1406">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="631" max-vertical-offset="1786">
+          <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+          <folding>
+            <element signature="e#394#410#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/NetworkSyncService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1159">
+          <caret line="58" column="34" selection-start-line="58" selection-start-column="34" selection-end-line="58" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5776">
+          <caret line="35" column="37" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartBindActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48242188" vertical-offset="0" max-vertical-offset="874">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4128" max-vertical-offset="6080">
+          <caret line="254" column="8" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3684" max-vertical-offset="4370">
+          <caret line="194" column="72" selection-start-line="194" selection-start-column="72" selection-end-line="194" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13092" max-vertical-offset="21774">
+          <caret line="781" column="0" selection-start-line="781" selection-start-column="2" selection-end-line="782" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.13879" vertical-offset="4547" max-vertical-offset="5415">
+          <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
           <folding />
         </state>
       </provider>

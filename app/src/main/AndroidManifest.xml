@@ -10,7 +10,11 @@
 
     <meta-data
         android:name="com.amap.api.v2.apikey"
-        android:value="6ff9821e440f03f3a633b6c077e5ca27" />
+        android:value="468de9bad1be291d16a81b6b09506962" />
+
+    <meta-data
+        android:name="com.baidu.lbsapi.API_KEY"
+        android:value="ivoE6sM4zkgTC1yHnc0l0B6A" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -44,6 +48,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!--允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -206,6 +213,12 @@
             android:label="@string/title_activity_amap"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         </activity>
+
+<!--        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>-->
     </application>
 
 </manifest>

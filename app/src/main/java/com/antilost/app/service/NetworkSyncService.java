@@ -9,7 +9,9 @@ import com.antilost.app.model.TrackR;
 import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.prefs.PrefsManager;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class NetworkSyncService extends Service {
 
@@ -32,6 +34,7 @@ public class NetworkSyncService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(ACTION_SYNC_AFTER_LOGIN.equals(intent.getAction())) {
+            Log.i(LOG_TAG, "onStartCommand get sync after login intent");
             (new SyncThread()).start();
         }
         return START_NOT_STICKY;
@@ -45,14 +48,15 @@ public class NetworkSyncService extends Service {
                 int uid = mPrefs.getUid();
                 FetchAllTrackRCommand fetchAllCommand = new FetchAllTrackRCommand(uid);
                 fetchAllCommand.execTask();
-                List<TrackR> trackRs = fetchAllCommand.getBoundTrackRs();
+                HashMap<String, TrackR> trackRs = fetchAllCommand.getBoundTrackRs();
 
                 if(trackRs == null) {
                     Log.i(LOG_TAG, "no track bound info return.");
                     return;
                 }
-                for(TrackR track: trackRs) {
-                    mPrefs.addTrackR(track);
+                Set<Map.Entry<String, TrackR>> entrySet = trackRs.entrySet();
+                for(Map.Entry<String, TrackR> entry: entrySet) {
+                    mPrefs.addTrackR(entry.getValue());
                 }
             } else {
                 Log.e(LOG_TAG, "will to sync data while user is not login.");

@@ -20,12 +20,10 @@ import android.widget.Toast;
 
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
-import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.NetworkSyncService;
 
-import java.util.List;
 import java.util.regex.Matcher;
 
 public class LoginActivity extends Activity implements View.OnClickListener, Dialog.OnClickListener {
@@ -62,6 +60,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         if (null != intent) {
             exitcounter = (String) intent.getSerializableExtra("exitcounter");
         }
+
+        startNetworkSyncService();
         mPrefsManager = PrefsManager.singleInstance(this);
         if (mPrefsManager.validUserLog() && exitcounter==null) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
@@ -87,6 +87,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         mEmailInput.setText(mPrefsManager.getEmail());
 
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+
     }
 
 
@@ -193,10 +195,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                             Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
                             startActivity(i);
 
-                            Intent serviceIntent = new Intent(LoginActivity.this, NetworkSyncService.class);
-                            serviceIntent.setAction(NetworkSyncService.ACTION_SYNC_AFTER_LOGIN);
-
-                            startService(serviceIntent);
+                            startNetworkSyncService();
                             finish();
                         } else if(command.resultError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
@@ -212,6 +211,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             }
         };
         t.start();
+    }
+
+    private void startNetworkSyncService() {
+        Intent serviceIntent = new Intent(this, NetworkSyncService.class);
+        serviceIntent.setAction(NetworkSyncService.ACTION_SYNC_AFTER_LOGIN);
+        startService(serviceIntent);
     }
 
     private void updateRememberPassword(String email, String password) {

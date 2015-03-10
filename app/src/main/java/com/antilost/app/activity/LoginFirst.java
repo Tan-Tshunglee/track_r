@@ -23,7 +23,7 @@ public class LoginFirst extends Activity  {
             finish();
         }else{
             Intent intent = new Intent();
-            intent.setClass(getApplicationContext(),LoginActivity.class);
+            intent.setClass(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         }

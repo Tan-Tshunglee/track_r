@@ -2,7 +2,6 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -86,7 +85,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
                             if(mTrackIds.contains(deviceAddress) && !mPrefsManager.isMissedTrack(deviceAddress) && !mPrefsManager.isClosedTrack(deviceAddress)) {
-                                //mPrefsManager.addTrackIds(deviceAddress);
+                                //mPrefsManager.addTrackId(deviceAddress);
                                 Log.v(LOG_TAG, "find already bind device");
                                 return;
                             }

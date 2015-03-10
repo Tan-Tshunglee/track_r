@@ -42,12 +42,13 @@ import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
-import com.antilost.app.activity.TrackREditActivity;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -115,6 +116,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private WifiManager mWifiManager;
     private PendingIntent mPendingIntent;
     private LocationManagerProxy mAmapLocationManagerProxy;
+
+//    private LocationClient mBaiduLocationClient;
 
 
     @Override
@@ -464,6 +467,26 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         }
     }
 
+    private BDLocationListener mBaidLocationListener = new BDLocationListener() {
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            if(bdLocation != null) {
+                int type = bdLocation.getLocType();
+                Log.i(LOG_TAG, "baidu location return code is " + type);
+                if(type == 61
+                        || type == 65
+                        || type == 68
+                        || type == 161) {
+                    Location loc = LocUtils.convertBaiduLocation(bdLocation);
+                    if(loc != null) {
+                        mLastLocation = loc;
+                    }
+                }
+            }
+        }
+    };
+
+
     private void broadcastDeviceOff() {
         final Intent intent = new Intent(ACTION_DEVICE_CLOSED);
         sendBroadcast(intent);
@@ -683,6 +706,20 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         String sha1 = Utils.sHA1(this);
         Log.w(LOG_TAG, "sha1 is " + sha1);
+
+//        mBaiduLocationClient = new LocationClient(getApplicationContext());
+//
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);//设置定位模式
+//        option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
+//        option.setScanSpan(10 * 1000);//设置发起定位请求的间隔时间
+////        option.setIsNeedAddress(true);//返回的定位结果包含地址信息
+////        option.setNeedDeviceDirect(true);//返回的定位结果包含手机机头的方向
+//        mBaiduLocationClient.setLocOption(option);
+//        mBaiduLocationClient.registerLocationListener(mBaidLocationListener);
+//
+//        mBaiduLocationClient.start();
+
     }
 
     @Override
@@ -706,6 +743,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             entry.getValue().disconnect();
             mBluetoothGatts.remove(address);
         }
+
+//        mBaiduLocationClient.stop();
+//        mBaiduLocationClient.unRegisterLocationListener(mBaidLocationListener);
 
 
         mLocationManager.removeUpdates(this);
@@ -739,6 +779,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 return false;
             }
         }
+//        int requestResult = mBaiduLocationClient.requestLocation();
+//        Log.i(LOG_TAG, "send request Result code is " + requestResult);
 
         int uid = mPrefsManager.getUid();
         Log.v(LOG_TAG, "current uid is " + uid);

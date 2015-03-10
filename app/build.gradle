@@ -2,29 +2,35 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        development_key {
-            keyAlias 'zql'
-            keyPassword '13457662310'
-            storeFile file('../keystore.jks')
-            storePassword '13457662310'
+        TrackRDebugAndReleaseKey {
+            keyAlias 'trackrdebugandreleasekey'
+            keyPassword '123456654321'
+            storeFile file('F:/MY_WORKSPACE/Android Studio/track_r/development.jks')
+            storePassword '123456654321'
+        }
+        test1 {
+            keyAlias 'test1'
+            keyPassword '123456654321'
+            storeFile file('F:/MY_WORKSPACE/Android Studio/track_r/development.jks')
+            storePassword '123456654321'
         }
     }
     compileSdkVersion 18
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '21.1.2'
     defaultConfig {
         applicationId "com.antilost.app"
         minSdkVersion 18
         targetSdkVersion 18
-        signingConfig signingConfigs.development_key
+        signingConfig signingConfigs.test1
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.development_key
+            signingConfig signingConfigs.test1
         }
         debug {
-            signingConfig signingConfigs.development_key
+            signingConfig signingConfigs.test1
         }
     }
     productFlavors {
@@ -34,4 +40,5 @@ android {
 dependencies {
     compile files('src/main/libs/Android_Location_V1.3.1.jar')
     compile files('src/main/libs/Android_2DMap_V2.4.0.jar')
+    compile files('src/main/libs/locSDK_5.01.jar')
 }

@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.antilost.app.activity.AmapActivity;
+import com.baidu.location.BDLocation;
 
 import java.util.Locale;
 
@@ -51,6 +51,17 @@ public class LocUtils {
         return null;
     }
 
+    public static Location convertBaiduLocation(BDLocation bdLocation) {
+
+        if(bdLocation != null) {
+            Location loc = new Location(LocationManager.NETWORK_PROVIDER);
+            loc.setLatitude(bdLocation.getLatitude());
+            loc.setLongitude(bdLocation.getLongitude());
+        }
+
+        return null;
+    }
+
     public static final void viewLocation(Context context, Location loc) {
         if (loc == null) {
             Log.e("LocUtils", "view null location.");
@@ -65,6 +76,8 @@ public class LocUtils {
 
         }
     }
+
+
 //        intent = new Intent(context, AmapActivity.class);
 //        intent.setAction(Intent.ACTION_VIEW);
 //        intent.setData(Uri.parse(uri));

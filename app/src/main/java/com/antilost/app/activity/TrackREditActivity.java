@@ -252,8 +252,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mTrack.name = name;
         }
 
-        mPrefs.addTrackIds(mBluetoothDeviceAddress);
-        mPrefs.saveTrack(mBluetoothDeviceAddress, mTrack);
+        mPrefs.addTrackId(mBluetoothDeviceAddress);
+        mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
 
         Thread t = new Thread() {
             @Override

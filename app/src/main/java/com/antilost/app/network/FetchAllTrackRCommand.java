@@ -6,8 +6,7 @@ import android.util.Log;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.util.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by Tan on 2015/3/6.
@@ -16,6 +15,8 @@ public class FetchAllTrackRCommand extends Command {
 
     private final int mUid;
 
+
+    private final HashMap<String, TrackR> mAddressesToTrackRMap = new HashMap<String, TrackR>();
     public FetchAllTrackRCommand(int uid) {
         mUid = uid;
     }
@@ -27,23 +28,23 @@ public class FetchAllTrackRCommand extends Command {
         return sb.toString();
     }
 
-    public List<TrackR> getBoundTrackRs() {
+    public HashMap<String, TrackR> getBoundTrackRs() {
         if(success()) {
             String addressesStr = mResultMap.get("losserid");
-            ArrayList<String> addressedArrayList = new ArrayList<String>();
             if(!TextUtils.isEmpty(addressesStr)) {
                 String[] trackrs = addressesStr.split(",");
-                ArrayList<TrackR> trackRs = new ArrayList<TrackR>();
+
                 for(String t: trackrs) {
+                    Log.i(LOG_TAG, "t is " + t);
                     //format address|name|type
-                    String[] trackInfo = t.split("|");
-                    String address = trackInfo[0];
+                    String[] trackInfo = t.split("\\|");
+                    String address = trackInfo[1];
 
                     if(!Utils.isValidMacAddress(address)) {
-                        Log.e(LOG_TAG, "get one invalid mac address");
+                        Log.e(LOG_TAG, "get one invalid mac address " + address);
                         continue;
                     }
-                    String name = trackInfo[1];
+                    String name = trackInfo[0];
                     String typeStr = trackInfo[2];
                     int type = 0;
 
@@ -58,18 +59,38 @@ public class FetchAllTrackRCommand extends Command {
                     track.address = address;
                     track.name = name;
 
-//                    if(Utils.isValidMacAddress(address)) {
-//                        addressedArrayList.add(address);
-//                        Log.d(LOG_TAG, "Fetch one mac address is " + address);
-//                    }
-                    trackRs.add(track);
+                    Log.d(LOG_TAG, "Fetch one mac address is " + address);
+                    mAddressesToTrackRMap.put(address, track);
                 }
-                return trackRs;
+                return mAddressesToTrackRMap;
+            } else {
+                Log.e(LOG_TAG, "losserid data payload is empty.");
             }
             return null;
         } else {
             dumpDebugInfo();
         }
         return null;
+    }
+
+    public boolean parseResponse(String entity) {
+        try {
+            String[] lines = entity.split("\r\n");
+            mResultMap = new HashMap<String, String>();
+            for(String line: lines) {
+                String[] keyValues = line.split(":");
+                if(keyValues.length == 2) {
+                    mResultMap.put(keyValues[0], keyValues[1]);
+                } else if(line.startsWith("losserid:")) {
+                    String data = line.substring("losserid:".length());
+                    mResultMap.put("losserid", data);
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            mStatusBad = true;
+        }
+        return false;
     }
 }

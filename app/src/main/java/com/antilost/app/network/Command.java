@@ -11,8 +11,8 @@ public abstract class Command {
     public static final String LOG_TAG = "Command";
     public static final String LINE_SPLITTER = "\r\n";
 
-    private boolean mStatusBad = false;
-    private boolean mNetworkError = false;
+    protected boolean mStatusBad = false;
+    protected boolean mNetworkError = false;
     protected HashMap<String, String> mResultMap;
 
 
@@ -33,7 +33,7 @@ public abstract class Command {
 
     }
 
-    private boolean parseResponse(String entity) {
+    public boolean parseResponse(String entity) {
         try {
             String[] lines = entity.split("\r\n");
             mResultMap = new HashMap<String, String>();
