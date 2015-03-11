@@ -11,7 +11,7 @@ android {
         test1 {
             keyAlias 'test1'
             keyPassword '123456654321'
-            storeFile file('F:/MY_WORKSPACE/Android Studio/track_r/development.jks')
+            storeFile file('./development.jks')
             storePassword '123456654321'
         }
     }
