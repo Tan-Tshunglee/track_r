@@ -82,7 +82,7 @@ public class NetworkSyncService extends Service {
                 byte[] rawImageData = command.getRawImageData();
                 if(rawImageData != null) {
                     Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
-                    saveDataToFile(rawImageData);
+                    saveDataToFile(rawImageData, id);
                 } else {
                     Log.e(LOG_TAG, "no rawImageData return.");
                 }
