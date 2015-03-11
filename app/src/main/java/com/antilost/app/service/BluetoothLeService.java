@@ -46,8 +46,8 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
+//import com.baidu.location.BDLocation;
+//import com.baidu.location.BDLocationListener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -75,7 +75,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS;
 
-    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1 * 60 * 1000;
+//    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1 * 60 * 1000;
+    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -465,25 +466,25 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             broadcastRssiRead();
         }
     }
-
-    private BDLocationListener mBaidLocationListener = new BDLocationListener() {
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            if(bdLocation != null) {
-                int type = bdLocation.getLocType();
-                Log.i(LOG_TAG, "baidu location return code is " + type);
-                if(type == 61
-                        || type == 65
-                        || type == 68
-                        || type == 161) {
-                    Location loc = LocUtils.convertBaiduLocation(bdLocation);
-                    if(loc != null) {
-                        mLastLocation = loc;
-                    }
-                }
-            }
-        }
-    };
+//
+//    private BDLocationListener mBaidLocationListener = new BDLocationListener() {
+//        @Override
+//        public void onReceiveLocation(BDLocation bdLocation) {
+//            if(bdLocation != null) {
+//                int type = bdLocation.getLocType();
+//                Log.i(LOG_TAG, "baidu location return code is " + type);
+//                if(type == 61
+//                        || type == 65
+//                        || type == 68
+//                        || type == 161) {
+//                    Location loc = LocUtils.convertBaiduLocation(bdLocation);
+//                    if(loc != null) {
+//                        mLastLocation = loc;
+//                    }
+//                }
+//            }
+//        }
+//    };
 
 
     private void broadcastDeviceOff() {
@@ -713,8 +714,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public void onLocationChanged(AMapLocation amapLocation) {
         Location loc = LocUtils.convertAmapLocation(amapLocation);
         if(loc != null) {
-            mLastLocation = loc;
-            Log.i(LOG_TAG, "get location info from amap location manager!!!");
+
+            mPrefsManager.saveLastAMPALocation(loc);
+            Log.i(LOG_TAG, "get location info from amap location manager!!!  lat is "+loc.getLatitude()+ "the long is "+ loc.getLongitude());
         }
     }
 
