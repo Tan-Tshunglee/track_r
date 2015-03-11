@@ -42,6 +42,7 @@ public class PrefsManager {
 
     public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
     public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
+    public static final String PREFS_LAST_LOCATION_AMPA_KEY_PREFIX = "last_location";
     public static final String PREFS_LAST_LOST_TIME_KEY_PREFIX = "last_lost_time";
 
     public static final String PREFS_SLEEP_MODE_KEY = "sleep_mode_prefs_key";
@@ -253,6 +254,19 @@ public class PrefsManager {
 
         String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
         mPrefs.edit().putString(key, LocUtils.convertLocation(loc));
+    }
+
+    public void saveLastAMPALocation(Location loc) {
+        String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
+        mPrefs.edit().putString(key, LocUtils.convertLocation(loc)).commit();
+    }
+    public Location getLastAMPALocation() {
+        String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
+        String loc = mPrefs.getString(key, null);
+        if(loc == null) {
+            return null;
+        }
+        return LocUtils.convertLocation(loc);
     }
 
     public Location getLastLostLocation(String address) {
