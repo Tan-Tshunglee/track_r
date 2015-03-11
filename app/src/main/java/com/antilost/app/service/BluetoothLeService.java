@@ -42,7 +42,6 @@ import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
-import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
@@ -707,18 +706,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         String sha1 = Utils.sHA1(this);
         Log.w(LOG_TAG, "sha1 is " + sha1);
 
-//        mBaiduLocationClient = new LocationClient(getApplicationContext());
-//
-//        LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);//设置定位模式
-//        option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
-//        option.setScanSpan(10 * 1000);//设置发起定位请求的间隔时间
-////        option.setIsNeedAddress(true);//返回的定位结果包含地址信息
-////        option.setNeedDeviceDirect(true);//返回的定位结果包含手机机头的方向
-//        mBaiduLocationClient.setLocOption(option);
-//        mBaiduLocationClient.registerLocationListener(mBaidLocationListener);
-//
-//        mBaiduLocationClient.start();
 
     }
 
@@ -1048,14 +1035,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
         mGattStates.remove(address);
         mBluetoothGatts.remove(address);
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), address);
-                command.execTask();
-            }
-        };
-        t.start();
+
     }
 
 

@@ -15,8 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
@@ -129,8 +131,33 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     return;
                 }
+                Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
+                        command.execTask();
 
-                mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
+                        if(command.success()) {
+                            mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toast(getString(R.string.unbind_successfully));
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    toast(getString(R.string.unbind_track_server_error));
+                                }
+                            });
+                        }
+                    }
+                };
+                t.start();
+
+
                 break;
         }
     }
@@ -147,5 +174,9 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 mPrefsManager.setSleepMode(b);
             break;
         }
+    }
+
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

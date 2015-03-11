@@ -124,6 +124,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 
 
     private void reconnectedClosedTrackR(String address) {
+        Toast.makeText(this, "Reconnect Closed TrackR Found.", Toast.LENGTH_SHORT).show();
         mPrefsManager.saveClosedTrack(address, false);
         startService(new Intent(BindingTrackRActivity.this, BluetoothLeService.class));
         finish();

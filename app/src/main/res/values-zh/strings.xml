@@ -167,4 +167,6 @@
 
     <string name="title_activity_amap">AmapActivity</string>
     <string name="place_lost">Place Lost</string>
+    <string name="unbind_successfully">Unbind Successfully.</string>
+    <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
 </resources>

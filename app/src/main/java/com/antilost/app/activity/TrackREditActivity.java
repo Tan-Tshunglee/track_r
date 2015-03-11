@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
+import com.antilost.app.network.BindCommand;
 import com.antilost.app.network.UploadImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -247,31 +248,53 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
 
     private void saveTrackRSetting() {
-        String name = mTrackRName.getText().toString();
+        final String name = mTrackRName.getText().toString();
         if(!TextUtils.isEmpty(name)) {
             mTrack.name = name;
         }
 
-        mPrefs.addTrackId(mBluetoothDeviceAddress);
-        mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
+
 
         Thread t = new Thread() {
             @Override
             public void run() {
-                final UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
-                command.execTask();
+                final BindCommand bindcommand = new BindCommand(String.valueOf(mPrefs.getUid()), name, mBluetoothDeviceAddress, String.valueOf(mTrack.type));
 
-                if(command.success()) {
-                    Log.v(LOG_TAG, "UploadImageCommand exec successfully.");
+                bindcommand.execTask();
+                boolean bindOk = bindcommand.success();
+                boolean uploadPhotoOk = false;
+                if(bindOk) {
+                    Log.i(LOG_TAG, "Bind track ok.");
+                    mPrefs.addTrackId(mBluetoothDeviceAddress);
+                    mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toast(getString(R.string.binding_success));
+                        }
+                    });
+                    UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                    command.execTask();
+                    if(command.success()) {
+                        uploadPhotoOk = true;
+                        Log.v(LOG_TAG, "upload track photo to server success.");
+                    } else {
+                        Log.e(LOG_TAG, "upload track photo to server failed.");
+                    }
+                } else {
+                    Log.e(LOG_TAG, "Bind RrackR Error.");
                 }
+
+
             }
         };
-
-
         t.start();
-//        testIconFileDownload();
+
     }
 
+    private void toast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
 
 
 //    public void testIconFileDownload() {
@@ -338,7 +361,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(!new File(CsstSHImageData.TRACKR_IMAGE_FOLDER, mBluetoothDeviceAddress).delete()) {
-                    Log.w(LOG_TAG, "reset track custom image failed.");
+                    Log.w(LOG_TAG, "Reset trackr custom image failed.");
                     int drawableId = DrawableIds[mTrack.type];
                     mImageView.setImageResource(drawableId);
                 };

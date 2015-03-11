@@ -61,7 +61,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             exitcounter = (String) intent.getSerializableExtra("exitcounter");
         }
 
-        startNetworkSyncService();
+
         mPrefsManager = PrefsManager.singleInstance(this);
         if (mPrefsManager.validUserLog() && exitcounter==null) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
@@ -160,26 +160,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 final LoginCommand command = new LoginCommand(email, password);
                 command.execTask();
 
-                if(command.success()) {
-//                    int uid = command.getUid();
-//                    FetchAllTrackRCommand fetchCommand = new FetchAllTrackRCommand(uid);
-//                    fetchCommand.execTask();
-//
-//                    if(fetchCommand.success()) {
-//                        List<String> addresses = fetchCommand.getBoundTrackRAddress();
-//                        if(addresses == null) {
-//                            Log.e(LOG_TAG, "addresses is null fetchCommand return");
-//                            return;
-//                        } else {
-//
-//                        }
-//                        for(String address: addresses) {
-//                            Log.i(LOG_TAG, address);
-//                        }
-//                    } else {
-//                        Log.e(LOG_TAG, "Login Activity fetch all trackr data failed");
-//                    }
-                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

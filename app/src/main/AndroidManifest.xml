@@ -8,13 +8,6 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
-    <meta-data
-        android:name="com.amap.api.v2.apikey"
-        android:value="468de9bad1be291d16a81b6b09506962" />
-
-    <meta-data
-        android:name="com.baidu.lbsapi.API_KEY"
-        android:value="ivoE6sM4zkgTC1yHnc0l0B6A" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -61,6 +54,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="468de9bad1be291d16a81b6b09506962" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="ivoE6sM4zkgTC1yHnc0l0B6A" />
+
         <activity
             android:name=".activity.LoginFirst"
             android:label="@string/app_name"
