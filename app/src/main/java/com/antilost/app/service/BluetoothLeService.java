@@ -752,9 +752,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
 
         mLocationManager.removeUpdates(this);
-        mAmapLocationManagerProxy.removeUpdates(this);
-        mAmapLocationManagerProxy.destroy();
-        mAmapLocationManagerProxy = null;
+        if(mAmapLocationManagerProxy != null) {
+            mAmapLocationManagerProxy.removeUpdates(this);
+            mAmapLocationManagerProxy.destroy();
+            mAmapLocationManagerProxy = null;
+        }
+
         startReadRssiRepeat(false, null);
     }
 

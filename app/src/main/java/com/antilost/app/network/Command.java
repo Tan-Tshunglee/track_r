@@ -67,7 +67,7 @@ public abstract class Command {
         }
 
         String status = mResultMap.get("status");
-        return "resultError".equals(status);
+        return "err".equals(status);
     }
 
     public boolean isNetworkError() {
