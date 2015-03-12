@@ -16,18 +16,18 @@
         <dex dex="F:\MY_WORKSPACE\Android Studio\track_r\app\build\intermediates\pre-dexed\debug\Android_2DMap_V2.4.0-0911fa02409618c41b2781b51835c268d06951a1.jar" />
     </item>
     <item
-        jar="F:\MY_WORKSPACE\Android Studio\track_r\app\src\main\libs\locSDK_5.01.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="8854f80a1a63f6348276dd5c8e96b9096784a513">
-        <dex dex="F:\MY_WORKSPACE\Android Studio\track_r\app\build\intermediates\pre-dexed\debug\locSDK_5.01-7809c357db93322189c5aadab3b5fcf6d3a54da6.jar" />
-    </item>
-    <item
         jar="F:\MY_WORKSPACE\Android Studio\track_r\app\src\main\libs\Android_Location_V1.3.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="38a2f44a304a66fab0527c0a86e356ddd2cce30d">
         <dex dex="F:\MY_WORKSPACE\Android Studio\track_r\app\build\intermediates\pre-dexed\debug\Android_Location_V1.3.1-fab7e12f5c863ef45b977d9e12eb0f6269bf3687.jar" />
+    </item>
+    <item
+        jar="F:\MY_WORKSPACE\Android Studio\track_r\app\src\main\libs\locSDK_5.01.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8854f80a1a63f6348276dd5c8e96b9096784a513">
+        <dex dex="F:\MY_WORKSPACE\Android Studio\track_r\app\build\intermediates\pre-dexed\debug\locSDK_5.01-7809c357db93322189c5aadab3b5fcf6d3a54da6.jar" />
     </item>
     <item
         jar="F:\MY_WORKSPACE\Android Studio\track_r\app\src\main\libs\Android_Location_V1.3.1.jar"

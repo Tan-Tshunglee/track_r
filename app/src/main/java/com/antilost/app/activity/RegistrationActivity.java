@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     private EditText mPasswordInput;
     private EditText mPassowrdConfirmInput;
     private ProgressDialog mProgressDialog;
+    private Button mBackLoginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.activity_registration);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.registrationBtn).setOnClickListener(this);
+        findViewById(R.id.backLoginActivity).setOnClickListener(this);
+
         mEmailInput = (EditText) findViewById(R.id.email_address);
         mPasswordInput = (EditText) findViewById(R.id.user_password);
         mPassowrdConfirmInput =  (EditText) findViewById(R.id.user_password_confirm);
@@ -64,6 +68,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.registrationBtn:
                 tryRegistrationUser();
+                break;
+            case R.id.backLoginActivity:
+                finish();
                 break;
         }
     }

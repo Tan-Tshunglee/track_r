@@ -11,8 +11,17 @@
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/back_arrow"
+        android:src="@drawable/back_arrow_gray"
         android:background="@android:color/transparent" />
+
+    <Button
+        android:id="@+id/backLoginActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:text="@string/sign_in"
+        android:textColor="#cdcdcd" />
 
     <TextView
         android:id="@+id/appNameText"

@@ -103,11 +103,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 onUserClickRememberMe();
                 break;
             case R.id.userRegistrationBtn:
-
                 i = new Intent(this, RegistrationActivity.class);
                 startActivity(i);
                 break;
-
             case R.id.forgetPassword:
                 i = new Intent(this, ForgetPasswordActivity.class);
                 startActivity(i);
