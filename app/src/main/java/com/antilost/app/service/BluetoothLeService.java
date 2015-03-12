@@ -94,9 +94,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             "com.antilost.bluetooth.le.ACTION_BATTERY_LEVEL_READ";
 
     public final static String ACTION_RSSI_READ =
-            "com.antilost.bluetoot.le.ACTION_RSSI_READ";
+            "com.antilost.bluetooth.le.ACTION_RSSI_READ";
     public final static String ACTION_DEVICE_CLOSED =
-            "com.antilost.bluetoot.le.ACTION_DEVICE_CLOSED";
+            "com.antilost.bluetooth.le.ACTION_DEVICE_CLOSED";
+
+    public final static String ACTION_DEVICE_FAR_AWAY =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_FAR_AWAY";
     public static final int MIN_DISTANCE = 20;
 
 
@@ -464,7 +467,18 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             Log.i(LOG_TAG, "onReadRemoteRssi callback rssi is " + rssi);
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
+            String address = gatt.getDevice().getAddress();
+            receiverRssi(address, rssi);
         }
+    }
+
+    private void receiverRssi(String address, int rssi) {
+        Log.v(LOG_TAG, String.format("address %s's status is %d", address, rssi));
+
+//        if(rssi < -80) {
+//            alertUserTrackDisconnected(address);
+//        }
+
     }
 //
 //    private BDLocationListener mBaidLocationListener = new BDLocationListener() {
@@ -675,7 +689,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
 
 
-;       mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mLastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         List<String> allProviders = mLocationManager.getAllProviders();
         try {
