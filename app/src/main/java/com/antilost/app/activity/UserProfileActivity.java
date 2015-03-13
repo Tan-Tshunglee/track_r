@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -239,6 +240,19 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                 mPrefsManager.setAlertRingEnabled(b);
                 break;
         }
+    }
+
+
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            Intent intent = new Intent(UserProfileActivity.this, FeedBackEditor.class);
+            startActivity(intent);
+            UserProfileActivity.this.finish();
+            return true;
+        }
+        return true;
     }
 }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,8 +50,6 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.safezoneaddwifi);
         initWidget();
         initWidgetState();
@@ -150,5 +149,18 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
         Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
         startActivity(intent);
         SafeZoneAddWifiActivity.this.finish();
+    }
+
+
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
+            startActivity(intent);
+            SafeZoneAddWifiActivity.this.finish();
+            return true;
+        }
+        return true;
     }
 }

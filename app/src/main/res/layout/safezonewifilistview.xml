@@ -9,6 +9,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
+    android:clickable="false"
+    android:focusable="false"
     android:background="@android:color/transparent"
     >
 	<!-- 一组-->
@@ -18,6 +20,8 @@
 	    android:id="@+id/llnamemain"
 	    android:orientation="horizontal"
 	    android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
 	    android:background="@drawable/itembgdwhite"
 	    >
 
@@ -28,6 +32,8 @@
 	    android:id="@+id/tvwifiname"
 	    android:text="@string/wifisameple"
 	    android:gravity="center"
+        android:clickable="false"
+        android:focusable="false"
 	    android:singleLine="true"
 	    android:textColor="@color/user_data_text"
 	    android:textSize="@dimen/normal_textsize_test"
@@ -40,6 +46,8 @@
 	    android:id="@+id/llwifilistviewselect"
 	    android:orientation="vertical"
 	    android:gravity="right"
+        android:clickable="false"
+        android:focusable="false"
 	     android:layout_weight="1"
 	    >
 	 <ImageView
@@ -47,6 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
+             android:clickable="false"
+             android:focusable="false"
             android:paddingTop="4dip"
             android:src="@drawable/unselect" />
     </LinearLayout>
@@ -56,6 +66,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
+        android:clickable="false"
+        android:focusable="false"
         android:layout_weight="1" />
 
 

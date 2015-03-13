@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -88,8 +89,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.usereditor);
         initWidget();
         initWidgetState();
@@ -602,6 +601,8 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
 
 
+
+
     /**
 
      * 处理日期控件的Handler
@@ -627,5 +628,18 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         }
 
     };
+
+
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
+            startActivity(intent);
+            TrackrUsereditor.this.finish();
+            return true;
+        }
+        return true;
+    }
 
 }

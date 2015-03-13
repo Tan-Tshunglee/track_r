@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,8 +36,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.safezone);
 
         mPrefsManager = PrefsManager.singleInstance(this);
@@ -158,5 +157,18 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
     protected void onResume() {
         super.onResume();
         initWidgetState();
+    }
+
+
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
+            startActivity(intent);
+            SafeZonewifiActivity.this.finish();
+            return true;
+        }
+        return true;
     }
 }
