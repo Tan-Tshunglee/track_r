@@ -166,5 +166,7 @@
     <string name="place_lost">Place Lost</string>
     <string name="unbind_successfully">Unbind Success.</string>
     <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
+    <string name="title_activity_google_map">GoogleMapActivity</string>
+    <string name="no_location_data">No Location Data!</string>
 
 </resources>

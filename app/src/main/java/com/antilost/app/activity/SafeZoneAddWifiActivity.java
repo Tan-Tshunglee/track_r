@@ -9,8 +9,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -153,9 +151,9 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
 
 
     public boolean onKeyDown(int keyCode,KeyEvent event) {
-        // ÊÇ·ñ´¥·¢°´¼üÎªback¼ü
+        // æ˜¯å¦è§¦å‘æŒ‰é”®ä¸ºbacké”®
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // µ¯³ö ÍË³öÈ·ÈÏ¿ò
+            // å¼¹å‡º é€€å‡ºç¡®è®¤æ¡†
             Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
             startActivity(intent);
             SafeZoneAddWifiActivity.this.finish();

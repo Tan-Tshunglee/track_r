@@ -169,4 +169,5 @@
     <string name="place_lost">Place Lost</string>
     <string name="unbind_successfully">Unbind Successfully.</string>
     <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
+    <string name="no_location_data">没有位置信息</string>
 </resources>

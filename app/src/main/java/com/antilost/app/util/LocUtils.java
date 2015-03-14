@@ -9,14 +9,21 @@ import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.antilost.app.activity.AmapActivity;
-//import com.baidu.location.BDLocation;
+import com.antilost.app.activity.GoogleMapActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.Locale;
+
+//import com.baidu.location.BDLocation;
 
 /**
  * Created by Tan on 2015/2/12.
  */
 public class LocUtils {
+
+    public static final String LOG_TAG = "LocUtils";
+
     public static  final String convertLocation(Location loc) {
         if(loc == null) {
 
@@ -65,27 +72,62 @@ public class LocUtils {
 
     public static final void viewLocation(Context context, Location loc) {
         if (loc == null) {
-            Log.e("LocUtils", "view null location.");
+            Log.e(LOG_TAG, "view null location.");
             return;
         }
+
         String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//        try {
-//            context.startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
+        int googleServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+        if(googleServiceAvailable == ConnectionResult.SUCCESS) {
+            Log.i(LOG_TAG, "device with updated google play service use google map");
+            intent = new Intent(context, GoogleMapActivity.class);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(uri));
+            try {
+                context.startActivity(intent);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            Log.i(LOG_TAG, "device without google play service use amap");
+            intent = new Intent(context, AmapActivity.class);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(uri));
 
-        intent = new Intent(context, AmapActivity.class);
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(uri));
-
-        try {
-            context.startActivity(intent);
-        } catch (Exception e1) {
-            e1.printStackTrace();
+            try {
+                context.startActivity(intent);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
+
+
+
+    }
+
+    public static Location parseLocationUri(Uri uri) {
+
+        if(uri == null) {
+            return null;
+        }
+        String schema = uri.getScheme();
+
+        if("geo".equalsIgnoreCase(schema)) {
+            String uriStr = uri.toString();
+            String latlngStr = uriStr.split(":")[1];
+            String[] latlngArr = latlngStr.split(",");
+            double lat = Double.parseDouble(latlngArr[0]);
+            double lng = Double.parseDouble(latlngArr[1]);
+
+            Location loc = new Location(LocationManager.PASSIVE_PROVIDER);
+            loc.setLatitude(lat);
+            loc.setLongitude(lng);
+
+            return loc;
+        }
+        return null;
     }
 
 }
