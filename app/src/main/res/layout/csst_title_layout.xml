@@ -1,57 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layout_top"
-	android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_top"
+    android:layout_width="fill_parent"
     android:layout_height="@dimen/title_bar_height"
-    android:gravity="center_vertical"
     android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true" 
-    android:background="@drawable/usertitle_bkg">
-	<!-- 返回 -->
-	<Button
-	    android:id="@+id/mBtnCancel"
-	    android:layout_width="150dp"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/usertitle_bkg"
+    android:gravity="center_vertical">
+    <!-- 返回 -->
+    <Button
+        android:id="@+id/mBtnCancel"
+        android:layout_width="150dp"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="left|center_vertical"
         android:paddingLeft="10dp"
         android:text="@string/back"
-        android:focusable="true"
-        android:gravity="left|center_vertical"
-        android:focusableInTouchMode="true"
-        android:textColor="@color/whitesmoke"
-        android:background="@android:color/transparent"
-        />
-	<!-- 标题 -->
+        android:textColor="@color/whitesmoke" />
+    <!-- 标题 -->
     <TextView
         android:id="@+id/mTVTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10.0dip"
         android:shadowDx="1.0"
         android:shadowDy="1.0"
         android:shadowRadius="1.0"
         android:text="@string/user_title"
         android:textColor="@color/white"
-        android:textSize="@dimen/titile"
-         />
+        android:textSize="@dimen/titile" />
     <!-- 完成 -->
-	<Button
-	    android:id="@+id/mBtnDone"
-	    android:layout_width="150dp"
+    <Button
+        android:id="@+id/mBtnDone"
+        android:layout_width="150dp"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
         android:focusable="true"
-        android:text="@string/done"
         android:focusableInTouchMode="true"
-        android:textColor="@color/whitesmoke"
         android:gravity="right|center_vertical"
         android:paddingRight="10dp"
-        />
-   
+        android:text="@string/done"
+        android:textColor="@color/whitesmoke" />
+
 </RelativeLayout>

@@ -179,9 +179,8 @@
         </activity>
         <activity
             android:name=".activity.DisconnectAlertActivity"
-            android:label="@string/title_activity_disconnect_alert"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
         </activity>
         <activity
             android:name=".activity.TrackRSettingActivity"
@@ -210,7 +209,7 @@
             android:name=".activity.AmapActivity"
             android:label="@string/title_activity_amap"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
         </activity>
 
         <!--
@@ -222,9 +221,14 @@
         -->
         <activity
             android:name=".activity.GoogleMapActivity"
+            android:label="@string/title_activity_google_map"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
-            android:label="@string/title_activity_google_map" >
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activity.StartAndEndTimerPickerActivity"
+            android:label="@string/title_activity_start_and_end_timer_picker"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
     </application>
 

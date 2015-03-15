@@ -167,6 +167,8 @@
     <string name="unbind_successfully">Unbind Success.</string>
     <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
     <string name="title_activity_google_map">GoogleMapActivity</string>
-    <string name="no_location_data">No Location Data!</string>
+    <string name="no_location_data">No Location Data! </string>
+    <string name="title_activity_start_and_end_timer_picker">StartAndEndTimerPickerActivity</string>
+    <string name="sleep_mode_time_setting">"Time Setting"</string>
 
 </resources>

@@ -15,7 +15,7 @@
     <dimen name="rc_circle_width">300dip</dimen>
     <dimen name="rc_circle_height">300dip</dimen>
     <dimen name="ert">18sp</dimen>
-    <dimen name="titile">26sp</dimen>
+    <dimen name="titile">22sp</dimen>
     <dimen name="itemtextsize">23sp</dimen>
     <dimen name="itemheigt">30sp</dimen>
 

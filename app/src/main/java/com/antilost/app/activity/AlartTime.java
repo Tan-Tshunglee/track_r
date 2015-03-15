@@ -1,32 +1,13 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -34,14 +15,10 @@ import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.dao.UserDataTable;
 import com.antilost.app.model.UserdataBean;
-import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.wheelview.NumericWheelAdapter;
 import com.antilost.app.util.wheelview.OnWheelChangedListener;
 import com.antilost.app.util.wheelview.OnWheelScrollListener;
 import com.antilost.app.util.wheelview.WheelView;
-
-import java.io.File;
-import java.util.Calendar;
 
 public class AlartTime extends Activity implements TrackRInitialize {
     private String TAG = "AlartTime";
@@ -51,7 +28,6 @@ public class AlartTime extends Activity implements TrackRInitialize {
     private WheelView wvAlarTime;
     private int  ialarttime = 0;
     public final String AlartTime = "AlartTime";
-    /** �������*/
     //数据库
     private TrackRDataBase trackRDataBase;
     /** 数据库对象 */
@@ -63,8 +39,8 @@ public class AlartTime extends Activity implements TrackRInitialize {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.alarttime);
         initWidget();
         initWidgetState();
@@ -153,9 +129,9 @@ public class AlartTime extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
-                startActivity(intent);
+//                // TODO Auto-generated method stub
+//                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
+//                startActivity(intent);
                 AlartTime.this.finish();
             }
         });
@@ -165,10 +141,10 @@ public class AlartTime extends Activity implements TrackRInitialize {
                 // TODO Auto-generated method stub
                 if(curUserDataBean!=null){
                     curUserDataBean.setMalarmtime(Integer.toString(ialarttime));
-                    UserDataTable.getInstance().update(mDb,curUserDataBean);
+                    UserDataTable.getInstance().update(mDb, curUserDataBean);
                 }
-                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
+//                startActivity(intent);
                 AlartTime.this.finish();
             }
         });

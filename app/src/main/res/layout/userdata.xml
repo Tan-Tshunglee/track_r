@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addModelcontent"
     android:layout_width="fill_parent"
@@ -14,347 +16,439 @@
 
         <include layout="@layout/csst_title_layout_trigle" />
     </RelativeLayout>
-    <!-- 分隔符 -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:visibility="invisible" />
-    <!-- 上半部分编辑界面-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="255dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/usereditor_bkg"
-        android:orientation="vertical">
-        <!-- 编辑ITEM -->
-        <RelativeLayout
-            android:id="@+id/rluser_editor"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical">
-            <!-- 头像 -->
-            <ImageButton
-                android:id="@+id/tvusericon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/user_usericondefault"
-                android:gravity="center"
-                android:text="@string/user_usericon"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp"
-                android:background="@android:color/transparent"/>
-            <!-- 编辑 -->
-            <TextView
-                android:id="@+id/tvuser_editor"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/user_editor"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <!-- 分隔线 -->
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
-        <!-- Appring -->
-        <RelativeLayout
-            android:id="@+id/rluser_appring"
-            android:layout_width="wrap_content"
-            android:layout_height="50sp"
-            android:background="@android:color/transparent">
-            <!-- Appring text -->
-            <TextView
-                android:id="@+id/tvuserappring"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/user_app_ring"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- appring switch-->
-            <CheckBox
-                android:id="@+id/cbuser_appringswitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:button="@drawable/custom_switch_button"
-                android:paddingRight="20dp" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
-        <!-- 提醒时长 -->
-        <RelativeLayout
-            android:id="@+id/rluser_notice"
-            android:layout_width="wrap_content"
-            android:layout_height="50sp"
-            android:background="@android:color/transparent">
-            <!-- Appring text -->
-            <TextView
-                android:id="@+id/tvusernotice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text="@string/user_timering"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- appring switch-->
-            <TextView
-                android:id="@+id/tvtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:drawableRight="@drawable/tri_right"
-                android:gravity="center"
-                android:paddingRight="20dp"
-                android:text="3S"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
 
-        <!-- 安全区域 -->
-        <RelativeLayout
-            android:id="@+id/rluser_safezone"
-            android:layout_width="wrap_content"
-            android:layout_height="50sp"
-            android:background="@android:color/transparent">
-            <!-- safezone text -->
-            <TextView
-                android:id="@+id/tvusersafezone"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/wifiicon"
-                android:gravity="center"
-                android:text="@string/user_airsafe"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- zone  switch-->
-            <CheckBox
-                android:id="@+id/cbuser_safezoneswitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:button="@drawable/custom_switch_button"
-                android:paddingRight="20dp" />
-        </RelativeLayout>
-    </LinearLayout>
 
-    <TableRow
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"></TableRow>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:background="@color/user_data_text"
-        android:visibility="invisible" />
-    <!-- 下部分编辑界面-->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="205dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/usereditor_bkg"
-        android:orientation="vertical">
-        <!-- 语言选择 -->
-        <RelativeLayout
-            android:id="@+id/rluser_langauage"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical">
-            <!-- language text-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 分隔符 -->
             <TextView
-                android:id="@+id/tvuserlangauage"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:visibility="invisible" />
+
+            <!-- 上半部分编辑界面-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/user_language"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- 编辑 -->
-            <ImageButton
-                android:id="@+id/imguserlanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingRight="20dp"
-                android:src="@drawable/tri_right" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
-        <!-- 背景选择 -->
-        <RelativeLayout
-            android:id="@+id/rluser_selectbackground"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical">
-            <!-- selectbackground text-->
+                android:layout_marginRight="20dp"
+                android:background="@drawable/item_block_bkg"
+                android:orientation="vertical">
+                <!-- 编辑ITEM -->
+                <RelativeLayout
+                    android:id="@+id/rluser_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
+                    <!-- 头像 -->
+                    <ImageButton
+                        android:id="@+id/tvusericon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:src="@drawable/user_usericondefault"
+                        android:text="@string/user_usericon"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- 编辑 -->
+                    <TextView
+                        android:id="@+id/tvuser_editor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/user_editor"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <!-- 分隔线 -->
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!-- Appring 报警铃声 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_appring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin">
+                    <!-- Appring text -->
+                    <TextView
+                        android:id="@+id/tvuserappring"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/user_app_ring"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- appring switch-->
+                    <CheckBox
+                        android:id="@+id/cbuser_appringswitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:button="@drawable/custom_switch_button"
+                        android:paddingRight="20dp" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!-- 提醒时长 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin">
+                    <!-- Appring text -->
+                    <TextView
+                        android:id="@+id/tvusernotice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_timering"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- appring switch-->
+                    <TextView
+                        android:id="@+id/tvtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/tri_right"
+                        android:gravity="center"
+                        android:paddingRight="20dp"
+                        android:text="3S"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+
+
+                <!-- 安全区域 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_safezone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin">
+                    <!-- safezone text -->
+                    <TextView
+                        android:id="@+id/tvusersafezone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/wifiicon"
+                        android:gravity="center"
+                        android:text="@string/user_airsafe"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- zone  switch-->
+                    <CheckBox
+                        android:id="@+id/cbuser_safezoneswitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:button="@drawable/custom_switch_button"
+                        android:paddingRight="20dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"></TableRow>
+
             <TextView
-                android:id="@+id/tvuserselectbackground"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:background="@color/user_data_text"
+                android:visibility="invisible" />
+            <!-- 下部分编辑界面-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/user_background"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- select switch-->
-            <ImageButton
-                android:id="@+id/imguserselectbackground"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingRight="20dp"
-                android:src="@drawable/tri_right" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
-        <!-- 意见反馈 -->
-        <RelativeLayout
-            android:id="@+id/rluser_backtip"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical">
-            <!-- tip text-->
+                android:layout_marginRight="20dp"
+                android:background="@drawable/item_block_bkg"
+                android:orientation="vertical">
+                <!-- 语言选择 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_langauage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical">
+                    <!-- language text-->
+                    <TextView
+                        android:id="@+id/tvuserlangauage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="@string/user_language"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- 编辑 -->
+                    <ImageButton
+                        android:id="@+id/imguserlanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!--睡眠模式 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/sleep_mode"
+                        android:layout_centerVertical="true"
+                        android:textSize="20sp"/>
+
+                    <Switch
+                        android:id="@+id/sleepModeSwitch"
+                        android:layout_width="100dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+                </RelativeLayout>
+                <View android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:background="@color/user_data_text" />
+                <!--睡眠模式时间 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:onClick="onClick"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sleepModeLayout">
+
+                    <ImageView
+                        android:id="@+id/moreIcon"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/tri_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/labelStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/start"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/labelEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/end"
+                        android:layout_below="@id/labelStart"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/startTimeText"
+                        android:text="22:00"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/endTimeText"
+                        android:layout_below="@id/startTimeText"
+                        android:text="8:00"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"/>
+
+
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!-- 背景选择 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_selectbackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical">
+                    <!-- selectbackground text-->
+                    <TextView
+                        android:id="@+id/tvuserselectbackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/user_background"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- select switch-->
+                    <ImageButton
+                        android:id="@+id/imguserselectbackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!-- 意见反馈 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_backtip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical" >
+                    <!-- tip text-->
+                    <TextView
+                        android:id="@+id/tvuserbacktip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:text="@string/user_tip"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!--tip switch -->
+                    <ImageButton
+                        android:id="@+id/imguserbacktip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+
+                <!-- 背景选择 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical">
+                    <!-- language text-->
+                    <TextView
+                        android:id="@+id/tvuserversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/user_version"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- 编辑 -->
+                    <ImageButton
+                        android:id="@+id/imgusersversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/tvuserbacktip"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/user_tip"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!--tip switch -->
-            <ImageButton
-                android:id="@+id/imguserbacktip"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingRight="20dp"
-                android:src="@drawable/tri_right" />
-        </RelativeLayout>
-        <!-- 分隔线 -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/user_data_text" />
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:background="@color/user_data_text"
+                android:visibility="invisible" />
 
-        <!-- 背景选择 -->
-        <RelativeLayout
-            android:id="@+id/rluser_version"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical">
-            <!-- language text-->
+            <Button
+                android:id="@+id/mbtnuserexit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/itembgd_red"
+                android:text="@string/user_exitcount"
+                android:textColor="@color/user_data_text"
+                android:textSize="@dimen/text_title_size" />
+
+            <!-- 分隔符 -->
             <TextView
-                android:id="@+id/tvuserversion"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:text="@string/user_version"
-                android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
-            <!-- 编辑 -->
-            <ImageButton
-                android:id="@+id/imgusersversion"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingRight="20dp"
-                android:src="@drawable/tri_right" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:background="@color/user_data_text"
-        android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/mbtnuserexit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/itembgd_red"
-        android:text="@string/user_exitcount"
-        android:textColor="@color/user_data_text"
-        android:textSize="@dimen/text_title_size" />
-
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

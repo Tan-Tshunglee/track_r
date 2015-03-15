@@ -45,9 +45,6 @@ import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
-import com.antilost.app.util.Utils;
-//import com.baidu.location.BDLocation;
-//import com.baidu.location.BDLocationListener;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -56,6 +53,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+//import com.baidu.location.BDLocation;
+//import com.baidu.location.BDLocationListener;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
@@ -76,7 +76,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS;
 
 //    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1 * 60 * 1000;
-    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1000;
+    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 10 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -229,7 +229,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(location != null) {
             mLastLocation =  location;
         }
-        Log.i("LocationManager", "get current location is " + mLastLocation);
+        Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
     }
 
     @Override
@@ -664,7 +664,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION), 0);
 
-
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         mLocationManager =        (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -718,8 +717,8 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
            mLastLocation =  LocUtils.convertAmapLocation(loc);
         }
 
-        String sha1 = Utils.sHA1(this);
-        Log.w(LOG_TAG, "sha1 is " + sha1);
+//        String sha1 = Utils.sHA1(this);
+//        Log.w(LOG_TAG, "sha1 is " + sha1);
 
 
     }
@@ -767,7 +766,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(intent != null) {
             initialize();
         }
-
         return START_STICKY;
     }
 

@@ -29,7 +29,9 @@ import com.antilost.app.model.UserdataBean;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
-public class UserProfileActivity extends Activity implements TrackRInitialize, CompoundButton.OnCheckedChangeListener {
+public class UserProfileActivity extends Activity implements TrackRInitialize, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    public static final int REQUEST_CODE_FOR_TIME = 1;
+
     private String TAG = "UserProfileActivity";
     private ImageButton imgBack;
     private ImageView imgUser_usericon;
@@ -120,7 +122,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         imgBack = (ImageButton) findViewById(R.id.mBtnCancel);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         rluser_topback = (RelativeLayout) findViewById(R.id.rluser_topback);
@@ -136,6 +137,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         btmexit = (Button) findViewById(R.id.mbtnuserexit);
         cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
         cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
+
     }
 
     @Override
@@ -253,6 +255,16 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
             return true;
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sleepModeLayout:
+
+                startActivityForResult(new Intent(this, StartAndEndTimerPickerActivity.class), REQUEST_CODE_FOR_TIME);
+                break;
+        }
     }
 }
 
