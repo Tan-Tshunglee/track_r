@@ -170,5 +170,8 @@
     <string name="unbind_successfully">Unbind Successfully.</string>
     <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
     <string name="no_location_data">没有位置信息</string>
+
+    <string name="title_activity_google_map">谷歌地图</string>
+    <string name="title_activity_start_and_end_timer_picker">时间设置</string>
     <string name="sleep_mode_time_setting">时间设置</string>
 </resources>

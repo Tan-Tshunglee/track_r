@@ -5,14 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.antilost.app.R;
+import com.antilost.app.prefs.PrefsManager;
 
 public class StartAndEndTimerPickerActivity extends Activity implements View.OnClickListener {
 
     private Button mBtnCancel;
     private Button mBtnDone;
     private TextView mTextViewTitle;
+    private TimePicker mStartTimePicker;
+    private TimePicker mEndTimerPicker;
+    private PrefsManager mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,29 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
 
         mBtnCancel.setOnClickListener(this);
         mBtnDone.setOnClickListener(this);
+
+        mStartTimePicker = (TimePicker) findViewById(R.id.startTimePicker);
+        mEndTimerPicker = (TimePicker) findViewById(R.id.endTimePicker);
+
+        mStartTimePicker.setIs24HourView(true);
+        mEndTimerPicker.setIs24HourView(true);
+
+        mPrefs = PrefsManager.singleInstance(this);
+
+        long startTime = mPrefs.getSleepTime(true);
+        long endTime = mPrefs.getSleepTime(false);
+
+        int startHour = (int) startTime / ( 1000 * 60 * 60 );
+        int startMinute = (int) (endTime / (1000 * 60 )) % 60;
+
+        mStartTimePicker.setCurrentHour(startHour);
+        mStartTimePicker.setCurrentMinute(startMinute);
+
+        int endHour = (int) endTime / ( 1000 * 60 * 60 );
+        int endMinute = (int) (endTime / (1000 * 60)) % 60;
+
+        mEndTimerPicker.setCurrentHour(endHour);
+        mEndTimerPicker.setCurrentMinute(endMinute);
     }
 
     @Override
@@ -34,6 +62,21 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
                 finish();
                 break;
             case R.id.mBtnDone:
+
+                int startHour = mStartTimePicker.getCurrentHour();
+                int startMinute = mStartTimePicker.getCurrentMinute();
+
+                int startTime  = (startHour * 60 + startMinute) * 60 * 1000;
+
+                int endHour = mEndTimerPicker.getCurrentHour();
+                int endMinute = mEndTimerPicker.getCurrentMinute();
+
+                int endTime  = (endHour * 60 + endMinute) * 60 * 1000;
+
+                mPrefs.setSleepTime(true, startTime);
+                mPrefs.setSleepTime(false, endTime);
+                setResult(RESULT_OK);
+                finish();
                 break;
         }
     }

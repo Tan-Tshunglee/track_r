@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -47,6 +48,9 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
     public final String AlartTime = "AlartTime";
 
     private UserdataBean   curUserDataBean;
+    private Switch mSleepModeSwitch;
+    private TextView mSleepStartTime;
+    private TextView mSleepEndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +142,10 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
         cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
 
+        mSleepModeSwitch = (Switch) findViewById(R.id.sleepModeSwitch);
+        mSleepStartTime = (TextView) findViewById(R.id.startTimeText);
+        mSleepEndTime = (TextView) findViewById(R.id.endTimeText);
+
     }
 
     @Override
@@ -145,7 +153,24 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         // TODO Auto-generated method stub
         cbSafeZone.setChecked(mPrefsManager.getSafeZoneEnable());
         cbAppring.setChecked(mPrefsManager.getAlertRingEnabled());
+        mSleepModeSwitch.setChecked(mPrefsManager.getSleepMode());
 
+        updateSleepModeTime();
+    }
+
+    private void updateSleepModeTime() {
+        long startTime = mPrefsManager.getSleepTime(true);
+        long endTime = mPrefsManager.getSleepTime(false);
+
+        int startHour = (int) startTime / ( 1000 * 60 * 60 );
+        int startMinute = (int) (endTime / (1000 * 60 )) % 60;
+
+
+        int endHour = (int) endTime / ( 1000 * 60 * 60 );
+        int endMinute = (int) (endTime / (1000 * 60)) % 60;
+
+        mSleepStartTime.setText(startHour + ":" + startMinute);
+        mSleepEndTime.setText(endHour + ":" + endMinute);
     }
 
     @Override
@@ -223,6 +248,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
 
             }
         });
+
+        mSleepModeSwitch.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -240,6 +267,9 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
                 break;
             case R.id.cbuser_appringswitch:
                 mPrefsManager.setAlertRingEnabled(b);
+                break;
+            case R.id.sleepModeSwitch:
+                mPrefsManager.setSleepMode(b);
                 break;
         }
     }
@@ -264,6 +294,18 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
 
                 startActivityForResult(new Intent(this, StartAndEndTimerPickerActivity.class), REQUEST_CODE_FOR_TIME);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_FOR_TIME:
+                if(resultCode == RESULT_OK) {
+                    updateSleepModeTime();
+                }
+                break;
+
         }
     }
 }

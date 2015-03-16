@@ -50,6 +50,7 @@ public class PrefsManager {
     public static final String PREFS_SLEEP_START_TIME_KEY = "sleep_mode_start_time_key";
     public static final String PREFS_SLEEP_END_TIME_KEY = "sleep_mode_end_time_key";
 
+
     public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
     public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
     private static final String LOG_TAG = "PrefsManager";
@@ -301,13 +302,13 @@ public class PrefsManager {
 
     public void setSleepTime(boolean start, long timestamp) {
         String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
-        mPrefs.edit().putLong(key, timestamp);
+        mPrefs.edit().putLong(key, timestamp).commit();
     }
 
     public long getSleepTime(boolean start) {
         String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
         int defaultTime = start ? SLEEP_MODE_STATR_TIME_OFFSET : SLEEP_MODE_END_TIME_OFFSET;
-        return mPrefs.getInt(key, defaultTime);
+        return mPrefs.getLong(key, defaultTime);
     }
 
     public void addTrackR(TrackR track) {
@@ -319,9 +320,7 @@ public class PrefsManager {
                     saveTrackToFile(address, track);
                     Log.v(LOG_TAG, "add one track with address " + address);
                 }
-
             }
         }
-
     }
-}
+ }

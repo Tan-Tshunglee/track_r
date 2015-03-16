@@ -114,23 +114,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="248010dc-3c85-4b2e-9e26-c58c84238aa4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_start_and_end_timer_picker.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_start_and_end_timer_picker.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/model_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/model_data.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AlartTime.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AlartTime.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_track_rsetting.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_track_rsetting.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/alarttime.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/alarttime.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout_trigle.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout_trigle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/userdata.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/userdata.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TrackR.iws" />
@@ -159,33 +147,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UserProfileActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="UserProfileActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="4731">
-              <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
-              <folding>
-                <element signature="e#2653#2687#0" expanded="true" />
-                <element signature="e#2746#2780#0" expanded="true" />
-                <element signature="e#2786#2819#0" expanded="true" />
-                <element signature="e#2820#2852#0" expanded="true" />
-                <element signature="e#2874#2903#0" expanded="true" />
-                <element signature="e#2904#2939#0" expanded="true" />
-                <element signature="e#2940#2973#0" expanded="true" />
-                <element signature="e#4458#4509#0" expanded="true" />
-                <element signature="e#6219#6562#0" expanded="true" />
-                <element signature="e#6551#6552#0" expanded="true" />
-                <element signature="e#6608#6955#0" expanded="true" />
-                <element signature="e#6944#6945#0" expanded="true" />
-                <element signature="e#6993#7536#0" expanded="true" />
-                <element signature="e#7525#7526#0" expanded="true" />
-                <element signature="e#7574#7940#0" expanded="true" />
-                <element signature="e#7929#7930#0" expanded="true" />
-                <element signature="e#7990#8415#0" expanded="true" />
-                <element signature="e#8404#8405#0" expanded="true" />
-                <element signature="e#8565#8919#0" expanded="true" />
-                <element signature="e#8908#8909#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.88271606" vertical-offset="4378" max-vertical-offset="5054">
+              <caret line="305" column="0" selection-start-line="305" selection-start-column="0" selection-end-line="305" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -195,9 +162,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="3933" max-vertical-offset="4579">
               <caret line="230" column="59" selection-start-line="230" selection-start-column="59" selection-end-line="230" selection-end-column="59" />
-              <folding>
-                <element signature="e#9900#9951#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -208,48 +173,18 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.428572" vertical-offset="4810" max-vertical-offset="8740">
-              <caret line="270" column="41" selection-start-line="270" selection-start-column="41" selection-end-line="270" selection-end-column="41" />
-              <folding>
-                <element signature="e#502#527#0" expanded="true" />
-                <element signature="e#2542#2565#0" expanded="true" />
-                <element signature="e#3310#3331#0" expanded="true" />
-                <element signature="e#4105#4140#0" expanded="true" />
-                <element signature="e#4551#4574#0" expanded="true" />
-                <element signature="e#5789#5824#0" expanded="true" />
-                <element signature="e#6111#6134#0" expanded="true" />
-                <element signature="e#7540#7575#0" expanded="true" />
-                <element signature="e#8103#8125#0" expanded="true" />
-                <element signature="e#9861#9896#0" expanded="true" />
-                <element signature="e#10418#10441#0" expanded="true" />
-                <element signature="e#11632#11667#0" expanded="true" />
-                <element signature="e#11981#12001#0" expanded="true" />
-                <element signature="e#12850#12885#0" expanded="true" />
-                <element signature="e#13741#13756#0" expanded="true" />
-                <element signature="e#14113#14126#0" expanded="true" />
-                <element signature="e#14485#14520#0" expanded="true" />
-                <element signature="e#15000#15035#0" expanded="true" />
-                <element signature="e#15740#15775#0" expanded="true" />
-                <element signature="e#16251#16276#0" expanded="true" />
-                <element signature="e#17664#17699#0" expanded="true" />
-                <element signature="e#18085#18103#0" expanded="true" />
-                <element signature="e#19480#19515#0" expanded="true" />
-                <element signature="e#19906#19928#0" expanded="true" />
-                <element signature="e#21358#21382#0" expanded="true" />
-                <element signature="e#21474#21498#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-11.428572" vertical-offset="5380" max-vertical-offset="8740">
+              <caret line="300" column="54" selection-start-line="300" selection-start-column="41" selection-end-line="300" selection-end-column="54" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="alarttime.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/alarttime.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="PrefsManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="190" max-vertical-offset="1064">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="17" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="5106" max-vertical-offset="5662">
+              <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -258,37 +193,19 @@
       <file leaf-file-name="StartAndEndTimerPickerActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="760">
-              <caret line="23" column="59" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="546" max-vertical-offset="1539">
+              <caret line="54" column="52" selection-start-line="41" selection-start-column="7" selection-end-line="54" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
+      <file leaf-file-name="BluetoothLeService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.82236844" vertical-offset="2768" max-vertical-offset="3401">
-              <caret line="172" column="47" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="8057" max-vertical-offset="21907">
+              <caret line="500" column="8" selection-start-line="500" selection-start-column="8" selection-end-line="500" selection-end-column="8" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_start_and_end_timer_picker.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start_and_end_timer_picker.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.75" vertical-offset="0" max-vertical-offset="1007">
-              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-              <folding>
-                <element signature="e#733#768#0" expanded="true" />
-                <element signature="e#1075#1108#0" expanded="true" />
-                <element signature="e#1320#1355#0" expanded="true" />
-                <element signature="e#1658#1691#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -299,24 +216,9 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.142858" vertical-offset="250" max-vertical-offset="1083">
+            <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="1083">
               <caret line="34" column="35" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_track_rsetting.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_rsetting.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8214285" vertical-offset="2248" max-vertical-offset="5415">
-              <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="147" selection-end-column="65" />
-              <folding>
-                <element signature="e#5794#5829#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -1486,7 +1388,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/LoginFirst.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/Command.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/network/FetchAllTrackRCommand.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackRSettingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/BindingTrackRActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/TrackREditActivity.java" />
@@ -1502,19 +1403,20 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/util/LocUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/GoogleMapActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/AlartTime.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout_trigle.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/alarttime.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_track_rsetting.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/userdata.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_start_and_end_timer_picker.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java" />
       </list>
     </option>
   </component>
@@ -1572,64 +1474,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="track_r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="track_r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="track_r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="track_r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="track_r">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="track_r">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1658,8 +1502,12 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1675,19 +1523,71 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track_r" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="track_r" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track_r" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="track_r" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="track_r">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="track_r">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1941,31 +1841,31 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277592" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3846154" sideWeight="0.58102345" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3846154" sideWeight="0.7526652" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24749164" sideWeight="0.17643923" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34671125" sideWeight="0.17643923" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.60820895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="275" y="15" width="1464" height="894" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.60820895" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="275" y="15" width="1464" height="894" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37012264" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4013378" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277592" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24749164" sideWeight="0.8235608" order="13" side_tool="false" content_ui="combo" x="37" y="485" width="1876" height="367" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34671125" sideWeight="0.8235608" order="13" side_tool="false" content_ui="combo" x="37" y="485" width="1876" height="367" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34705228" sideWeight="0.35980812" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23187633" sideWeight="0.49542683" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15191898" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38684505" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3065032" sideWeight="0.89603025" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.67335564" sideWeight="0.6231343" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50501674" sideWeight="0.78678036" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.50457317" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15191898" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39130434" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2003,18 +1903,45 @@
           <properties />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java</url>
+          <line>65</line>
+          <properties />
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java</url>
+          <line>41</line>
+          <properties />
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="47" />
+      <option name="time" value="49" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/csst_title_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15347335" vertical-offset="0" max-vertical-offset="5415">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="1083">
+          <caret line="34" column="35" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_rsetting.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2248" max-vertical-offset="5415">
+          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="147" selection-end-column="65" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2165,13 +2092,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/6.5.87/res/values/version.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07867495" vertical-offset="0" max-vertical-offset="483">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/proguard-rules.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17247386" vertical-offset="186" max-vertical-offset="760">
@@ -2183,13 +2103,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3433735" vertical-offset="76" max-vertical-offset="1900">
           <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/6.5.87/classes.jar!/com/google/android/gms/maps/MapFragment.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19308943" vertical-offset="0" max-vertical-offset="1919">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2278,14 +2191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="22040">
-          <caret line="78" column="69" selection-start-line="78" selection-start-column="69" selection-end-line="78" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/usereditor_bkg.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -2328,104 +2233,9 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8214285" vertical-offset="2248" max-vertical-offset="5415">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2248" max-vertical-offset="5415">
           <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="147" selection-end-column="65" />
-          <folding>
-            <element signature="e#5794#5829#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/userdata.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.428572" vertical-offset="4810" max-vertical-offset="8740">
-          <caret line="270" column="41" selection-start-line="270" selection-start-column="41" selection-end-line="270" selection-end-column="41" />
-          <folding>
-            <element signature="e#502#527#0" expanded="true" />
-            <element signature="e#2542#2565#0" expanded="true" />
-            <element signature="e#3310#3331#0" expanded="true" />
-            <element signature="e#4105#4140#0" expanded="true" />
-            <element signature="e#4551#4574#0" expanded="true" />
-            <element signature="e#5789#5824#0" expanded="true" />
-            <element signature="e#6111#6134#0" expanded="true" />
-            <element signature="e#7540#7575#0" expanded="true" />
-            <element signature="e#8103#8125#0" expanded="true" />
-            <element signature="e#9861#9896#0" expanded="true" />
-            <element signature="e#10418#10441#0" expanded="true" />
-            <element signature="e#11632#11667#0" expanded="true" />
-            <element signature="e#11981#12001#0" expanded="true" />
-            <element signature="e#12850#12885#0" expanded="true" />
-            <element signature="e#13741#13756#0" expanded="true" />
-            <element signature="e#14113#14126#0" expanded="true" />
-            <element signature="e#14485#14520#0" expanded="true" />
-            <element signature="e#15000#15035#0" expanded="true" />
-            <element signature="e#15740#15775#0" expanded="true" />
-            <element signature="e#16251#16276#0" expanded="true" />
-            <element signature="e#17664#17699#0" expanded="true" />
-            <element signature="e#18085#18103#0" expanded="true" />
-            <element signature="e#19480#19515#0" expanded="true" />
-            <element signature="e#19906#19928#0" expanded="true" />
-            <element signature="e#21358#21382#0" expanded="true" />
-            <element signature="e#21474#21498#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="4731">
-          <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
-          <folding>
-            <element signature="e#2653#2687#0" expanded="true" />
-            <element signature="e#2746#2780#0" expanded="true" />
-            <element signature="e#2786#2819#0" expanded="true" />
-            <element signature="e#2820#2852#0" expanded="true" />
-            <element signature="e#2874#2903#0" expanded="true" />
-            <element signature="e#2904#2939#0" expanded="true" />
-            <element signature="e#2940#2973#0" expanded="true" />
-            <element signature="e#4458#4509#0" expanded="true" />
-            <element signature="e#6219#6562#0" expanded="true" />
-            <element signature="e#6551#6552#0" expanded="true" />
-            <element signature="e#6608#6955#0" expanded="true" />
-            <element signature="e#6944#6945#0" expanded="true" />
-            <element signature="e#6993#7536#0" expanded="true" />
-            <element signature="e#7525#7526#0" expanded="true" />
-            <element signature="e#7574#7940#0" expanded="true" />
-            <element signature="e#7929#7930#0" expanded="true" />
-            <element signature="e#7990#8415#0" expanded="true" />
-            <element signature="e#8404#8405#0" expanded="true" />
-            <element signature="e#8565#8919#0" expanded="true" />
-            <element signature="e#8908#8909#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3933" max-vertical-offset="4579">
-          <caret line="230" column="59" selection-start-line="230" selection-start-column="59" selection-end-line="230" selection-end-column="59" />
-          <folding>
-            <element signature="e#9900#9951#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start_and_end_timer_picker.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.75" vertical-offset="0" max-vertical-offset="1007">
-          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-          <folding>
-            <element signature="e#733#768#0" expanded="true" />
-            <element signature="e#1075#1108#0" expanded="true" />
-            <element signature="e#1320#1355#0" expanded="true" />
-            <element signature="e#1658#1691#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2442,7 +2252,7 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.142858" vertical-offset="250" max-vertical-offset="1083">
+        <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="1083">
           <caret line="34" column="35" selection-start-line="34" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding />
         </state>
@@ -2450,24 +2260,78 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.79111844" vertical-offset="2768" max-vertical-offset="3401">
-          <caret line="171" column="57" selection-start-line="171" selection-start-column="57" selection-end-line="171" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="760">
-          <caret line="23" column="59" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2916" max-vertical-offset="3401">
+          <caret line="170" column="4" selection-start-line="170" selection-start-column="4" selection-end-line="170" selection-end-column="100" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82236844" vertical-offset="2768" max-vertical-offset="3401">
-          <caret line="172" column="47" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
+        <state vertical-scroll-proportion="1.4247422" vertical-offset="2615" max-vertical-offset="3458">
+          <caret line="174" column="61" selection-start-line="174" selection-start-column="61" selection-end-line="174" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start_and_end_timer_picker.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.392857" vertical-offset="361" max-vertical-offset="1007">
+          <caret line="24" column="19" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/service/BluetoothLeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8057" max-vertical-offset="21907">
+          <caret line="500" column="8" selection-start-line="500" selection-start-column="8" selection-end-line="500" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/prefs/PrefsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5106" max-vertical-offset="5662">
+          <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3933" max-vertical-offset="4579">
+          <caret line="230" column="59" selection-start-line="230" selection-start-column="59" selection-end-line="230" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/userdata.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.428572" vertical-offset="5380" max-vertical-offset="8740">
+          <caret line="300" column="54" selection-start-line="300" selection-start-column="41" selection-end-line="300" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/StartAndEndTimerPickerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="546" max-vertical-offset="1539">
+          <caret line="54" column="52" selection-start-line="41" selection-start-column="7" selection-end-line="54" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/antilost/app/activity/UserProfileActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.88271606" vertical-offset="4378" max-vertical-offset="5054">
+          <caret line="305" column="0" selection-start-line="305" selection-start-column="0" selection-end-line="305" selection-end-column="0" />
           <folding />
         </state>
       </provider>
