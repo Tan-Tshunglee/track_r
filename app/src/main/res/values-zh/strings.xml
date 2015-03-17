@@ -174,4 +174,5 @@
     <string name="title_activity_google_map">谷歌地图</string>
     <string name="title_activity_start_and_end_timer_picker">时间设置</string>
     <string name="sleep_mode_time_setting">时间设置</string>
+    <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
 </resources>

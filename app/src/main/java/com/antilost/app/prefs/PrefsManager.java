@@ -305,9 +305,9 @@ public class PrefsManager {
         mPrefs.edit().putLong(key, timestamp).commit();
     }
 
-    public long getSleepTime(boolean start) {
-        String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
-        int defaultTime = start ? SLEEP_MODE_STATR_TIME_OFFSET : SLEEP_MODE_END_TIME_OFFSET;
+    public long getSleepTime(boolean isStart) {
+        String key = isStart ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
+        int defaultTime = isStart ? SLEEP_MODE_STATR_TIME_OFFSET : SLEEP_MODE_END_TIME_OFFSET;
         return mPrefs.getLong(key, defaultTime);
     }
 

@@ -68,15 +68,15 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
     private static final int MSG_LOOP_READ_RSSI = 3;
+    private static final int MSG_FAST_REPEAT_MODE = 4;
 
-    private static final int SCAN_PERIOD_IN_MS = 20 * 1000;
+    public static final int ALARM_REPEAT_PERIOD =  2 * 60 * 1000;
+    public static final int FAST_ALARM_REPEAT_PERIOD =  10 * 1000;
 
-    private static final int SCAN_PERIOD_OF_RSSI_READ = 10 * 1000;
+    private static final int SCAN_PERIOD_OF_RSSI_READ = 30 * 1000;
+    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 20 * 1000;
 
-    public static final int ALARM_REPEAT_PERIOD =  SCAN_PERIOD_IN_MS;
-
-//    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 1 * 60 * 1000;
-    public static final int LOCATION_UPDATE_PERIOD_IN_MS = 10 * 1000;
+    public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 30 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -119,6 +119,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     private WifiManager mWifiManager;
     private PendingIntent mPendingIntent;
     private LocationManagerProxy mAmapLocationManagerProxy;
+    private long mLastStartCommandMeet;
 
 //    private LocationClient mBaiduLocationClient;
 
@@ -323,9 +324,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                     }
 
                     alertUserTrackDisconnected(address);
+                    enterFastRepeatMode();
+                    sendBroadcast(new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION));
+                } else {
+                    Log.w(LOG_TAG, "onConnectionStateChange get disconnected state and old state is not connected.");
                 }
 
-                Log.w(LOG_TAG, "Disconnected state before state not connected...");
             }
             //even device is power off the newState can be STATE_CONNECTEDe,
             //we think device is connected after onServicesDiscovered is called();
@@ -363,7 +367,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
             } else {
-                Log.w(LOG_TAG, "onServicesDiscovered received: " + status);
+                Log.w(LOG_TAG, "onServicesDiscovered status is not success.: " + status);
             }
         }
 
@@ -470,6 +474,10 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             String address = gatt.getDevice().getAddress();
             receiverRssi(address, rssi);
         }
+    }
+
+    private void enterFastRepeatMode() {
+        mHandler.sendEmptyMessageDelayed(MSG_FAST_REPEAT_MODE, TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE);
     }
 
     private void receiverRssi(String address, int rssi) {
@@ -583,12 +591,14 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     @Override
     public IBinder onBind(Intent intent) {
         //connect devices when activity connect
+        enterFastRepeatMode();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 initialize();
             }
         });
+
         return mBinder;
     }
 
@@ -668,8 +678,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         mLocationManager =        (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + ALARM_REPEAT_PERIOD, ALARM_REPEAT_PERIOD, mPendingIntent);
+        updateRepeatAlarmRegister();
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
@@ -717,17 +726,23 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
            mLastLocation =  LocUtils.convertAmapLocation(loc);
         }
 
-//        String sha1 = Utils.sHA1(this);
-//        Log.w(LOG_TAG, "sha1 is " + sha1);
 
+    }
 
+    private void updateRepeatAlarmRegister() {
+        int repeatPeriod = ALARM_REPEAT_PERIOD;
+        if(mHandler.hasMessages(MSG_FAST_REPEAT_MODE)) {
+            repeatPeriod = FAST_ALARM_REPEAT_PERIOD;
+        }
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatPeriod, repeatPeriod, mPendingIntent);
+
+        Log.d(LOG_TAG, "updateRepeatAlarmRegister ... repeat period is " + repeatPeriod);
     }
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         Location loc = LocUtils.convertAmapLocation(amapLocation);
         if(loc != null) {
-
             mPrefsManager.saveLastAMPALocation(loc);
             Log.i(LOG_TAG, "get location info from amap location manager!!!  lat is "+loc.getLatitude()+ "the long is "+ loc.getLongitude());
         }
@@ -756,7 +771,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             mAmapLocationManagerProxy.destroy();
             mAmapLocationManagerProxy = null;
         }
-
+        mAlarmManager.cancel(mPendingIntent);
         startReadRssiRepeat(false, null);
     }
 
@@ -764,16 +779,12 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(LOG_TAG, "onStartCommand");
         if(intent != null) {
+            mLastStartCommandMeet = System.currentTimeMillis();
             initialize();
         }
         return START_STICKY;
     }
 
-    /**
-     * Initializes a reference to the local Bluetooth adapter.
-     *
-     * @return Return true if the initialization is successful.
-     */
     private boolean initialize() {
 
         if (mBluetoothManager == null) {
@@ -791,6 +802,35 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
         if(uid == -1) {
             Log.v(LOG_TAG, "user has logout, exit.");
             cleanupAndExit();
+            return true;
+        }
+
+        boolean sleepMode = mPrefsManager.getSleepMode();
+
+        if(sleepMode) {
+            Log.i(LOG_TAG, "User turn on sleep mode  check time is in sleep range?");
+            long startTime = mPrefsManager.getSleepTime(true);
+            long endTime = mPrefsManager.getSleepTime(false);
+
+            GregorianCalendar now = new GregorianCalendar();
+            int hour = now.get(Calendar.HOUR_OF_DAY);
+            int minute = now.get(Calendar.MINUTE);
+            int second = now.get(Calendar.SECOND);
+            int msNow = now.get(Calendar.MILLISECOND);
+            msNow += (second + minute * 60  + hour * 60 * 60) * 1000;
+
+
+            if(msNow < endTime || msNow > startTime) {
+                Log.i(LOG_TAG, "current time in sleep mode");
+                Set<String> ids = mPrefsManager.getTrackIds();
+                for(String id: ids) {
+                    Integer state = mGattStates.get(id);
+                    if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+                        Log.i(LOG_TAG, "turnoff trackr in sleep mode whose id is " + id);
+                        silentlyTurnOffTrack(id);
+                    }
+                }
+            }
             return true;
         }
         mBluetoothAdapter = mBluetoothManager.getAdapter();
@@ -818,8 +858,6 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
             }
         }
 
-        mAlarmManager.cancel(mPendingIntent);
-        mLocationManager.removeUpdates(this);
         stopForeground(true);
         stopSelf();
 

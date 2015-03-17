@@ -170,5 +170,6 @@
     <string name="no_location_data">No Location Data! </string>
     <string name="title_activity_start_and_end_timer_picker">StartAndEndTimerPickerActivity</string>
     <string name="sleep_mode_time_setting">"Time Setting"</string>
+    <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
 
 </resources>

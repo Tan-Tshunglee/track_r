@@ -2,3 +2,21 @@ app/build/
 app/app-release.apk
 app/manifest-merger-release-report.txt
 local.properties
+
+# Built application files
+*.apk
+*.ap_
+
+#boring .gradle\2.2.1\taskArtifacts 
+.gradle
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+
+# Log Files
+*.log
+
