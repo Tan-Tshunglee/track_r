@@ -100,6 +100,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     public final static String ACTION_DEVICE_FAR_AWAY =
             "com.antilost.bluetooth.le.ACTION_DEVICE_FAR_AWAY";
+
+    public final static String ACTION_DEVICE_CLICKED =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_CLICKED";
     public static final int MIN_DISTANCE = 20;
 
 
@@ -556,6 +559,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
 
     private void onTrackKeyClick() {
         Log.v(LOG_TAG, "onTrackKeyClick...");
+        broadcastUpdate(ACTION_DEVICE_CLICKED);
     }
 
 
