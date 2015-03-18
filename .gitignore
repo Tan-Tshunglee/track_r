@@ -20,3 +20,6 @@ local.properties
 # Log Files
 *.log
 
+#build folder
+build/
+

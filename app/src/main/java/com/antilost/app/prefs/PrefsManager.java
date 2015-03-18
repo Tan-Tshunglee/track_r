@@ -32,7 +32,8 @@ public class PrefsManager {
     public static final String PREFS_EMAIL_KEY = "email";
     public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
     public static final String PREFS_CLOSED_KEY_PREFIX = "closed_track_prefix";
-    public static final String PREFS_BIDIRECTIONAL_ALERT_PREFIX = "bidirectional_alert_prefix";
+    public static final String PREFS_TRACK_ALERT_PREFIX = "track_alert_prefix";
+    public static final String PREFS_PHONE_ALERT_PREFIX = "phone_alert_prefix";
 
     public static final String PREFS_HOME_WIFI_SSID_KEY = "home_wifi_ssid";
     public static final String PREFS_OFFICE_WIFI_SSID_KEY = "office_wifi_ssid";
@@ -201,14 +202,25 @@ public class PrefsManager {
         return location;
     }
 
-    public void setBidirectionalAlert(String address, boolean enable) {
-        String key = PREFS_BIDIRECTIONAL_ALERT_PREFIX + address;
+    public void setTracklAlert(String address, boolean enable) {
+        String key = PREFS_TRACK_ALERT_PREFIX + address;
         mPrefs.edit().putBoolean(key, enable).commit();
     }
 
-    public boolean getBidirectionalAlert(String address) {
-        String key = PREFS_BIDIRECTIONAL_ALERT_PREFIX + address;
+    public boolean getTrackAlert(String address) {
+        String key = PREFS_TRACK_ALERT_PREFIX + address;
         return mPrefs.getBoolean(key, false);
+    }
+
+
+    public void setPhoneAlert(String address, boolean enable) {
+        String key = PREFS_PHONE_ALERT_PREFIX + address;
+        mPrefs.edit().putBoolean(key, enable).commit();
+    }
+
+    public boolean getPhoneAlert(String address) {
+        String key = PREFS_PHONE_ALERT_PREFIX + address;
+        return mPrefs.getBoolean(key, true);
     }
 
     public void setSafeZoneEnable(boolean enabled) {

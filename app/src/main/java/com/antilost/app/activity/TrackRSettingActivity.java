@@ -44,7 +44,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
     };
     private PrefsManager mPrefsManager;
-    private Switch mBidirectionalAlert;
+    private Switch mTrackAlert;
     private Switch mSleepMode;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -55,6 +55,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     };
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
+    private Switch mPhoneAlert;
 
 
     @Override
@@ -78,11 +79,14 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         Log.v(LOG_TAG, "bindService...");
 
-        mBidirectionalAlert = (Switch) findViewById(R.id.bidirect_checkbox);
+        mTrackAlert = (Switch) findViewById(R.id.itrack_alert_checkbox);
+        mPhoneAlert = (Switch) findViewById(R.id.phone_alert_checkbox);
 
-        boolean bidirectionalAlertEnabled = mPrefsManager.getBidirectionalAlert(mBluetoothDeviceAddress);
-        mBidirectionalAlert.setChecked(bidirectionalAlertEnabled);
-        mBidirectionalAlert.setOnCheckedChangeListener(this);
+        mTrackAlert.setChecked(mPrefsManager.getTrackAlert(mBluetoothDeviceAddress));
+        mTrackAlert.setOnCheckedChangeListener(this);
+
+        mPhoneAlert.setChecked(mPrefsManager.getPhoneAlert(mBluetoothDeviceAddress));
+        mPhoneAlert.setOnCheckedChangeListener(this);
 
         boolean sleepMode = mPrefsManager.getSleepMode();
 
@@ -165,8 +169,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
-            case R.id.bidirect_checkbox:
-                mPrefsManager.setBidirectionalAlert(mBluetoothDeviceAddress, b);
+            case R.id.itrack_alert_checkbox:
+                mPrefsManager.setTracklAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, b);
             break;
 

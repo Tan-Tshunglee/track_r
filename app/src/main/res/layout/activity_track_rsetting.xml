@@ -79,7 +79,7 @@
                         android:textSize="20sp"/>
 
                     <Switch
-                        android:id="@+id/bidirect_checkbox"
+                        android:id="@+id/itrack_alert_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -104,7 +104,7 @@
                         android:textSize="20sp"/>
 
                     <Switch
-                        android:id="@+id/bidirectphone_checkbox"
+                        android:id="@+id/phone_alert_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"

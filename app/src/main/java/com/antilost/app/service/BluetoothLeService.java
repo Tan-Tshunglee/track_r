@@ -355,7 +355,7 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
                 }
 
                 //bidirectional lost alert
-                if(mPrefsManager.getBidirectionalAlert(address)) {
+                if(mPrefsManager.getTrackAlert(address)) {
                     Log.d(LOG_TAG, "enable bidirectional alert...");
                     twowayMonitor(address, true);
                 }
@@ -526,11 +526,16 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     }
 
     private void alertUserTrackDisconnected(String address) {
-        Log.v(LOG_TAG, "alertUserTrackDisconnected() " + address);
-        Intent i = new Intent(this, DisconnectAlertActivity.class);
-        i.putExtra(DisconnectAlertActivity.EXTRA_KEY_DEVICE_ADDRESS, address);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
+
+        if(mPrefsManager.getPhoneAlert(address)) {
+            Log.v(LOG_TAG, "alertUserTrackDisconnected() " + address);
+            Intent i = new Intent(this, DisconnectAlertActivity.class);
+            i.putExtra(DisconnectAlertActivity.EXTRA_KEY_DEVICE_ADDRESS, address);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } else {
+            Log.i(LOG_TAG, "User turn off phone alert, ignore disconnection event!");
+        }
 
     }
 
