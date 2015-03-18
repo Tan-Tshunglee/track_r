@@ -63,7 +63,8 @@
     <string name="share">Share</string>
     <string name="change">Change</string>
     <string name="key">Key</string>
-    <string name="bidirectional_anti_lost">Bidirect anti-lost</string>
+    <string name="itrak_alart">防丢器报警开启</string>
+    <string name="phone_alart">手机报警开启</string>
     <string name="alert_level">Alert level</string>
     <string name="turn_off_track_r">Turn off TrackR</string>
     <string name="unbind_track_r">Unbind TrackR</string>

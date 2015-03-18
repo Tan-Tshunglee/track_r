@@ -182,7 +182,7 @@
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
-            android:drawableTop="@drawable/location_icon"
+            android:drawableTop="@drawable/call"
             android:background="@drawable/large_circle_btn_bkg" />
 
         <Button android:id="@+id/photo"
@@ -192,7 +192,7 @@
             android:textColor="@android:color/white"
             android:paddingTop="@dimen/track_r_bottom_padding_top"
             android:paddingBottom="@dimen/track_r_bottom_padding_bottom"
-            android:drawableTop="@drawable/location_icon"
+            android:drawableTop="@drawable/camera"
             android:background="@drawable/large_circle_btn_bkg" />
 
         <Button android:id="@+id/share"

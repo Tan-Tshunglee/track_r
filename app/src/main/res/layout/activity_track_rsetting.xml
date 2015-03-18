@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/user_data_text"
-                        android:text="@string/bidirectional_anti_lost"
+                        android:text="@string/itrak_alart"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:textSize="20sp"/>
@@ -88,6 +88,33 @@
                 <View android:layout_height="1dp"
                     android:layout_width="match_parent"
                     android:background="@color/user_data_text" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/phone_alart"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp"/>
+
+                    <Switch
+                        android:id="@+id/bidirectphone_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <View android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:background="@color/user_data_text" />
+
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="@dimen/activity_horizontal_margin"
