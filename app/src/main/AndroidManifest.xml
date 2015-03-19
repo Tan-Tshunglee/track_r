@@ -238,6 +238,12 @@
             android:launchMode="singleInstance"
             android:label="@string/title_activity_camera" >
         </activity>
+		  <activity
+            android:name=".camera.Camera_MainActivity_zql"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:launchMode="singleInstance"
+            android:label="@string/title_activity_camera" >
+        </activity>
     </application>
 
 </manifest>

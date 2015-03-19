@@ -124,6 +124,7 @@ public class PrefsManager {
 
     public void addPrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         mPrefs.registerOnSharedPreferenceChangeListener(listener);
+
     }
 
     public void removePrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {

@@ -752,7 +752,9 @@ public class BluetoothLeService extends Service implements SharedPreferences.OnS
     public void onLocationChanged(AMapLocation amapLocation) {
         Location loc = LocUtils.convertAmapLocation(amapLocation);
         if(loc != null) {
+            mLastLocation = loc;
             mPrefsManager.saveLastAMPALocation(loc);
+            Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
             Log.i(LOG_TAG, "get location info from amap location manager!!!  lat is "+loc.getLatitude()+ "the long is "+ loc.getLongitude());
         }
     }

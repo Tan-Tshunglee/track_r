@@ -21,7 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
-import com.antilost.app.camera.CameraActivity;
+import com.antilost.app.camera.Camera_MainActivity_zql;
+import com.antilost.app.camera.Camera_MainActivity_zql;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
@@ -327,7 +328,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.photo:
-                startActivity(new Intent(this, CameraActivity.class));
+                startActivity(new Intent(this, Camera_MainActivity_zql.class));
                 break;
 
             case R.id.batteryStatus:
