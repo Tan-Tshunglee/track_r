@@ -4,6 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
@@ -236,6 +240,7 @@
             android:name=".camera.CameraActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_camera" >
         </activity>
     </application>
