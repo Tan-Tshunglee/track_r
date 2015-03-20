@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.antilost.app.service.BluetoothLeService;
 public class CameraActivity extends FragmentActivity {
 
 
+    private static final String LOG_TAG = "CameraActivity";
     private BroadcastReceiver mReceiver = new  BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if(BluetoothLeService.ACTION_DEVICE_CLICKED.equals(intent.getAction())) {
@@ -29,7 +31,7 @@ public class CameraActivity extends FragmentActivity {
 
     private   Camera.PictureCallback mJpegPictureCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] bytes, android.hardware.Camera camera) {
-
+            Log.i(LOG_TAG, "bytes size is " + bytes.length);
         };
     };
 

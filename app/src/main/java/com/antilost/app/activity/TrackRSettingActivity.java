@@ -170,7 +170,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.itrack_alert_checkbox:
-                //需要加一个判断是否在线。不在线不该操作，要不然程序会崩溃
                 mPrefsManager.setTracklAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, b);
             break;
