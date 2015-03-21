@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.antilost.app"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
 
@@ -49,7 +50,7 @@
         android:name=".TrackRApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="468de9bad1be291d16a81b6b09506962" />
@@ -66,7 +67,7 @@
         <activity
             android:name=".activity.LoginFirst"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,48 +77,40 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".loginfisrt.ScrollLayoutActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.RegistrationActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
             android:name=".activity.StartBindActivity"
             android:label="@string/title_activity_bind"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.BindingTrackRActivity"
             android:label="@string/title_activity_binding"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.TrackREditActivity"
             android:label="@string/title_activity_track_redit"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.MainTrackRListActivity"
             android:label="@string/title_activity_main_track_rlist"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.PhotoEditActivity"
             android:label="@string/title_activity_photo_edit"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.TrackRActivity"
             android:label="@string/title_activity_track_r"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
         <!-- <service -->
         <!-- android:name=".service.MonitorService" -->
@@ -128,7 +121,7 @@
         <receiver
             android:name=".receiver.Receiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.antilost.app.ACTION_REPEAT_ALARM_SERVICE" />
@@ -159,64 +152,53 @@
         <activity
             android:name=".activity.ForgetPasswordActivity"
             android:label="@string/title_activity_forget_password"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
 
         <service
             android:name=".service.BluetoothLeService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".activity.UserProfileActivity"
             android:label="@string/title_activity_user_profile"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.FeedBackEditor"
             android:label="@string/feedback_title"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.ManualAddLocationActivity"
             android:label="@string/my_location_title"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.DisconnectAlertActivity"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
         <activity
             android:name=".activity.TrackRSettingActivity"
             android:label="@string/title_activity_track_rsetting"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.AlartTime"
             android:label="@string/alarttime_title"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".activity.FindmeActivity"
             android:label="@string/title_activity_findme"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"></activity>
 
         <service
             android:name=".service.NetworkSyncService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".activity.AmapActivity"
             android:label="@string/title_activity_amap"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
 
         <!--
             <service
@@ -229,26 +211,22 @@
             android:name=".activity.GoogleMapActivity"
             android:label="@string/title_activity_google_map"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
         <activity
             android:name=".activity.StartAndEndTimerPickerActivity"
             android:label="@string/title_activity_start_and_end_timer_picker"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
             android:name=".camera.CameraActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:label="@string/title_activity_camera"
             android:launchMode="singleInstance"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_camera" >
-        </activity>
-		  <activity
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></activity>
+        <activity
             android:name=".camera.Camera_MainActivity_zql"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:label="@string/title_activity_camera"
             android:launchMode="singleInstance"
-            android:label="@string/title_activity_camera" >
-        </activity>
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></activity>
     </application>
 
 </manifest>
