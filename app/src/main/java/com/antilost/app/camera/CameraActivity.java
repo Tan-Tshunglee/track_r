@@ -45,8 +45,6 @@ public class CameraActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
-
     }
 
     private void setupCamera() {

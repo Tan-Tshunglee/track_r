@@ -336,4 +336,11 @@ public class PrefsManager {
             }
         }
     }
- }
+
+    public boolean hasTrack() {
+        if(getTrackIds().size() > 0 ) {
+            return true;
+        }
+        return false;
+    }
+}
