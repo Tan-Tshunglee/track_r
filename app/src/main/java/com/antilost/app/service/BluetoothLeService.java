@@ -355,30 +355,21 @@ public class BluetoothLeService extends Service implements
             mGattStates.put(address, BluetoothProfile.STATE_CONNECTED);
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
                 verifyConnection(gatt);
-
-                //registry key press notification;
-                if (setCharacteristicNotification(gatt,
-                        UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID),
-                        com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
-                        true)) {
-                    Log.v(LOG_TAG, "setCharacteristicNotification ok");
-                }
-
-                //track lost alert
-                if (mPrefsManager.getTrackAlert(address)) {
-                    Log.d(LOG_TAG, "enable track alert...");
-                    setTrackAlertMode(address, true);
-                }
-
-                readBatteryLevel(address);
-                requestRssiLevel(address);
-
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered status is not success.: " + status);
+            }
+        }
+
+        private void registerKeyListener(BluetoothGatt gatt) {
+            //registry key press notification;
+            if (setCharacteristicNotification(gatt,
+                    UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID),
+                    com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
+                    true)) {
+                Log.v(LOG_TAG, "setCharacteristicNotification ok");
             }
         }
 
@@ -398,6 +389,7 @@ public class BluetoothLeService extends Service implements
 
                 BluetoothGattDescriptor descriptor = characteristic.getDescriptor(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
                 descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                //descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_INDICATION_VALUE : BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
                 return gatt.writeDescriptor(descriptor); //descriptor write operation successfully started?
             } catch (Exception e) {
                 e.printStackTrace();
@@ -456,20 +448,35 @@ public class BluetoothLeService extends Service implements
             Log.i(LOG_TAG, "onCharacteristicWrite is " + charUuid);
             int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
             Log.d(LOG_TAG, "onCharacteristicWrite value is " + value);
-
+             final String address = gatt.getDevice().getAddress();
             //turn off track r command;
             if (serviceUuid.equals(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID)
                     && value == 3) {
                 Log.w(LOG_TAG, "disconnect in onCharacteristicWrite ");
-                String address = gatt.getDevice().getAddress();
                 mGattStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
                 gatt.disconnect();
                 gatt.close();
                 mBluetoothGatts.remove(address);
                 broadcastDeviceOff();
-            }
+            } else if(serviceUuid.equals(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE)
+                    && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
+                Log.w(LOG_TAG, "write done callback of verify code ");
+                registerKeyListener(gatt);
 
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //track lost alert
+                        if (mPrefsManager.getTrackAlert(address)) {
+                            Log.d(LOG_TAG, "enable track alert...");
+                            setTrackAlertMode(address, true);
+                        }
+                        readBatteryLevel(address);
+                        requestRssiLevel(address);
+                    }
+                }, 5000);
+            }
         }
 
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
@@ -478,6 +485,10 @@ public class BluetoothLeService extends Service implements
 
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
                                       int status) {
+            UUID uuid = descriptor.getUuid();
+            if(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID.equals(uuid)) {
+                Log.v(LOG_TAG, "CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID write done with value" + descriptor.getValue()[0]);
+            }
         }
 
         public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
@@ -1028,34 +1039,38 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-        //
+        //Handle make samsung device work normal
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
-                BluetoothGatt bluetoothGatt;
-                if (oldCallback == null) {
-                    Log.i(LOG_TAG, "Trying to create a new callback to " + address);
-                    oldCallback = new MyBluetootGattCallback();
-                    bluetoothGatt = device.connectGatt(BluetoothLeService.this, false, oldCallback);
-
-                } else {
-                    Log.v(LOG_TAG, "Use old callback to connect gatt");
-                    bluetoothGatt = device.connectGatt(BluetoothLeService.this, false, oldCallback);
-                }
-
-
-                if (bluetoothGatt != null) {
-                    mBluetoothCallbacks.put(address, oldCallback);
-                } else {
-                    Log.e(LOG_TAG, "Device connectGatt return null.");
-                }
-
-                mBluetoothGatts.put(address, bluetoothGatt);
-                mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
+                tryConnectGatt(address, device);
             }
         });
+
         return true;
+    }
+
+    private void tryConnectGatt(String address, BluetoothDevice device) {
+        MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
+        BluetoothGatt bluetoothGatt;
+        if (oldCallback == null) {
+            Log.i(LOG_TAG, "Trying to create a new callback to " + address);
+            oldCallback = new MyBluetootGattCallback();
+            bluetoothGatt = device.connectGatt(this, false, oldCallback);
+
+        } else {
+            Log.v(LOG_TAG, "Use old callback to connect gatt");
+            bluetoothGatt = device.connectGatt(this, false, oldCallback);
+        }
+
+        if (bluetoothGatt != null) {
+            mBluetoothCallbacks.put(address, oldCallback);
+        } else {
+            Log.e(LOG_TAG, "Device connectGatt return null.");
+        }
+
+        mBluetoothGatts.put(address, bluetoothGatt);
+        mGattStates.put(address, BluetoothProfile.STATE_CONNECTING);
     }
 
 
@@ -1249,14 +1264,14 @@ public class BluetoothLeService extends Service implements
     public void readBatteryLevel(String bluetoothDeviceAddress) {
         Integer state = mGattStates.get(bluetoothDeviceAddress);
         if (state != null && state != BluetoothProfile.STATE_CONNECTED) {
-            Log.w(LOG_TAG, "read a unconnected device battery level.");
+            Log.w(LOG_TAG, "Read a unconnected device battery level.");
             return;
         }
-        Log.w(LOG_TAG, "readBatteryLevel state is " + state);
+        Log.w(LOG_TAG, "ReadBatteryLevel state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if (gatt == null) {
-            Log.w(LOG_TAG, "gatt has not connected....");
+            Log.w(LOG_TAG, "Gatt has not connected....");
         } else {
             BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
             BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
