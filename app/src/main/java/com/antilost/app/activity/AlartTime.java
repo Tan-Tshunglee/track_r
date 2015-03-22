@@ -58,7 +58,7 @@ public class AlartTime extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        // TODO Auto-generated method stub
+        //TODO Auto-generated method stub
         trackRDataBase = new TrackRDataBase(this);
         mDb = trackRDataBase.getWritDatabase();
         if(UserDataTable.getInstance().countRecord(mDb)!=0){

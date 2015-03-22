@@ -390,7 +390,12 @@ public class BluetoothLeService extends Service implements
                             + characteristicUuid + ", enable=" + enable + " )");
 
                 BluetoothGattCharacteristic characteristic = gatt.getService(serviceUuid).getCharacteristic(characteristicUuid);
-                gatt.setCharacteristicNotification(characteristic, enable);
+                if(gatt.setCharacteristicNotification(characteristic, enable)) {
+                    Log.i(LOG_TAG, "setCharacteristicNotification success.");
+                } else {
+                    Log.i(LOG_TAG, "setCharacteristicNotification failed.");
+                }
+
                 BluetoothGattDescriptor descriptor = characteristic.getDescriptor(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
                 descriptor.setValue(enable ? BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE : BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                 return gatt.writeDescriptor(descriptor); //descriptor write operation successfully started?
@@ -425,6 +430,7 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+            Log.v(LOG_TAG, "onCharacteristicChanged....");
             UUID charUuid = characteristic.getUuid();
             if (charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID)) {
                 byte[] data = characteristic.getValue();
@@ -433,7 +439,7 @@ public class BluetoothLeService extends Service implements
                 Log.v(LOG_TAG, "onCharacteristicChanged key value is " + key);
                 if (key == 2) {
                     onTrackKeyLongPress();
-                } else if (key == 1) {
+                } else if (key == 8) {
                     onTrackKeyClick();
                 }
             } else {
@@ -862,8 +868,20 @@ public class BluetoothLeService extends Service implements
             int hour = now.get(Calendar.HOUR_OF_DAY);
             int minute = now.get(Calendar.MINUTE);
             int second = now.get(Calendar.SECOND);
+
             int msNow = now.get(Calendar.MILLISECOND);
+
             msNow += (second + minute * 60 + hour * 60 * 60) * 1000;
+
+            boolean isSleepMode = false;
+            //TODO finish this
+            if(startTime == endTime) {
+
+            } else if( startTime > endTime) {
+
+            } else {
+
+            }
 
 
             if (msNow < endTime || msNow > startTime) {

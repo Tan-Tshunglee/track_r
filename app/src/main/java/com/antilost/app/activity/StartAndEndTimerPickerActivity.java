@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
@@ -78,10 +77,10 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
                 int endTime  = (endHour * 60 + endMinute) * 60 * 1000;
 
 
-                if(endTime >= startTime) {
-                    Toast.makeText(this, getString(R.string.end_time_should_smaller_than_start_time), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if(endTime >= startTime) {
+//                    Toast.makeText(this, getString(R.string.end_time_should_smaller_than_start_time), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 mPrefs.setSleepTime(true, startTime);
                 mPrefs.setSleepTime(false, endTime);
