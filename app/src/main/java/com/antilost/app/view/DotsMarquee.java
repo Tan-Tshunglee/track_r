@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,14 +21,14 @@ public class DotsMarquee extends LinearLayout {
     private boolean mFlip = true;
     private static final int MSG_ADD_LIMIT = 0;
 
-    private Handler mHandler  = new Handler() {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_ADD_LIMIT:
                     mLimit++;
                     mLimit %= 6;
-                    if(mLimit == 0) {
+                    if (mLimit == 0) {
                         mFlip = !mFlip;
                     }
                     updateUi();
@@ -40,16 +39,15 @@ public class DotsMarquee extends LinearLayout {
     };
 
     private void updateUi() {
-        Log.v(LOG_TAG, "updateUi...");
-        for(int i = 0; i < 6; i++) {
-            if(mFlip) {
-                if(i <= mLimit) {
+        for (int i = 0; i < 6; i++) {
+            if (mFlip) {
+                if (i <= mLimit) {
                     getChildAt(i).setSelected(true);
                 } else {
                     getChildAt(i).setSelected(false);
                 }
             } else {
-                if(i <= mLimit) {
+                if (i <= mLimit) {
                     getChildAt(i).setSelected(false);
                 } else {
                     getChildAt(i).setSelected(true);
@@ -69,7 +67,7 @@ public class DotsMarquee extends LinearLayout {
 
     private void init() {
         removeAllViews();
-        for(int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {
             addOneDot();
         }
     }

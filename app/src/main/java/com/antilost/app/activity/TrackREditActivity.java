@@ -273,6 +273,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                             toast(getString(R.string.binding_success));
                         }
                     });
+
+                    startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
                     UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                     command.execTask();
                     if(command.success()) {
@@ -284,8 +286,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 } else {
                     Log.e(LOG_TAG, "Bind RrackR Error.");
                 }
-
-
             }
         };
         t.start();

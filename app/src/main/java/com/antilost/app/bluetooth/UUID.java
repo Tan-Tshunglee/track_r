@@ -15,6 +15,8 @@ public class UUID {
 
     public static final String ALERT_LEVEL_CHARACTERISTIC_UUID_PREFIX = "00002a06";
 
+    public static final String CUSTOM_VERIFIED_SERVICE_UUID_PREFIX = "0000fff0";
+
     public static final java.util.UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = java.util.UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_KEY_PRESS_UUID = java.util.UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_ALERT_LEVEL_UUID = java.util.UUID.fromString("00002a06-0000-1000-8000-00805f9b34fb");
@@ -22,6 +24,10 @@ public class UUID {
 
     public static final java.util.UUID LINK_LOSS_SERVICE_UUID = java.util.UUID.fromString("00001803-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID BATTERY_SERVICE_UUID = java.util.UUID.fromString(BATTERY_SERVICE_UUID_STRING);
+
+    public static final java.util.UUID CUSTOM_VERIFIED_SERVICE = java.util.UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
+    public static final java.util.UUID CHARACTERISTIC_CUSTOM_SYSTEMID = java.util.UUID.fromString("0000fff3-0000-1000-8000-00805f9b34fb");
+    public static final java.util.UUID CHARACTERISTIC_CUSTOM_VERIFIED = java.util.UUID.fromString("0000fff4-0000-1000-8000-00805f9b34fb");
 
 
 

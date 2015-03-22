@@ -171,7 +171,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         switch (compoundButton.getId()) {
             case R.id.itrack_alert_checkbox:
                 mPrefsManager.setTracklAlert(mBluetoothDeviceAddress, b);
-                mBluetoothLeService.twowayMonitor(mBluetoothDeviceAddress, b);
+                mBluetoothLeService.setTrackAlertMode(mBluetoothDeviceAddress, b);
             break;
 
             case R.id.sleepModeSwitch:

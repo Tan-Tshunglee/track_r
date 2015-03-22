@@ -24,6 +24,7 @@ public class Receiver extends BroadcastReceiver {
 
     private void startBluetoothMonitor(Context context) {
         Intent i = new Intent(context, BluetoothLeService.class);
+        i.putExtra(BluetoothLeService.INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, true);
         context.startService(i);
     }
 }
