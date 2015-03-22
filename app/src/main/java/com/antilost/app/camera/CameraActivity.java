@@ -32,13 +32,24 @@ public class CameraActivity extends FragmentActivity {
     private   Camera.PictureCallback mJpegPictureCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] bytes, android.hardware.Camera camera) {
             Log.i(LOG_TAG, "bytes size is " + bytes.length);
+
             PhotoSaver.save(bytes, CameraActivity.this);
         };
     };
 
 
     private void tryTakePicture() {
-        mCamera.takePicture(null, null, mJpegPictureCallback) ;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mCamera.takePicture(null, null, mJpegPictureCallback);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

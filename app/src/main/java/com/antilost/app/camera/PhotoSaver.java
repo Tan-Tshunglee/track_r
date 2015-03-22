@@ -1,10 +1,12 @@
 package com.antilost.app.camera;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -41,7 +43,13 @@ public class PhotoSaver extends  Thread {
             mJpgData = null;
             bufferedOut.close();
             Log.d(LOG_TAG, "save jpg data to " + fileName);
-
+            final Activity activity = (Activity) mContext;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity, "Photo Taken And Saved.", Toast.LENGTH_SHORT).show();
+                }
+            });
             addImageToGallery(jpg.getAbsolutePath(), mContext);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
