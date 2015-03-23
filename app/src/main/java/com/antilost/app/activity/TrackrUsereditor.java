@@ -348,6 +348,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                                         curUserDataBean.setMbloodType(tvusereditorxuexing.getText().toString());
                                         break;
                                 }
+                                UserDataTable.getInstance().update(mDb,curUserDataBean);
                                 dialog.dismiss();
                             }
                         }
@@ -464,9 +465,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         mMonth = c.get(Calendar.MONTH);
 
         mDay = c.get(Calendar.DAY_OF_MONTH);
-
-
-
         updateDisplay();
 
     }
@@ -486,6 +484,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
                 (mDay < 10) ? "0" + mDay : mDay));
         curUserDataBean.setMbirthday(tvusereditor_board.getText().toString());
+        UserDataTable.getInstance().update(mDb,curUserDataBean);
 
 //
 //
