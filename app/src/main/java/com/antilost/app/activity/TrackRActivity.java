@@ -242,6 +242,22 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+
+        if(mPrefsManager.getSleepMode()) {
+            long startTime = mPrefsManager.getSleepTime(true);
+            long endTime = mPrefsManager.getSleepTime(false);
+
+            int startHour = (int) startTime / (1000 * 60 * 60);
+            int endHour = (int) endTime / (1000 * 60 * 60);
+
+            int startMinute = (int)(startTime / (1000 * 60)) % 60;
+            int endMinute = (int)(endTime / (1000 * 60)) % 60;
+
+            mSleepTime.setText(getString(R.string.sleep_mode_on_and_time_format, startHour + ":" + startMinute, endHour + ":" + endMinute));
+
+        } else {
+            mSleepTime.setText(R.string.sleep_mode_off);
+        }
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {

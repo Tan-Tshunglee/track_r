@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.antilost.app.R;
 import com.antilost.app.service.BluetoothLeService;
 
-public class CameraActivity extends FragmentActivity {
+public class CameraActivity extends FragmentActivity implements Camera.ErrorCallback {
 
 
     private static final String LOG_TAG = "CameraActivity";
@@ -32,14 +32,19 @@ public class CameraActivity extends FragmentActivity {
     private   Camera.PictureCallback mJpegPictureCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] bytes, android.hardware.Camera camera) {
             Log.i(LOG_TAG, "bytes size is " + bytes.length);
-
+            mTakingPhoto = false;
             PhotoSaver.save(bytes, CameraActivity.this);
         };
     };
+    private boolean mTakingPhoto;
 
 
     private void tryTakePicture() {
-
+        if(mTakingPhoto) {
+            Log.w(LOG_TAG, "taking photo already triggered,");
+            return;
+        }
+        mTakingPhoto = true;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -67,6 +72,8 @@ public class CameraActivity extends FragmentActivity {
             finish();
             return;
         }
+
+        mCamera.setErrorCallback(this);
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
@@ -127,4 +134,8 @@ public class CameraActivity extends FragmentActivity {
     }
 
 
+    @Override
+    public void onError(int i, Camera camera) {
+
+    }
 }

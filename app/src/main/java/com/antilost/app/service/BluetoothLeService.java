@@ -77,7 +77,7 @@ public class BluetoothLeService extends Service implements
     private static final int SCAN_PERIOD_OF_RSSI_READ = 30 * 1000;
     public static final int LOCATION_UPDATE_PERIOD_IN_MS = 20 * 1000;
 
-    public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 30 * 1000;
+    public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 60 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -127,6 +127,7 @@ public class BluetoothLeService extends Service implements
 
 //    private LocationClient mBaiduLocationClient;
 
+    private boolean mSleeping = false;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -144,7 +145,6 @@ public class BluetoothLeService extends Service implements
 
     private void onSleepModeChang() {
         boolean sleepMode = mPrefsManager.getSleepMode();
-
         if (sleepMode) {
             if (inSleepTime()) {
                 sleepAllTrackR();
@@ -157,17 +157,21 @@ public class BluetoothLeService extends Service implements
     }
 
     private void sleepAllTrackR() {
+        Log.d(LOG_TAG, "sleep all trackr.");
         Set<String> addresses = mBluetoothGatts.keySet();
         for (String address : addresses) {
-
+            sleepTrack(address);
         }
+        mSleeping = true;
     }
 
     private void wakeAllTrackR() {
+        Log.d(LOG_TAG, "wakeup all trackr.");
         Set<String> addresses = mBluetoothGatts.keySet();
         for (String address : addresses) {
-
+            wakeupTrack(address);
         }
+        mSleeping = false;
     }
 
     private boolean inSleepTime() {
@@ -196,8 +200,11 @@ public class BluetoothLeService extends Service implements
         endDate.add(Calendar.MILLISECOND, (int) endTime);
 
         boolean result = false;
+
+        //start time same with end time
+        if(startTime == endTime) {
         //cross the midnight
-        if (startTime > endTime) {
+        } else if (startTime > endTime) {
             result = now.after(startDate) || now.before(endTime);
         } else {
             result = now.after(startDate) && now.before(endDate);
@@ -537,8 +544,8 @@ public class BluetoothLeService extends Service implements
     }
 
     private void receiverRssi(String address, int rssi) {
-        Log.v(LOG_TAG, String.format("address %s's status is %d", address, rssi));
 
+        //TODO far away alert;
 //        if(rssi < -80) {
 //            alertUserTrackDisconnected(address);
 //        }
@@ -857,8 +864,6 @@ public class BluetoothLeService extends Service implements
                 return false;
             }
         }
-//        int requestResult = mBaiduLocationClient.requestLocation();
-//        Log.i(LOG_TAG, "send request Result code is " + requestResult);
 
         int uid = mPrefsManager.getUid();
         Log.v(LOG_TAG, "current uid is " + uid);
@@ -871,42 +876,21 @@ public class BluetoothLeService extends Service implements
         boolean sleepMode = mPrefsManager.getSleepMode();
 
         if (sleepMode) {
-            Log.i(LOG_TAG, "User turn on sleep mode  check time is in sleep range?");
-            long startTime = mPrefsManager.getSleepTime(true);
-            long endTime = mPrefsManager.getSleepTime(false);
-
-            GregorianCalendar now = new GregorianCalendar();
-            int hour = now.get(Calendar.HOUR_OF_DAY);
-            int minute = now.get(Calendar.MINUTE);
-            int second = now.get(Calendar.SECOND);
-
-            int msNow = now.get(Calendar.MILLISECOND);
-
-            msNow += (second + minute * 60 + hour * 60 * 60) * 1000;
-
-            boolean isSleepMode = false;
-            //TODO finish this
-            if(startTime == endTime) {
-
-            } else if( startTime > endTime) {
-
+            boolean inSleepTime = inSleepTime();
+            if(inSleepTime) {
+                if(!mSleeping) {
+                    sleepAllTrackR();
+                }
             } else {
-
-            }
-
-
-            if (msNow < endTime || msNow > startTime) {
-                Log.i(LOG_TAG, "current time in sleep mode");
-                Set<String> ids = mPrefsManager.getTrackIds();
-                for (String id : ids) {
-                    Integer state = mGattStates.get(id);
-                    if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
-                        Log.i(LOG_TAG, "turnoff trackr in sleep mode whose id is " + id);
-                        silentlyTurnOffTrack(id);
-                    }
+                if(mSleeping) {
+                    wakeAllTrackR();
                 }
             }
             return true;
+        } else {
+            if(mSleeping) {
+                wakeAllTrackR();
+            }
         }
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
@@ -937,6 +921,45 @@ public class BluetoothLeService extends Service implements
         stopSelf();
 
     }
+
+    private void sleepTrack(String address) {
+        Integer state = mGattStates.get(address);
+        if(state == null) {
+            Log.w(LOG_TAG, "trying to sleep an unknown state track.");
+            return;
+        }
+
+        if (state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+            alertLevelChar.setValue(new byte[]{00});
+            gatt.writeCharacteristic(alertLevelChar);
+        } else {
+            Log.w(LOG_TAG, "can not close unconnected track r");
+            return;
+        }
+    }
+
+    private void wakeupTrack(String address) {
+        Integer state = mGattStates.get(address);
+        if(state == null) {
+            Log.w(LOG_TAG, "trying to sleep an unknown state track.");
+            return;
+        }
+
+        if (state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+            alertLevelChar.setValue(new byte[]{02});
+            gatt.writeCharacteristic(alertLevelChar);
+        } else {
+            Log.w(LOG_TAG, "can not close unconnected track r");
+            return;
+        }
+    }
+
 
     private void silentlyTurnOffTrack(String address) {
         Integer state = mGattStates.get(address);

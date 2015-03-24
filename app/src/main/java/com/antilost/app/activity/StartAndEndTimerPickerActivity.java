@@ -43,7 +43,7 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
         long endTime = mPrefs.getSleepTime(false);
 
         int startHour = (int) startTime / ( 1000 * 60 * 60 );
-        int startMinute = (int) (endTime / (1000 * 60 )) % 60;
+        int startMinute = (int) (startTime / (1000 * 60 )) % 60;
 
         mStartTimePicker.setCurrentHour(startHour);
         mStartTimePicker.setCurrentMinute(startMinute);

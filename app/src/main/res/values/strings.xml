@@ -173,5 +173,7 @@
     <string name="sleep_mode_time_setting">"Time Setting"</string>
     <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
     <string name="title_activity_camera">Camera</string>
+    <string name="sleep_mode_on_and_time_format">Sleep On\n\n%1$s - %2$s</string>
+    <string name="sleep_mode_off">Sleep Mode off</string>
 
 </resources>
