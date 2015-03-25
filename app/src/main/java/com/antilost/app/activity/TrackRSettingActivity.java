@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.antilost.app.R;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
+import com.antilost.app.util.CsstSHImageData;
 
 public class TrackRSettingActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -29,7 +32,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private String mBluetoothDeviceAddress;
 
     private BluetoothLeService mBluetoothLeService;
-    // Code to manage Service lifecycle.
+    //Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -95,6 +98,13 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         mSleepMode.setOnCheckedChangeListener(this);
 
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+
+        if(customIconUri != null) {
+            ImageView trackImage = (ImageView) findViewById(R.id.icon);
+            trackImage.setImageURI(customIconUri);
+        }
 
     }
 
