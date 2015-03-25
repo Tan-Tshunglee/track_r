@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -47,7 +48,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
     };
     private PrefsManager mPrefsManager;
-    private Switch mTrackAlert;
+    private CheckBox mTrackAlert;
     private Switch mSleepMode;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -58,7 +59,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     };
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
-    private Switch mPhoneAlert;
+    private CheckBox mPhoneAlert;
 
 
     @Override
@@ -82,8 +83,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         Log.v(LOG_TAG, "bindService...");
 
-        mTrackAlert = (Switch) findViewById(R.id.itrack_alert_checkbox);
-        mPhoneAlert = (Switch) findViewById(R.id.phone_alert_checkbox);
+        mTrackAlert = (CheckBox) findViewById(R.id.itrack_alert_checkbox);
+        mPhoneAlert = (CheckBox) findViewById(R.id.phone_alert_checkbox);
 
         mTrackAlert.setChecked(mPrefsManager.getTrackAlert(mBluetoothDeviceAddress));
         mTrackAlert.setOnCheckedChangeListener(this);
