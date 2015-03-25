@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -120,8 +119,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             addNewTrackR();
         }
 
-        mListViewAdapter.updateData();
-
         mListView.setOnItemClickListener(this);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -144,14 +141,10 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
-        if(!mBluetoothAdapter.isEnabled()) {
-
-        }
         List<String> locationProviders = mLocationManager.getAllProviders();
         for(String providerName: locationProviders) {
             Log.i(LOG_TAG, "get provider with name:" + providerName);
         }
-
 
         if(locationProviders.contains(LocationManager.NETWORK_PROVIDER)
                 && !mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

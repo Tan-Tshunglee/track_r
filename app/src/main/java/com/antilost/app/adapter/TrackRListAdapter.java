@@ -133,10 +133,6 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
                 state.setTextColor(Color.RED);
             }
         }
-
-
-
-
     }
 
     private String getString(int stateValue) {
@@ -165,11 +161,6 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
     public void onClick(View v) {
         int position = (Integer) v.getTag();
         String address = (String) getItem(position);
-//        if(mActivity.isBluetoothConnected(address)) {
-//
-//        } else {
-//            Toast.makeText(mActivity, "Device Not Connected", Toast.LENGTH_SHORT).show();
-//        };
         Intent i = new Intent(mActivity, TrackREditActivity.class);
         i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, address);
         mActivity.startActivity(i);

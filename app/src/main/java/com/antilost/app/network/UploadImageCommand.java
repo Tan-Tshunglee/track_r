@@ -55,6 +55,8 @@ public class UploadImageCommand extends Command {
                 e.printStackTrace();
             }
 
+        } else {
+            //TODO: user delete custom icon;
         }
         return null;
     }

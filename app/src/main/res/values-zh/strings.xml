@@ -48,10 +48,10 @@
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
-    <string name="my_track_list">My TrackR List</string>
+    <string name="my_track_list">My iTrack List</string>
     <string name="crop_image">Crop Image</string>
     <string name="ok">OK</string>
-    <string name="my_track_r">My TrackR</string>
+    <string name="my_track_r">My iTrack</string>
     <string name="prepare_track_r_to_bind">Prepare TrackR to Bind</string>
     <string name="sleep_on_and_time">Sleep On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>

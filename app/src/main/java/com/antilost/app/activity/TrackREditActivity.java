@@ -183,7 +183,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.btnOK:
                 saveTrackRSetting();
-                finish();
                 break;
         }
     }
@@ -271,6 +270,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         @Override
                         public void run() {
                             toast(getString(R.string.binding_success));
+                            finish();
                         }
                     });
 
