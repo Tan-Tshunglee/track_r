@@ -38,13 +38,13 @@ public class FetchAllTrackRCommand extends Command {
                     Log.i(LOG_TAG, "t is " + t);
                     //format address|name|type
                     String[] trackInfo = t.split("\\|");
-                    String address = trackInfo[1];
+                    String address = trackInfo[0];
 
                     if(!Utils.isValidMacAddress(address)) {
                         Log.e(LOG_TAG, "get one invalid mac address " + address);
                         continue;
                     }
-                    String name = trackInfo[0];
+                    String name = trackInfo[1];
                     String typeStr = trackInfo[2];
                     int type = 0;
 
