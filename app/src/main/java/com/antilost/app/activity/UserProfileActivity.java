@@ -309,7 +309,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(UserProfileActivity.this, FeedBackEditor.class);
+            Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
             startActivity(intent);
             UserProfileActivity.this.finish();
             return true;
