@@ -55,36 +55,29 @@ public class FeedBackActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         btmBack = (ImageButton) findViewById(R.id.mBtnCancel);
         btmPush = (Button) findViewById(R.id.mbtnpush);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         etfeedback = (EditText) findViewById(R.id.etfeedback);
-
-
     }
 
     @Override
     public void initWidgetState() {
-        // TODO Auto-generated method stub
         tvtitle.setText(getResources().getString(R.string.feedback_title));
     }
 
     @Override
     public void initWidgetListener() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void addWidgetListener() {
-        // TODO Auto-generated method stub
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -128,6 +121,7 @@ public class FeedBackActivity extends Activity implements TrackRInitialize {
                 finish();
             } else {
                 Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_failed), Toast.LENGTH_SHORT).show();
+                mUploadCommand.dumpDebugInfo();
             }
 
         }

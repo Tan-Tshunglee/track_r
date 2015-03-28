@@ -178,5 +178,12 @@
     <string name="feed_back_success">Feedback Received, thanks!</string>
     <string name="feedback_failed">Sorry, feedback failed.</string>
     <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
+    <string name="wait_a_moment">Wait a moment.</string>
+    <string name="checking_for_new_version">Checking for new version</string>
+    <string name="new_version_found">New version found.</string>
+    <string name="new_version_has_been_released">New version (%1$s) of this app has been release, would you like to download and update to it?</string>
+    <string name="format_downloaded">%1$s downloaded.</string>
+    <string name="no_update_found">No update found.</string>
+    <string name="your_app_is_updated">Your app is updated.</string>
 
 </resources>

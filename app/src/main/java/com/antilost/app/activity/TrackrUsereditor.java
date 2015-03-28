@@ -203,13 +203,10 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
     @Override
     public void addWidgetListener() {
-        // TODO Auto-generated method stub
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
-                startActivity(intent);
+
                 TrackrUsereditor.this.finish();
             }
         });
@@ -288,10 +285,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         }
     }
 
-    /**
-     * �������
-     *
-     */
     private final class BtnListener implements View.OnClickListener {
 
         @Override

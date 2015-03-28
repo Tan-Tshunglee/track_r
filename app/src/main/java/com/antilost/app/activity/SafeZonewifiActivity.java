@@ -103,9 +103,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
-                startActivity(intent);
                 SafeZonewifiActivity.this.finish();
             }
         });

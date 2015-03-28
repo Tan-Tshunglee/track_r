@@ -62,7 +62,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/itembgd_red"
         android:text="@string/feedbackpush"
-        android:textColor="@color/user_data_text"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/text_title_size" />
 
 

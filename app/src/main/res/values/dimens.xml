@@ -9,7 +9,7 @@
     <dimen name="normal_textsize">18sp</dimen>
     <dimen name="normal_textsize_test">18sp</dimen>
     <dimen name="text_normal_size">12.0sp</dimen>
-    <dimen name="text_title_size">15.0sp</dimen>
+    <dimen name="text_title_size">20.0sp</dimen>
 
     <dimen name="rc_circle_margin">10dip</dimen>
     <dimen name="rc_circle_width">300dip</dimen>
