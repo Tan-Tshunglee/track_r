@@ -158,6 +158,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         if(!mPrefsManager.validUserLog()) {
             finish();
         }
+
+        startService(new Intent(this, BluetoothLeService.class));
     }
 
 

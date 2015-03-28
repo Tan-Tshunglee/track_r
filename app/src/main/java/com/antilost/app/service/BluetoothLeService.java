@@ -847,7 +847,7 @@ public class BluetoothLeService extends Service implements
 
             //intent not from repeat alarm alert;
             if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
-                Log.v(LOG_TAG, "Service is in fast repeat mode.");
+                Log.v(LOG_TAG, "Service go in fast repeat mode.");
                 enterFastRepeatMode();
             }
             updateRepeatAlarmRegister();
