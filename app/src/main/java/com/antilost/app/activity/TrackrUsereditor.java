@@ -156,9 +156,12 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                         new Rect(0, 0, targetWidth, targetHeight),
                         null);
 
+//                imgUser_usericon.setImageBitmap(targetBitmap);
+//                Imguser_usericon.setImageBitmap(targetBitmap);
+
+                Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
 
 
-                Imguser_usericon.setImageBitmap(targetBitmap);
                 Log.d(TAG,"the the bitmap  ismmmmm"+BitmapFactory.decodeFile(mLastUpdatedIconFileName));
                 Log.d(TAG,"the the bitmap  is"+ BitmapFactory.decodeFile(mLastUpdatedIconFileName));
 
@@ -215,7 +218,9 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
+                startActivity(intent);
                 TrackrUsereditor.this.finish();
             }
         });
@@ -273,7 +278,8 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                                 null);
 
 
-                        Imguser_usericon.setImageBitmap(targetBitmap);
+//                        Imguser_usericon.setImageBitmap(targetBitmap);
+                        Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(source));
 
 //                        Imguser_usericon.setImageBitmap(source);
                         curUserDataBean.setMimage(mLastUpdatedIconFileName);

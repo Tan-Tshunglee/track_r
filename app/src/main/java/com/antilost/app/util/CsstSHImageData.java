@@ -5,7 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -213,9 +220,72 @@ public final class CsstSHImageData {
         }
         return null;
     }
+    public static final String getIconImageString(String address) {
+        File imageFile = new File(TRACKR_IMAGE_FOLDER, address);
+        if(imageFile.exists()) {
+            return imageFile.toString();
+        }
+        return null;
+    }
 
     public static final File getIconFile(String address) {
         return new File(TRACKR_IMAGE_FOLDER, address);
     }
+
+    public static Bitmap toRoundCorner(String customIconUri) {
+
+        Bitmap bitmap = BitmapFactory.decodeFile(customIconUri);
+        System.out.println("图片是否变成圆角模式了+++++++++++++");
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+//        final float roundPx = pixels;
+        final float roundPx = 95.f;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+//        System.out.println("pixels+++++++" + pixels);
+
+        return output;
+    }
+
+    public static Bitmap toRoundCorner(Bitmap bitmap) {
+
+//        Bitmap bitmap = BitmapFactory.decodeFile(customIconUri);
+        System.out.println("图片是否变成圆角模式了+++++++++++++");
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+//        final float roundPx = pixels;
+        final float roundPx = 95.f;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+//        System.out.println("pixels+++++++" + pixels);
+
+        return output;
+    }
+
+
 
 }

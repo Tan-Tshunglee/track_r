@@ -7,6 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +27,33 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.Toast;
 import com.antilost.app.R;
 import com.antilost.app.camera.CameraActivity;
+import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
@@ -186,13 +218,52 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
 
         if(customIconUri != null) {
-            mTrackImage.setImageURI(customIconUri);
-        }
-    }
+            mTrackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
 
+
+//            Bitmap sourceBitmap = BitmapFactory.decodeFile(customIconUri);
+//            int targetWidth = 100;
+//            int targetHeight = 100;
+//            Bitmap targetBitmap = Bitmap.createBitmap(
+//                    targetWidth,
+//                    targetHeight,
+//                    Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(targetBitmap);
+//            Path path = new Path();
+//            path.addCircle(
+//                    ((float)targetWidth - 1) / 2,
+//                    ((float)targetHeight - 1) / 2,
+//                    (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
+//                    Path.Direction.CCW);
+//            canvas.clipPath(path);
+//            Bitmap sourceBitmap =BitmapFactory.decodeFile(customIconUri);
+//            canvas.drawBitmap(
+//                    sourceBitmap,
+//                    new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+//                    new Rect(0, 0, targetWidth, targetHeight),
+//                    null);
+//
+////                imgUser_usericon.setImageBitmap(targetBitmap);
+//
+//
+//            mTrackImage.setImageBitmap(targetBitmap);
+
+
+
+
+
+//            mTrackImage.setImageURI(customIconUri);
+        }else {
+            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+            mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+
+
+    }
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -325,6 +396,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 Intent i = new Intent(this, TrackRSettingActivity.class);
                 i.putExtra(TrackRSettingActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
                 startActivity(i);
+                TrackRActivity.this.finish();
                 break;
 
             case R.id.ring:

@@ -88,15 +88,6 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
             type.setText(names[track.type]);
         }
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(address);
-
-        if(customIconUri != null) {
-            icon.setImageURI(customIconUri);
-            icon.setScaleType(ImageView.ScaleType.FIT_XY);
-        } else {
-            icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        }
 
 
         icon.setTag(position);
@@ -133,6 +124,19 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
                 state.setTextColor(Color.RED);
             }
         }
+
+        Uri customIconUri = CsstSHImageData.getIconImageUri(address);
+
+        if(customIconUri != null) {
+//            icon.setImageURI(customIconUri);
+//            icon.setScaleType(ImageView.ScaleType.FIT_XY);
+            Log.d(LOG_TAG,"customIconUri != null");
+            icon.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(address)));
+        } else {
+            icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+
     }
 
     private String getString(int stateValue) {

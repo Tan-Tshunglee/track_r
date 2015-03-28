@@ -9,7 +9,7 @@
         android:background="@drawable/title_bar_bkg">
         <ImageButton
             android:id="@+id/btnUserProfile"
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="fill_parent"
             android:src="@drawable/user_profile"
             android:layout_centerVertical="true"
@@ -26,7 +26,7 @@
 
         <ImageButton
             android:id="@+id/btnAdd"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:src="@drawable/add_btn"
             android:layout_centerVertical="true"
@@ -35,7 +35,7 @@
 
         <ImageButton
             android:id="@+id/btnLocation"
-            android:layout_width="55dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:src="@drawable/location"
             android:layout_centerVertical="true"
