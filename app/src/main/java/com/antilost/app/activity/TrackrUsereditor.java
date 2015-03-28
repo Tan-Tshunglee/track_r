@@ -54,7 +54,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private RelativeLayout rluser_smallname, rluser_bord, rluser_xuexing,
             rluser_likes, rluser_qianming, rluser_homepage, rlusereditor_icon;
     private TextView tvusereditor_name,tvusereditor_board,tvusereditorxuexing,tvusereditorlikes,tvSignature,tvusereditorhomepage;
-    /** �������*/
     private BtnListener mBtnListener = null;
     //数据库
     private TrackRDataBase trackRDataBase;

@@ -21,8 +21,7 @@
 
     <dimen name="dot_marquee_padding">5dp</dimen>
     <dimen name="track_r_listview_icon_size">54dp</dimen>
-
-
+    <dimen name="checkbox_width">75dp</dimen>
 
 
 </resources>

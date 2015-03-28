@@ -106,7 +106,7 @@
                     <!-- appring switch-->
                     <CheckBox
                         android:id="@+id/cbuser_appringswitch"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/checkbox_width"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -141,9 +141,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:drawableRight="@drawable/tri_right"
-                        android:gravity="center"
-                        android:paddingRight="20dp"
-                        android:text="3S"
+                        android:gravity="center_vertical|right"
+                        android:text="@string/three_seconds"
                         android:textColor="@color/user_data_text"
                         android:textSize="20sp" />
                 </RelativeLayout>
@@ -176,7 +175,7 @@
                     <!-- zone  switch-->
                     <CheckBox
                         android:id="@+id/cbuser_safezoneswitch"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/checkbox_width"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -254,7 +253,7 @@
                         android:textSize="20sp"/>
                     <CheckBox
                         android:id="@+id/sleepModeSwitch"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/checkbox_width"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -350,7 +349,6 @@
                         android:background="@android:color/transparent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:paddingRight="20dp"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
@@ -385,7 +383,6 @@
                         android:background="@android:color/transparent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:paddingRight="20dp"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
@@ -421,7 +418,6 @@
                         android:background="@android:color/transparent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:paddingRight="20dp"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
             </LinearLayout>

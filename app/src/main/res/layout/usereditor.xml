@@ -1,324 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addModelcontent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/user_bgd"
-    >
-	<!-- 标题栏 -->
-	<RelativeLayout 
-		android:id="@+id/rlusereditor_topback"
-		android:layout_width="fill_parent"
-        android:layout_height="@dimen/title_bar_height" >
-	    <include layout="@layout/csst_title_layout"/>
-	</RelativeLayout>
+    android:background="@drawable/user_bgd">
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/rlusereditor_topback"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_bar_height">
+
+        <include layout="@layout/csst_title_layout" />
+    </RelativeLayout>
     <!-- 分隔线 -->
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:visibility="invisible"
-        />
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-	    android:background="@drawable/usereditor_bkg"
-	    >
-	    <!-- 编辑ITEM -->
-	    <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="100dp"
-		    android:id="@+id/rlusereditor_icon"
-		    android:gravity="center_vertical"
-		    android:layout_marginLeft="15dp"
-		    android:background="@android:color/transparent"
-	        >
-	         <!-- 头像文本 -->
-	        <TextView
-	          android:layout_marginRight="15dp"
-	          android:id="@+id/tvusereditor_icontext"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:layout_marginTop="20dp"
-              android:layout_centerVertical="true"
-              android:text="@string/user_usericon"
-              android:textColor="@color/user_data_text"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-              android:layout_alignParentTop="true"
-            />
-	         <!-- 头像 -->
-
+        android:background="@drawable/usereditor_bkg">
+        <!-- 编辑ITEM -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:id="@+id/rlusereditor_icon"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:background="@android:color/transparent">
+            <!-- 头像文本 -->
+            <TextView
+                android:layout_marginRight="15dp"
+                android:id="@+id/tvusereditor_icontext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/user_usericon"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp" />
+            <!-- 头像 -->
 
             <ImageButton
                 android:id="@+id/tvusereditor_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/user_usericondefault"
                 android:gravity="center"
                 android:text="@string/user_usericon"
                 android:textColor="@color/user_data_text"
                 android:textSize="20sp"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
 
         </RelativeLayout>
-	    <!-- 分隔线 -->
-    	<TextView
-             android:layout_width="fill_parent"
-             android:layout_height="1dp"
-             android:background="@color/user_data_text"
-           />
-	      <!-- 昵称 -->
-	    <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="50sp"
-		    android:layout_marginRight="15dp"
-		    android:id="@+id/rlusereditor_smallname"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- name text -->
-	        <TextView
-	           android:layout_marginLeft="20dp"
-	          android:id="@+id/tvusereditor_name"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerVertical="true"
-              android:text="@string/user_smallname"
-              android:textColor="@color/user_data_text"
-              android:layout_marginTop="15dp"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-              android:layout_alignParentTop="true"
-            />
-	         <!-- appring switch-->
-       		<ImageButton
-		    android:id="@+id/imgbtusereditorname"
-		    android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dp"
-	        android:src="@drawable/tri_right"
-	        android:background="@android:color/transparent"
-	        android:focusable="true"
-	        android:focusableInTouchMode="true"
-        />
-	    </RelativeLayout>
         <!-- 分隔线 -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/user_data_text"
-            />
-	     <!-- 出生年月 -->
-	      <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="50sp"
-		    android:id="@+id/rlusereditor_borad"
-		    android:layout_marginRight="15dp"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- bord text -->
-	        <TextView
-            	android:layout_marginLeft="20dp"
-	          android:id="@+id/tvusereditor_board"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:text="@string/user_borddate"
-              android:textColor="@color/user_data_text"
-              android:layout_marginTop="15dp"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-              android:layout_alignParentTop="true"
-            />
-	         <!-- bord !-->
-       		<ImageButton
-			    android:id="@+id/imgbtusereditorbord"
-			    android:layout_width="wrap_content"
-		        android:layout_height="fill_parent"
-		        android:layout_alignParentRight="true"
-		        android:layout_centerVertical="true"
-		        android:layout_marginRight="10dp"
-		        android:src="@drawable/tri_right"
-		        android:background="@android:color/transparent"
-		        android:focusable="true"
-		        android:focusableInTouchMode="true"
-        />
-	    </RelativeLayout>
-	       <!-- 分隔线 -->
-    	<TextView
-             android:layout_width="fill_parent"
-             android:layout_height="1dp"
-             android:background="@color/user_data_text"
-           />
-	    <!-- 血型选择 -->
-	    <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="50dp"
-		    android:id="@+id/rlusereditor_xuexing"
-		    android:layout_marginRight="15dp"
-		    android:gravity="center_vertical"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- xuexing text-->
-	        <TextView
-	          android:layout_marginLeft="20dp"
-	          android:id="@+id/tvusereditorxuexing"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:gravity="center"
-              android:text="@string/user_xuexing"
-              android:textColor="@color/user_data_text"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-            />
-	         <!-- xuexing -->
-	       <ImageButton
-		    android:id="@+id/imgusereditorxuexing"
-		    android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dp"
-	        android:src="@drawable/tri_right"
-	        android:background="@android:color/transparent"
-	        android:focusable="true"
-	        android:focusableInTouchMode="true"
-        />
-	    </RelativeLayout>
-	    <!-- 分隔线 -->
-    	<TextView
-             android:layout_width="fill_parent"
-             android:layout_height="1dp"
-             android:background="@color/user_data_text"
-           />
-	      <!-- likes -->
-	    <RelativeLayout
-	        android:layout_marginRight="15dp"
-	        android:layout_width="wrap_content"
-		    android:layout_height="50dp"
-		    android:id="@+id/rlusereditor_likes"
-		    android:gravity="center_vertical"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- likes text-->
-	        <TextView
-	            android:layout_marginLeft="20dp"
-	          android:id="@+id/tvusereditorlikes"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:gravity="center"
-              android:text="@string/user_liks"
-              android:textColor="@color/user_data_text"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-            />
-	         <!-- likes -->
-	       <ImageButton
-		    android:id="@+id/imgusereditorlikes"
-		    android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dp"
-	        android:src="@drawable/tri_right"
-	        android:background="@android:color/transparent"
-	        android:focusable="true"
-	        android:focusableInTouchMode="true"
-        />
-       </RelativeLayout>
-	    <!-- 分隔线 -->
-    	<TextView
-             android:layout_width="fill_parent"
-             android:layout_height="1dp"
-             android:background="@color/user_data_text"
-           />
-	      <!-- 个性签名-->
-	    <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="50dp"
-		    android:id="@+id/rlusereditor_qianming"
-		    android:layout_marginRight="15dp"
-		    android:gravity="center_vertical"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- 个性签名 text-->
-	        <TextView
-             android:layout_marginLeft="20dp"
-	          android:id="@+id/tvSignature"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:gravity="center"
-              android:text="@string/user_editorself"
-              android:textColor="@color/user_data_text"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-            />
-	         <!--tip switch -->
-	       <ImageButton
-		    android:id="@+id/imgusereidtoreditorself"
-		    android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dp"
-	        android:src="@drawable/tri_right"
-	        android:background="@android:color/transparent"
-	        android:focusable="true"
-	        android:focusableInTouchMode="true"
-        />
-       </RelativeLayout>
-	       <!-- 分隔线 -->
-    	<TextView
-             android:layout_width="fill_parent"
-             android:layout_height="1dp"
-             android:background="@color/user_data_text"
-           />
+            android:background="@color/user_data_text" />
+        <!-- 昵称 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:id="@+id/rlusereditor_smallname"
+            android:background="@android:color/transparent">
+            <!-- name text -->
+            <TextView
+                android:id="@+id/tvusereditor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/user_smallname"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp" />
+            <!-- appring switch-->
+            <ImageButton
+                android:id="@+id/imgbtusereditorname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
+        <!-- 出生年月 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlusereditor_borad"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent">
+            <!-- bord text -->
+            <TextView
+                android:id="@+id/tvusereditor_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:text="@string/user_borddate"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp" />
+            <!-- bord !-->
+            <ImageButton
+                android:id="@+id/imgbtusereditorbord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
+        <!-- 血型选择 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlusereditor_xuexing"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent">
+            <!-- xuexing text-->
+            <TextView
+                android:id="@+id/tvusereditorxuexing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_xuexing"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp"
+                android:layout_alignParentLeft="true" />
+            <!-- xuexing -->
+            <ImageButton
+                android:id="@+id/imgusereditorxuexing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
+        <!-- likes -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlusereditor_likes"
+            android:gravity="center_vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent">
+            <!-- likes text-->
+            <TextView
+                android:id="@+id/tvusereditorlikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_liks"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp" />
+            <!-- likes -->
+            <ImageButton
+                android:id="@+id/imgusereditorlikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
+        <!-- 个性签名-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlusereditor_qianming"
+            android:gravity="center_vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent">
+            <!-- 个性签名 text-->
+            <TextView
+                android:id="@+id/tvSignature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_editorself"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp"/>
+            <!--tip switch -->
+            <ImageButton
+                android:id="@+id/imgusereidtoreditorself"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
 
-	       <!-- 主页 -->
-	    <RelativeLayout
-	        android:layout_width="wrap_content"
-		    android:layout_height="50dp"
-		    android:id="@+id/rlusereditor_homepage"
-		    android:layout_marginRight="15dp"
-		    android:gravity="center_vertical"
-		    android:background="@android:color/transparent"
-	        >
-	        <!-- homepage text-->
-	        <TextView
-	            android:layout_marginLeft="20dp"
-	          android:id="@+id/tvusereditorhomepage"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent"
-              android:gravity="center"
-              android:text="@string/user_homepage"
-              android:textColor="@color/user_data_text"
-              android:textSize="20sp"
-              android:layout_alignParentLeft="true"
-            />
-	         <!-- homepage -->
-	       <ImageButton
-		    android:id="@+id/imgusereditorhomepage"
-		    android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dp"
-	        android:src="@drawable/tri_right"
-	        android:background="@android:color/transparent"
-	        android:focusable="true"
-	        android:focusableInTouchMode="true"
-        />
-	    </RelativeLayout>
-	    </LinearLayout>
-   		
+        <!-- 主页 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rlusereditor_homepage"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent">
+            <!-- homepage text-->
+            <TextView
+                android:id="@+id/tvusereditorhomepage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/user_homepage"
+                android:textColor="@color/user_data_text"
+                android:textSize="20sp"
+                android:layout_alignParentLeft="true" />
+            <!-- homepage -->
+            <ImageButton
+                android:id="@+id/imgusereditorhomepage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/tri_right"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
