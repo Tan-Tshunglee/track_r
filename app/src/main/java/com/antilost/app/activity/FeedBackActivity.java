@@ -55,6 +55,7 @@ public class FeedBackActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
+        // TODO Auto-generated method stub
 
     }
 
@@ -95,7 +96,7 @@ public class FeedBackActivity extends Activity implements TrackRInitialize {
                     return;
                 }
 
-                (new FeedBackUploader(mPrefManager.getUid(), feedback)).execute();
+                (new FeedBackUploader(mPrefManager.getEmail(), feedback)).execute();
             }
         });
 
@@ -104,8 +105,8 @@ public class FeedBackActivity extends Activity implements TrackRInitialize {
     private class FeedBackUploader extends AsyncTask<Void, Void, Void> {
         private final UserFeedbackCommand mUploadCommand;
 
-        public FeedBackUploader(int uid, String feedback) {
-             mUploadCommand = new UserFeedbackCommand(uid, feedback);
+        public FeedBackUploader(String email, String feedback) {
+             mUploadCommand = new UserFeedbackCommand(email, feedback);
         }
 
         @Override

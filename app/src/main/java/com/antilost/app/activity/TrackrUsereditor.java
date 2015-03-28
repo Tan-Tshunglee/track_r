@@ -99,6 +99,15 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(trackRDataBase != null) {
+            trackRDataBase.close();
+            trackRDataBase = null;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         return true;
@@ -108,7 +117,9 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     public void initDataSource() {
         // TODO Auto-generated method stub
         trackRDataBase = new TrackRDataBase(this);
+
         mDb = trackRDataBase.getWritDatabase();
+
         //file init
         mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
         //first to init
@@ -145,7 +156,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                         new Rect(0, 0, targetWidth, targetHeight),
                         null);
 
-//                imgUser_usericon.setImageBitmap(targetBitmap);
 
 
                 Imguser_usericon.setImageBitmap(targetBitmap);
