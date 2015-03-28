@@ -253,7 +253,39 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             int startMinute = (int)(startTime / (1000 * 60)) % 60;
             int endMinute = (int)(endTime / (1000 * 60)) % 60;
 
-            mSleepTime.setText(getString(R.string.sleep_mode_on_and_time_format, startHour + ":" + startMinute, endHour + ":" + endMinute));
+
+            String SstartHour =null;
+            if(startHour<10){
+                SstartHour = "0"+startHour;
+            }else{
+                SstartHour = Integer.toString(startHour);
+            }
+
+
+            String SstartMinute =null;
+            if(startMinute<10){
+                SstartMinute = "0"+startMinute;
+            }else{
+                SstartMinute = Integer.toString(startMinute);
+            }
+
+            String SendHour =null;
+            if(endHour<10){
+                SendHour = "0"+endHour;
+            }else{
+                SendHour = Integer.toString(endHour);
+            }
+
+
+            String SendMinute =null;
+            if(endMinute<10){
+                SendMinute = "0"+endMinute;
+            }else{
+                SendMinute = Integer.toString(endMinute);
+            }
+
+
+            mSleepTime.setText(getString(R.string.sleep_mode_on_and_time_format, SstartHour + ":" + SstartMinute, SendHour + ":" + SendMinute));
 
         } else {
             mSleepTime.setText(R.string.sleep_mode_off);

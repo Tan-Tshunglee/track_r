@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -191,6 +192,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     public void initWidgetState() {
         // TODO Auto-generated method stub
         mBtnListener = new BtnListener();
+        btmDone.setVisibility(View.GONE);
     }
 
     @Override

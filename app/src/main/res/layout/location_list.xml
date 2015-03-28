@@ -1,11 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:focusable="false"
     >
     <RelativeLayout
         android:id="@+id/rllocation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:focusable="false"
         android:background="@drawable/title_bar_bkg">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -14,12 +16,14 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:padding="25dp"
+            android:focusable="false"
             >
             <TextView android:id="@+id/tvlocationtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/locationsetting"
                 android:textSize="20sp"
+                android:focusable="false"
                 android:textColor="@android:color/white" />
 
             <TextView android:id="@+id/tvlocationtime"
@@ -27,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/locationtime"
                 android:textSize="20sp"
+                android:focusable="false"
                 android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -38,6 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:focusable="false"
             android:padding="25dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@android:color/transparent" />

@@ -48,7 +48,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
     public final String AlartTime = "AlartTime";
 
     private UserdataBean   curUserDataBean;
-    private Switch mSleepModeSwitch;
+    private CheckBox mSleepModeSwitch;
     private TextView mSleepStartTime;
     private TextView mSleepEndTime;
 
@@ -142,7 +142,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
         cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
 
-        mSleepModeSwitch = (Switch) findViewById(R.id.sleepModeSwitch);
+        mSleepModeSwitch = (CheckBox) findViewById(R.id.sleepModeSwitch);
         mSleepStartTime = (TextView) findViewById(R.id.startTimeText);
         mSleepEndTime = (TextView) findViewById(R.id.endTimeText);
 
@@ -168,9 +168,39 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
 
         int endHour = (int) endTime / ( 1000 * 60 * 60 );
         int endMinute = (int) (endTime / (1000 * 60)) % 60;
+        String SstartHour =null;
+        if(startHour<10){
+            SstartHour = "0"+startHour;
+        }else{
+            SstartHour = Integer.toString(startHour);
+        }
 
-        mSleepStartTime.setText(startHour + ":" + startMinute);
-        mSleepEndTime.setText(endHour + ":" + endMinute);
+
+        String SstartMinute =null;
+        if(startMinute<10){
+            SstartMinute = "0"+startMinute;
+        }else{
+            SstartMinute = Integer.toString(startMinute);
+        }
+
+        String SendHour =null;
+        if(endHour<10){
+            SendHour = "0"+endHour;
+        }else{
+            SendHour = Integer.toString(endHour);
+        }
+
+
+        String SendMinute =null;
+        if(endMinute<10){
+            SendMinute = "0"+endMinute;
+        }else{
+            SendMinute = Integer.toString(endMinute);
+        }
+
+
+        mSleepStartTime.setText(SstartHour + ":" + SstartMinute);
+        mSleepEndTime.setText(SendHour + ":" + SendMinute);
     }
 
     @Override
@@ -279,7 +309,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(UserProfileActivity.this, FeedBackEditor.class);
+            Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
             startActivity(intent);
             UserProfileActivity.this.finish();
             return true;

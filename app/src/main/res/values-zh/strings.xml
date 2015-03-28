@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrackR</string>
+    <string name="app_name">iTrack</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="new_user_registration">User Registration</string>
+    <string name="new_user_registration">Sign Up</string>
     <string name="user_icon">user icon</string>
     <string name="remember_password">Remember Password</string>
     <string name="sign_in">Sign In</string>
@@ -14,13 +14,13 @@
     <string name="registration">Registration</string>
     <string name="title_activity_bind">BindActivity</string>
     <string name="title_activity_binding">BindingActivity</string>
-    <string name="title_activity_track_redit">TrackREditActivity</string>
+    <string name="title_activity_track_redit">iTrackEditActivity</string>
     <string name="cancel">Cancel</string>
     <string name="click_to_add">Click To Add</string>
-    <string name="title_activity_main_track_rlist">MainTrackRListActivity</string>
+    <string name="title_activity_main_track_rlist">MainiTrackListActivity</string>
     <string name="change_image">Change Image</string>
     <string name="title_activity_photo_edit">PhotoEditActivity</string>
-    <string name="title_activity_track_r">TrackRActivity</string>
+    <string name="title_activity_track_r">iTrackActivity</string>
     <string name="title_activity_forget_password">ForgetPassword</string>
     <string name="send">Send</string>
     <string name="ble_not_support">ble not support.</string>
@@ -37,14 +37,14 @@
     </string-array>
 
     <string name="title_activity_user_profile">UserProfileActivity</string>
-    <string name="track_r_is_running">TrackR is running.</string>
+    <string name="track_r_is_running">iTrack is running.</string>
     <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
-    <string name="title_activity_track_rsetting">TrackRSettingActivity</string>
-    <string name="binding_steps_describe">1.Make sure the bluetooth is enabled.\n2.Make TrackR closed to phone\n3.Press the key on TrackR and track will beep</string>
-    <string name="add_track_r">Add TrackR</string>
-    <string name="connecting_with_track_r">Connecting with TrackR</string>
+    <string name="title_activity_track_rsetting">iTrackSettingActivity</string>
+    <string name="binding_steps_describe">1.Make sure the bluetooth is enabled.\n2.Make iTrack closed to phone\n3.Press the key on iTrack and track will beep</string>
+    <string name="add_track_r">Add iTrack</string>
+    <string name="connecting_with_track_r">Connecting with iTrack</string>
     <string name="connecting_failed">Connecting Failed</string>
-    <string name="try_again_steps">You could try:\n1.Make sure the phone\'s bluetooth is enabled.\n2.Make sure that TrackR is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
+    <string name="try_again_steps">You could try:\n1.Make sure the phone\'s bluetooth is enabled.\n2.Make sure that iTrack is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
@@ -52,22 +52,22 @@
     <string name="crop_image">Crop Image</string>
     <string name="ok">OK</string>
     <string name="my_track_r">My iTrack</string>
-    <string name="prepare_track_r_to_bind">Prepare TrackR to Bind</string>
+    <string name="prepare_track_r_to_bind">Prepare iTrack to Bind</string>
     <string name="sleep_on_and_time">Sleep On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
-    <string name="distance_to_track_r">Distance to TrackR</string>
+    <string name="distance_to_track_r">Distance to iTrack</string>
     <string name="loc">Loc</string>
     <string name="ring">Ring</string>
     <string name="photo">Photo</string>
     <string name="share">Share</string>
     <string name="change">Change</string>
     <string name="key">Key</string>
-    <string name="itrak_alart">防丢器报警开启</string>
-    <string name="phone_alart">手机报警开启</string>
+    <string name="itrak_alart">iTrack Alert</string>
+    <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
-    <string name="turn_off_track_r">Turn off TrackR</string>
-    <string name="unbind_track_r">Unbind TrackR</string>
+    <string name="turn_off_track_r">Turn off iTrack</string>
+    <string name="unbind_track_r">Unbind iTrack</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_picture">Choose Picture</string>
     <string name="reconect_to_s">"Reconnect to %s"</string>
@@ -99,16 +99,16 @@
     <string name="back">返回</string>
 
     <string name="safezone_title">安全区域</string>
-    <string name="safezone_message">添加信任WIFI，当手机连接信任WIFI时系统判断为安全区域，TrackR APP将减少提醒，以免你受到干扰。</string>
+    <string name="safezone_message">添加信任WIFI，当手机连接信任WIFI时系统判断为安全区域，iTrack APP将减少提醒，以免你受到干扰。</string>
     <string name="safezone_home">家</string>
     <string name="safezone_office">办公室</string>
     <string name="safezone_other">其他</string>
     <string name="safezone_modifywifi">已设置，点击修改</string>
     <string name="safezone_addwifi">点击添加WIFI</string>
     <string name="safezone_wifiselcettitle">选择信任的WIFI</string>
-    <string name="safezone_wifitip">连接选中WIFI,TrackR仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
+    <string name="safezone_wifitip">连接选中WIFI,iTrack仅在远距离发出报警，建议您 选择家庭、公司等安全区域WIFI</string>
     <string name="wifisameple">WIFI</string>
-    <string name="gps_disable_hint">Location is disabled , TrackR can\'t save the location info</string>
+    <string name="gps_disable_hint">Location is disabled , iTrack can\'t save the location info</string>
     <string name="connecting">Connecting</string>
     <string name="disconnecting">Disconnecting</string>
     <string name="closed">closed</string>
@@ -137,7 +137,7 @@
     <string name="end">End</string>
     <string name="everyday">Everyday</string>
     <string name="help">Help</string>
-    <string name="track_r_settings">TrackR Setting</string>
+    <string name="track_r_settings">iTrack Setting</string>
     <string name="i_am_here_find_me">I am here, find me?</string>
     <string name="my_location_title">Manually added Location</string>
     <string name="feedback_title">FeedBack</string>
@@ -148,10 +148,10 @@
     <string name="setting">setting</string>
     <string name="feedbackpush">push</string>
     <string name="title_activity_dialog">DialogActivity</string>
-    <string name="warm_prompt_open_location_service">In order to record the TrackR\'s lost location info, you need open the location service.</string>
+    <string name="warm_prompt_open_location_service">In order to record the iTrack\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
     <string name="enable_network_before_login">Enable network before login.</string>
-    <string name="firststart">开始我的iTrackR</string>
+    <string name="firststart">开始我的iTrack</string>
     <string name="reset">Reset</string>
     <string name="locationsetting">定位名称：</string>
 
@@ -169,7 +169,7 @@
     <string name="title_activity_amap">AmapActivity</string>
     <string name="place_lost">Place Lost</string>
     <string name="unbind_successfully">Unbind Successfully.</string>
-    <string name="unbind_track_server_error">Server Error, Can not unbind this TrackR.</string>
+    <string name="unbind_track_server_error">Server Error, Can not unbind this iTrack.</string>
     <string name="no_location_data">没有位置信息</string>
 
     <string name="title_activity_google_map">谷歌地图</string>
