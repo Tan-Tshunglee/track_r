@@ -77,7 +77,7 @@ public class BluetoothLeService extends Service implements
     private static final int SCAN_PERIOD_OF_RSSI_READ = 30 * 1000;
     public static final int LOCATION_UPDATE_PERIOD_IN_MS = 20 * 1000;
 
-    public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 60 * 1000;
+    public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 2 * 60 * 1000;
 
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -134,7 +134,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "BluetoothLeService onSharedPreferenceChanged() key " + key);
         if (PrefsManager.PREFS_TRACK_IDS_KEY.equals(key)) {
             Log.v(LOG_TAG, "key of preference changed is " + PrefsManager.PREFS_TRACK_IDS_KEY);
-            initialize();
+            repeatInit();
         }
 
         if (PrefsManager.PREFS_SLEEP_MODE_KEY.equals(key)) {
@@ -260,7 +260,7 @@ public class BluetoothLeService extends Service implements
     }
 
     public void tryConnect() {
-        initialize();
+        repeatInit();
     }
 
     public Location getLastLocation() {
@@ -275,10 +275,12 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                Log.v(LOG_TAG, "gatt status is not success.");
-//                gatt.disconnect();
-//                gatt.close();
-//                mBluetoothGatts.remove(gatt.getDevice().getAddress());
+                Log.e(LOG_TAG, "gatt status is not success.");
+                Log.v(LOG_TAG, "clean up old connection");
+                gatt.disconnect();
+                gatt.close();
+                mBluetoothGatts.remove(gatt.getDevice().getAddress());
+                mBluetoothCallbacks.remove(gatt.getDevice().getAddress());
                 return;
             }
             String address = gatt.getDevice().getAddress();
@@ -358,15 +360,18 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.i(LOG_TAG, "onServicesDiscovered ....");
-            String address = gatt.getDevice().getAddress();
-            mGattStates.put(address, BluetoothProfile.STATE_CONNECTED);
-            mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
+
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                Log.i(LOG_TAG, "ble connection success.");
+                String address = gatt.getDevice().getAddress();
+                mGattStates.put(address, BluetoothProfile.STATE_CONNECTED);
+                mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
                 verifyConnection(gatt);
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
+                enableGpsUpdate();
             } else {
-                Log.w(LOG_TAG, "onServicesDiscovered status is not success.: " + status);
+                Log.w(LOG_TAG, "onServicesDiscovered Status is not success.: " + status);
             }
         }
 
@@ -509,6 +514,14 @@ public class BluetoothLeService extends Service implements
             String address = gatt.getDevice().getAddress();
             receiverRssi(address, rssi);
         }
+    }
+
+    private void enableGpsUpdate() {
+        registerAmapLocationListener();
+    }
+
+    private void disableGpsUpdate() {
+        unregisterAmapLocationListener();
     }
 
     private void verifyConnection(BluetoothGatt gatt) {
@@ -664,7 +677,7 @@ public class BluetoothLeService extends Service implements
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                initialize();
+                repeatInit();
             }
         });
 
@@ -781,6 +794,12 @@ public class BluetoothLeService extends Service implements
         }
     }
 
+    private void unregisterAmapLocationListener() {
+        if (mAmapLocationManagerProxy != null) {
+            mAmapLocationManagerProxy.removeUpdates(this);
+        }
+    }
+
     private void goForeground() {
         Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, MainTrackRListActivity.class);
@@ -807,7 +826,19 @@ public class BluetoothLeService extends Service implements
         if (loc != null) {
             mLastLocation = loc;
             mPrefsManager.saveLastAMPALocation(loc);
+
             Log.i(LOG_TAG, "get location info from amap location,  lat is " + loc.getLatitude() + "the long is " + loc.getLongitude());
+
+            Set<Map.Entry<String, Integer>> gattStates = mGattStates.entrySet();
+            for(Map.Entry<String, Integer> gattState: gattStates) {
+                Integer state = gattState.getValue();
+                if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+                    return;
+                }
+            }
+
+            disableGpsUpdate();
+            Log.i(LOG_TAG, "no connected trackr stop listening gps update");
         }
     }
 
@@ -824,26 +855,21 @@ public class BluetoothLeService extends Service implements
             mBluetoothGatts.remove(address);
         }
 
-//        mBaiduLocationClient.stop();
-//        mBaiduLocationClient.unRegisterLocationListener(mBaidLocationListener);
-
-
-//        mLocationManager.removeUpdates(this);
-        if (mAmapLocationManagerProxy != null) {
-            mAmapLocationManagerProxy.removeUpdates(this);
-            mAmapLocationManagerProxy.destroy();
-            mAmapLocationManagerProxy = null;
-        }
+        disableGpsUpdate();
+        mAmapLocationManagerProxy.destroy();
+        mAmapLocationManagerProxy = null;
         mAlarmManager.cancel(mPendingIntent);
         startReadRssiRepeat(false, null);
     }
+
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(LOG_TAG, "onStartCommand");
         if (intent != null) {
             mLastStartCommandMeet = System.currentTimeMillis();
-            initialize();
+            repeatInit();
 
             //intent not from repeat alarm alert;
             if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
@@ -855,12 +881,12 @@ public class BluetoothLeService extends Service implements
         return START_STICKY;
     }
 
-    private boolean initialize() {
+    private boolean repeatInit() {
 
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Log.e(LOG_TAG, "Unable to initialize BluetoothManager.");
+                Log.e(LOG_TAG, "Unable to repeatInit BluetoothManager.");
                 return false;
             }
         }
@@ -874,7 +900,6 @@ public class BluetoothLeService extends Service implements
         }
 
         boolean sleepMode = mPrefsManager.getSleepMode();
-
         if (sleepMode) {
             boolean inSleepTime = inSleepTime();
             if(inSleepTime) {
@@ -1052,13 +1077,13 @@ public class BluetoothLeService extends Service implements
             mGattStates.remove(address);
             mBluetoothGatts.remove(address);
 
-            mHandler.post(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     Log.w(LOG_TAG, "retry connect a long waiting trackr");
                     connect(address);
                 }
-            });
+            }, 500);
             return false;
         }
 
