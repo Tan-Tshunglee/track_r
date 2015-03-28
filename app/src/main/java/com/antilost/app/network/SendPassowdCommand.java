@@ -21,5 +21,6 @@ public class SendPassowdCommand extends Command {
         String result = sb.toString();
         Log.v(LOG_TAG, "request string is " + result);
         return result;
+
     }
 }

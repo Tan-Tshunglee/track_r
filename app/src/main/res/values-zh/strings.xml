@@ -145,8 +145,8 @@
     <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
 
     <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
-    <string name="setting">setting</string>
-    <string name="feedbackpush">push</string>
+    <string name="setting">设置</string>
+    <string name="feedbackpush">提交</string>
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the iTrack\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
@@ -176,4 +176,7 @@
     <string name="title_activity_start_and_end_timer_picker">时间设置</string>
     <string name="sleep_mode_time_setting">时间设置</string>
     <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
+    <string name="feed_back_success">Feedback Received, thanks!</string>
+    <string name="feedback_failed">Sorry, feedback failed.</string>
+    <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
 </resources>

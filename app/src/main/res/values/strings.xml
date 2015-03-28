@@ -141,21 +141,21 @@
     <string name="i_am_here_find_me">I am here, find me?</string>
     <string name="my_location_title">Manually added Location</string>
     <string name="feedback_title">FeedBack</string>
-    <string name="feedback_tip1">欢饮您留下宝贵的意见和建议，您留下的</string>
-    <string name="feedback_tip2">每一个字都将用来改善我们的软件</string>
-    <string name="feedback_hinttip">请输入您的反馈意见（500字以内）</string>
+    <string name="feedback_tip1">We highly appreciate your feedback and suggestions.</string>
+    <string name="feedback_tip2"> Every word  will be helpful for us to improve this software.</string>
+    <string name="feedback_hinttip">Please input your feedback（Up to 500 words）</string>
     <string name="setting">setting</string>
-    <string name="feedbackpush">push</string>
+    <string name="feedbackpush">Submit</string>
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the iTrack\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
     <string name="enable_network_before_login">Enable network before login.</string>
-    <string name="firststart">开始我的iTrack</string>
+    <string name="firststart">Start My iTrack</string>
     <string name="reset">Reset</string>
-    <string name="locationsetting">定位名称：</string>
-    <string name="locationtime">时间：</string>
+    <string name="locationsetting">Location name：</string>
+    <string name="locationtime">time：</string>
 
-    <string name="usereditor_select">请设置</string>
+    <string name="usereditor_select">"</string>
     <string name="usereditor_select_bloodtp_o">O</string>
     <string name="usereditor_select_bloodtp_A">A</string>
     <string name="usereditor_select_bloodtp_B">B</string>
@@ -175,5 +175,8 @@
     <string name="title_activity_camera">Camera</string>
     <string name="sleep_mode_on_and_time_format">Sleep On\n\n%1$s - %2$s</string>
     <string name="sleep_mode_off">Sleep Mode off</string>
+    <string name="feed_back_success">Feedback Received, thanks!</string>
+    <string name="feedback_failed">Sorry, feedback failed.</string>
+    <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
 
 </resources>

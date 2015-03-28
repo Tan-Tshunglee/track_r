@@ -41,9 +41,11 @@
         android:layout_marginRight="20dp"/>
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp"
         android:hint="@string/feedback_hinttip"
-        android:gravity="center_horizontal|top"
+        android:padding="20dp"
+        android:gravity="top"
         android:id="@+id/etfeedback"
         android:textSize="@dimen/normal_textsize"
         android:background="#ffffffff"

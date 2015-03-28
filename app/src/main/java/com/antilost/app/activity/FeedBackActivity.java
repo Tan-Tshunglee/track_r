@@ -1,34 +1,39 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
+import com.antilost.app.network.UserFeedbackCommand;
+import com.antilost.app.prefs.PrefsManager;
 
-public class FeedBackEditor extends Activity implements TrackRInitialize {
+public class FeedBackActivity extends Activity implements TrackRInitialize {
 
-    private Button  btmPush;
+    private Button btmPush;
     private ImageButton btmBack;
     private EditText etfeedback;
     private TextView tvtitle;
-    /** 按键监听*/
+    private PrefsManager mPrefManager;
+
+    /**
+     * 按键监听
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.feedback);
         initWidget();
         initWidgetState();
@@ -36,6 +41,10 @@ public class FeedBackEditor extends Activity implements TrackRInitialize {
         addWidgetListener();
         initDataSource();
 
+        mPrefManager = PrefsManager.singleInstance(this);
+        if(!mPrefManager.validUserLog())  {
+            Log.w("", "no valid user log");
+        }
     }
 
     @Override
@@ -79,24 +88,49 @@ public class FeedBackEditor extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
-                startActivity(intent);
-                FeedBackEditor.this.finish();
+                FeedBackActivity.this.finish();
             }
         });
 
         btmPush.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(FeedBackEditor.this, UserProfileActivity.class);
-                startActivity(intent);
-                FeedBackEditor.this.finish();
+                String feedback = etfeedback.getText().toString().trim();
+
+                if(TextUtils.isEmpty(feedback)) {
+                    Toast.makeText(FeedBackActivity.this, getString(R.string.empty_feedback_can_not_be_submitted), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                (new FeedBackUploader(mPrefManager.getUid(), feedback)).execute();
             }
         });
 
     }
 
+    private class FeedBackUploader extends AsyncTask<Void, Void, Void> {
+        private final UserFeedbackCommand mUploadCommand;
+
+        public FeedBackUploader(int uid, String feedback) {
+             mUploadCommand = new UserFeedbackCommand(uid, feedback);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mUploadCommand.execTask();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if(mUploadCommand.success()) {
+                Toast.makeText(FeedBackActivity.this, getString(R.string.feed_back_success), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_failed), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 
 }

@@ -84,10 +84,16 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                             scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
-                            if(mTrackIds.contains(deviceAddress) && !mPrefsManager.isMissedTrack(deviceAddress) && !mPrefsManager.isClosedTrack(deviceAddress)) {
+                            if(mTrackIds.contains(deviceAddress)
+                                    && !mPrefsManager.isMissedTrack(deviceAddress)
+                                    && !mPrefsManager.isClosedTrack(deviceAddress)) {
                                 //mPrefsManager.addTrackId(deviceAddress);
                                 Log.v(LOG_TAG, "find already bind device");
                                 return;
+                            }
+
+                            if(!mTrackIds.contains(deviceAddress)) {
+                                Log.v(LOG_TAG, "find a unknown track device.");
                             }
 
 //                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();

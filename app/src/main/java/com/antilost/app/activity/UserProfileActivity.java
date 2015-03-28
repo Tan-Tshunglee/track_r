@@ -19,7 +19,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -272,7 +271,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize, C
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(UserProfileActivity.this, FeedBackEditor.class);
+                Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
                 UserProfileActivity.this.finish();
 

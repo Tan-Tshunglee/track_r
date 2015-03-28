@@ -856,8 +856,11 @@ public class BluetoothLeService extends Service implements
         }
 
         disableGpsUpdate();
-        mAmapLocationManagerProxy.destroy();
-        mAmapLocationManagerProxy = null;
+        if(mAmapLocationManagerProxy != null) {
+            mAmapLocationManagerProxy.destroy();
+            mAmapLocationManagerProxy = null;
+        }
+
         mAlarmManager.cancel(mPendingIntent);
         startReadRssiRepeat(false, null);
     }

@@ -164,7 +164,7 @@
             android:label="@string/title_activity_user_profile"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
-            android:name=".activity.FeedBackEditor"
+            android:name=".activity.FeedBackActivity"
             android:label="@string/feedback_title"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
         <activity
@@ -222,11 +222,14 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></activity>
-        <activity
-            android:name=".camera.Camera_MainActivity_zql"
-            android:label="@string/title_activity_camera"
-            android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></activity>
+
+        <!--<activity-->
+            <!--android:name=".camera.Camera_MainActivity_zql"-->
+            <!--android:label="@string/title_activity_camera"-->
+            <!--android:launchMode="singleInstance"-->
+            <!--android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"></activity>-->
+
+
     </application>
 
 </manifest>
