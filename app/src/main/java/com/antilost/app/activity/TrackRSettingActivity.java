@@ -67,6 +67,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
     private CheckBox mPhoneAlert;
+    private View mDeclaredLost;
 
 
     @Override
@@ -83,6 +84,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
+        findViewById(R.id.declared_lost).setOnClickListener(this);
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
@@ -142,10 +144,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 //            trackImage.setImageBitmap(targetBitmap);
 
 
-        }else {
+        } else {
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+
+        mDeclaredLost = findViewById(R.id.declared_lost);
+
+        if(mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
+            mDeclaredLost.setVisibility(View.VISIBLE);
+        } else {
+            mDeclaredLost.setVisibility(View.GONE);
         }
 
     }

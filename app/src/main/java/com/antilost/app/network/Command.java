@@ -102,6 +102,10 @@ public abstract class Command {
 
     }
 
+    protected void addLine(String line) {
+        mRequestBuffer.append(line).append(LINE_SPLITTER);
+    }
+
     protected void postAction() {
         //do nothing
     }
