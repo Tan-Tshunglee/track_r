@@ -20,12 +20,10 @@ import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Tan on 2015/1/22.
- */
 public class PrefsManager {
 
     public static final String PREFS_UID_KEY = "uid";
+    @SuppressWarnings("unused")
     public static final String PREFS_NAME_KEY = "name";
     public static final String PREFS_PASSWORD_KEY = "password";
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
@@ -59,7 +57,7 @@ public class PrefsManager {
     private final Context mCtx;
     private SharedPreferences mPrefs;
 
-    public static final PrefsManager singleInstance(Context ctx) {
+    public final static PrefsManager singleInstance(Context ctx) {
         if(instance == null) {
             instance = new PrefsManager(ctx);
         }

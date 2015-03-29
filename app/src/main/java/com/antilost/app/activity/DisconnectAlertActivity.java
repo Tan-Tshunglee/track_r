@@ -82,7 +82,6 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mAddress = getIntent().getStringExtra(EXTRA_KEY_DEVICE_ADDRESS);
         mTrackR = mPrefsManager.getTrack(mAddress);
         ensureDialog();
-        mAlertDialog.show();
         mVibrator.vibrate(500);
 
 
@@ -149,16 +148,18 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     protected void onResume() {
         super.onResume();
         playAlertSound();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            }
-        }, 60 * 1000);
+
+        mAlertDialog.show();
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Window window = getWindow();
+//                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+//                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+//                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//            }
+//        }, 60 * 1000);
     }
 
     @Override
