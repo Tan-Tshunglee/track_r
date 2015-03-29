@@ -24,10 +24,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
+import com.antilost.app.network.Command;
+import com.antilost.app.network.LostDeclareCommand;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -68,6 +71,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private ConnectivityManager mConnectivityManager;
     private CheckBox mPhoneAlert;
     private View mDeclaredLost;
+    private TextView mDeclaredLostText;
 
 
     @Override
@@ -151,13 +155,22 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
 
         mDeclaredLost = findViewById(R.id.declared_lost);
-
+        mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
         if(mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
             mDeclaredLost.setVisibility(View.VISIBLE);
+            updateDeclareText();
         } else {
             mDeclaredLost.setVisibility(View.GONE);
         }
 
+    }
+
+    private void updateDeclareText() {
+        if(mPrefsManager.getDeclareLost(mBluetoothDeviceAddress)) {
+            mDeclaredLostText.setText(getString(R.string.revoke_statement));
+        } else {
+            mDeclaredLostText.setText(getString(R.string.declare_lost));
+        }
     }
 
     @Override
@@ -180,6 +193,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Thread t;
         switch (view.getId()) {
             case R.id.backBtn:
                 Intent i = new Intent(this, TrackRActivity.class);
@@ -200,7 +214,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     return;
                 }
-                Thread t = new Thread() {
+                t = new Thread() {
                     @Override
                     public void run() {
                         UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
@@ -219,6 +233,40 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                                 @Override
                                 public void run() {
                                     toast(getString(R.string.unbind_track_server_error));
+                                }
+                            });
+                        }
+                    }
+                };
+                t.start();
+                break;
+
+            case R.id.declared_lost:
+
+                t = new Thread () {
+                    @Override
+                    public void run() {
+                        int declareTobe = mPrefsManager.getDeclareLost(mBluetoothDeviceAddress)  ? 0 : 1;
+                        Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
+                        try {
+                            declareCommand.execTask();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(declareCommand.success()) {
+                            mPrefsManager.setDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.declare_success), Toast.LENGTH_SHORT).show();
+                                    updateDeclareText();
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.declaration_failed), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

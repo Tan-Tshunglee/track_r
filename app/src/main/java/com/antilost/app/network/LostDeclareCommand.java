@@ -24,7 +24,7 @@ public class LostDeclareCommand extends Command {
         setCommand("declare");
         addLine("type:" + mEnabled);
         addLine("uid:" + mUid);
-        addLine("track:" + mTrackAddress);
+        addLine("losserid:" + mTrackAddress);
         return mRequestBuffer.toString();
     }
 }

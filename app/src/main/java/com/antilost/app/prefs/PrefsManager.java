@@ -44,6 +44,7 @@ public class PrefsManager {
     public static final String PREFS_LAST_LOCATION_AMPA_KEY_PREFIX = "last_location";
     public static final String PREFS_LAST_LOST_TIME_KEY_PREFIX = "last_lost_time";
 
+    public static final String PREFS_DECLARE_LOST_KEY_PREFIX = "declare_lost_";
     public static final String PREFS_SLEEP_MODE_KEY = "sleep_mode_prefs_key";
 
     public static final String PREFS_SLEEP_START_TIME_KEY = "sleep_mode_start_time_key";
@@ -340,5 +341,18 @@ public class PrefsManager {
             return true;
         }
         return false;
+    }
+
+
+    public void setDeclareLost(String address, boolean declareLost) {
+        String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
+
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean(key, declareLost).commit();
+    }
+
+    public boolean getDeclareLost(String address) {
+        String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
+        return mPrefs.getBoolean(key, false);
     }
 }
