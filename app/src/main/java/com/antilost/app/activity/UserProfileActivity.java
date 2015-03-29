@@ -36,6 +36,7 @@ import com.antilost.app.network.VersionCheckCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.service.UpdateService;
+import com.antilost.app.util.CsstSHImageData;
 
 public class UserProfileActivity extends Activity implements TrackRInitialize,
         CompoundButton.OnCheckedChangeListener,
@@ -125,7 +126,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                             new Rect(0, 0, targetWidth, targetHeight),
                             null);
 
-                    imgUser_usericon.setImageBitmap(targetBitmap);
+//                    imgUser_usericon.setImageBitmap(targetBitmap);
+                    imgUser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
                 }
             }
             tvtime.setText(curUserDataBean.getMalarmtime() + getResources().getString(R.string.alarttime_second));
@@ -225,6 +227,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, TrackrUsereditor.class);
                 startActivity(intent);
+				UserProfileActivity.this.finish();
             }
         });
         rluser_safezone.setOnClickListener(new View.OnClickListener() {
@@ -233,17 +236,21 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, SafeZonewifiActivity.class);
                 startActivity(intent);
+				UserProfileActivity.this.finish();
             }
         });
         btmexit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+                // TODO Auto-generated method stub
 
                 mPrefsManager.setUid(-1);
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
                 intent.putExtra("exitcounter", "1");
                 startActivity(intent);
+                UserProfileActivity.this.finish();
+
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
             }
         });
@@ -259,9 +266,11 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
+                // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
-                intent.putExtra(AlartTime, curUserDataBean.getMalarmtime());
+                intent.putExtra(AlartTime,curUserDataBean.getMalarmtime());
                 startActivity(intent);
+                UserProfileActivity.this.finish();
 
             }
         });
@@ -271,8 +280,10 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
+                // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
+                UserProfileActivity.this.finish();
 
             }
         });
@@ -309,6 +320,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             // 弹出 退出确认框
             Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
             startActivity(intent);
+            UserProfileActivity.this.finish();
             return true;
         }
         return true;

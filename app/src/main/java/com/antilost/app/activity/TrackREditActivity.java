@@ -132,7 +132,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
 
         if(customIconUri != null) {
-            mImageView.setImageURI(customIconUri);
+//            mImageView.setImageURI(customIconUri);
+            mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(mBluetoothDeviceAddress)));
         }
 
         mTypeNames = getResources().getStringArray(R.array.default_type_names);
@@ -217,7 +218,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
                             Log.e(LOG_TAG, "Rename to address failed");
                         };
-                        mImageView.setImageBitmap(source);
+//                        mImageView.setImageBitmap(source);
+                        mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(source));
                     }catch(Exception ex ){
                         System.out.println("the error is "+ex.toString());
                     }

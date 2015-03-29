@@ -5,12 +5,12 @@
     android:layout_height="@dimen/title_bar_height"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:background="@drawable/usertitle_bkg"
+    android:background="@drawable/title_bar_bkg"
     android:gravity="center_vertical">
     <!-- 返回 -->
     <Button
         android:id="@+id/mBtnCancel"
-        android:layout_width="150dp"
+        android:layout_width="60dp"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -36,7 +36,7 @@
     <!-- 完成 -->
     <Button
         android:id="@+id/mBtnDone"
-        android:layout_width="150dp"
+        android:layout_width="40dp"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

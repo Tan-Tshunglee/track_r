@@ -7,12 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -21,6 +27,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.model.TrackR;
 import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -100,11 +107,45 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
-
+        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        ImageView trackImage = (ImageView) findViewById(R.id.icon);
         if(customIconUri != null) {
-            ImageView trackImage = (ImageView) findViewById(R.id.icon);
-            trackImage.setImageURI(customIconUri);
+
+//            trackImage.setImageURI(customIconUri);
+
+            trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
+//
+//            int targetWidth = 100;
+//            int targetHeight = 100;
+//            Bitmap targetBitmap = Bitmap.createBitmap(
+//                    targetWidth,
+//                    targetHeight,
+//                    Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(targetBitmap);
+//            Path path = new Path();
+//            path.addCircle(
+//                    ((float)targetWidth - 1) / 2,
+//                    ((float)targetHeight - 1) / 2,
+//                    (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
+//                    Path.Direction.CCW);
+//            canvas.clipPath(path);
+//            Bitmap sourceBitmap = BitmapFactory.decodeFile(customIconUri);
+//            canvas.drawBitmap(
+//                    sourceBitmap,
+//                    new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+//                    new Rect(0, 0, targetWidth, targetHeight),
+//                    null);
+//
+////                imgUser_usericon.setImageBitmap(targetBitmap);
+//
+//
+//            trackImage.setImageBitmap(targetBitmap);
+
+
+        }else {
+            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+            trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
 
     }
@@ -131,7 +172,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
-                finish();
+                Intent i = new Intent(this, TrackRActivity.class);
+                i.putExtra(TrackRSettingActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
+                startActivity(i);
+                TrackRSettingActivity.this.finish();
                 break;
             case R.id.turnOffTrackR:
                 if(mBluetoothLeService == null) {
@@ -193,5 +237,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            Intent intent = new Intent(TrackRSettingActivity.this, TrackRActivity.class);
+            startActivity(intent);
+            TrackRSettingActivity.this.finish();
+            return true;
+        }
+        return true;
     }
 }
