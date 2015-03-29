@@ -134,7 +134,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "BluetoothLeService onSharedPreferenceChanged() key " + key);
         if (PrefsManager.PREFS_TRACK_IDS_KEY.equals(key)) {
             Log.v(LOG_TAG, "key of preference changed is " + PrefsManager.PREFS_TRACK_IDS_KEY);
-            repeatInit();
+            repeatConnect();
         }
 
         if (PrefsManager.PREFS_SLEEP_MODE_KEY.equals(key)) {
@@ -260,7 +260,7 @@ public class BluetoothLeService extends Service implements
     }
 
     public void tryConnect() {
-        repeatInit();
+        repeatConnect();
     }
 
     public Location getLastLocation() {
@@ -325,11 +325,10 @@ public class BluetoothLeService extends Service implements
                     String ssid = info.getSSID();
                     boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
                     if (safeWifiEnabled &&
-                            ssid != null && (
-                            ssid.equals(homeWifiSsid)
-                                    || ssid.equals(officeSsid)
-                                    || ssid.equals(otherSsid)
-                    )) {
+                            ssid != null &&
+                            (    ssid.equals(homeWifiSsid)
+                                 || ssid.equals(officeSsid)
+                                 || ssid.equals(otherSsid))) {
                         Log.i(LOG_TAG, "we are in safe wifi zone, don't alert user");
                         return;
                     }
@@ -677,7 +676,7 @@ public class BluetoothLeService extends Service implements
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                repeatInit();
+                repeatConnect();
             }
         });
 
@@ -872,7 +871,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "onStartCommand");
         if (intent != null) {
             mLastStartCommandMeet = System.currentTimeMillis();
-            repeatInit();
+            repeatConnect();
 
             //intent not from repeat alarm alert;
             if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
@@ -884,12 +883,12 @@ public class BluetoothLeService extends Service implements
         return START_STICKY;
     }
 
-    private boolean repeatInit() {
+    private boolean repeatConnect() {
 
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Log.e(LOG_TAG, "Unable to repeatInit BluetoothManager.");
+                Log.e(LOG_TAG, "Unable to repeatConnect BluetoothManager.");
                 return false;
             }
         }
@@ -898,14 +897,16 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
             Log.v(LOG_TAG, "user has logout, exit.");
-            cleanupAndExit();
+            cleanupAndStopSelf();
             return true;
         }
 
         boolean sleepMode = mPrefsManager.getSleepMode();
         if (sleepMode) {
+            Log.v(LOG_TAG, "sleep mode on");
             boolean inSleepTime = inSleepTime();
             if(inSleepTime) {
+                Log.d(LOG_TAG, "we are in sleep duration");
                 if(!mSleeping) {
                     sleepAllTrackR();
                 }
@@ -914,7 +915,6 @@ public class BluetoothLeService extends Service implements
                     wakeAllTrackR();
                 }
             }
-            return true;
         } else {
             if(mSleeping) {
                 wakeAllTrackR();
@@ -935,7 +935,7 @@ public class BluetoothLeService extends Service implements
 
     }
 
-    private void cleanupAndExit() {
+    private void cleanupAndStopSelf() {
 
         Set<Map.Entry<String, BluetoothGatt>> entrys = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> e : entrys) {
