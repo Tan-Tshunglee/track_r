@@ -34,7 +34,7 @@ import java.util.Locale;
 public class ManualAddLocationActivity extends Activity implements View.OnClickListener,AMapLocationListener {
 
     private static final int REQUEST_CODE_ADD_TRACK_R = 1;
-    private static final String LOG_TAG = "ManualAddLocationActivity";
+    private static final String LOG_TAG = "ManualLocationActivity";
 
 
     private ListView mListView;
@@ -204,26 +204,22 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
-       Log.d(LOG_TAG,"the location is the lat is "+location.getLatitude()+ "  the long is "+location.getLongitude());
+        Log.d(LOG_TAG,"the location is the lat is "+location.getLatitude()+ "  the long is "+location.getLongitude());
         this.location =location;
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 

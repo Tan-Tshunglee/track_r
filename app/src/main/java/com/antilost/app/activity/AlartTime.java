@@ -58,7 +58,6 @@ public class AlartTime extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        //TODO Auto-generated method stub
         trackRDataBase = new TrackRDataBase(this);
         mDb = trackRDataBase.getWritDatabase();
         if(UserDataTable.getInstance().countRecord(mDb)!=0){
@@ -104,7 +103,6 @@ public class AlartTime extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         btmBack = (Button) findViewById(R.id.mBtnCancel);
         btmDone = (Button) findViewById(R.id.mBtnDone);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
@@ -114,22 +112,18 @@ public class AlartTime extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetState() {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void initWidgetListener() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void addWidgetListener() {
-        // TODO Auto-generated method stub
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-//                // TODO Auto-generated method stub
 //                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
 //                startActivity(intent);
                 AlartTime.this.finish();
@@ -138,7 +132,6 @@ public class AlartTime extends Activity implements TrackRInitialize {
         btmDone.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 if(curUserDataBean!=null){
                     curUserDataBean.setMalarmtime(Integer.toString(ialarttime));
                     UserDataTable.getInstance().update(mDb, curUserDataBean);
@@ -148,9 +141,6 @@ public class AlartTime extends Activity implements TrackRInitialize {
                 AlartTime.this.finish();
             }
         });
-
-
-
     }
 
 
