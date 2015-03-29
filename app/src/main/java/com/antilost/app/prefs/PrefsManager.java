@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.antilost.app.activity.BindingTrackRActivity;
+import com.antilost.app.activity.ScanTrackActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
@@ -87,7 +87,7 @@ public class PrefsManager {
 
     public boolean addTrackId(String trackId) {
         Set<String> ids = getTrackIds();
-        if(ids.size() >= BindingTrackRActivity.MAX_COUNT) {
+        if(ids.size() >= ScanTrackActivity.MAX_COUNT) {
             return false;
         }
         return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();

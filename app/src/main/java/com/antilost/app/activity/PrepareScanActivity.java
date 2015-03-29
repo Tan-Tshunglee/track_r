@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.antilost.app.R;
 
-public class StartBindActivity extends Activity implements View.OnClickListener {
+public class PrepareScanActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class StartBindActivity extends Activity implements View.OnClickListener 
                 showUserProfile();
                 break;
             case R.id.mainAddBtn:
-                Intent i = new Intent(this, BindingTrackRActivity.class);
+                Intent i = new Intent(this, ScanTrackActivity.class);
                 startActivity(i);
                 finish();
                 break;

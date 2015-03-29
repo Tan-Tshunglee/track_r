@@ -146,13 +146,13 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             Log.i(LOG_TAG, "get provider with name:" + providerName);
         }
 
-        if(locationProviders.contains(LocationManager.NETWORK_PROVIDER)
-                && !mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
-        } else if(locationProviders.contains(LocationManager.GPS_PROVIDER)
-                && !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
-        }
+//        if(locationProviders.contains(LocationManager.NETWORK_PROVIDER)
+//                && !mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
+//        } else if(locationProviders.contains(LocationManager.GPS_PROVIDER)
+//                && !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
+//        }
 
 
         if(!mPrefsManager.validUserLog()) {
@@ -219,7 +219,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     }
 
     private void addNewTrackR() {
-        Intent i = new Intent(this, StartBindActivity.class);
+        Intent i = new Intent(this, PrepareScanActivity.class);
         startActivity(i);
     }
 

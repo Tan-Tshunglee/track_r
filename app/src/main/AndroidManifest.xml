@@ -84,11 +84,11 @@
             android:name=".activity.RegistrationActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
-            android:name=".activity.StartBindActivity"
+            android:name=".activity.PrepareScanActivity"
             android:label="@string/title_activity_bind"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
-            android:name=".activity.BindingTrackRActivity"
+            android:name=".activity.ScanTrackActivity"
             android:label="@string/title_activity_binding"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity

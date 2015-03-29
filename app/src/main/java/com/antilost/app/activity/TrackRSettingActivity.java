@@ -215,8 +215,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     }
                 };
                 t.start();
-
-
                 break;
         }
     }

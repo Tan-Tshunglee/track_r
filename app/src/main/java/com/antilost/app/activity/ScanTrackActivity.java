@@ -27,7 +27,7 @@ import com.antilost.app.view.DotsMarquee;
 
 import java.util.Set;
 
-public class BindingTrackRActivity extends Activity implements View.OnClickListener {
+public class ScanTrackActivity extends Activity implements View.OnClickListener {
 
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
@@ -38,7 +38,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     public static final int MAX_RETRY_TIMES = 12;
     public static final int MSG_RETRY_SCAN_LE = 100;
 
-    private static final String LOG_TAG = "BindingTrackRActivity";
+    private static final String LOG_TAG = "ScanTrackActivity";
 
     //Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 5000;
@@ -96,9 +96,9 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
                                 Log.v(LOG_TAG, "find a unknown track device.");
                             }
 
-//                            Toast.makeText(BindingTrackRActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(ScanTrackActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
                             Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
-//                            startService(new Intent(BindingTrackRActivity.this, MonitorService.class));
+//                            startService(new Intent(ScanTrackActivity.this, MonitorService.class));
                             if(mPrefsManager.isClosedTrack(deviceAddress)) {
                                reconnectedClosedTrackR(deviceAddress);
                                return;
@@ -132,13 +132,13 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
     private void reconnectedClosedTrackR(String address) {
         Toast.makeText(this, "Reconnect Closed TrackR Found.", Toast.LENGTH_SHORT).show();
         mPrefsManager.saveClosedTrack(address, false);
-        startService(new Intent(BindingTrackRActivity.this, BluetoothLeService.class));
+        startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
         finish();
     }
 
     private void reconnectMissingTrack(String address) {
         mPrefsManager.saveMissedTrack(address, false);
-        startService(new Intent(BindingTrackRActivity.this, BluetoothLeService.class));
+        startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
         finish();
     }
 
@@ -162,14 +162,14 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 //                    @Override
 //                    public void run() {
 //                        if(command.success()) {
-//                            Toast.makeText(BindingTrackRActivity.this, getString(R.string.binding_success), Toast.LENGTH_SHORT).show();
-//                            Intent i = new Intent(BindingTrackRActivity.this, TrackREditActivity.class);
+//                            Toast.makeText(ScanTrackActivity.this, getString(R.string.binding_success), Toast.LENGTH_SHORT).show();
+//                            Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
 //                            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
 //                            startActivity(i);
 //                            finish();
 //                            return;
 //                        } else if(command.resultError()) {
-//                            Toast.makeText(BindingTrackRActivity.this, getString(R.string.already_binded), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ScanTrackActivity.this, getString(R.string.already_binded), Toast.LENGTH_SHORT).show();
 //                        } else if(command.isNetworkError()) {
 //                            Log.v(LOG_TAG, "network status error!");
 //                        } else if(command.isStatusBad()) {
@@ -186,7 +186,7 @@ public class BindingTrackRActivity extends Activity implements View.OnClickListe
 //        });
 //        t.start();
 
-        Intent i = new Intent(BindingTrackRActivity.this, TrackREditActivity.class);
+        Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
         i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
         startActivity(i);
         finish();

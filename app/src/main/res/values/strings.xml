@@ -186,5 +186,6 @@
     <string name="no_update_found">No update found.</string>
     <string name="your_app_is_updated">Your app is updated.</string>
     <string name="three_seconds">3S</string>
+    <string name="declare_lost">Declare Lost</string>
 
 </resources>
