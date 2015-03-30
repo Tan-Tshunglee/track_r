@@ -825,7 +825,6 @@ public class BluetoothLeService extends Service implements
         goForeground();
         registerAmapLocationListener();
 
-        fetchDeclaredLostTrackGps("00:00:00:00:00:00");
     }
 
     private void registerAmapLocationListener() {
@@ -1135,8 +1134,8 @@ public class BluetoothLeService extends Service implements
 
         if(mPrefsManager.isDeclaredLost(address)) {
             fetchDeclaredLostTrackGps(address);
-            return false;
-        }   
+            Log.v(LOG_TAG, "found one declared lost track r");
+        }
 
         if (mPrefsManager.isMissedTrack(address)) {
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);

@@ -16,6 +16,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -140,6 +142,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         }
     };
     private PrefsManager mPrefsManager;
+    private Button mRingButton;
 
     private void updateBatteryIcon(int level) {
         Log.i(LOG_TAG, "updateBatteryIcon " + level);
@@ -216,6 +219,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mDistanceImage = (ImageView) findViewById(R.id.distanceLevel);
         mTrackRIcon = (ImageView) findViewById(R.id.trackIcon);
         mBatteryLeve = (ImageView) findViewById(R.id.batteryStatus);
+
+        mRingButton = (Button) findViewById(R.id.ring);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
@@ -385,11 +390,15 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 }
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
+                    mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
                     silentRing();
                     mRingStateMap.put(mBluetoothDeviceAddress, false);
                 } else {
                     Log.d(LOG_TAG, "make trackr ring.");
                     makeTrackRRing();
+                    mRingButton.setBackgroundResource(R.drawable.ringing_btn_bkg);
+                    AnimationDrawable anim = (AnimationDrawable) mRingButton.getBackground();
+                    anim.start();
                     mRingStateMap.put(mBluetoothDeviceAddress, true);
                     mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
                 }
