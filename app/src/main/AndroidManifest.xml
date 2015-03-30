@@ -221,6 +221,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
 
+        <activity
+            android:name=".activity.HelpActivity"
+            android:label="@string/help_title"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
+
         <!-- <activity -->
         <!-- android:name=".camera.Camera_MainActivity_zql" -->
         <!-- android:label="@string/title_activity_camera" -->

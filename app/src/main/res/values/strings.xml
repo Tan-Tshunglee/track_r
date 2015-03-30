@@ -64,7 +64,7 @@
     <string name="share">Share</string>
     <string name="change">Change</string>
     <string name="key">Key</string>
-    <string name="itrak_alart">Itraker Alert</string>
+    <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
     <string name="turn_off_track_r">Turn off iTrack</string>
@@ -99,7 +99,7 @@
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="safezone_title">Safe zone</string>
-    <string name="safezone_message">Add safe wifi, when phone connected to safa wifi, Track App will only alarm far distance.</string>
+    <string name="safezone_message">Add safe wifi, when phone connected to safa wifi, iTrack App will only alarm far distance.</string>
     <string name="safezone_home">Home</string>
     <string name="safezone_office">Office</string>
     <string name="safezone_other">Other</string>
@@ -190,5 +190,10 @@
     <string name="revoke_statement">Revoke loss declaration</string>
     <string name="declare_success">Declaration success.</string>
     <string name="declaration_failed">Sorry declaration failed</string>
+
+
+    <string name="help_title">help</string>
+    <string name="help_privacy">Privacy Policy</string>
+    <string name="help_use">Terms of use</string>
 
 </resources>
