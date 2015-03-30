@@ -351,7 +351,7 @@ public class PrefsManager {
         editor.putBoolean(key, declareLost).commit();
     }
 
-    public boolean getDeclareLost(String address) {
+    public boolean isDeclaredLost(String address) {
         String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
         return mPrefs.getBoolean(key, false);
     }

@@ -21,4 +21,12 @@ public class FetchLostLocationCommand extends Command {
         addLine("losserid:" + mAddress);
         return mRequestBuffer.toString();
     }
+
+    public double getLongitude() {
+        return Float.valueOf(mResultMap.get("log"));
+    }
+
+    public double getLatitude() {
+        return Float.valueOf(mResultMap.get("lat"));
+    }
 }

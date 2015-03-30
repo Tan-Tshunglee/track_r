@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -41,7 +42,7 @@ import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.network.Command;
-import com.antilost.app.network.LostDeclareCommand;
+import com.antilost.app.network.FetchLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
@@ -122,6 +123,8 @@ public class BluetoothLeService extends Service implements
     private HashMap<String, Integer> mGattsBatteryLevel = new HashMap<String, Integer>();
 
     private HashSet<String> mLostGpsNeedUpdateIds = new HashSet<String>(5);
+
+    private HashMap<String, Long> mDeclaredLostTrackLastFetchedTime = new HashMap<String, Long>(5);
 
 
     //    private LocationManager mLocationManager;
@@ -246,10 +249,6 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 if(mLastLocation != null) {
 
-                    Command declareLost = new LostDeclareCommand(mPrefsManager.getUid(), deviceAddress, 1);
-                    if(declareLost.execTask()) {
-                        Log.v(LOG_TAG, "declare lost ok");
-                    }
                     Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
                     command.execTask();
                     if(command.success()) {
@@ -826,7 +825,7 @@ public class BluetoothLeService extends Service implements
         goForeground();
         registerAmapLocationListener();
 
-        uploadUnTrackGps("00:00:00:00:00:00");
+        fetchDeclaredLostTrackGps("00:00:00:00:00:00");
     }
 
     private void registerAmapLocationListener() {
@@ -1127,10 +1126,17 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
+
+
         if (mPrefsManager.isClosedTrack(address)) {
             Log.d(LOG_TAG, "don't connected to closed trackr");
             return false;
         }
+
+        if(mPrefsManager.isDeclaredLost(address)) {
+            fetchDeclaredLostTrackGps(address);
+            return false;
+        }   
 
         if (mPrefsManager.isMissedTrack(address)) {
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -1185,6 +1191,37 @@ public class BluetoothLeService extends Service implements
         });
 
         return true;
+    }
+
+    /**
+     * 向服务器请求声明丢失的防丢器位置
+     */
+    private void fetchDeclaredLostTrackGps(final String address) {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                Long lastTime = mDeclaredLostTrackLastFetchedTime.get(address);
+                if(lastTime == null) {
+                    FetchLostLocationCommand command = new FetchLostLocationCommand(address, mPrefsManager.getUid());
+                    command.execTask();
+                    if(command.success()) {
+                        try {
+                            Log.d(LOG_TAG, "fetch lost track's location success.");
+                            mDeclaredLostTrackLastFetchedTime.put(address, System.currentTimeMillis());
+                            Location loc = new Location(LocationManager.NETWORK_PROVIDER);
+                            loc.setLatitude(command.getLatitude());
+                            loc.setLongitude(command.getLongitude());
+                            mPrefsManager.saveLastLostLocation(loc, address);
+                            mPrefsManager.saveLastLostTime(address);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        };
+        t.start();
     }
 
     private void tryConnectGatt(String address, BluetoothDevice device) {

@@ -1,14 +1,12 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -157,7 +155,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
     private void updateDeclareText() {
-        if(mPrefsManager.getDeclareLost(mBluetoothDeviceAddress)) {
+        if(mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)) {
             mDeclaredLostText.setText(getString(R.string.revoke_statement));
             mDeclaredLost.setBackground(getResources().getDrawable(R.drawable.red_bkg));
         } else {
@@ -244,7 +242,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 t = new Thread () {
                     @Override
                     public void run() {
-                        int declareTobe = mPrefsManager.getDeclareLost(mBluetoothDeviceAddress)  ? 0 : 1;
+                        int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)  ? 0 : 1;
                         Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
                         try {
                             declareCommand.execTask();
