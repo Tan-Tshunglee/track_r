@@ -22,7 +22,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="120dp"
+        android:layout_height="121dp"
         android:background="@drawable/item_block_bkg"
         android:orientation="vertical">
         <!-- 家 -->
@@ -65,7 +65,7 @@
         <RelativeLayout
             android:id="@+id/rlhelp_use"
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:background="@android:color/transparent">
             <!-- office -->
             <TextView
