@@ -245,7 +245,7 @@ public final class CsstSHImageData {
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         final RectF rectF = new RectF(rect);
 //        final float roundPx = pixels;
-        final float roundPx = 99.f;
+        final float roundPx = 100.f;
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
@@ -272,7 +272,7 @@ public final class CsstSHImageData {
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         final RectF rectF = new RectF(rect);
 //        final float roundPx = pixels;
-        final float roundPx = 95.f;
+        final float roundPx = 99.f;
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);

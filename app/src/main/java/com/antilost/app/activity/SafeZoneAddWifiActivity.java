@@ -104,8 +104,8 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
+//                startActivity(intent);
                 SafeZoneAddWifiActivity.this.finish();
             }
         });
@@ -138,8 +138,8 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
                 mPrefsManager.setOtherSsid(ssid);
                 break;
         }
-        Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
+//        startActivity(intent);
         SafeZoneAddWifiActivity.this.finish();
     }
 
@@ -148,8 +148,8 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
+//            startActivity(intent);
             SafeZoneAddWifiActivity.this.finish();
             return true;
         }
