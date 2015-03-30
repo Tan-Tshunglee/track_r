@@ -1,19 +1,15 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -89,6 +85,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
         findViewById(R.id.declared_lost).setOnClickListener(this);
+        findViewById(R.id.icon).setOnClickListener(this);
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
@@ -115,37 +112,15 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
         ImageView trackImage = (ImageView) findViewById(R.id.icon);
+
+
+
+
         if(customIconUri != null) {
 
 //            trackImage.setImageURI(customIconUri);
 
             trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
-//
-//            int targetWidth = 100;
-//            int targetHeight = 100;
-//            Bitmap targetBitmap = Bitmap.createBitmap(
-//                    targetWidth,
-//                    targetHeight,
-//                    Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(targetBitmap);
-//            Path path = new Path();
-//            path.addCircle(
-//                    ((float)targetWidth - 1) / 2,
-//                    ((float)targetHeight - 1) / 2,
-//                    (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
-//                    Path.Direction.CCW);
-//            canvas.clipPath(path);
-//            Bitmap sourceBitmap = BitmapFactory.decodeFile(customIconUri);
-//            canvas.drawBitmap(
-//                    sourceBitmap,
-//                    new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-//                    new Rect(0, 0, targetWidth, targetHeight),
-//                    null);
-//
-////                imgUser_usericon.setImageBitmap(targetBitmap);
-//
-//
-//            trackImage.setImageBitmap(targetBitmap);
 
 
         } else {
@@ -153,6 +128,22 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
+        if(mBluetoothLeService == null) {
+            trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+        } else {
+            if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
+                trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+            } else {
+                if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    trackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
+                } else {
+                    trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                }
+            }
+        }
+
+
+
 
         mDeclaredLost = findViewById(R.id.declared_lost);
         mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
@@ -168,8 +159,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private void updateDeclareText() {
         if(mPrefsManager.getDeclareLost(mBluetoothDeviceAddress)) {
             mDeclaredLostText.setText(getString(R.string.revoke_statement));
+            mDeclaredLost.setBackground(getResources().getDrawable(R.drawable.red_bkg));
         } else {
             mDeclaredLostText.setText(getString(R.string.declare_lost));
+            mDeclaredLost.setBackground(getResources().getDrawable(R.drawable.blue_bkg));
         }
     }
 
@@ -200,6 +193,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 i.putExtra(TrackRSettingActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
                 startActivity(i);
                 TrackRSettingActivity.this.finish();
+                break;
+            case R.id.icon:
+                i = new Intent(TrackRSettingActivity.this, TrackREditActivity.class);
+                i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
+                startActivity(i);
                 break;
             case R.id.turnOffTrackR:
                 if(mBluetoothLeService == null) {
@@ -300,8 +298,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(TrackRSettingActivity.this, TrackRActivity.class);
-            startActivity(intent);
+
+            Intent i = new Intent(this, TrackRActivity.class);
+            i.putExtra(TrackRSettingActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
+            startActivity(i);
             TrackRSettingActivity.this.finish();
             return true;
         }

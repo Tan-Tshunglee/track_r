@@ -189,5 +189,8 @@
     <string name="declare_lost">Declare Lost</string>
     <string name="revoke_statement">Revoke statement</string>
     <string name="declare_success">Declaration success.</string>
-    <string name="declaration_failed">Sorry declaration failed</string>
+
+    <string name="help_title">帮助</string>
+    <string name="help_privacy">隐私协议</string>
+    <string name="help_use">使用说明</string>
 </resources>

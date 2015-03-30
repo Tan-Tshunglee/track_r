@@ -209,6 +209,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:background="@android:color/transparent"
+                    android:visibility="gone"
                     android:gravity="center_vertical">
                     <!-- language text-->
                     <TextView
@@ -233,11 +234,7 @@
                         android:paddingRight="20dp"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
-                <!-- 分隔线 -->
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+
                 <!--睡眠模式 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -317,17 +314,13 @@
 
 
                 </RelativeLayout>
-                <!-- 分隔线 -->
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
                 <!-- 背景选择 -->
                 <RelativeLayout
                     android:id="@+id/rluser_selectbackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical">
                     <!-- selectbackground text-->
@@ -391,7 +384,7 @@
                     android:layout_height="1dp"
                     android:background="@color/user_data_text" />
 
-                <!-- 背景选择 -->
+                <!-- 更新版本 -->
                 <RelativeLayout
                     android:id="@+id/rluser_version"
                     android:layout_width="wrap_content"
@@ -420,14 +413,50 @@
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
+
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!-- help -->
+                <RelativeLayout
+                    android:id="@+id/rluser_helep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical">
+                    <!-- selectbackground text-->
+                    <TextView
+                        android:id="@+id/tvuserhelp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/help"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- select switch-->
+                    <ImageButton
+                        android:id="@+id/imguserhelp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+
             </LinearLayout>
 
+            <!-- 分隔线 -->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="10dp"
-                android:background="@color/user_data_text"
-                android:visibility="invisible" />
-
+                android:visibility="invisible"
+                />
             <Button
                 android:id="@+id/mbtnuserexit"
                 android:layout_width="wrap_content"
@@ -439,11 +468,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_title_size" />
 
-            <!-- 分隔符 -->
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:visibility="invisible" />
+
         </LinearLayout>
     </ScrollView>
 

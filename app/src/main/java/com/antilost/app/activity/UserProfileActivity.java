@@ -54,7 +54,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private ImageView imgUser_usericon;
     private TextView tvtitle, tvtime;
     private RelativeLayout rluser_editor, rluser_noticetimer, rluser_language,
-            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone;
+            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone,rluser_help;
     private Button btmexit;
     private CheckBox cbAppring, cbSafeZone;
     private PrefsManager mPrefsManager;
@@ -155,6 +155,9 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         rluser_version = (RelativeLayout) findViewById(R.id.rluser_version);
         rluser_background = (RelativeLayout) findViewById(R.id.rluser_selectbackground);
         rluser_safezone = (RelativeLayout) findViewById(R.id.rluser_safezone);
+
+        rluser_help = (RelativeLayout) findViewById(R.id.rluser_helep);
+
         btmexit = (Button) findViewById(R.id.mbtnuserexit);
         cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
         cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
@@ -221,6 +224,18 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
     @Override
     public void initWidgetListener() {
+
+        rluser_help.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(UserProfileActivity.this, HelpActivity.class);
+                startActivity(intent);
+                UserProfileActivity.this.finish();
+            }
+        });
+
+
         rluser_editor.setOnClickListener(new View.OnClickListener() {
 
             @Override

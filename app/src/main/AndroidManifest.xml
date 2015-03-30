@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <uses-feature
@@ -14,6 +14,9 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <supports-screens android:smallScreens="true"
+        android:normalScreens="true" android:largeScreens="true"
+        android:resizeable="true" android:anyDensity="true" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -220,6 +223,12 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
+
+        <activity
+            android:name=".activity.HelpActivity"
+            android:label="@string/help_title"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
 
         <!-- <activity -->
         <!-- android:name=".camera.Camera_MainActivity_zql" -->

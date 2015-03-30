@@ -134,47 +134,10 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
-//                        //debug
-//                        String uri = String.format(Locale.ENGLISH, "geo:%f,%f",38.899533,-77.036476);
-////                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//                        intent = new Intent(ManualAddLocationActivity.this, AmapActivity.class);
-//                        intent.setAction(Intent.ACTION_VIEW);
-//                        intent.setData(Uri.parse(uri));
-//
-//                        try {
-//                            ManualAddLocationActivity.this.startActivity(intent);
-//                        } catch (Exception e1) {
-//                            e1.printStackTrace();
-//                        }
                         Log.d(LOG_TAG,"the string is "+mPrefsManager.getHomeWifiSsid());
-                        ;
-
-//                        String uri = String.format(Locale.ENGLISH, "geo:%f,%f",mPrefsManager.getLastAMPALocation().getLatitude(),mPrefsManager.getLastAMPALocation().getLongitude());
-////                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
-//                        Log.d(LOG_TAG,"the string is "+uri);
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//                        intent = new Intent(ManualAddLocationActivity.this, AmapActivity.class);
-//                        intent.setAction(Intent.ACTION_VIEW);
-//                        intent.setData(Uri.parse(uri));
-//                        try {
-//                            ManualAddLocationActivity.this.startActivity(intent);
-//                        } catch (Exception e1) {
-//                            e1.printStackTrace();
-//                        }
-
-
-
-
-
-
 
                         String  Name = inputServer.getText().toString().trim();
                         String timerStringday =new SimpleDateFormat("yyyy年MM月dd日hh时mm分").format(new java.util.Date());
-
-
-
 
                         Location location    = GpsManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if(location==null){
@@ -182,8 +145,9 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                         }else{
 //                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)location.getLongitude(),(float)location.getLongitude()));
                               LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)mPrefsManager.getLastAMPALocation().getLatitude(),(float)mPrefsManager.getLastAMPALocation().getLongitude()));
+                            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
                         }
-
+                        Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
                         if(LocationTable.getInstance().query(mDb)!=null){
                             locationBeans =  LocationTable.getInstance().query(mDb);
                             locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans);

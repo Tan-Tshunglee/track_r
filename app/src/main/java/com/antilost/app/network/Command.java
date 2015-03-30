@@ -12,6 +12,9 @@ public abstract class Command {
 
     public static final String COMMAND_ABBR_PREFIX = "cmd:";
     public static final String LINE_SPLITTER = "\r\n";
+    public static final String STATUS = "status";
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "err";
 
     protected boolean mStatusBad = false;
     protected boolean mNetworkError = false;
@@ -59,8 +62,8 @@ public abstract class Command {
             return false;
         }
 
-        String status = mResultMap.get("status");
-        return "success".equals(status);
+        String status = mResultMap.get(STATUS);
+        return SUCCESS.equals(status);
 
     }
 
@@ -69,8 +72,8 @@ public abstract class Command {
             return false;
         }
 
-        String status = mResultMap.get("status");
-        return "err".equals(status);
+        String status = mResultMap.get(STATUS);
+        return ERROR.equals(status);
     }
 
     public boolean isNetworkError() {

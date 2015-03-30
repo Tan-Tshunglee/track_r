@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -75,6 +76,8 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         TextView last = (TextView) convertView.findViewById(R.id.lastTimeAndLocation);
         ImageButton icon = (ImageButton) convertView.findViewById(R.id.icon);
 
+//        LinearLayout ls = (LinearLayout) convertView.findViewById(R.id.iconout);
+
         String address = mIds.get(position);
         TrackR track = mPrefs.getTrack(address);
         if(track == null) {
@@ -91,7 +94,20 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 
 
         icon.setTag(position);
-        icon.setOnClickListener(this);
+        Uri customIconUri = CsstSHImageData.getIconImageUri(address);
+
+        if(customIconUri != null) {
+//            icon.setImageURI(customIconUri);
+//            icon.setScaleType(ImageView.ScaleType.FIT_XY);
+            Log.d(LOG_TAG,"customIconUri != null");
+
+            icon.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(address)));
+            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        } else {
+            icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+//        icon.setOnClickListener(this);
         BluetoothLeService service = mActivity.getBluetoothLeService();
 
         if (mPrefs.isClosedTrack(address)) {
@@ -125,17 +141,7 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
             }
         }
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(address);
 
-        if(customIconUri != null) {
-//            icon.setImageURI(customIconUri);
-//            icon.setScaleType(ImageView.ScaleType.FIT_XY);
-            Log.d(LOG_TAG,"customIconUri != null");
-            icon.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(address)));
-        } else {
-            icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        }
 
     }
 

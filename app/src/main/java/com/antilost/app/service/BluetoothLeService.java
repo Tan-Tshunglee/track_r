@@ -40,6 +40,9 @@ import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
+import com.antilost.app.network.Command;
+import com.antilost.app.network.LostDeclareCommand;
+import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
@@ -237,8 +240,29 @@ public class BluetoothLeService extends Service implements
                 }
             };
 
-    private void uploadUnTrackGps(String deviceAddress) {
+    private void uploadUnTrackGps(final String deviceAddress) {
+        Thread t = new Thread()  {
+            @Override
+            public void run() {
+                if(mLastLocation != null) {
 
+                    Command declareLost = new LostDeclareCommand(mPrefsManager.getUid(), deviceAddress, 1);
+                    if(declareLost.execTask()) {
+                        Log.v(LOG_TAG, "declare lost ok");
+                    }
+                    Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
+                    command.execTask();
+                    if(command.success()) {
+                        Log.v(LOG_TAG, "Update unkown track r 's location successfully.");
+                    } else {
+                        Log.v(LOG_TAG, "Fail to update unkown track r 's location ");
+                    }
+                } else {
+                    Log.d(LOG_TAG, "found unknown track ,but location is missing.");
+                }
+            }
+        };
+        t.start();
     }
 
     private void reconnectMissingTrack(String address) {
@@ -720,6 +744,7 @@ public class BluetoothLeService extends Service implements
     public void onCreate() {
         super.onCreate();
 
+
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -801,6 +826,7 @@ public class BluetoothLeService extends Service implements
         goForeground();
         registerAmapLocationListener();
 
+        uploadUnTrackGps("00:00:00:00:00:00");
     }
 
     private void registerAmapLocationListener() {
@@ -912,6 +938,8 @@ public class BluetoothLeService extends Service implements
             }
             updateRepeatAlarmRegister();
         }
+
+
         return START_STICKY;
     }
 

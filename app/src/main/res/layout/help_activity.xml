@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addModelcontent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/user_bgd"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/rluser_topback"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+
+        <include layout="@layout/csst_title_layout_trigle" />
+    </RelativeLayout>
+    <!-- 分隔符 -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/item_block_bkg"
+        android:orientation="vertical">
+        <!-- 家 -->
+        <RelativeLayout
+            android:id="@+id/rlhelp_privacity"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical">
+            <!-- 图片家 -->
+            <TextView
+                android:id="@+id/tvsafezonehomeicon"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/home"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="@string/help_privacy"
+                android:textColor="@color/user_data_text"
+                android:textSize="@dimen/itemtextsize" />
+            <!--家 点击wifi-->
+            <TextView
+                android:id="@+id/tvsafezonehomeadd"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/tri_right"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:textColor="@color/user_data_text"
+                android:textSize="@dimen/normal_textsize" />
+        </RelativeLayout>
+        <!-- 分隔线 -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/user_data_text" />
+        <!-- OFFICE -->
+        <RelativeLayout
+            android:id="@+id/rlhelp_use"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:background="@android:color/transparent">
+            <!-- office -->
+            <TextView
+                android:id="@+id/tvsafezone_officicon"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/office"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="@string/help_use"
+                android:textColor="@color/user_data_text"
+                android:textSize="@dimen/itemtextsize" />
+            <!-- office add wifi -->
+            <TextView
+                android:id="@+id/tvsafezone_officeadd"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/tri_right"
+                android:gravity="center"
+                android:paddingRight="15dp"
+                android:textColor="@color/user_data_text"
+                android:textSize="@dimen/normal_textsize" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

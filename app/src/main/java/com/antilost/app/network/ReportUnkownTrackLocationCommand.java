@@ -1,5 +1,7 @@
 package com.antilost.app.network;
 
+import android.location.Location;
+
 /**
  * Created by Tan on 2015/3/29.
  */
@@ -9,16 +11,17 @@ public class ReportUnkownTrackLocationCommand extends Command {
     private final String mLongitude;
     private final String mLatitude;
 
-    public ReportUnkownTrackLocationCommand(String address, String log, String lat) {
+    public ReportUnkownTrackLocationCommand(String address, Location loc) {
         mAddress = address;
-        mLongitude = log;
-        mLatitude = lat;
+        mLongitude = String.valueOf(loc.getLongitude());
+        mLatitude = String.valueOf(loc.getLatitude());
     }
     @Override
     protected String makeRequestString() {
         setCommand("setothergps");
         addLine("losserid:" + mAddress);
-        addLine("log:" + mLatitude);
+        addLine("log:" + mLongitude);
+        addLine("lag:" + mLatitude);
         return mRequestBuffer.toString();
     }
 }

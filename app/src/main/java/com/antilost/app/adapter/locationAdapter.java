@@ -2,6 +2,8 @@ package com.antilost.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.activity.AmapActivity;
 import com.antilost.app.model.LocationBean;
+import com.antilost.app.util.LocUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -67,15 +70,27 @@ public class locationAdapter extends BaseAdapter implements View.OnClickListener
                 String uri = String.format(Locale.ENGLISH, "geo:%f,%f",locationBeans.get(positions).getMlatitude(),locationBeans.get(positions).getMlongitude());
 //                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
                 Log.d(LOG_TAG,"the string is "+uri);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                intent = new Intent(context, AmapActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(uri));
-                try {
-                    context.startActivity(intent);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+
+
+                Location location = new Location(LocationManager.NETWORK_PROVIDER);
+                double longitude= Double.valueOf(locationBeans.get(positions).getMlatitude());
+                double latitude  = Double.valueOf(locationBeans.get(positions).getMlongitude());
+
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                LocUtils.viewLocation(context, location);
+
+//
+//
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//                intent = new Intent(context, AmapActivity.class);
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse(uri));
+//                try {
+//                    context.startActivity(intent);
+//                } catch (Exception e1) {
+//                    e1.printStackTrace();
+//                }
             }
             }
         );

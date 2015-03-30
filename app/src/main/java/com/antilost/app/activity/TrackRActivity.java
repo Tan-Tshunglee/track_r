@@ -1,6 +1,7 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -224,37 +226,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             mTrackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
 
 
-//            Bitmap sourceBitmap = BitmapFactory.decodeFile(customIconUri);
-//            int targetWidth = 100;
-//            int targetHeight = 100;
-//            Bitmap targetBitmap = Bitmap.createBitmap(
-//                    targetWidth,
-//                    targetHeight,
-//                    Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(targetBitmap);
-//            Path path = new Path();
-//            path.addCircle(
-//                    ((float)targetWidth - 1) / 2,
-//                    ((float)targetHeight - 1) / 2,
-//                    (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
-//                    Path.Direction.CCW);
-//            canvas.clipPath(path);
-//            Bitmap sourceBitmap =BitmapFactory.decodeFile(customIconUri);
-//            canvas.drawBitmap(
-//                    sourceBitmap,
-//                    new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-//                    new Rect(0, 0, targetWidth, targetHeight),
-//                    null);
-//
-////                imgUser_usericon.setImageBitmap(targetBitmap);
-//
-//
-//            mTrackImage.setImageBitmap(targetBitmap);
-
-
-
-
-
 //            mTrackImage.setImageURI(customIconUri);
         }else {
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
@@ -293,21 +264,28 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     }
 
+
+
+
     private void updateStateUi() {
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+            mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
                 mConnection.setText(R.string.closed);
+                mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             } else {
                 if(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
                     mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);
                     mConnection.setText(R.string.connected);
+                    mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
                 } else {
                     mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+                    mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                     mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
                     mConnection.setText(R.string.disconnected);
                 }
