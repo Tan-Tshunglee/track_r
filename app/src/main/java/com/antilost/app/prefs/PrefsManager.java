@@ -355,4 +355,15 @@ public class PrefsManager {
         String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
         return mPrefs.getBoolean(key, false);
     }
+
+    public void cleanUpAfterUserLogout() {
+        Set<String> oldIds = mPrefs.getStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>());
+
+        for(String id: oldIds) {
+            setDeclareLost(id, false);
+            saveClosedTrack(id, false);
+            saveMissedTrack(id, false);
+        }
+        mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()).commit();
+    }
 }

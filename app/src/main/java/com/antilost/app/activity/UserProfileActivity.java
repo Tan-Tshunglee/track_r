@@ -54,7 +54,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private ImageView imgUser_usericon;
     private TextView tvtitle, tvtime;
     private RelativeLayout rluser_editor, rluser_noticetimer, rluser_language,
-            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone,rluser_help;
+            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone, rluser_help;
     private Button btmexit;
     private CheckBox cbAppring, cbSafeZone;
     private PrefsManager mPrefsManager;
@@ -266,6 +266,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 startActivity(intent);
                 UserProfileActivity.this.finish();
 
+
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
             }
         });
@@ -283,7 +284,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
-                intent.putExtra(AlartTime,curUserDataBean.getMalarmtime());
+                intent.putExtra(AlartTime, curUserDataBean.getMalarmtime());
                 startActivity(intent);
 //                UserProfileActivity.this.finish();
 
@@ -366,15 +367,15 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             t.setPostExective(new Handler(), new Runnable() {
                 @Override
                 public void run() {
-                    if(mCheckingUpdatingDialog.isShowing()) {
+                    if (mCheckingUpdatingDialog.isShowing()) {
                         mCheckingUpdatingDialog.dismiss();
 
-                        if(!mCommand.success()) {
+                        if (!mCommand.success()) {
                             Log.e(LOG_TAG, "network request failed");
                             showUserNoUpdateFound();
                             return;
                         }
-                        if(mCommand.hasNewVersion()) {
+                        if (mCommand.hasNewVersion()) {
                             Log.v(LOG_TAG, "found new version");
                             showDialog(PROMPT_USER_UPDATE_OR_NOT_DIALOG_ID);
                         } else {
@@ -410,7 +411,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
                 return mCheckingUpdatingDialog;
             case PROMPT_USER_UPDATE_OR_NOT_DIALOG_ID:
-                if(mPromtUpdateOrNotDialog != null) {
+                if (mPromtUpdateOrNotDialog != null) {
                     return mPromtUpdateOrNotDialog;
                 }
 
@@ -446,7 +447,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        if(dialogInterface == mPromtUpdateOrNotDialog) {
+        if (dialogInterface == mPromtUpdateOrNotDialog) {
             switch (i) {
                 case DialogInterface.BUTTON_NEGATIVE:
                     //do nothing

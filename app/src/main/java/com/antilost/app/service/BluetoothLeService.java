@@ -1020,6 +1020,8 @@ public class BluetoothLeService extends Service implements
 
     private void cleanupAndStopSelf() {
 
+        mPrefsManager.cleanUpAfterUserLogout();
+
         Set<Map.Entry<String, BluetoothGatt>> entrys = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> e : entrys) {
             String address = e.getKey();
