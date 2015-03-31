@@ -10,7 +10,7 @@
 
         <ImageButton
             android:id="@+id/btnlocatinBack"
-            android:layout_width="75dp"
+            android:layout_width="60dp"
             android:layout_height="fill_parent"
             android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
@@ -28,7 +28,7 @@
 
         <ImageButton
             android:id="@+id/btnlocationAdd"
-            android:layout_width="75dp"
+            android:layout_width="60dp"
             android:layout_height="fill_parent"
             android:src="@drawable/add_btn"
             android:layout_centerVertical="true"

@@ -231,7 +231,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, HelpActivity.class);
                 startActivity(intent);
-                UserProfileActivity.this.finish();
+//                UserProfileActivity.this.finish();
             }
         });
 
@@ -242,7 +242,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, TrackrUsereditor.class);
                 startActivity(intent);
-				UserProfileActivity.this.finish();
+//				UserProfileActivity.this.finish();
             }
         });
         rluser_safezone.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +251,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, SafeZonewifiActivity.class);
                 startActivity(intent);
-				UserProfileActivity.this.finish();
+//				UserProfileActivity.this.finish();
             }
         });
         btmexit.setOnClickListener(new View.OnClickListener() {
@@ -285,7 +285,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
                 intent.putExtra(AlartTime,curUserDataBean.getMalarmtime());
                 startActivity(intent);
-                UserProfileActivity.this.finish();
+//                UserProfileActivity.this.finish();
 
             }
         });
@@ -298,7 +298,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
-                UserProfileActivity.this.finish();
+//                UserProfileActivity.this.finish();
 
             }
         });

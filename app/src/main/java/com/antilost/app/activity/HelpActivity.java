@@ -74,8 +74,8 @@ public class HelpActivity extends Activity implements TrackRInitialize {
             @Override
             public void onClick(View arg0) {
                 // 弹出 退出确认框
-                Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
+//                startActivity(intent);
                 HelpActivity.this.finish();
             }
         });
@@ -121,8 +121,8 @@ public class HelpActivity extends Activity implements TrackRInitialize {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
+//            startActivity(intent);
             HelpActivity.this.finish();
             return true;
         }

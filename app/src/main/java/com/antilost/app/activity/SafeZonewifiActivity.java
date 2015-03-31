@@ -114,7 +114,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_HOME);
                 startActivity(intent);
-                SafeZonewifiActivity.this.finish();
+//                SafeZonewifiActivity.this.finish();
 
             }
         });
@@ -127,7 +127,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OFFICE);
                 startActivity(intent);
-                SafeZonewifiActivity.this.finish();
+//                SafeZonewifiActivity.this.finish();
             }
         });
 
@@ -139,7 +139,7 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OTHER);
                 startActivity(intent);
-                SafeZonewifiActivity.this.finish();
+//                SafeZonewifiActivity.this.finish();
             }
         });
     }
@@ -161,8 +161,8 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
+//            startActivity(intent);
             SafeZonewifiActivity.this.finish();
             return true;
         }
