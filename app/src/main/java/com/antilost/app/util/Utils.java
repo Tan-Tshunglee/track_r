@@ -7,6 +7,8 @@ import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -71,5 +73,16 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static final String convertTimeStampToLiteral(long timeStamp) {
+
+        if(timeStamp  == -1) {
+            return null;
+        }
+        Date date = new Date(timeStamp);
+        return DATE_FORMAT.format(date);
     }
 }

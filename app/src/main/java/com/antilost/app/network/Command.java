@@ -15,6 +15,7 @@ public abstract class Command {
     public static final String STATUS = "status";
     public static final String SUCCESS = "success";
     public static final String ERROR = "err";
+    public static final String TIME = "time";
 
     protected boolean mStatusBad = false;
     protected boolean mNetworkError = false;

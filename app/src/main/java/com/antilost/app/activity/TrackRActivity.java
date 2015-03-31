@@ -98,6 +98,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case MSG_RESET_RING_STATE:
                     mRingStateMap.put(mBluetoothDeviceAddress, false);
+                    mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
                     break;
                 case MSG_ENABLE_RING_BUTTON:
                     break;
