@@ -45,13 +45,11 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         imgBack = (ImageButton) findViewById(R.id.mBtnCancel);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         rluser_topback = (RelativeLayout) findViewById(R.id.rluser_topback);
@@ -62,20 +60,15 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetState() {
-        // TODO Auto-generated method stub
         tvtitle.setText(this.getResources().getString(R.string.help_title));
     }
 
     @Override
     public void initWidgetListener() {
-        // TODO Auto-generated method stub
         imgBack.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // 弹出 退出确认框
-//                Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
-//                startActivity(intent);
                 HelpActivity.this.finish();
             }
         });
@@ -83,8 +76,6 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                // TODO Auto-generated method stub
                 Uri uri = Uri.parse("http://wifi.360.cn/howto.html");
                 Intent it = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(it);
@@ -95,7 +86,6 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                  Uri uri = Uri.parse("http://www.chofn.com/ysxy.html");
                  Intent it = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(it);
@@ -106,7 +96,6 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void addWidgetListener() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -116,16 +105,4 @@ public class HelpActivity extends Activity implements TrackRInitialize {
         initWidgetState();
     }
 
-
-    public boolean onKeyDown(int keyCode,KeyEvent event) {
-        // 是否触发按键为back键
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // 弹出 退出确认框
-//            Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
-//            startActivity(intent);
-            HelpActivity.this.finish();
-            return true;
-        }
-        return true;
-    }
 }

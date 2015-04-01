@@ -115,7 +115,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        // TODO Auto-generated method stub
         trackRDataBase = new TrackRDataBase(this);
 
         mDb = trackRDataBase.getWritDatabase();
@@ -178,7 +177,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         btmBack = (Button) findViewById(R.id.mBtnCancel);
         btmDone = (Button) findViewById(R.id.mBtnDone);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
@@ -202,14 +200,12 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetState() {
-        // TODO Auto-generated method stub
         mBtnListener = new BtnListener();
         btmDone.setVisibility(View.GONE);
     }
 
     @Override
     public void initWidgetListener() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -218,7 +214,6 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
                 startActivity(intent);
                 TrackrUsereditor.this.finish();

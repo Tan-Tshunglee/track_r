@@ -97,7 +97,6 @@ public class LocationTable {
         }
         c.close();
         return list;
-        // TODO Auto-generated method stub
     }
 
 

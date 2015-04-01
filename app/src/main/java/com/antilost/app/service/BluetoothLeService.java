@@ -43,6 +43,7 @@ import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.network.Command;
 import com.antilost.app.network.FetchLostLocationCommand;
+import com.antilost.app.network.ReportLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
@@ -320,7 +321,7 @@ public class BluetoothLeService extends Service implements
                 mBluetoothCallbacks.remove(gatt.getDevice().getAddress());
                 return;
             }
-            String address = gatt.getDevice().getAddress();
+            final String address = gatt.getDevice().getAddress();
             Integer oldState = mGattConnectionStates.put(address, newState);
             if (oldState == null) {
                 oldState = BluetoothProfile.STATE_DISCONNECTED;
@@ -357,6 +358,17 @@ public class BluetoothLeService extends Service implements
                     mPrefsManager.saveMissedTrack(address, true);
                     if (mLastLocation != null) {
                         mPrefsManager.saveLastLostLocation(mLastLocation, address);
+
+                        Thread t = new Thread() {
+                            @Override
+                            public void run() {
+                                ReportLostLocationCommand command
+                                        = new ReportLostLocationCommand(mPrefsManager.getUid(), mLastLocation, address);
+                                command.execTask();
+                                command.dumpResult();
+                            }
+                        };
+                        t.start();
                     }
 
                     mPrefsManager.saveLastLostTime(address);

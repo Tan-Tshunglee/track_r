@@ -14,12 +14,12 @@ import java.io.InputStream;
 /**
  * Created by Tan on 2015/3/6.
  */
-public class UploadImageCommand extends Command {
+public class UpdateTrackImageCommand extends Command {
 
     private final String mAddress;
     private final int mUid;
 
-    public UploadImageCommand(int uid, String address) {
+    public UpdateTrackImageCommand(int uid, String address) {
         mUid  = uid;
         mAddress = address;
     }

@@ -57,13 +57,11 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initDataSource() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void initWidget() {
-        // TODO Auto-generated method stub
         imgBack = (ImageButton) findViewById(R.id.mBtnCancel);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         rluser_topback = (RelativeLayout) findViewById(R.id.rluser_topback);
@@ -78,7 +76,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetState() {
-        // TODO Auto-generated method stub
         tvtitle.setText(this.getResources().getString(R.string.safezone_title));
         String homeSsid = mPrefsManager.getHomeWifiSsid();
         if(!TextUtils.isEmpty(homeSsid)) {
@@ -98,7 +95,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetListener() {
-        // TODO Auto-generated method stub
         imgBack.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -110,7 +106,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_HOME);
                 startActivity(intent);
@@ -123,7 +118,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OFFICE);
                 startActivity(intent);
@@ -135,7 +129,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
                 intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OTHER);
                 startActivity(intent);
@@ -146,7 +139,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void addWidgetListener() {
-        // TODO Auto-generated method stub
 
     }
 

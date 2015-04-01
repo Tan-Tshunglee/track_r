@@ -258,7 +258,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
 
                 mPrefsManager.setUid(-1);
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
@@ -282,7 +281,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
                 intent.putExtra(AlartTime, curUserDataBean.getMalarmtime());
                 startActivity(intent);
@@ -296,7 +294,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
 //                UserProfileActivity.this.finish();

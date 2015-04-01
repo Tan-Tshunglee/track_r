@@ -123,7 +123,6 @@ public class UserDataTable {
             return true;
         }
 
-        // TODO Auto-generated method stub
     }
     public UserdataBean query(SQLiteDatabase db) {
         String table = GEN_TABLE_NAME;
@@ -146,7 +145,6 @@ public class UserDataTable {
         }
         c.close();
         return userDataBean;
-        // TODO Auto-generated method stub
     }
 
 }

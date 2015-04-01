@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.network.BindCommand;
-import com.antilost.app.network.UploadImageCommand;
+import com.antilost.app.network.UpdateTrackImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
@@ -277,7 +277,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                     });
 
                     startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
-                    UploadImageCommand command = new UploadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                    UpdateTrackImageCommand command = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                     command.execTask();
                     if(command.success()) {
                         uploadPhotoOk = true;
@@ -298,32 +298,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
-
-//    public void testIconFileDownload() {
-//        Thread t = new Thread() {
-//            @Override
-//            public void run() {
-//                final DownloadImageCommand command = new DownloadImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
-//                command.execTask();
-//                byte[] rawImageData = command.getRawImageData();
-//                if(rawImageData != null) {
-//                    Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
-//                    saveDataToFile(rawImageData);
-//                } else {
-//                    Log.e(LOG_TAG, "no rawImageData return.");
-//                }
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        finish();
-//                    }
-//                });
-//
-//            }
-//        };
-//        t.start();
-//    }
 
     private void saveDataToFile(byte[] rawImageData) {
         File folder = ensureIconFolder();

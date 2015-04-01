@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public abstract class Command {
 
@@ -114,5 +115,13 @@ public abstract class Command {
         //do nothing
     }
 
+    public void dumpResult() {
+        Set<String> keys = mResultMap.keySet();
+        Log.v(LOG_TAG, "Result of command:\n");
+        for(String key: keys) {
+            String value = mResultMap.get(key);
+            Log.d(LOG_TAG, key + " : " + value);
+        }
+    }
 }
 

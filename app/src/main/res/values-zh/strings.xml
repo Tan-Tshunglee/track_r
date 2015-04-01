@@ -71,7 +71,7 @@
     <string name="take_photo">Take Photo</string>
     <string name="choose_picture">Choose Picture</string>
     <string name="reconect_to_s">"Reconnect to %s"</string>
-    <string name="binding_success">Binding Success!</string>
+    <string name="binding_success">绑定成功!</string>
     <string name="already_binded">Already Binded!</string>
     <string name="your_device_no_ble_support">Your device has no bluetooth support.</string>
     <string name="max_device_limit_reached">Max device count limit reach</string>
