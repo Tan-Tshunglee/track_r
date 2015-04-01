@@ -1356,6 +1356,7 @@ public class BluetoothLeService extends Service implements
             broadcastDeviceOff();
         }
         mPrefsManager.saveMissedTrack(address, false);
+        mPrefsManager.saveClosedTrack(address, false);
         mPrefsManager.removeTrackId(address);
 
         mGattConnectionStates.remove(address);

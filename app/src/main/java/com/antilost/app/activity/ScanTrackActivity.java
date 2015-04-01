@@ -44,9 +44,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private static final long SCAN_PERIOD = 5000;
 
 
-
-
-
     private RelativeLayout mFirstPage;
     private RelativeLayout mConnectingPage;
     private RelativeLayout mFailedPage;
@@ -72,8 +69,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         public void run() {
                             String deviceName = device.getName();
 
-                            if(!Utils.DEVICE_NAME.equals(deviceName) ) {
-                                if(BuildConfig.DEBUG && "Keyfobdemo".equals(deviceName)) {
+                            if (!Utils.DEVICE_NAME.equals(deviceName)) {
+                                if (BuildConfig.DEBUG && "Keyfobdemo".equals(deviceName)) {
                                     Log.i(LOG_TAG, "debug mode allow  device of name " + deviceName);
                                 } else {
                                     Log.w(LOG_TAG, "get unkown device of name " + deviceName);
@@ -84,7 +81,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             scanLeDevice(false);
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
-                            if(mTrackIds.contains(deviceAddress)
+                            if (mTrackIds.contains(deviceAddress)
                                     && !mPrefsManager.isMissedTrack(deviceAddress)
                                     && !mPrefsManager.isClosedTrack(deviceAddress)) {
                                 //mPrefsManager.addTrackId(deviceAddress);
@@ -92,24 +89,23 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 return;
                             }
 
-                            if(!mTrackIds.contains(deviceAddress)) {
+                            if (!mTrackIds.contains(deviceAddress)) {
                                 Log.v(LOG_TAG, "find a unknown track device.");
-                            }
-
-//                            Toast.makeText(ScanTrackActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
-                            Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
-//                            startService(new Intent(ScanTrackActivity.this, MonitorService.class));
-                            if(mPrefsManager.isClosedTrack(deviceAddress)) {
-                               reconnectedClosedTrackR(deviceAddress);
-                               return;
-                            }
-                            if(mPrefsManager.isMissedTrack(deviceAddress)) {
-                                Log.v(LOG_TAG, "found disconnected trackr.");
-                                reconnectMissingTrack(deviceAddress);
-                            } else {
                                 startBindTackOnServer(deviceAddress);
+                            } else {
+                                //                            Toast.makeText(ScanTrackActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+                                Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
+//                            startService(new Intent(ScanTrackActivity.this, MonitorService.class));
+                                if (mPrefsManager.isClosedTrack(deviceAddress)) {
+                                    Log.v(LOG_TAG, "reconnect to closed trackr.");
+                                    reconnectedClosedTrackR(deviceAddress);
+                                    return;
+                                }
+                                if (mPrefsManager.isMissedTrack(deviceAddress)) {
+                                    Log.v(LOG_TAG, "found disconnected trackr.");
+                                    reconnectMissingTrack(deviceAddress);
+                                }
                             }
-
                         }
                     });
                 }
@@ -150,48 +146,12 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     private void startBindTackOnServer(final String deviceAddress) {
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                SecureRandom random = new SecureRandom();
-//
-//                String Id = BuildConfig.DEBUG ?  String.valueOf(random.nextInt()) : deviceAddress;
-//                final BindCommand command = new BindCommand(String.valueOf(mPrefsManager.getUid()), deviceAddress, Id, String.valueOf(1));
-//                command.execTask();
-//                mHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if(command.success()) {
-//                            Toast.makeText(ScanTrackActivity.this, getString(R.string.binding_success), Toast.LENGTH_SHORT).show();
-//                            Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
-//                            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
-//                            startActivity(i);
-//                            finish();
-//                            return;
-//                        } else if(command.resultError()) {
-//                            Toast.makeText(ScanTrackActivity.this, getString(R.string.already_binded), Toast.LENGTH_SHORT).show();
-//                        } else if(command.isNetworkError()) {
-//                            Log.v(LOG_TAG, "network status error!");
-//                        } else if(command.isStatusBad()) {
-//                            Log.v(LOG_TAG, "server bad  status error!");
-//                        } else {
-//                            Log.v(LOG_TAG, "unkown error!");
-//                        }
-////                        mPrefsManager.removeTrackId(deviceAddress);
-//                        mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
-//                    }
-//                });
-//
-//            }
-//        });
-//        t.start();
 
         Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
         i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
         startActivity(i);
         finish();
     }
-
 
 
     @Override
@@ -206,15 +166,15 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
         // Checks if Bluetooth is supported on the device.
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this,  getString(R.string.your_device_no_ble_support), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.your_device_no_ble_support), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
-        if(mPrefsManager.getTrackIds().size() == MAX_COUNT) {
-            Toast.makeText(this,  getString(R.string.max_device_limit_reached), Toast.LENGTH_SHORT).show();
+        if (mPrefsManager.getTrackIds().size() == MAX_COUNT) {
+            Toast.makeText(this, getString(R.string.max_device_limit_reached), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -259,7 +219,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
                         mScanedTime += SCAN_PERIOD;
                         scanLeDevice(false);
-                        if(mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
+                        if (mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
                             Log.v(LOG_TAG, "scan last time " + mScanedTime / 1000);
                             scanLeDevice(true);
                             return;
@@ -309,7 +269,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     }
 
 
-
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
@@ -325,7 +284,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         }
         invalidateOptionsMenu();
     }
-    
 
 
     @Override
