@@ -230,7 +230,6 @@ public class BluetoothLeService extends Service implements
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
-
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
                     Log.v(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());
@@ -239,7 +238,7 @@ public class BluetoothLeService extends Service implements
                     String deviceAddress = device.getAddress();
                     if (ids.contains(deviceAddress)) {
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
-                        reconnectMissingTrack(deviceAddress);
+                        reconnectTrack(deviceAddress);
                         return;
                     //found an new track r or
                     } else {
@@ -269,7 +268,7 @@ public class BluetoothLeService extends Service implements
         t.start();
     }
 
-    private void reconnectMissingTrack(String address) {
+    private void reconnectTrack(String address) {
         mPrefsManager.saveMissedTrack(address, false);
         connect(address);
     }
@@ -421,6 +420,10 @@ public class BluetoothLeService extends Service implements
                 String intentAction = ACTION_GATT_CONNECTED;
                 broadcastUpdate(intentAction);
                 enableGpsUpdate();
+                if (mPrefsManager.isClosedTrack(address)) {
+                    Log.d(LOG_TAG, "reconnect to closed trackr");
+                    mPrefsManager.saveClosedTrack(address, false);
+                }
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered Status is not success.: " + status);
             }
@@ -975,6 +978,7 @@ public class BluetoothLeService extends Service implements
                 scanLeDevice();
             }
         }, 100);
+
         int uid = mPrefsManager.getUid();
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
@@ -1144,11 +1148,6 @@ public class BluetoothLeService extends Service implements
         }
 
 
-
-        if (mPrefsManager.isClosedTrack(address)) {
-            Log.d(LOG_TAG, "don't connected to closed trackr");
-            return false;
-        }
 
         if(mPrefsManager.isDeclaredLost(address)) {
             fetchDeclaredLostTrackGps(address);
