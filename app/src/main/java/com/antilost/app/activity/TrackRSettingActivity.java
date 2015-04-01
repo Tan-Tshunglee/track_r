@@ -44,6 +44,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             Log.v(LOG_TAG, "onServiceConnected...");
+            updateStateUi();
         }
 
         @Override
@@ -54,6 +55,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private PrefsManager mPrefsManager;
     private CheckBox mTrackAlert;
     private Switch mSleepMode;
+    private ImageView trackImage;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -109,7 +111,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
-        ImageView trackImage = (ImageView) findViewById(R.id.icon);
+        trackImage = (ImageView) findViewById(R.id.icon);
 
 
 
@@ -120,19 +122,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        }
-        if(mBluetoothLeService == null) {
-            trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
-        } else {
-            if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
-                trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
-            } else {
-                if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
-                    trackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
-                } else {
-                    trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
-                }
-            }
         }
 
 
@@ -159,6 +148,27 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
     }
 
+
+    private void updateStateUi() {
+        if(mBluetoothLeService == null) {
+            trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+            Log.v(LOG_TAG, "mBluetoothLeService == null");
+        } else {
+            if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
+                trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                Log.v(LOG_TAG, "isClosedTrack...");
+            } else {
+                if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    Log.v(LOG_TAG, "isGattConnected...");
+                    trackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
+                } else {
+                    Log.v(LOG_TAG, "disconnected...");
+                    trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                }
+            }
+        }
+
+    }
     @Override
     protected void onDestroy() {
         unbindService(mServiceConnection);
@@ -169,7 +179,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         registerReceiver(mReceiver, filter);
+        updateStateUi();
+
     }
+
+
 
     @Override
     protected void onPause() {

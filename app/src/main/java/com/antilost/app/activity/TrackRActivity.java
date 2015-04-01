@@ -61,6 +61,7 @@ import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
+import com.antilost.app.util.CustomImageButton;
 import com.antilost.app.util.LocUtils;
 
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     public static final int MIN_RSSI_LEVEL = -129;
 
     private String mBluetoothDeviceAddress;
-    private ImageView mTrackImage;
+    private CustomImageButton mTrackImage;
     private TextView mSleepTime;
     private TextView mConnection;
     private ImageView mDistanceImage;
@@ -214,7 +215,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
 //        findViewById(R.id.ring).setEnabled(false);
 
-        mTrackImage = (ImageView) findViewById(R.id.track_r_photo);
+        mTrackImage = (CustomImageButton) findViewById(R.id.track_r_photo);
         mSleepTime = (TextView) findViewById(R.id.sleepModeAndTime);
         mConnection = (TextView) findViewById(R.id.connectState);
         mDistanceImage = (ImageView) findViewById(R.id.distanceLevel);
@@ -279,6 +280,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
+                mTrackImage.setText(getResources().getString(R.string.iTrack_close_tip));
+                mTrackImage.setColor(getResources().getColor(R.color.whitesmoke));
+                mTrackImage.setTextSize(32f);
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
                 mConnection.setText(R.string.closed);

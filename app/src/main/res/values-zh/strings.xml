@@ -193,4 +193,7 @@
     <string name="help_title">帮助</string>
     <string name="help_privacy">隐私协议</string>
     <string name="help_use">使用说明</string>
+
+    <string name="iTrack_close_tip">请按iTrack按钮
+        重新启动</string>
 </resources>

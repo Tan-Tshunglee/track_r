@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/titleBarLayout" >
 
-        <ImageButton
+        <com.antilost.app.util.CustomImageButton
             android:id="@+id/track_r_photo"
             android:layout_width="@dimen/track_r_photo_size"
             android:layout_height="@dimen/track_r_photo_size"

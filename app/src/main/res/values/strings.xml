@@ -195,5 +195,6 @@
     <string name="help_title">help</string>
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
+    <string name="iTrack_close_tip">Please Press iTrack \n to reconnect</string>
 
 </resources>
