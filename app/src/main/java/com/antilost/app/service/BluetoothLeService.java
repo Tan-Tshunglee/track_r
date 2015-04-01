@@ -424,6 +424,8 @@ public class BluetoothLeService extends Service implements
                     Log.d(LOG_TAG, "reconnect to closed trackr");
                     mPrefsManager.saveClosedTrack(address, false);
                 }
+
+                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered Status is not success.: " + status);
             }

@@ -3,6 +3,8 @@ package com.antilost.app.camera;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -85,6 +87,11 @@ public class PhotoSaver extends  Thread {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         values.put(MediaStore.MediaColumns.DATA, filePath);
 
-        context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent view = new Intent(Intent.ACTION_VIEW);
+                view.setData(uri);
+        view.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(view);
+
     }
 }

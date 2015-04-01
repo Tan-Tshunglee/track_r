@@ -139,10 +139,19 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
                 //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
                 updateIconPosition(rssi);
+            } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                restartMyself();
             }
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
+
+    private void restartMyself() {
+        Intent i = getIntent();
+        finish();
+        startActivity(i);
+    }
+
     private PrefsManager mPrefsManager;
     private Button mRingButton;
 
@@ -354,6 +363,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private IntentFilter makeBroadcastReceiverIntentFilter() {
         IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_RSSI_READ);
         filter.addAction(BluetoothLeService.ACTION_BATTERY_LEVEL_READ);
+        filter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         return filter;
     }
 
@@ -388,11 +398,21 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.ring:
+
+                if(mBluetoothLeService == null) {
+                    return;
+                }
+
+                if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    return;
+                }
+
                 Boolean ringing = mRingStateMap.get(mBluetoothDeviceAddress);
 
                 if(ringing == null) {
                     ringing = false;
                 }
+
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
                     mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
@@ -408,7 +428,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
                 }
                 break;
-
             case R.id.location:
 
                 if(mBluetoothLeService != null && mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
