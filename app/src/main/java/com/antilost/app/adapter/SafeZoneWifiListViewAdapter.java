@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
+import com.antilost.app.prefs.PrefsManager;
 
 
 /**
@@ -21,10 +22,12 @@ import com.antilost.app.R;
 public class SafeZoneWifiListViewAdapter extends BaseAdapter {
     private Context context = null;
     private List<String> wifilist = null;
+    private String typewho;
 
-    public SafeZoneWifiListViewAdapter(Context context, List<String> wifilist) {
+    public SafeZoneWifiListViewAdapter(Context context, List<String> wifilist,String type) {
         this.context = context;
         this.wifilist = wifilist;
+        this.typewho=type;
         System.out.println("the size of wifilist is " + this.wifilist.size());
         for (int i = 0; i < this.wifilist.size(); i++) {
             System.out.println("the name of action name is" + wifilist.get(i));
@@ -65,8 +68,10 @@ public class SafeZoneWifiListViewAdapter extends BaseAdapter {
         TextView tvwifiname = (TextView) convertView.findViewById(R.id.tvwifiname);
         ImageView imgselect = (ImageView) convertView.findViewById(R.id.imgwifiselect);
         LinearLayout llselect = (LinearLayout) convertView.findViewById(R.id.llwifilistviewselect);
+        if(wifi.equals(typewho)){
+            imgselect.setBackgroundResource(R.drawable.select);
+        }
         tvwifiname.setText(wifi);
-
         imgselect.setOnClickListener(new OnClickListener() {
 
             @Override

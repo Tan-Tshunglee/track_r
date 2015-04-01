@@ -54,8 +54,7 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
         initWidgetListener();
         initDataSource();
         addWidgetListener();
-        mPrefsManager = PrefsManager.singleInstance(this);
-        mTarget = getIntent().getIntExtra(EXTRA_KEY_TARGET, -1);
+
 
     }
 
@@ -67,6 +66,8 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
 
     @Override
     public void initDataSource() {
+        mPrefsManager = PrefsManager.singleInstance(this);
+        mTarget = getIntent().getIntExtra(EXTRA_KEY_TARGET, -1);
         mywifi = new WiFiManager(this);
         listwifi = new ArrayList<String>();
         mywifi.startScan();
@@ -76,7 +77,19 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
                 listwifi.add(listScanWifi.get(i).SSID.toString());
                 Log.d(TAG, "the ssid wifi add to " + listwifi.get(i));
             }
-            safezonelistadapter = new SafeZoneWifiListViewAdapter(this, listwifi);
+          String type = null;
+            switch (mTarget) {
+                case TARGET_HOME:
+                    type = mPrefsManager.getHomeWifiSsid();
+                    break;
+                case TARGET_OFFICE:
+                    type=mPrefsManager.getOfficeSsid();
+                    break;
+                case TARGET_OTHER:
+                    type=mPrefsManager.getOtherSsid();
+                    break;
+            }
+            safezonelistadapter = new SafeZoneWifiListViewAdapter(this, listwifi,type);
             lvwifilist.setAdapter(safezonelistadapter);
         }
 
