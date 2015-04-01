@@ -39,11 +39,6 @@ public class CustomImageButton extends ImageButton {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint paint = new Paint();
-        paint.setTextAlign(Align.CENTER);
-        paint.setColor(_color);
-        paint.setTextSize(_textsize);
-//        canvas.drawText(_text, canvas.getWidth()/2, (canvas.getHeight()/2)+12, paint);
 
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(_color);

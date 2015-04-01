@@ -97,6 +97,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_CLOSED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
         return intentFilter;
     }
 

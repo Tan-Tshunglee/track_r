@@ -168,8 +168,8 @@
 
     <string name="title_activity_amap">AmapActivity</string>
     <string name="place_lost">Place Lost</string>
-    <string name="unbind_successfully">Unbind Successfully.</string>
-    <string name="unbind_track_server_error">Server Error, Can not unbind this iTrack.</string>
+    <string name="unbind_successfully">解绑成功.</string>
+    <string name="unbind_track_server_error">服务器出错，无法解绑iTrack.</string>
     <string name="no_location_data">没有位置信息</string>
 
     <string name="title_activity_google_map">谷歌地图</string>

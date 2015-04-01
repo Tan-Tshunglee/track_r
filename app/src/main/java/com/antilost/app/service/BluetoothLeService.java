@@ -101,8 +101,12 @@ public class BluetoothLeService extends Service implements
 
     public final static String ACTION_RSSI_READ =
             "com.antilost.bluetooth.le.ACTION_RSSI_READ";
+
     public final static String ACTION_DEVICE_CLOSED =
             "com.antilost.bluetooth.le.ACTION_DEVICE_CLOSED";
+
+    public final static String ACTION_DEVICE_UNBIND =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_UNBIND";
 
     public final static String ACTION_DEVICE_FAR_AWAY =
             "com.antilost.bluetooth.le.ACTION_DEVICE_FAR_AWAY";
@@ -1344,7 +1348,12 @@ public class BluetoothLeService extends Service implements
 
         mGattConnectionStates.remove(address);
         mBluetoothGatts.remove(address);
+        broadcastDeviceUbbind(address);
 
+    }
+
+    private void broadcastDeviceUbbind(String address) {
+        broadcastUpdate(ACTION_DEVICE_UNBIND);
     }
 
 

@@ -68,6 +68,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private CheckBox mPhoneAlert;
     private View mDeclaredLost;
     private TextView mDeclaredLostText;
+    private volatile Thread mBackgroundThread;
 
 
     @Override
@@ -193,7 +194,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Thread t;
         switch (view.getId()) {
             case R.id.backBtn:
                 Intent i = new Intent(this, TrackRActivity.class);
@@ -219,7 +219,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     return;
                 }
-                t = new Thread() {
+
+                if(mBackgroundThread != null) {
+                    return;
+                }
+                mBackgroundThread = new Thread() {
                     @Override
                     public void run() {
                         UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
@@ -241,14 +245,19 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                                 }
                             });
                         }
+
+                        mBackgroundThread = null;
                     }
                 };
-                t.start();
+                mBackgroundThread.start();
                 break;
 
             case R.id.declared_lost:
 
-                t = new Thread () {
+                if(mBackgroundThread != null) {
+                    return;
+                }
+                mBackgroundThread = new Thread () {
                     @Override
                     public void run() {
                         int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)  ? 0 : 1;
@@ -275,9 +284,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                                 }
                             });
                         }
+                        mBackgroundThread = null;
                     }
                 };
-                t.start();
+                mBackgroundThread.start();
                 break;
         }
     }
