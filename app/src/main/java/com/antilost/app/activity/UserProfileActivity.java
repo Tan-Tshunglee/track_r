@@ -15,8 +15,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -130,7 +128,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                     imgUser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
                 }
             }
-            tvtime.setText(curUserDataBean.getMalarmtime() + getResources().getString(R.string.alarttime_second));
+            tvtime.setText(mPrefsManager.getAlertTime() + getResources().getString(R.string.alarttime_second));
 
             if (curUserDataBean == null) {
                 Log.d(TAG, " curUserDataBean==null");
@@ -281,7 +279,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(UserProfileActivity.this, AlartTime.class);
+                Intent intent = new Intent(UserProfileActivity.this, AlartTimeActivity.class);
                 intent.putExtra(AlartTime, curUserDataBean.getMalarmtime());
                 startActivity(intent);
 //                UserProfileActivity.this.finish();

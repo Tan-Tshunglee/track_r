@@ -50,6 +50,8 @@ public class PrefsManager {
     public static final String PREFS_SLEEP_START_TIME_KEY = "sleep_mode_start_time_key";
     public static final String PREFS_SLEEP_END_TIME_KEY = "sleep_mode_end_time_key";
 
+    public static final String PREFS_ALERT_TIME_KEY = "alert_time_key";
+
 
     public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
     public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
@@ -365,5 +367,12 @@ public class PrefsManager {
             saveMissedTrack(id, false);
         }
         mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()).commit();
+    }
+
+    public int getAlertTime() {
+        return mPrefs.getInt(PREFS_ALERT_TIME_KEY, 5);
+    }
+    public void setAlertTime(int time) {
+        mPrefs.edit().putInt(PREFS_ALERT_TIME_KEY, time).commit();
     }
 }

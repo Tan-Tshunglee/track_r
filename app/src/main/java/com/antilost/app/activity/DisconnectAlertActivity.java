@@ -63,7 +63,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mMediaPlayer.setVolume(1.0f, 1.0f);
         mLayoutInflater = getLayoutInflater();
         initAlertDialog();
-
+        playAlertSound();
 
     }
 
@@ -141,13 +141,20 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             e.printStackTrace();
         }
         mMediaPlayer.start();
+        int alertSecond = mPrefsManager.getAlertTime();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMediaPlayer.stop();
+            }
+        }, alertSecond * 1000);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        playAlertSound();
+
 
         mAlertDialog.show();
 //        mHandler.postDelayed(new Runnable() {
@@ -169,7 +176,9 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         if(mAlertDialog != null) {
             mAlertDialog.dismiss();
         }
-        mMediaPlayer.stop();
+        if(mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+        }
     }
 
     @Override

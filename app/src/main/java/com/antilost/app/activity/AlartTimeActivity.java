@@ -15,19 +15,19 @@ import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.dao.UserDataTable;
 import com.antilost.app.model.UserdataBean;
+import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.wheelview.NumericWheelAdapter;
 import com.antilost.app.util.wheelview.OnWheelChangedListener;
 import com.antilost.app.util.wheelview.OnWheelScrollListener;
 import com.antilost.app.util.wheelview.WheelView;
 
-public class AlartTime extends Activity implements TrackRInitialize {
+public class AlartTimeActivity extends Activity implements TrackRInitialize {
     private String TAG = "AlartTime";
     private Button btmBack, btmDone;
     private TextView tvtitle ;
     private TextView tvAlarttime;
     private WheelView wvAlarTime;
     private int  ialarttime = 0;
-    public final String AlartTime = "AlartTime";
     //数据库
     private TrackRDataBase trackRDataBase;
     /** 数据库对象 */
@@ -36,17 +36,21 @@ public class AlartTime extends Activity implements TrackRInitialize {
     private UserdataBean   curUserDataBean;
 
     private boolean timeScrolled = false;
+    private PrefsManager mPrefsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.alarttime);
+        mPrefsManager = PrefsManager.singleInstance(this);
         initWidget();
         initWidgetState();
         initWidgetListener();
         addWidgetListener();
         initDataSource();
+
 
     }
 
@@ -67,15 +71,8 @@ public class AlartTime extends Activity implements TrackRInitialize {
         wvAlarTime.setAdapter(new NumericWheelAdapter(0, 60));
         wvAlarTime.setLabel("  " +getResources().getString(R.string.alarttime_second));
         wvAlarTime.setVisibleItems(5);
-        Intent intent = getIntent();
-        String va = intent.getStringExtra(AlartTime);
-        if (va == null || va.equals("")) {
-            tvAlarttime.setText(getResources().getString(R.string.alarttime_tip)+"3" + getResources().getString(R.string.alarttime_second));
-            wvAlarTime.setCurrentItem(0);
-        } else {
-            tvAlarttime.setText(getResources().getString(R.string.alarttime_tip)+va + getResources().getString(R.string.alarttime_second));
-            wvAlarTime.setCurrentItem(Integer.parseInt(va));
-        }
+
+        wvAlarTime.setCurrentItem(mPrefsManager.getAlertTime());
 
 
         OnWheelChangedListener wheelListener = new OnWheelChangedListener() {
@@ -96,6 +93,8 @@ public class AlartTime extends Activity implements TrackRInitialize {
                 timeScrolled = false;
                 ialarttime=  wvAlarTime.getCurrentItem();
                 tvAlarttime.setText(getResources().getString(R.string.alarttime_tip)+wvAlarTime.getCurrentItem() + getResources().getString(R.string.alarttime_second));
+
+                mPrefsManager.setAlertTime(wvAlarTime.getCurrentItem());
             }
         };
         wvAlarTime.addScrollingListener(scrollListener);
@@ -126,7 +125,7 @@ public class AlartTime extends Activity implements TrackRInitialize {
             public void onClick(View arg0) {
 //                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
 //                startActivity(intent);
-                AlartTime.this.finish();
+                AlartTimeActivity.this.finish();
             }
         });
         btmDone.setOnClickListener(new OnClickListener() {
@@ -138,7 +137,7 @@ public class AlartTime extends Activity implements TrackRInitialize {
                 }
 //                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
 //                startActivity(intent);
-                AlartTime.this.finish();
+                AlartTimeActivity.this.finish();
             }
         });
     }

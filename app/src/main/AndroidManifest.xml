@@ -217,7 +217,7 @@
 
 
         <activity
-            android:name=".activity.AlartTime"
+            android:name=".activity.AlartTimeActivity"
             android:label="@string/alarttime_title"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />

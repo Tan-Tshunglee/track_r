@@ -36,7 +36,7 @@
     <!-- 完成 -->
     <Button
         android:id="@+id/mBtnDone"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
