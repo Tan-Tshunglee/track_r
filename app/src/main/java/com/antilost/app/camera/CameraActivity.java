@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.antilost.app.R;
 import com.antilost.app.service.BluetoothLeService;
 
+import java.util.List;
+
 public class CameraActivity extends FragmentActivity implements Camera.ErrorCallback {
 
 
@@ -36,7 +38,20 @@ public class CameraActivity extends FragmentActivity implements Camera.ErrorCall
             PhotoSaver.save(bytes, CameraActivity.this);
         };
     };
+
+    private Camera.AutoFocusCallback mAutofocusListener  = new Camera.AutoFocusCallback() {
+
+        @Override
+        public void onAutoFocus(boolean b, Camera camera) {
+
+                Log.v(LOG_TAG, "onAutoFocus callback, focus result " + b);
+                camera.setParameters(mParameters);
+                doSnap();
+        }
+    };
+
     private boolean mTakingPhoto;
+    private Camera.Parameters mParameters;
 
 
     private void tryTakePicture() {
@@ -49,12 +64,41 @@ public class CameraActivity extends FragmentActivity implements Camera.ErrorCall
             @Override
             public void run() {
                 try {
-                    mCamera.takePicture(null, null, mJpegPictureCallback);
+                    if(supportAutoFocus()) {
+                        Log.v(LOG_TAG, "camera support auto focus");
+                        mCamera.autoFocus(mAutofocusListener);
+                    } else {
+                        doSnap();
+
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    private boolean supportAutoFocus() {
+        List<String> focusModes = mParameters.getSupportedFocusModes();
+        if(focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void doSnap() {
+        List<Camera.Size> sizes = mParameters.getSupportedPictureSizes();
+        Camera.Size maxsize = sizes.get(0);
+
+        for(Camera.Size size : sizes) {
+            if(size.width > maxsize.width) {
+                maxsize = size;
+            }
+        }
+        mParameters.setPictureSize(maxsize.width, maxsize.height);
+        mCamera.setParameters(mParameters);
+        mCamera.takePicture(null, null, mJpegPictureCallback);
     }
 
     @Override
@@ -74,6 +118,7 @@ public class CameraActivity extends FragmentActivity implements Camera.ErrorCall
         }
 
         mCamera.setErrorCallback(this);
+        mParameters = mCamera.getParameters();
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
@@ -109,7 +154,10 @@ public class CameraActivity extends FragmentActivity implements Camera.ErrorCall
         }
     }
 
-    /** Check if this device has a camera */
+    /**
+     *  Check if this device has a camera
+     *
+     *  */
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             // this device has a camera
@@ -118,6 +166,7 @@ public class CameraActivity extends FragmentActivity implements Camera.ErrorCall
             // no camera on this device
             return false;
         }
+
     }
 
 

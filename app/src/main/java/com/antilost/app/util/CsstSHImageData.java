@@ -235,7 +235,6 @@ public final class CsstSHImageData {
     public static Bitmap toRoundCorner(String customIconUri) {
 
         Bitmap bitmap = BitmapFactory.decodeFile(customIconUri);
-        System.out.println("图片是否变成圆角模式了+++++++++++++");
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
@@ -244,7 +243,6 @@ public final class CsstSHImageData {
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         final RectF rectF = new RectF(rect);
-//        final float roundPx = pixels;
         final float roundPx = 100.f;
 
         paint.setAntiAlias(true);
@@ -254,8 +252,8 @@ public final class CsstSHImageData {
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
-//        System.out.println("pixels+++++++" + pixels);
 
+        bitmap.recycle();
         return output;
     }
 
