@@ -157,12 +157,12 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
     }
 
     private String getLastTimeAndLocation(String address) {
-        if(mPrefs.isDeclaredLost(address)) {
-            long foundTime = mPrefs.getLastTimeFoundByOthers(address);
-            Location loc = mPrefs.getLastLostLocation(address);
-            if(foundTime != -1 && loc != null) {
-                return mActivity.getString(R.string.found_by_others_at_format, mFoundOrLostTimeFormat.format(new Date(foundTime)) );
-            }
+        long foundTime = mPrefs.getLastTimeFoundByOthers(address);
+        Location foundLoc = mPrefs.getLastLostLocation(address);
+        if(mPrefs.isDeclaredLost(address)
+                && foundTime != -1
+                && foundLoc != null) {
+            return mActivity.getString(R.string.found_by_others_at_format, mFoundOrLostTimeFormat.format(new Date(foundTime)));
         } else if(mPrefs.isMissedTrack(address)) {
             long lostTime = mPrefs.getLastLostTime(address);
             Location loc = mPrefs.getLastLostLocation(address);
