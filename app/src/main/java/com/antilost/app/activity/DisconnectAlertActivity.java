@@ -134,6 +134,15 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         playAlertSound();
     }
 
+    private Runnable mStopRingRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
+            }
+        }
+    };
+
     private void playAlertSound() {
         try {
             mMediaPlayer.prepare();
@@ -142,12 +151,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         }
         mMediaPlayer.start();
         int alertSecond = mPrefsManager.getAlertTime();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayer.stop();
-            }
-        }, alertSecond * 1000);
+        mHandler.postDelayed(mStopRingRunnable, alertSecond * 1000);
     }
 
 
@@ -179,6 +183,8 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         if(mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
         }
+
+        mHandler.removeCallbacks(mStopRingRunnable);
     }
 
     @Override
