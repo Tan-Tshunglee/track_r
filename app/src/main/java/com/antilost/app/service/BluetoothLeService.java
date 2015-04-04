@@ -91,6 +91,7 @@ public class BluetoothLeService extends Service implements
             "com.antilost.bluetooth.le.ACTION_GATT_DISCONNECTED";
     public final static String ACTION_GATT_SERVICES_DISCOVERED =
             "com.antilost.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+
     public final static String ACTION_DATA_AVAILABLE =
             "com.antilost.bluetooth.le.ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA =
@@ -114,6 +115,9 @@ public class BluetoothLeService extends Service implements
 
     public final static String ACTION_DEVICE_CLICKED =
             "com.antilost.bluetooth.le.ACTION_DEVICE_CLICKED";
+
+    public final static String EXTRA_KEY_BLUETOOTH_ADDRESS =
+            "EXTRA_KEY_BLUETOOTH_ADDRESS";
     public static final int MIN_DISTANCE = 20;
 
 
@@ -336,13 +340,8 @@ public class BluetoothLeService extends Service implements
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 
                 if (oldState == BluetoothProfile.STATE_CONNECTED) {
-                    intentAction = ACTION_GATT_DISCONNECTED;
                     Log.i(LOG_TAG, "Disconnected from GATT server.");
-                    //if user manually close track r connection;
-                    //mGattConnectionStates will move that address in function onCharacteristicWrite
-                    if (mGattConnectionStates.containsKey(address)) {
-                        broadcastUpdate(intentAction);
-                    }
+
 
                     String homeWifiSsid = mPrefsManager.getHomeWifiSsid();
                     String officeSsid = mPrefsManager.getOfficeSsid();
@@ -373,7 +372,9 @@ public class BluetoothLeService extends Service implements
                     }
 
                     mPrefsManager.saveLastLostTime(address, System.currentTimeMillis());
-
+                    if (mGattConnectionStates.containsKey(address)) {
+                        broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
+                    }
                     WifiInfo info = mWifiManager.getConnectionInfo();
                     String ssid = info.getSSID();
                     boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
@@ -418,15 +419,15 @@ public class BluetoothLeService extends Service implements
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                 mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
                 verifyConnection(gatt);
-                String intentAction = ACTION_GATT_CONNECTED;
-                broadcastUpdate(intentAction);
+                broadcastUpdate(ACTION_GATT_CONNECTED, address);
                 enableGpsUpdate();
                 if (mPrefsManager.isClosedTrack(address)) {
                     Log.d(LOG_TAG, "reconnect to closed trackr");
                     mPrefsManager.saveClosedTrack(address, false);
                 }
-
-                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
+                mPrefsManager.saveMissedTrack(address, false);
+                mPrefsManager.setDeclareLost(address, false);
+                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered Status is not success.: " + status);
             }
@@ -481,10 +482,7 @@ public class BluetoothLeService extends Service implements
                     Log.d(LOG_TAG, "onCharacteristicRead callback battery is " + level);
                     mGattsBatteryLevel.put(gatt.getDevice().getAddress(), level);
                     broadcastBatteryLevel(level);
-                } else {
-                    broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
                 }
-
             }
         }
 
@@ -501,12 +499,9 @@ public class BluetoothLeService extends Service implements
                 if (key == 2) {
                     onTrackKeyLongPress();
                 } else if (key == 8) {
-                    onTrackKeyClick();
+                    onTrackKeyClick(gatt.getDevice().getAddress());
                 }
-            } else {
-                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
             }
-
         }
 
         public void onCharacteristicWrite(BluetoothGatt gatt,
@@ -630,25 +625,7 @@ public class BluetoothLeService extends Service implements
 //        }
 
     }
-//
-//    private BDLocationListener mBaidLocationListener = new BDLocationListener() {
-//        @Override
-//        public void onReceiveLocation(BDLocation bdLocation) {
-//            if(bdLocation != null) {
-//                int type = bdLocation.getLocType();
-//                Log.i(LOG_TAG, "baidu location return code is " + type);
-//                if(type == 61
-//                        || type == 65
-//                        || type == 68
-//                        || type == 161) {
-//                    Location loc = LocUtils.convertBaiduLocation(bdLocation);
-//                    if(loc != null) {
-//                        mLastLocation = loc;
-//                    }
-//                }
-//            }
-//        }
-//    };
+
 
 
     private void broadcastDeviceOff() {
@@ -697,9 +674,9 @@ public class BluetoothLeService extends Service implements
         startActivity(i);
     }
 
-    private void onTrackKeyClick() {
+    private void onTrackKeyClick(String address) {
         Log.v(LOG_TAG, "onTrackKeyClick...");
-        broadcastUpdate(ACTION_DEVICE_CLICKED);
+        broadcastUpdate(ACTION_DEVICE_CLICKED, address);
     }
 
 
@@ -707,27 +684,12 @@ public class BluetoothLeService extends Service implements
     private PrefsManager mPrefsManager;
 
 
-    private void broadcastUpdate(final String action) {
+    private void broadcastUpdate(final String action, String address) {
         final Intent intent = new Intent(action);
+        intent.putExtra(EXTRA_KEY_BLUETOOTH_ADDRESS, address);
         sendBroadcast(intent);
     }
 
-    private void broadcastUpdate(final String action,
-                                 final BluetoothGattCharacteristic characteristic) {
-        UUID charUuid = characteristic.getUuid();
-
-        final Intent intent = new Intent(action);
-
-        // For all other profiles, writes the data formatted in HEX.
-        final byte[] data = characteristic.getValue();
-        if (data != null && data.length > 0) {
-            final StringBuilder stringBuilder = new StringBuilder(data.length);
-            for (byte byteChar : data)
-                stringBuilder.append(String.format("%02X ", byteChar));
-            intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
-        }
-        sendBroadcast(intent);
-    }
 
 
     public class LocalBinder extends Binder {
@@ -1368,7 +1330,7 @@ public class BluetoothLeService extends Service implements
     }
 
     private void broadcastDeviceUbbind(String address) {
-        broadcastUpdate(ACTION_DEVICE_UNBIND);
+        broadcastUpdate(ACTION_DEVICE_UNBIND, address);
     }
 
 

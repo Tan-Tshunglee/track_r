@@ -60,9 +60,24 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            finish();
+            String action = intent.getAction();
+            String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
+            if(BluetoothLeService.ACTION_DEVICE_CLOSED.equals(action)) {
+                finish();
+                return;
+            } else if(BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)
+                    || BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                if(mBluetoothDeviceAddress.equals(address)) {
+                    updateDeclareLayoutVisibility();
+                }
+            }
         }
     };
+
+    private void dismissDeclareLayout() {
+
+    }
+
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
     private CheckBox mPhoneAlert;
@@ -71,10 +86,43 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private volatile Thread mBackgroundThread;
 
 
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            Log.v(LOG_TAG, String.format("TrackRSettingActivity receiver onReceive get action ") + action);
+            if (BluetoothLeService.ACTION_BATTERY_LEVEL_READ.equals(action)) {
+                int batteryLevel =mBluetoothLeService.getBatteryLevel(mBluetoothDeviceAddress);
+            } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
+                int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
+                //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
+            } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                updateDeclareLayoutVisibility();
+            }
+            Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
+        }
+    };
+
+    private void updateDeclareLayoutVisibility() {
+        if(mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
+            mDeclaredLost.setVisibility(View.VISIBLE);
+            updateDeclareText();
+        } else {
+            mDeclaredLost.setVisibility(View.GONE);
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
+
+        filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
+        filter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
+        filter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        filter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
 
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
             Log.w(LOG_TAG, "get empty bluetooth address.");
@@ -130,12 +178,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         mDeclaredLost = findViewById(R.id.declared_lost);
         mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
-        if(mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
-            mDeclaredLost.setVisibility(View.VISIBLE);
-            updateDeclareText();
-        } else {
-            mDeclaredLost.setVisibility(View.GONE);
-        }
+        updateDeclareLayoutVisibility();
 
     }
 
@@ -168,8 +211,9 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 }
             }
         }
-
     }
+
+
     @Override
     protected void onDestroy() {
         unbindService(mServiceConnection);
@@ -181,9 +225,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         super.onResume();
         registerReceiver(mReceiver, filter);
         updateStateUi();
-
     }
-
 
 
     @Override
@@ -191,6 +233,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         super.onPause();
         unregisterReceiver(mReceiver);
     }
+
 
     @Override
     public void onClick(View view) {

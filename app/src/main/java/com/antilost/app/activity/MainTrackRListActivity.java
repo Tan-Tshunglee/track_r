@@ -81,9 +81,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 mListViewAdapter.updateData();
                 Log.v(LOG_TAG, "receive ACTION_GATT_SERVICES_DISCOVERED");
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                mListViewAdapter.updateData();
-                Log.v(LOG_TAG, "receive ACTION_DATA_AVAILABLE");
             }
         }
     };
@@ -96,7 +93,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_CLOSED);
         intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
         return intentFilter;

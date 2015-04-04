@@ -9,10 +9,12 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
+
             <TextView
                 android:id="@+id/trackType"
                 android:layout_width="wrap_content"
@@ -22,8 +24,10 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:textColor="@android:color/white"
+                android:text="type or name"
                 android:textSize="@dimen/track_listview_item_track_type_textsize"
-                android:maxWidth="@dimen/track_type_textview_max_width"/>
+                android:maxWidth="@dimen/track_type_textview_max_width" />
+
             <TextView
                 android:id="@+id/trackRState"
                 android:layout_width="wrap_content"
@@ -34,36 +38,41 @@
                 android:layout_toRightOf="@id/trackType"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:textColor="@android:color/white"
-                android:maxWidth="@dimen/track_type_textview_max_width"/>
+                android:maxWidth="@dimen/track_type_textview_max_width" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1">
+
             <TextView
                 android:id="@+id/lastTimeAndLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/track_listview_item_track_type_textsize"/>
+                android:textSize="@dimen/track_listview_item_track_type_textsize" />
 
         </RelativeLayout>
     </LinearLayout>
-    <ImageButton android:id="@+id/icon"
+
+    <ImageButton
+        android:id="@+id/icon"
         android:layout_width="@dimen/track_r_listview_icon_size"
         android:layout_height="@dimen/track_r_listview_icon_size"
         android:src="@drawable/other"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="5dp"
+        android:focusable="false"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:background="@drawable/large_circle_btn_bkg" />
-    <View android:id="@+id/bottomDivider"
+
+    <View
+        android:id="@+id/bottomDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"

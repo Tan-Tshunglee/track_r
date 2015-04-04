@@ -294,7 +294,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/declared_lost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -302,20 +302,18 @@
                 android:background="@drawable/blue_bkg"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:gravity="center"
                 android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/declared_lost_text"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/declare_lost"
-                        android:layout_centerVertical="true"
-                        android:textColor="@android:color/white"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:textSize="20sp" />
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/declared_lost_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/declare_lost"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/turnOffTrackR"
