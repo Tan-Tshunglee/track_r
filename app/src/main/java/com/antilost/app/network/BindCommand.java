@@ -1,5 +1,6 @@
 package com.antilost.app.network;
 
+import android.util.Base64;
 import android.util.Log;
 
 /**
@@ -20,11 +21,12 @@ public class BindCommand extends Command {
     }
     @Override
     protected String makeRequestString() {
+        String encodedTrackRnName = Base64.encodeToString(mTrackName.getBytes(), Base64.NO_WRAP);
         StringBuilder sb = new StringBuilder();
         sb.append("cmd:bind").append(LINE_SPLITTER)
                 .append("uid:").append(mUid).append(LINE_SPLITTER)
                 .append("type:").append(mCustomType).append(LINE_SPLITTER)
-                .append("lossername:").append(mTrackName).append(LINE_SPLITTER)
+                .append("lossername:").append(encodedTrackRnName).append(LINE_SPLITTER)
                 .append("losserid:").append(mTrackId).append(LINE_SPLITTER);
         String result = sb.toString();
         Log.v(LOG_TAG, "request string is " + result);

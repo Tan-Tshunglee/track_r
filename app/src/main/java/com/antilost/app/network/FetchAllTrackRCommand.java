@@ -1,6 +1,7 @@
 package com.antilost.app.network;
 
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import com.antilost.app.model.TrackR;
@@ -44,7 +45,9 @@ public class FetchAllTrackRCommand extends Command {
                         Log.e(LOG_TAG, "get one invalid mac address " + address);
                         continue;
                     }
-                    String name = trackInfo[1];
+                    String base64encodedName = trackInfo[1];
+                    byte[] nameBytes = Base64.decode(base64encodedName, Base64.NO_WRAP);
+                    String name = new String(nameBytes);
                     String typeStr = trackInfo[2];
                     int type = 0;
 
