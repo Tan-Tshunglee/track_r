@@ -174,8 +174,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
 
 
-
-
         mDeclaredLost = findViewById(R.id.declared_lost);
         mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
         updateDeclareLayoutVisibility();

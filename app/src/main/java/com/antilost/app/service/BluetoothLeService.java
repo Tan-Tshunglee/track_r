@@ -73,31 +73,34 @@ public class BluetoothLeService extends Service implements
     public static  final String INTENT_FROM_BROADCAST_EXTRA_KEY_NAME = "INTENT_FROM_BROADCAST_EXTRA_KEY_NAME";
 
 
-    private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
+    //    private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
     private static final int MSG_LOOP_READ_RSSI = 3;
     private static final int MSG_FAST_REPEAT_MODE_FLAG = 4;
+    private static final int MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER = 6;
+
 
     public static final int ALARM_REPEAT_PERIOD = 2 * 60 * 1000;
-    public static final int FAST_ALARM_REPEAT_PERIOD = 10 * 1000;
 
+    public static final int FAST_ALARM_REPEAT_PERIOD = 10 * 1000;
     private static final int SCAN_PERIOD_OF_RSSI_READ = 30 * 1000;
+
     public static final int LOCATION_UPDATE_PERIOD_IN_MS = 5 * 60 * 1000;
 
     public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 2 * 60 * 1000;
-
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_DISCONNECTED";
+
     public final static String ACTION_GATT_SERVICES_DISCOVERED =
             "com.antilost.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
-
     public final static String ACTION_DATA_AVAILABLE =
             "com.antilost.bluetooth.le.ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA =
             "com.antilost.bluetooth.le.EXTRA_DATA";
     public final static String ACTION_GATT_KEY_PRESSED =
             "com.antilost.bluetooth.le.ACTION_KEY_PRESSED";
+
     public final static String ACTION_BATTERY_LEVEL_READ =
             "com.antilost.bluetooth.le.ACTION_BATTERY_LEVEL_READ";
 
@@ -115,7 +118,6 @@ public class BluetoothLeService extends Service implements
 
     public final static String ACTION_DEVICE_CLICKED =
             "com.antilost.bluetooth.le.ACTION_DEVICE_CLICKED";
-
     public final static String EXTRA_KEY_BLUETOOTH_ADDRESS =
             "EXTRA_KEY_BLUETOOTH_ADDRESS";
     public static final int MIN_DISTANCE = 20;
@@ -127,12 +129,9 @@ public class BluetoothLeService extends Service implements
     private HashMap<String, BluetoothGatt> mBluetoothGatts = new HashMap<String, BluetoothGatt>();
     private HashMap<String, MyBluetootGattCallback> mBluetoothCallbacks = new HashMap<String, MyBluetootGattCallback>();
     private HashMap<String, Integer> mGattConnectionStates = new HashMap<String, Integer>();
-
     private HashMap<String, Integer> mGattsRssis = new HashMap<String, Integer>();
     private HashMap<String, Integer> mGattsBatteryLevel = new HashMap<String, Integer>();
-
     private HashSet<String> mLostGpsNeedUpdateIds = new HashSet<String>(5);
-
     private HashMap<String, Long> mDeclaredLostTrackLastFetchedTime = new HashMap<String, Long>(5);
 
 
@@ -146,6 +145,7 @@ public class BluetoothLeService extends Service implements
 //    private LocationClient mBaiduLocationClient;
 
     private boolean mSleeping = false;
+    private volatile Thread mUploadUnknownTrackLocationThread;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -246,17 +246,21 @@ public class BluetoothLeService extends Service implements
                         return;
                     //found an new track r or
                     } else {
+                        Log.v(LOG_TAG, "an unkown track has been scanned.");
                         uploadUnTrackGps(deviceAddress);
                     }
                 }
             };
 
     private void uploadUnTrackGps(final String deviceAddress) {
-        Thread t = new Thread()  {
+
+        if(mUploadUnknownTrackLocationThread != null) {
+            return;
+        }
+        mUploadUnknownTrackLocationThread = new Thread()  {
             @Override
             public void run() {
                 if(mLastLocation != null) {
-
                     Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
                     command.execTask();
                     if(command.success()) {
@@ -265,11 +269,13 @@ public class BluetoothLeService extends Service implements
                         Log.v(LOG_TAG, "Fail to update unkown track r 's location ");
                     }
                 } else {
-                    Log.d(LOG_TAG, "found unknown track ,but location is missing.");
+                    Log.d(LOG_TAG, "found unknown track, but location is missing.");
                 }
+
+                mUploadUnknownTrackLocationThread = null;
             }
         };
-        t.start();
+        mUploadUnknownTrackLocationThread.start();
     }
 
     private void reconnectTrack(String address) {
@@ -318,13 +324,18 @@ public class BluetoothLeService extends Service implements
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 Log.e(LOG_TAG, "gatt status is not success.");
                 Log.v(LOG_TAG, "clean up old connection");
-                gatt.disconnect();
-                gatt.close();
-                mBluetoothGatts.remove(gatt.getDevice().getAddress());
-                mBluetoothCallbacks.remove(gatt.getDevice().getAddress());
                 return;
             }
             final String address = gatt.getDevice().getAddress();
+
+            if(!mPrefsManager.getTrackIds().contains(address)) {
+                Log.w(LOG_TAG, "close an old connection after unbind.");
+                mGattConnectionStates.remove(address);
+                mBluetoothGatts.remove(address);
+                gatt.close();
+                return;
+            }
+
             Integer oldState = mGattConnectionStates.put(address, newState);
             if (oldState == null) {
                 oldState = BluetoothProfile.STATE_DISCONNECTED;
@@ -387,11 +398,6 @@ public class BluetoothLeService extends Service implements
                         return;
                     }
                     Log.v(LOG_TAG, "found disconnected device.");
-                    if (gatt != null) {
-                        gatt.disconnect();
-                        gatt.close();
-                        mBluetoothGatts.remove(address);
-                    }
 
                     alertUserTrackDisconnected(address);
                     enterFastRepeatMode();
@@ -518,10 +524,19 @@ public class BluetoothLeService extends Service implements
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID)
                     && value == 3) {
                 Log.w(LOG_TAG, "disconnect in onCharacteristicWrite ");
-                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                gatt.disconnect();
-                gatt.close();
-                mBluetoothGatts.remove(address);
+
+                Integer newState = mGattConnectionStates.get(address);
+                if(newState != null && newState == BluetoothProfile.STATE_CONNECTED) {
+                    Log.w(LOG_TAG, "track reopened in the close action callback.");
+                } else {
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                }
+
+                //for unbind use close , for turn off use disconnect
+                if(!mPrefsManager.getTrackIds().contains(address)) {
+                    gatt.close();
+                    mBluetoothGatts.remove(address);
+                }
                 broadcastDeviceOff();
             } else if(serviceUuid.equals(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
@@ -577,25 +592,10 @@ public class BluetoothLeService extends Service implements
     }
 
     private void verifyConnection(BluetoothGatt gatt) {
-        Log.d(LOG_TAG, "try to verify connection");
-        BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
 
-        if(service != null) {
-            BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+        Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
+        mHandler.sendMessageDelayed(msg, 1000);
 
-            if(characteristic != null) {
-                characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
-                if(gatt.writeCharacteristic(characteristic)) {
-                    log("write verify code success.");
-                } else {
-                    log("write verify code failed.");
-                }
-            } else {
-                Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
-            }
-        } else {
-            Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
-        }
     }
 
     private void log(String msg) {
@@ -714,10 +714,6 @@ public class BluetoothLeService extends Service implements
 
     @Override
     public boolean onUnbind(Intent intent) {
-        // After using a given device, you should make sure that BluetoothGatt.close() is called
-        // such that resources are cleaned up properly.  In this particular example, close() is
-        // invoked when the UI is disconnected from the Service.
-//        close();
         return super.onUnbind(intent);
     }
 
@@ -732,38 +728,25 @@ public class BluetoothLeService extends Service implements
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
-                    case MSG_CLEANUP_DISCONNECTED_GATT:
-                        removeMessages(MSG_CLEANUP_DISCONNECTED_GATT);
-                        Log.d(LOG_TAG, "handling MSG_CLEANUP_DISCONNECTED_GATT");
-                        Set<Map.Entry<String, Integer>> entrys = mGattConnectionStates.entrySet();
-                        for (Map.Entry<String, Integer> entry : entrys) {
-                            String address = entry.getKey();
-                            Integer state = entry.getValue();
-                            if (state == null) {
-                                Log.w(LOG_TAG, "Handler vlean up device whose state is null." + address);
-                                BluetoothGatt gatt = mBluetoothGatts.get(address);
-                                if (gatt != null) {
-                                    Log.e(LOG_TAG, "code logic error, state is null but BluetoothGatt is empty.");
-                                    gatt.disconnect();
-                                    gatt.close();
-                                    mBluetoothGatts.remove(address);
-                                }
-                                mPrefsManager.saveMissedTrack(address, true);
-                                mBluetoothGatts.remove(address);
-
-                            } else if (state == BluetoothProfile.STATE_DISCONNECTED) {
-                                Log.w(LOG_TAG, "Handler clean up state STATE_DISCONNECTED device " + address);
-                                BluetoothGatt gatt = mBluetoothGatts.get(address);
-                                if (gatt != null) {
-                                    gatt.disconnect();
-                                    gatt.close();
-                                    Log.i(LOG_TAG, "disconnect and close gatt.");
-                                }
-                                mPrefsManager.saveMissedTrack(address, true);
-                                mBluetoothGatts.remove(address);
-                            }
-                        }
-                        break;
+//                    case MSG_CLEANUP_DISCONNECTED_GATT:
+//                        removeMessages(MSG_CLEANUP_DISCONNECTED_GATT);
+//                        Log.d(LOG_TAG, "handling MSG_CLEANUP_DISCONNECTED_GATT");
+//                        Set<Map.Entry<String, Integer>> entrys = mGattConnectionStates.entrySet();
+//                        for (Map.Entry<String, Integer> entry : entrys) {
+//                            String address = entry.getKey();
+//                            Integer state = entry.getValue();
+//                            if (state == null) {
+//                                Log.w(LOG_TAG, "Handler clean up device whose state is null." + address);
+//                                mPrefsManager.saveMissedTrack(address, true);
+//                                mBluetoothGatts.remove(address);
+//
+//                            } else if (state == BluetoothProfile.STATE_DISCONNECTED) {
+//                                Log.w(LOG_TAG, "Handler clean up state STATE_DISCONNECTED device " + address);
+//                                mPrefsManager.saveMissedTrack(address, true);
+//                                mBluetoothGatts.remove(address);
+//                            }
+//                        }
+//                        break;
                     case MSG_LOOP_READ_RSSI:
                         String address = (String) msg.obj;
                         Log.v(LOG_TAG, "will read rssi, whose address is " + address);
@@ -777,6 +760,29 @@ public class BluetoothLeService extends Service implements
                         mHandler.removeMessages(MSG_LOOP_READ_RSSI);
                         msg = mHandler.obtainMessage(MSG_LOOP_READ_RSSI, address);
                         mHandler.sendMessageDelayed(msg, SCAN_PERIOD_OF_RSSI_READ);
+                        break;
+
+                    case MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER:
+                        Log.d(LOG_TAG, "try to verify connection");
+                        BluetoothGatt gatt = (BluetoothGatt) msg.obj;
+                        BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
+
+                        if(service != null) {
+                            BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+
+                            if(characteristic != null) {
+                                characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                                if(gatt.writeCharacteristic(characteristic)) {
+                                    log("write verify code success.");
+                                } else {
+                                    log("write verify code failed.");
+                                }
+                            } else {
+                                Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
+                            }
+                        } else {
+                            Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
+                        }
                         break;
                 }
             }
@@ -890,7 +896,7 @@ public class BluetoothLeService extends Service implements
         Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> entry : gatts) {
             String address = entry.getKey();
-            entry.getValue().disconnect();
+            entry.getValue().close();
             mBluetoothGatts.remove(address);
         }
 
@@ -1089,9 +1095,6 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 Log.i(LOG_TAG, "auto delay stop scan after scanLeDevice");
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
-
-                //no longer waiting unconnected track;
-                mHandler.sendEmptyMessage(MSG_CLEANUP_DISCONNECTED_GATT);
             }
         }, 6 * 1000);
     }
@@ -1112,16 +1115,14 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-
-
         if(mPrefsManager.isDeclaredLost(address)) {
             fetchDeclaredLostTrackGps(address);
-            Log.v(LOG_TAG, "found one declared lost track r");
+            Log.v(LOG_TAG, "connect to a declared track, try fetch lost gps from server");
+            return false;
         }
 
         if (mPrefsManager.isMissedTrack(address)) {
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            //mPrefsManager.saveMissedTrack(address, false);
             Log.w(LOG_TAG, "Trying to connect  a disconnected track, bail out.");
             return false;
         }
@@ -1131,6 +1132,7 @@ public class BluetoothLeService extends Service implements
             Log.w(LOG_TAG, "Device not found.  Unable to connect.");
             return false;
         }
+
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
 
@@ -1147,23 +1149,11 @@ public class BluetoothLeService extends Service implements
 
         //already send an connect request;
         if (bluetoothGatt != null) {
-            Log.v(LOG_TAG, "Disconnect old gatt state is not connected.");
-            bluetoothGatt.disconnect();
-            bluetoothGatt.close();
-            mGattConnectionStates.remove(address);
-            mBluetoothGatts.remove(address);
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.w(LOG_TAG, "retry connect a long waiting trackr");
-                    connect(address);
-                }
-            }, 500);
+            bluetoothGatt.connect();
+            Log.v(LOG_TAG, "use old bluetoothGatt to connect the track.");
             return false;
         }
 
-        //Handle make samsung device work normal
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -1206,6 +1196,7 @@ public class BluetoothLeService extends Service implements
     }
 
     private void tryConnectGatt(String address, BluetoothDevice device) {
+
         MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
         BluetoothGatt bluetoothGatt;
         if (oldCallback == null) {
@@ -1220,6 +1211,7 @@ public class BluetoothLeService extends Service implements
 
         if (bluetoothGatt != null) {
             mBluetoothCallbacks.put(address, oldCallback);
+            Log.i(LOG_TAG, "add bluetooth gatt to out list");
         } else {
             Log.e(LOG_TAG, "Device connectGatt return null.");
         }
@@ -1274,7 +1266,9 @@ public class BluetoothLeService extends Service implements
     }
 
     public void turnOffTrackR(String address) {
+        Log.i(LOG_TAG, "turnOffTrackR");
         Integer state = mGattConnectionStates.get(address);
+        mPrefsManager.saveClosedTrack(address, true);
         //turn off connected trackr;
         if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -1283,18 +1277,14 @@ public class BluetoothLeService extends Service implements
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             alertLevelChar.setValue(new byte[]{03});
             gatt.writeCharacteristic(alertLevelChar);
+            //disconnected gatt can be reused later ;
+
         } else {
-            Log.i(LOG_TAG, "turnoff disconnected TrackR");
+            Log.i(LOG_TAG, "turn off disconnected Track");
             BluetoothGatt gatt = mBluetoothGatts.get(address);
-            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            if (gatt != null) {
-                gatt.disconnect();
-                gatt.close();
-            }
-            mBluetoothGatts.remove(address);
             broadcastDeviceOff();
         }
-        mPrefsManager.saveClosedTrack(address, true);
+
         mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
     }
 
@@ -1302,29 +1292,25 @@ public class BluetoothLeService extends Service implements
     public void unbindTrackR(final String address) {
         Integer state = mGattConnectionStates.get(address);
         //turn off connected trackr;
+
         if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
+            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             alertLevelChar.setValue(new byte[]{03});
             gatt.writeCharacteristic(alertLevelChar);
+
         } else {
             Log.i(LOG_TAG, "unbind disconnected TrackR");
-            BluetoothGatt gatt = mBluetoothGatts.get(address);
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            if (gatt != null) {
-                gatt.disconnect();
-                gatt.close();
-            }
-            mBluetoothGatts.remove(address);
             broadcastDeviceOff();
         }
+
+        mPrefsManager.removeTrackId(address);
         mPrefsManager.saveMissedTrack(address, false);
         mPrefsManager.saveClosedTrack(address, false);
-        mPrefsManager.removeTrackId(address);
 
-        mGattConnectionStates.remove(address);
-        mBluetoothGatts.remove(address);
         broadcastDeviceUbbind(address);
 
     }
