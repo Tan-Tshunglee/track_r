@@ -197,4 +197,10 @@
     <string name="iTrack_close_tip">请按iTrack按钮重新启动</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
+
+    <string name="title_activity_camera">Camera</string>
+    <string name="sleep_mode_on_and_time_format">Sleep On\n\n%1$s - %2$s</string>
+    <string name="sleep_mode_off">Sleep Mode off</string>
+    <string name="checking_for_new_version">Checking for new version</string>
+    <string name="declaration_failed">Sorry declaration failed</string>
 </resources>
