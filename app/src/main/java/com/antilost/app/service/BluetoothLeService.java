@@ -76,6 +76,7 @@ public class BluetoothLeService extends Service implements
     //    private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
     private static final int MSG_LOOP_READ_RSSI = 3;
     private static final int MSG_FAST_REPEAT_MODE_FLAG = 4;
+    private static final int MSG_DISCOVER_BLE_SERVICES = 5;
     private static final int MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER = 6;
 
 
@@ -346,8 +347,10 @@ public class BluetoothLeService extends Service implements
 
                 Log.i(LOG_TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
+                Message msg = mHandler.obtainMessage(MSG_DISCOVER_BLE_SERVICES, gatt);
+                mHandler.sendMessageDelayed(msg, 1000);
+                Log.i(LOG_TAG, "Attempting to start service discovery delay 1000 ms");
 
-                Log.i(LOG_TAG, "Attempting to start service discovery:" + gatt.discoverServices());
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 
                 if (oldState == BluetoothProfile.STATE_CONNECTED) {
@@ -357,8 +360,6 @@ public class BluetoothLeService extends Service implements
                     String homeWifiSsid = mPrefsManager.getHomeWifiSsid();
                     String officeSsid = mPrefsManager.getOfficeSsid();
                     String otherSsid = mPrefsManager.getOtherSsid();
-
-
 
                     if(mLostGpsNeedUpdateIds.add(address)) {
                         Log.v(LOG_TAG, "add lost track's address to update list.");
@@ -783,6 +784,10 @@ public class BluetoothLeService extends Service implements
                         } else {
                             Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
                         }
+                        break;
+                    case MSG_DISCOVER_BLE_SERVICES:
+                        gatt = (BluetoothGatt) msg.obj;
+                        gatt.discoverServices();
                         break;
                 }
             }
