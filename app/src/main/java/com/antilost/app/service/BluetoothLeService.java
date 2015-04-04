@@ -348,12 +348,14 @@ public class BluetoothLeService extends Service implements
                     String officeSsid = mPrefsManager.getOfficeSsid();
                     String otherSsid = mPrefsManager.getOtherSsid();
 
-                    unregisterAmapLocationListener();
-                    registerAmapLocationListener();
+
 
                     if(mLostGpsNeedUpdateIds.add(address)) {
                         Log.v(LOG_TAG, "add lost track's address to update list.");
                     }
+
+                    unregisterAmapLocationListener();
+                    registerAmapLocationListener();
                     mPrefsManager.saveMissedTrack(address, true);
                     if (mLastLocation != null) {
                         mPrefsManager.saveLastLostLocation(mLastLocation, address);
@@ -370,7 +372,7 @@ public class BluetoothLeService extends Service implements
                         t.start();
                     }
 
-                    mPrefsManager.saveLastLostTime(address);
+                    mPrefsManager.saveLastLostTime(address, System.currentTimeMillis());
 
                     WifiInfo info = mWifiManager.getConnectionInfo();
                     String ssid = info.getSSID();
@@ -402,7 +404,6 @@ public class BluetoothLeService extends Service implements
             //even device is power off the newState can be STATE_CONNECTEDe,
             //we think device is connected after onServicesDiscovered is called();
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
             }
         }
@@ -1229,8 +1230,8 @@ public class BluetoothLeService extends Service implements
                             Location loc = new Location(LocationManager.NETWORK_PROVIDER);
                             loc.setLatitude(command.getLatitude());
                             loc.setLongitude(command.getLongitude());
-                            mPrefsManager.saveLastLostLocation(loc, address);
-                            mPrefsManager.saveLastLostTime(address);
+                            mPrefsManager.saveLastLocFoundByOthers(loc, address);
+                            mPrefsManager.saveLastTimeFoundByOthers(command.getLostTime(), address);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

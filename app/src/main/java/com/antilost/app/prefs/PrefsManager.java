@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,6 +44,9 @@ public class PrefsManager {
     public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
     public static final String PREFS_LAST_LOCATION_AMPA_KEY_PREFIX = "last_location";
     public static final String PREFS_LAST_LOST_TIME_KEY_PREFIX = "last_lost_time";
+
+    public static final String PREFS_LAST_TIME_FOUND_BY_OTHERS_PREFIX = "last_found_by_others_time";
+    public static final String PREFS_LAST_LOCATION_FOUND_BY_OTHERS_PREFIX = "last_location_found_by_others";
 
     public static final String PREFS_DECLARE_LOST_KEY_PREFIX = "declare_lost_";
     public static final String PREFS_SLEEP_MODE_KEY = "sleep_mode_prefs_key";
@@ -265,16 +269,11 @@ public class PrefsManager {
         return mPrefs.getBoolean(PREFS_ALERT_RING_ENABLED, true);
     }
 
-    public void saveLastLostLocation(Location loc, String address) {
-
-        String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
-        mPrefs.edit().putString(key, LocUtils.convertLocation(loc));
-    }
-
     public void saveLastAMPALocation(Location loc) {
         String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
         mPrefs.edit().putString(key, LocUtils.convertLocation(loc)).commit();
     }
+
     public Location getLastAMPALocation() {
         String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
         String loc = mPrefs.getString(key, null);
@@ -284,6 +283,18 @@ public class PrefsManager {
         return LocUtils.convertLocation(loc);
     }
 
+    public void saveLastLostLocation(Location loc, String address) {
+
+        Log.v(LOG_TAG, "save track lost location.");
+        String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
+        String locStr = LocUtils.convertLocation(loc);
+        if(locStr != null) {
+            mPrefs.edit().putString(key, locStr).commit();
+        } else {
+            Log.e(LOG_TAG, "saveLastLostLocation get null str loc");
+        }
+    }
+
     public Location getLastLostLocation(String address) {
         String key = PREFS_LAST_LOST_LOCATION_KEY_PREFIX + address;
         String loc = mPrefs.getString(key, null);
@@ -291,18 +302,37 @@ public class PrefsManager {
             return null;
         }
         return LocUtils.convertLocation(loc);
-
     }
 
-    public void saveLastLostTime(String address) {
+
+    public void saveLastLostTime(String address, long time) {
         String key = PREFS_LAST_LOST_TIME_KEY_PREFIX + address;
-        long time = System.currentTimeMillis();
         mPrefs.edit().putLong(key, time).commit();
     }
 
     public long getLastLostTime(String address) {
         String key = PREFS_LAST_LOST_TIME_KEY_PREFIX + address;
         return mPrefs.getLong(key, -1);
+    }
+
+    public void saveLastTimeFoundByOthers(long time, String address) {
+        String key = PREFS_LAST_TIME_FOUND_BY_OTHERS_PREFIX + address;
+        mPrefs.edit().putLong(key, time).commit();
+    }
+
+    public long getLastTimeFoundByOthers(String address) {
+        String key = PREFS_LAST_TIME_FOUND_BY_OTHERS_PREFIX + address;
+        return mPrefs.getLong(key, -1);
+    }
+
+    public void saveLastLocFoundByOthers(Location loc, String address) {
+        String key = PREFS_LAST_LOCATION_FOUND_BY_OTHERS_PREFIX + address;
+        mPrefs.edit().putString(key, LocUtils.convertLocation(loc)).commit();
+    }
+
+    private Location getLastLocFoundByOther(String address) {
+        String key = PREFS_LAST_LOCATION_FOUND_BY_OTHERS_PREFIX + address;
+        return LocUtils.convertLocation(mPrefs.getString(key, null));
     }
 
 
@@ -375,4 +405,6 @@ public class PrefsManager {
     public void setAlertTime(int time) {
         mPrefs.edit().putInt(PREFS_ALERT_TIME_KEY, time).commit();
     }
+
+
 }

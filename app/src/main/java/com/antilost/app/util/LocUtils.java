@@ -26,7 +26,6 @@ public class LocUtils {
 
     public static  final String convertLocation(Location loc) {
         if(loc == null) {
-
             return null;
         }
         return String.format("%f-%f", loc.getLatitude(), loc.getLongitude());

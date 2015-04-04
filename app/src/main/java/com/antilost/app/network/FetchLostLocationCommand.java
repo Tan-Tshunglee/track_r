@@ -2,6 +2,8 @@ package com.antilost.app.network;
 
 import android.text.TextUtils;
 
+import com.antilost.app.util.Utils;
+
 import org.w3c.dom.Text;
 
 /**
@@ -35,7 +37,11 @@ public class FetchLostLocationCommand extends Command {
         return Float.valueOf(mResultMap.get("lat"));
     }
 
-    public String getLostTime() {
-        return mResultMap.get(TIME);
+    public long getLostTime() {
+        String timeStr = mResultMap.get(TIME);
+        if(TextUtils.isEmpty(timeStr)) {
+            return -1;
+        }
+        return Utils.convertTimeStrToLongTime(timeStr);
     }
 }

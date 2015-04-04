@@ -3,6 +3,8 @@ package com.antilost.app.adapter;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
@@ -23,7 +24,9 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Tan on 2015/1/17.
@@ -35,6 +38,7 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
     private final PrefsManager mPrefs;
     private final MainTrackRListActivity mActivity;
     private ArrayList<String> mIds;
+    private SimpleDateFormat mFoundOrLostTimeFormat = new SimpleDateFormat("MM-dd HH:mm");
 
     public TrackRListAdapter(MainTrackRListActivity activity, PrefsManager prefs) {
         mInflater = activity.getLayoutInflater();
@@ -114,30 +118,37 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
             state.setText(mActivity.getString(R.string.closed));
             state.setTextColor(Color.LTGRAY);
             icon.setBackgroundResource(R.drawable.closed_icon_bkg);
+            last.setVisibility(View.GONE);
         } else {
             if(service != null) {
                 int stateValue =  service.getGattConnectState(address);
-                state.setText(getString(stateValue));
+                state.setText(getStateString(stateValue));
                 switch (stateValue) {
                     case BluetoothProfile.STATE_DISCONNECTED:
                         icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                         state.setTextColor(Color.RED);
+                        last.setText(getLastTimeAndLocation(address));
+                        last.setVisibility(View.VISIBLE);
                         break;
                     case BluetoothProfile.STATE_CONNECTED:
                         icon.setBackgroundResource(R.drawable.connected_icon_bkg);
                         state.setTextColor(Color.GREEN);
+                        last.setVisibility(View.GONE);
                         break;
                     case BluetoothProfile.STATE_CONNECTING:
                     case BluetoothProfile.STATE_DISCONNECTING:
                         icon.setBackgroundResource(R.drawable.connecting_icon_bkg);
-                        state.setTextColor(Color.RED);
+                        state.setTextColor(Color.YELLOW);
+                        last.setVisibility(View.GONE);
                         break;
                 }
             } else {
                 Log.v(LOG_TAG, "service is null");
-                icon.setBackgroundResource(R.drawable.closed_icon_bkg);
+                icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                 state.setText(mActivity.getString(R.string.disconnected));
                 state.setTextColor(Color.RED);
+                last.setText(getLastTimeAndLocation(address));
+                last.setVisibility(View.VISIBLE);
             }
         }
 
@@ -145,7 +156,29 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 
     }
 
-    private String getString(int stateValue) {
+    private String getLastTimeAndLocation(String address) {
+        if(mPrefs.isDeclaredLost(address)) {
+            long foundTime = mPrefs.getLastTimeFoundByOthers(address);
+            Location loc = mPrefs.getLastLostLocation(address);
+            if(foundTime != -1 && loc != null) {
+                return mActivity.getString(R.string.found_by_others_at_format, mFoundOrLostTimeFormat.format(new Date(foundTime)) );
+            }
+        } else if(mPrefs.isMissedTrack(address)) {
+            long lostTime = mPrefs.getLastLostTime(address);
+            Location loc = mPrefs.getLastLostLocation(address);
+            if(lostTime != -1) {
+                return mActivity.getString(R.string.lost_at, mFoundOrLostTimeFormat.format(new Date(lostTime)));
+            }
+
+            if(loc == null) {
+                Log.w(LOG_TAG, "can not get lost location info");
+            }
+        }
+
+        return "";
+    }
+
+    private String getStateString(int stateValue) {
         if(stateValue == BluetoothProfile.STATE_CONNECTED) {
             return mActivity.getString(R.string.connected);
         } else if(stateValue == BluetoothProfile.STATE_DISCONNECTED) {

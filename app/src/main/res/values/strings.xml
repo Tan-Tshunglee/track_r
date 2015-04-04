@@ -196,5 +196,7 @@
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
     <string name="iTrack_close_tip">Please Press iTrack \n to reconnect</string>
+    <string name="found_by_others_at_format">Found by others at %1$s</string>
+    <string name="lost_at">Lost at %1$s</string>
 
 </resources>

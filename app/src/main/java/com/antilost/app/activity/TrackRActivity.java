@@ -450,7 +450,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     }
                 }
 
-
                 break;
 
             case R.id.share:

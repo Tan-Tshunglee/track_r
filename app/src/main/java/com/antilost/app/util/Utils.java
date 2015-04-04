@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -84,5 +85,15 @@ public class Utils {
         }
         Date date = new Date(timeStamp);
         return DATE_FORMAT.format(date);
+    }
+
+    public static final long convertTimeStrToLongTime(String date_format) {
+
+        try {
+            return  DATE_FORMAT.parse(date_format).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }
