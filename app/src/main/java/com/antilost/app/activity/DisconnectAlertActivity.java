@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -27,9 +27,10 @@ import com.antilost.app.util.LocUtils;
 
 import java.io.IOException;
 
-public class DisconnectAlertActivity extends Activity implements DialogInterface.OnClickListener, SoundPool.OnLoadCompleteListener {
+public class DisconnectAlertActivity extends Activity implements DialogInterface.OnClickListener {
 
     public static final String EXTRA_KEY_DEVICE_ADDRESS = "device_address";
+    private static final String LOG_TAG = "DisconnectAlertActivity";
 
     private Dialog mAlertDialog;
     private PrefsManager mPrefsManager;
@@ -56,14 +57,15 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(assets.openFd("alert.mp3").getFileDescriptor());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         mMediaPlayer.setVolume(1.0f, 1.0f);
         mLayoutInflater = getLayoutInflater();
-        initAlertDialog();
-        playAlertSound();
+        initAlertDialogPlaySound();
+
 
     }
 
@@ -73,18 +75,17 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        initAlertDialog();
+        initAlertDialogPlaySound();
 
     }
 
-    private void initAlertDialog() {
+    private void initAlertDialogPlaySound() {
 
         mAddress = getIntent().getStringExtra(EXTRA_KEY_DEVICE_ADDRESS);
         mTrackR = mPrefsManager.getTrack(mAddress);
         ensureDialog();
         mVibrator.vibrate(500);
-
-
+        playAlertSound();
     }
 
     private void ensureDialog() {
@@ -114,6 +115,9 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
+        if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+        }
         switch (i) {
             case DialogInterface.BUTTON_NEGATIVE:
                 finish();
@@ -129,15 +133,12 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         }
     }
 
-    @Override
-    public void onLoadComplete(SoundPool soundPool, int i, int i2) {
-        playAlertSound();
-    }
 
     private Runnable mStopRingRunnable = new Runnable() {
         @Override
         public void run() {
             if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                Log.v(LOG_TAG, "alert time run out ,stop  mediaplayer.");
                 mMediaPlayer.stop();
             }
         }
@@ -150,6 +151,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             e.printStackTrace();
         }
         mMediaPlayer.start();
+        Log.d(LOG_TAG, "playe alert sound...");
         int alertSecond = mPrefsManager.getAlertTime();
         mHandler.postDelayed(mStopRingRunnable, alertSecond * 1000);
     }
@@ -158,19 +160,9 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     @Override
     protected void onResume() {
         super.onResume();
-
-
         mAlertDialog.show();
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Window window = getWindow();
-//                window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-//                window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//                window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//            }
-//        }, 60 * 1000);
+
+        Log.v(LOG_TAG, "onResume called.");
     }
 
     @Override
@@ -180,11 +172,8 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         if(mAlertDialog != null) {
             mAlertDialog.dismiss();
         }
-        if(mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
-        }
 
-        mHandler.removeCallbacks(mStopRingRunnable);
+        Log.v(LOG_TAG, "onPause called.");
     }
 
     @Override
