@@ -12,10 +12,14 @@
         <ImageButton
             android:id="@+id/backBtn"
             android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/back_arrow"
+            android:layout_height="fill_parent"
             android:layout_centerVertical="true"
-            android:minWidth="50dp"
+            android:focusable="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:focusableInTouchMode="true"
+            android:gravity="left|center_vertical"
+            android:src="@drawable/back_arrow"
             android:background="@android:color/transparent" />
 
         <TextView android:id="@+id/titleText"
