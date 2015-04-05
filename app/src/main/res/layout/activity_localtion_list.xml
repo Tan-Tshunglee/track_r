@@ -7,16 +7,20 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bkg">
-
         <ImageButton
             android:id="@+id/btnlocatinBack"
             android:layout_width="60dp"
             android:layout_height="fill_parent"
-            android:src="@drawable/back_arrow"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_top_button"
-            android:background="@android:color/transparent" />
-
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:focusableInTouchMode="true"
+            android:gravity="left|center_vertical"
+            android:src="@drawable/back_arrow"
+            android:textColor="@color/whitesmoke" />
+        <!-- 标题 -->
 
         <TextView android:id="@+id/tvlocationtitleText"
             android:layout_width="wrap_content"

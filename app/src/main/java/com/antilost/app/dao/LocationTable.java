@@ -75,6 +75,19 @@ public class LocationTable {
         cv.put(GEN_LOCATION_LATITUDE, arg0.getMlatitude());
         return db.update(table, cv, whereClause, whereArgs);
     }
+
+
+    /**
+     * 删除一条数据
+     */
+    public long delete(SQLiteDatabase db, LocationBean arg0)
+            throws RuntimeException {
+        String table = GEN_TABLE_NAME;
+        String whereClause = GEN_LOCATION_ID + "=?";
+        String[] whereArgs = {Integer.toString(arg0.getMlocationId())};
+        return db.delete(table, whereClause, whereArgs);
+    }
+
     public List<LocationBean> query(SQLiteDatabase db) {
         String table = GEN_TABLE_NAME;
         Cursor c = db.query(table, null, null, null, null, null, null);
