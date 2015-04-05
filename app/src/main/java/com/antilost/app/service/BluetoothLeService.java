@@ -403,6 +403,10 @@ public class BluetoothLeService extends Service implements
                     alertUserTrackDisconnected(address);
                     enterFastRepeatMode();
                     sendBroadcast(new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION));
+
+                    gatt.close();
+                    mBluetoothGatts.remove(address);
+
                 } else {
                     Log.w(LOG_TAG, "onConnectionStateChange get disconnected state and old state is not connected.");
                 }
