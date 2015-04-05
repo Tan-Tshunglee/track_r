@@ -203,4 +203,15 @@
     <string name="sleep_mode_off">Sleep Mode off</string>
     <string name="checking_for_new_version">Checking for new version</string>
     <string name="declaration_failed">Sorry declaration failed</string>
+
+
+
+    <string name="modify_locationname">Modify LocationName</string>
+    <string name="modify_locationname_null">Location Name is null</string>
+
+    <string-array name="modify_location">
+        <item>rename</item>
+        <item>delete</item>
+    </string-array>
+
 </resources>

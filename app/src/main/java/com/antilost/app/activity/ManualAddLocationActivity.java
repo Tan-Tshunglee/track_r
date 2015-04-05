@@ -2,6 +2,7 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,23 +10,24 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.amap.api.location.AMapLocalWeatherListener;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.antilost.app.R;
 import com.antilost.app.adapter.locationAdapter;
 import com.antilost.app.dao.LocationTable;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.model.LocationBean;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.util.LocUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -77,18 +79,116 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 //        }
         if(LocationTable.getInstance().query(mDb)!=null){
             locationBeans =  LocationTable.getInstance().query(mDb);
-            locationadatper = new locationAdapter(this,locationBeans);
+            locationadatper = new locationAdapter(this,locationBeans,mDb);
             mListView.setAdapter(locationadatper);
+            Log.d(LOG_TAG, " mListView.setAdapter(locationadatper) ");
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    int mposition = position;
+
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", locationBeans.get(mposition).getMlatitude(), locationBeans.get(mposition).getMlongitude());
+//                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
+                    Log.d(LOG_TAG, "the string is " + uri);
+
+
+                    Location location = new Location(LocationManager.NETWORK_PROVIDER);
+                    double longitude = Double.valueOf(locationBeans.get(mposition).getMlatitude());
+                    double latitude = Double.valueOf(locationBeans.get(mposition).getMlongitude());
+
+                    location.setLatitude(latitude);
+                    location.setLongitude(longitude);
+                    LocUtils.viewLocation(ManualAddLocationActivity.this, location);
+                }
+            });
+            mListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        modifyLocation(locationBeans.get(position));
+                    } catch (Exception ex) {
+                        Log.d(LOG_TAG, ex.toString());
+                    }
+                    return true;
+                }
+            });
         }
         mPrefsManager = PrefsManager.singleInstance(this);
         //debug
 //        mLocationManagerProxy = LocationManagerProxy.getInstance(this);
 //        mLocationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork,-1, 15, this);
+    }
 
 
 
+    /**
+     */
+    public boolean modifyLocation(final LocationBean locationBean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ManualAddLocationActivity.this);
+        builder.setTitle(locationBean.getmLocationName());
+        builder.setItems(R.array.modify_location, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    // 重命�?
+                    case 0:
+                        modifyLocationName(locationBean);
+                        break;
+                    // 删除
+                    case 1:
+                        deleteSensor(locationBean);
+                        break;
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+        Dialog d = builder.show();
+        d.setCanceledOnTouchOutside(true);
+        return false;
+    }
+
+    /**
+     * 修改名字
+     *
+     */
+    private final void modifyLocationName(final LocationBean locationBean) {
+        final EditText inputServer = new EditText(ManualAddLocationActivity.this);
+        inputServer.setText(locationBean.getmLocationName());
+        inputServer.setSelection(locationBean.getmLocationName().length());
+        AlertDialog.Builder builder = new AlertDialog.Builder(ManualAddLocationActivity.this);
+        builder.setTitle(R.string.modify_locationname);
+        builder.setView(inputServer);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sensorName = inputServer.getText().toString();
+                if (TextUtils.isEmpty(sensorName)) {
+                    Toast.makeText(ManualAddLocationActivity.this, R.string.modify_locationname_null, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                locationBean.setmLocationName(sensorName);
+                LocationTable.getInstance().update(mDb,locationBean);
+
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 删除房间
+     *
+     */
+    private final void deleteSensor(final LocationBean locationBean) {
+        LocationTable.getInstance().delete(mDb, locationBean);
+        if(LocationTable.getInstance().query(mDb)!=null){
+            locationBeans =  LocationTable.getInstance().query(mDb);
+            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
+            mListView.setAdapter(locationadatper);
+        }
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -150,7 +250,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                         Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
                         if(LocationTable.getInstance().query(mDb)!=null){
                             locationBeans =  LocationTable.getInstance().query(mDb);
-                            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans);
+                            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
                             mListView.setAdapter(locationadatper);
                         }
                     }
