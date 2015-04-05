@@ -95,8 +95,8 @@
     <string name="user_liks">爱好：</string>
     <string name="user_editorself">个性签名：</string>
     <string name="user_homepage">主页：</string>
-    <string name="done">完成</string>
-    <string name="back">返回</string>
+    <string name="done">Done</string>
+    <string name="back">Back</string>
 
     <string name="safezone_title">安全区域</string>
     <string name="safezone_message">添加信任WIFI，当手机连接信任WIFI时系统判断为安全区域，iTrack APP将减少提醒，以免你受到干扰。</string>
