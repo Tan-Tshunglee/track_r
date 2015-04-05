@@ -438,6 +438,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                         Log.w(LOG_TAG, "no location found.");
                     }
                 } else {
+
+                    if(mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)
+                            && mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
+                        Location foundLoc = mPrefsManager.getLastLocFoundByOther(mBluetoothDeviceAddress);
+                        if(foundLoc != null) {
+                            LocUtils.viewLocation(this, foundLoc);
+                            return;
+                        }
+                    }
+
                     Location location = mPrefsManager.getLastLostLocation(mBluetoothDeviceAddress);
 
                     if(location == null) {

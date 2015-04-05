@@ -330,7 +330,7 @@ public class PrefsManager {
         mPrefs.edit().putString(key, LocUtils.convertLocation(loc)).commit();
     }
 
-    private Location getLastLocFoundByOther(String address) {
+    public Location getLastLocFoundByOther(String address) {
         String key = PREFS_LAST_LOCATION_FOUND_BY_OTHERS_PREFIX + address;
         return LocUtils.convertLocation(mPrefs.getString(key, null));
     }
