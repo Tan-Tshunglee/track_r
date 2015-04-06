@@ -1,7 +1,6 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,13 +23,12 @@ import com.antilost.app.util.WiFiManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SafeZoneAddWifiActivity extends Activity implements TrackRInitialize, ListView.OnItemClickListener {
+public class SafeZoneWifiSelectActivity extends Activity implements TrackRInitialize, ListView.OnItemClickListener {
 
     public static final String EXTRA_KEY_TARGET = "extra_key_target";
     public static final int TARGET_HOME = 1;
     public static final int TARGET_OFFICE = 2;
     public static final int TARGET_OTHER = 3;
-
 
     private String TAG = "SafeZoneAddWifi";
 
@@ -77,19 +75,19 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
                 listwifi.add(listScanWifi.get(i).SSID.toString());
                 Log.d(TAG, "the ssid wifi add to " + listwifi.get(i));
             }
-          String type = null;
+            String selected = null;
             switch (mTarget) {
                 case TARGET_HOME:
-                    type = mPrefsManager.getHomeWifiSsid();
+                    selected = mPrefsManager.getHomeWifiSsid();
                     break;
                 case TARGET_OFFICE:
-                    type=mPrefsManager.getOfficeSsid();
+                    selected = mPrefsManager.getOfficeSsid();
                     break;
                 case TARGET_OTHER:
-                    type=mPrefsManager.getOtherSsid();
+                    selected = mPrefsManager.getOtherSsid();
                     break;
             }
-            safezonelistadapter = new SafeZoneWifiListViewAdapter(this, listwifi,type);
+            safezonelistadapter = new SafeZoneWifiListViewAdapter(this, listwifi, selected);
             lvwifilist.setAdapter(safezonelistadapter);
         }
 
@@ -119,7 +117,7 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
             public void onClick(View arg0) {
 //                Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
 //                startActivity(intent);
-                SafeZoneAddWifiActivity.this.finish();
+                SafeZoneWifiSelectActivity.this.finish();
             }
         });
 
@@ -134,8 +132,9 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i > listwifi.size()) {
+        if (i > listwifi.size()) {
             Log.w(TAG, "item click position out of range");
+            return;
         }
 
         String ssid = listwifi.get(i);
@@ -151,19 +150,17 @@ public class SafeZoneAddWifiActivity extends Activity implements TrackRInitializ
                 mPrefsManager.setOtherSsid(ssid);
                 break;
         }
-//        Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
-//        startActivity(intent);
-        SafeZoneAddWifiActivity.this.finish();
+        finish();
     }
 
 
-    public boolean onKeyDown(int keyCode,KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
 //            Intent intent = new Intent(SafeZoneAddWifiActivity.this, SafeZonewifiActivity.class);
 //            startActivity(intent);
-            SafeZoneAddWifiActivity.this.finish();
+            SafeZoneWifiSelectActivity.this.finish();
             return true;
         }
         return true;

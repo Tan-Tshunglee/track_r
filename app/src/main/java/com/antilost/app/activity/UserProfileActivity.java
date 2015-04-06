@@ -247,7 +247,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(UserProfileActivity.this, SafeZonewifiActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, SafeZoneWifiActivity.class);
                 startActivity(intent);
 //				UserProfileActivity.this.finish();
             }

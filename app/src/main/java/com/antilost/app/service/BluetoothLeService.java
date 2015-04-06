@@ -1521,8 +1521,12 @@ public class BluetoothLeService extends Service implements
 
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             byte value = (byte) (enable ? 0x02 : 0x00);
-            alertLevelChar.setValue(new byte[]{value});
-            gatt.writeCharacteristic(alertLevelChar);
+
+            if(alertLevelChar != null) {
+                alertLevelChar.setValue(new byte[]{value});
+                gatt.writeCharacteristic(alertLevelChar);
+            }
+
         }
     }
 

@@ -152,7 +152,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         }
 
         boolean globalAlertEnabled = mPrefsManager.getGlobalAlertRingEnabled();
-        boolean trackAlertEnabled = mPrefsManager.getTrackAlert(mBluetoothAddress);
+        boolean trackAlertEnabled = mPrefsManager.getPhoneAlert(mBluetoothAddress);
 
         if(globalAlertEnabled && trackAlertEnabled) {
             mMediaPlayer.start();

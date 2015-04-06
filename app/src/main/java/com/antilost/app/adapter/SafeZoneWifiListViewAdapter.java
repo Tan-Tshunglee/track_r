@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.antilost.app.R;
-import com.antilost.app.prefs.PrefsManager;
 
 
 /**
@@ -22,26 +21,18 @@ import com.antilost.app.prefs.PrefsManager;
 public class SafeZoneWifiListViewAdapter extends BaseAdapter {
     private Context context = null;
     private List<String> wifilist = null;
-    private String typewho;
+    private String ssidSelected;
 
-    public SafeZoneWifiListViewAdapter(Context context, List<String> wifilist,String type) {
+    public SafeZoneWifiListViewAdapter(Context context, List<String> wifilist, String selected) {
         this.context = context;
         this.wifilist = wifilist;
-        this.typewho=type;
-        System.out.println("the size of wifilist is " + this.wifilist.size());
-        for (int i = 0; i < this.wifilist.size(); i++) {
-            System.out.println("the name of action name is" + wifilist.get(i));
-        }
-
+        this.ssidSelected = selected;
     }
 
-    public SafeZoneWifiListViewAdapter() {
 
-    }
-
-    public final void setDevices(List<String> wifilist) {
+    public final void updateSsidList(List<String> wifilist) {
         this.wifilist = wifilist;
-        notifyDataSetInvalidated();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -61,25 +52,24 @@ public class SafeZoneWifiListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        System.out.println("the CsstSHActionAdapter getview ");
+
+        if(convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.safezonewifilistview, null);
+        }
+
         String wifi = wifilist.get(position);
-        convertView = LayoutInflater.from(context).inflate(R.layout.safezonewifilistview, null);
-        //Button btn_open = (Button) convertView.findViewById(R.id.item_open);
+
         TextView tvwifiname = (TextView) convertView.findViewById(R.id.tvwifiname);
         ImageView imgselect = (ImageView) convertView.findViewById(R.id.imgwifiselect);
         LinearLayout llselect = (LinearLayout) convertView.findViewById(R.id.llwifilistviewselect);
-        if(wifi.equals(typewho)){
-            imgselect.setBackgroundResource(R.drawable.select);
+
+        if(wifi.equals(ssidSelected)) {
+            imgselect.setImageResource(R.drawable.select);
+        } else {
+            imgselect.setImageResource(R.drawable.unselect);
         }
+
         tvwifiname.setText(wifi);
-        imgselect.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-            }
-        });
-
         convertView.setTag(wifi);
         return convertView;
     }

@@ -152,14 +152,14 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.SafeZoneAddWifiActivity"
+            android:name=".activity.SafeZoneWifiSelectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.SafeZonewifiActivity"
+            android:name=".activity.SafeZoneWifiActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,7 +15,7 @@ import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.prefs.PrefsManager;
 
-public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
+public class SafeZoneWifiActivity extends Activity implements TrackRInitialize {
 
     private static final int REQUEST_CODE_SET_HOME_WIFI = 1;
     private static final int REQUEST_CODE_SET_OFFICE_WIFI = 1;
@@ -44,8 +41,6 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
         initWidgetListener();
         addWidgetListener();
         initDataSource();
-
-
 
     }
 
@@ -99,17 +94,16 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                SafeZonewifiActivity.this.finish();
+                SafeZoneWifiActivity.this.finish();
             }
         });
         rlsafezone_home.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
-                intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_HOME);
+                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_HOME);
                 startActivity(intent);
-//                SafeZonewifiActivity.this.finish();
 
             }
         });
@@ -118,10 +112,9 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
-                intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OFFICE);
+                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_OFFICE);
                 startActivity(intent);
-//                SafeZonewifiActivity.this.finish();
             }
         });
 
@@ -129,10 +122,9 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneAddWifiActivity.class);
-                intent.putExtra(SafeZoneAddWifiActivity.EXTRA_KEY_TARGET, SafeZoneAddWifiActivity.TARGET_OTHER);
+                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_OTHER);
                 startActivity(intent);
-//                SafeZonewifiActivity.this.finish();
             }
         });
     }
@@ -148,16 +140,4 @@ public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
         initWidgetState();
     }
 
-
-    public boolean onKeyDown(int keyCode,KeyEvent event) {
-        // 是否触发按键为back键
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // 弹出 退出确认框
-//            Intent intent = new Intent(SafeZonewifiActivity.this, UserProfileActivity.class);
-//            startActivity(intent);
-            SafeZonewifiActivity.this.finish();
-            return true;
-        }
-        return true;
-    }
 }
