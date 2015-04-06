@@ -465,6 +465,9 @@ public class BluetoothLeService extends Service implements
                 }
                 mPrefsManager.saveMissedTrack(address, false);
                 mPrefsManager.setDeclareLost(address, false);
+
+                mPrefsManager.saveLastLocFoundByOthers(null, address);
+                mPrefsManager.saveLastTimeFoundByOthers(-1, address);
                 broadcastUpdate(ACTION_GATT_CONNECTED, address);
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
             } else {
@@ -979,7 +982,6 @@ public class BluetoothLeService extends Service implements
         }
 
         //scan devices
-
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -990,7 +992,7 @@ public class BluetoothLeService extends Service implements
         int uid = mPrefsManager.getUid();
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
-            Log.v(LOG_TAG, "user has logout, exit.");
+            Log.v(LOG_TAG, "User has logout, exit.");
             cleanupAndStopSelf();
             return true;
         }
@@ -1215,12 +1217,13 @@ public class BluetoothLeService extends Service implements
                     if(command.success()) {
                         try {
                             Log.d(LOG_TAG, "fetch lost track's location success.");
-                            mDeclaredLostTrackLastFetchedTime.put(address, System.currentTimeMillis());
                             Location loc = new Location(LocationManager.NETWORK_PROVIDER);
                             loc.setLatitude(command.getLatitude());
                             loc.setLongitude(command.getLongitude());
+                            long timeFound = command.getLostTime();
                             mPrefsManager.saveLastLocFoundByOthers(loc, address);
-                            mPrefsManager.saveLastTimeFoundByOthers(command.getLostTime(), address);
+                            mPrefsManager.saveLastTimeFoundByOthers(timeFound, address);
+                            mDeclaredLostTrackLastFetchedTime.put(address, System.currentTimeMillis());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

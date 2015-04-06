@@ -87,10 +87,10 @@ public class Utils {
         return DATE_FORMAT.format(date);
     }
 
-    public static final long convertTimeStrToLongTime(String date_format) {
+    public static final long convertTimeStrToLongTime(String dateStr) {
 
         try {
-            return  DATE_FORMAT.parse(date_format).getTime();
+            return  DATE_FORMAT.parse(dateStr).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
