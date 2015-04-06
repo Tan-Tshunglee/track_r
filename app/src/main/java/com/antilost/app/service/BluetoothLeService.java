@@ -237,13 +237,18 @@ public class BluetoothLeService extends Service implements
             new BluetoothAdapter.LeScanCallback() {
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+
+                    if(!"TrackR".equals(device.getName())) {
+                        Log.d(LOG_TAG, "scan an unkown name devices...");
+                        return;
+                    }
                     Log.v(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());
 
                     Set<String> ids = mPrefsManager.getTrackIds();
                     String deviceAddress = device.getAddress();
                     if (ids.contains(deviceAddress)) {
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
-                        reconnectTrack(deviceAddress);
+                        connectTrackAfterScan(deviceAddress);
                         return;
                     //found an new track r or
                     } else {
@@ -279,9 +284,31 @@ public class BluetoothLeService extends Service implements
         mUploadUnknownTrackLocationThread.start();
     }
 
-    private void reconnectTrack(String address) {
-        mPrefsManager.saveMissedTrack(address, false);
-        connect(address);
+    private void connectTrackAfterScan(String address) {
+
+        Integer oldState = mGattConnectionStates.get(address);
+        BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
+        if (bluetoothGatt != null
+                && oldState != null
+                && oldState == BluetoothProfile.STATE_CONNECTED) {
+            Log.d(LOG_TAG, "Device already connected after scan, just bail out.");
+            return;
+        }
+
+
+        if(bluetoothGatt != null) {
+            bluetoothGatt.close();
+            mBluetoothGatts.remove(address);
+        }
+
+        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        if (device == null) {
+            Log.w(LOG_TAG, "Device not found.  Unable to connect.");
+            return;
+        }
+
+        tryConnectGatt(address, device);
+
     }
 
     @Override
@@ -430,7 +457,7 @@ public class BluetoothLeService extends Service implements
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                 mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
                 verifyConnection(gatt);
-                broadcastUpdate(ACTION_GATT_CONNECTED, address);
+
                 enableGpsUpdate();
                 if (mPrefsManager.isClosedTrack(address)) {
                     Log.d(LOG_TAG, "reconnect to closed trackr");
@@ -438,6 +465,7 @@ public class BluetoothLeService extends Service implements
                 }
                 mPrefsManager.saveMissedTrack(address, false);
                 mPrefsManager.setDeclareLost(address, false);
+                broadcastUpdate(ACTION_GATT_CONNECTED, address);
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
             } else {
                 Log.w(LOG_TAG, "onServicesDiscovered Status is not success.: " + status);

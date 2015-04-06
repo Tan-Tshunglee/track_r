@@ -69,14 +69,12 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     || BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
                 if(mBluetoothDeviceAddress.equals(address)) {
                     updateDeclareLayoutVisibility();
+                    updateStateUi();
                 }
             }
         }
     };
 
-    private void dismissDeclareLayout() {
-
-    }
 
     private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
