@@ -571,30 +571,35 @@ public class BluetoothLeService extends Service implements
             int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
             Log.d(LOG_TAG, "onCharacteristicWrite value is " + value);
              final String address = gatt.getDevice().getAddress();
-            //turn off track r command;
+            //make track sleep command;
             if (serviceUuid.equals(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID)
                     && value == 3) {
-                Log.w(LOG_TAG, "disconnect in onCharacteristicWrite ");
+                Log.w(LOG_TAG, "sleep command write in onCharacteristicWrite ");
 
                 Integer newState = mGattConnectionStates.get(address);
-                if(newState != null && newState == BluetoothProfile.STATE_CONNECTED) {
-                    Log.w(LOG_TAG, "track reopened in the close action callback.");
-                } else {
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                }
 
-                //for unbind use close , for turn off use disconnect
                 if(!mPrefsManager.getTrackIds().contains(address)) {
+                    //user unbind this track
                     gatt.close();
                     mBluetoothGatts.remove(address);
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    broadcastDeviceOff();
+                } else if(mPrefsManager.isClosedTrack(address)) {
+                    //user turn off this track;
+                    Log.d(LOG_TAG, "track close successfully.");
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    gatt.close();
+                    mBluetoothGatts.remove(address);
+                    broadcastDeviceOff();
+                } else {
+                    //just make track sleep
                 }
-                broadcastDeviceOff();
+
             } else if(serviceUuid.equals(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
                 Log.w(LOG_TAG, "write done callback of verify code ");
                 registerKeyListener(gatt);
-
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1372,24 +1377,29 @@ public class BluetoothLeService extends Service implements
     public void turnOffTrackR(String address) {
         Log.i(LOG_TAG, "turnOffTrackR");
         Integer state = mGattConnectionStates.get(address);
-        mPrefsManager.saveClosedTrack(address, true);
+
         //turn off connected trackr;
         if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
-            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             alertLevelChar.setValue(new byte[]{03});
-            gatt.writeCharacteristic(alertLevelChar);
+            if(gatt.writeCharacteristic(alertLevelChar)) {
+                mPrefsManager.saveClosedTrack(address, true);
+                Log.d(LOG_TAG, "In method turnOffTrackR, send sleep command ok.");
+            }  else {
+                Log.e(LOG_TAG, "In method turnOffTrackR, send sleep command failed.");
+            };
             //disconnected gatt can be reused later ;
-
         } else {
+            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             Log.i(LOG_TAG, "turn off disconnected Track");
             BluetoothGatt gatt = mBluetoothGatts.get(address);
+            if(gatt != null) {
+                gatt.close();
+            }
             broadcastDeviceOff();
         }
-
-        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
     }
 
 
@@ -1403,8 +1413,13 @@ public class BluetoothLeService extends Service implements
             BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
             BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
             alertLevelChar.setValue(new byte[]{03});
-            gatt.writeCharacteristic(alertLevelChar);
 
+            if(!gatt.writeCharacteristic(alertLevelChar)) {
+                Log.e(LOG_TAG, "unbindTrackR, write sleep command failed, forcely close the connection");
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                gatt.close();
+                broadcastDeviceOff();
+            }
         } else {
             Log.i(LOG_TAG, "unbind disconnected TrackR");
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -1414,6 +1429,9 @@ public class BluetoothLeService extends Service implements
         mPrefsManager.removeTrackId(address);
         mPrefsManager.saveMissedTrack(address, false);
         mPrefsManager.saveClosedTrack(address, false);
+        mPrefsManager.setDeclareLost(address, false);
+        mPrefsManager.saveLastTimeFoundByOthers(-1, address);
+        mPrefsManager.saveLastLostLocation(null, address);
 
         broadcastDeviceUbbind(address);
 

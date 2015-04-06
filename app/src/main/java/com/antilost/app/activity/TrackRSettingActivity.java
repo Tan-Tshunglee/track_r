@@ -232,6 +232,12 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
 
     @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
@@ -250,7 +256,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     return;
                 }
-
                 mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
                 break;
             case R.id.unbindTrackR:
@@ -262,6 +267,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 if(mBackgroundThread != null) {
                     return;
                 }
+
+
                 mBackgroundThread = new Thread() {
                     @Override
                     public void run() {
