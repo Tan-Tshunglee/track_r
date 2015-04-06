@@ -34,7 +34,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
     private Dialog mAlertDialog;
     private PrefsManager mPrefsManager;
-    private String mAddress;
+    private String mBluetoothAddress;
     private TrackR mTrackR;
     private Vibrator mVibrator;
     private MediaPlayer mMediaPlayer;
@@ -81,8 +81,8 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
     private void initAlertDialogPlaySound() {
 
-        mAddress = getIntent().getStringExtra(EXTRA_KEY_DEVICE_ADDRESS);
-        mTrackR = mPrefsManager.getTrack(mAddress);
+        mBluetoothAddress = getIntent().getStringExtra(EXTRA_KEY_DEVICE_ADDRESS);
+        mTrackR = mPrefsManager.getTrack(mBluetoothAddress);
         ensureDialog();
         mVibrator.vibrate(500);
         playAlertSound();
@@ -123,7 +123,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
                 finish();
                 break;
             case DialogInterface.BUTTON_POSITIVE:
-                Location loc = mPrefsManager.getLastLostLocation(mAddress);
+                Location loc = mPrefsManager.getLastLostLocation(mBluetoothAddress);
                 if(loc != null) {
                     LocUtils.viewLocation(this, loc);
                 }
@@ -150,10 +150,16 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mMediaPlayer.start();
-        Log.d(LOG_TAG, "playe alert sound...");
-        int alertSecond = mPrefsManager.getAlertTime();
-        mHandler.postDelayed(mStopRingRunnable, alertSecond * 1000);
+
+        boolean globalAlertEnabled = mPrefsManager.getGlobalAlertRingEnabled();
+        boolean trackAlertEnabled = mPrefsManager.getTrackAlert(mBluetoothAddress);
+
+        if(globalAlertEnabled && trackAlertEnabled) {
+            mMediaPlayer.start();
+            Log.d(LOG_TAG, "playe alert sound...");
+            int alertSecond = mPrefsManager.getAlertTime();
+            mHandler.postDelayed(mStopRingRunnable, alertSecond * 1000);
+        }
     }
 
 

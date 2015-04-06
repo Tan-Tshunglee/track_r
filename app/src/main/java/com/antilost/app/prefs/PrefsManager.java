@@ -17,7 +17,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +39,7 @@ public class PrefsManager {
 
     public static final String PREFS_SAFE_ZONE_ENABLED = "safe_zone_enabled";
 
-    public static final String PREFS_ALERT_RING_ENABLED = "alert_ring_enabled";
+    public static final String PREFS_GLOBAL_ALERT_RING_ENABLED = "alert_ring_enabled";
     public static final String PREFS_LAST_LOST_LOCATION_KEY_PREFIX = "last_lost_location";
     public static final String PREFS_LAST_LOCATION_AMPA_KEY_PREFIX = "last_location";
     public static final String PREFS_LAST_LOST_TIME_KEY_PREFIX = "last_lost_time";
@@ -208,7 +207,7 @@ public class PrefsManager {
         return location;
     }
 
-    public void setTracklAlert(String address, boolean enable) {
+    public void setTrackAlert(String address, boolean enable) {
         String key = PREFS_TRACK_ALERT_PREFIX + address;
         mPrefs.edit().putBoolean(key, enable).commit();
     }
@@ -261,12 +260,12 @@ public class PrefsManager {
         return mPrefs.getString(PREFS_OTHER_WIFI_SSID_KEY, "");
     }
 
-    public void setAlertRingEnabled(boolean b) {
-        mPrefs.edit().putBoolean(PREFS_ALERT_RING_ENABLED, b).commit();
+    public void setGlobalAlertRingEnabled(boolean b) {
+        mPrefs.edit().putBoolean(PREFS_GLOBAL_ALERT_RING_ENABLED, b).commit();
     }
 
-    public boolean getAlertRingEnabled() {
-        return mPrefs.getBoolean(PREFS_ALERT_RING_ENABLED, true);
+    public boolean getGlobalAlertRingEnabled() {
+        return mPrefs.getBoolean(PREFS_GLOBAL_ALERT_RING_ENABLED, true);
     }
 
     public void saveLastAMPALocation(Location loc) {

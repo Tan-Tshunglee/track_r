@@ -169,7 +169,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     @Override
     public void initWidgetState() {
         cbSafeZone.setChecked(mPrefsManager.getSafeZoneEnable());
-        cbAppring.setChecked(mPrefsManager.getAlertRingEnabled());
+        cbAppring.setChecked(mPrefsManager.getGlobalAlertRingEnabled());
         mSleepModeSwitch.setChecked(mPrefsManager.getSleepMode());
 
         updateSleepModeTime();
@@ -316,7 +316,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 mPrefsManager.setSafeZoneEnable(b);
                 break;
             case R.id.cbuser_appringswitch:
-                mPrefsManager.setAlertRingEnabled(b);
+                mPrefsManager.setGlobalAlertRingEnabled(b);
                 break;
             case R.id.sleepModeSwitch:
                 mPrefsManager.setSleepMode(b);

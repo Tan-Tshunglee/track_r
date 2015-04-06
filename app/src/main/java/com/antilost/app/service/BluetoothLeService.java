@@ -718,15 +718,11 @@ public class BluetoothLeService extends Service implements
 
     private void alertUserTrackDisconnected(String address) {
 
-        if (mPrefsManager.getPhoneAlert(address)) {
-            Log.v(LOG_TAG, "alertUserTrackDisconnected() " + address);
-            Intent i = new Intent(this, DisconnectAlertActivity.class);
-            i.putExtra(DisconnectAlertActivity.EXTRA_KEY_DEVICE_ADDRESS, address);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);
-        } else {
-            Log.i(LOG_TAG, "User turn off phone alert, ignore disconnection event!");
-        }
+
+        Intent i = new Intent(this, DisconnectAlertActivity.class);
+        i.putExtra(DisconnectAlertActivity.EXTRA_KEY_DEVICE_ADDRESS, address);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
 
     }
 
