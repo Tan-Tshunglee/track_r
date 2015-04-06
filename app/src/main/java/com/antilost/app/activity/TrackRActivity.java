@@ -422,12 +422,15 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     mRingStateMap.put(mBluetoothDeviceAddress, false);
                 } else {
                     Log.d(LOG_TAG, "make trackr ring.");
-                    makeTrackRRing();
-                    mRingButton.setBackgroundResource(R.drawable.ringing_btn_bkg);
-                    AnimationDrawable anim = (AnimationDrawable) mRingButton.getBackground();
-                    anim.start();
-                    mRingStateMap.put(mBluetoothDeviceAddress, true);
-                    mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
+                    if(makeTrackRRing()) {
+                        mRingButton.setBackgroundResource(R.drawable.ringing_btn_bkg);
+                        AnimationDrawable anim = (AnimationDrawable) mRingButton.getBackground();
+                        anim.start();
+                        mRingStateMap.put(mBluetoothDeviceAddress, true);
+                        mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
+                    } else {
+                        Log.e(LOG_TAG, "write track ring...");
+                    };
                 }
                 break;
             case R.id.location:
@@ -482,16 +485,18 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void silentRing() {
+    private boolean silentRing() {
         if(mBluetoothLeService != null) {
             mBluetoothLeService.silentRing(mBluetoothDeviceAddress);
         }
+        return false;
     }
 
-    private void makeTrackRRing() {
+    private boolean makeTrackRRing() {
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.ringTrackR(mBluetoothDeviceAddress);
+            return mBluetoothLeService.ringTrackR(mBluetoothDeviceAddress);
         }
+        return false;
     }
 
     private boolean isGattConnected() {

@@ -1442,26 +1442,26 @@ public class BluetoothLeService extends Service implements
     }
 
 
-    public void ringTrackR(String bluetoothDeviceAddress) {
+    public boolean ringTrackR(String bluetoothDeviceAddress) {
         Integer state = mGattConnectionStates.get(bluetoothDeviceAddress);
         Log.v(LOG_TAG, "ringTrackR() gatt connection state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if (gatt == null) {
             Log.w(LOG_TAG, "gatt has not connected....");
-            return;
+            return false;
         }
 
         if (state != BluetoothProfile.STATE_CONNECTED) {
             Log.w(LOG_TAG, "ring trackr whose state is not connected, bail out");
-            return;
+            return false;
         }
 
 
         BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
         if (alertService == null) {
             Log.w(LOG_TAG, "silentRing No IMMEDIATE_ALERT_SERVICE_UUID....");
-            return;
+            return false;
         }
 //        List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
 //
@@ -1474,10 +1474,10 @@ public class BluetoothLeService extends Service implements
 //        }
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
         if (c == null) {
-            return;
+            return false;
         }
         c.setValue(new byte[]{02});
-        gatt.writeCharacteristic(c);
+        return gatt.writeCharacteristic(c);
     }
 
     public void silentRing(String bluetoothDeviceAddress) {
