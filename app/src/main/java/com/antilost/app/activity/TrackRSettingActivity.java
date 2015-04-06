@@ -314,7 +314,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                             e.printStackTrace();
                         }
                         if(declareCommand.success()) {
-                            mPrefsManager.setDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
+                            mPrefsManager.saveDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -342,16 +342,16 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.itrack_alert_checkbox:
-                mPrefsManager.setTrackAlert(mBluetoothDeviceAddress, b);
+                mPrefsManager.saveTrackAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.setTrackAlertMode(mBluetoothDeviceAddress, b);
             break;
 
             case R.id.phone_alert_checkbox:
-                mPrefsManager.setPhoneAlert(mBluetoothDeviceAddress, b);
+                mPrefsManager.savePhoneAlert(mBluetoothDeviceAddress, b);
                 break;
 
             case R.id.sleepModeSwitch:
-                mPrefsManager.setSleepMode(b);
+                mPrefsManager.saveSleepMode(b);
             break;
         }
     }

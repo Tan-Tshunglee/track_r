@@ -168,7 +168,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                         }
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            mPrefsManager.setUid(command.getUid());
+                            mPrefsManager.saveUid(command.getUid());
                             Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
                             startActivity(i);
@@ -199,11 +199,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
     private void updateRememberPassword(String email, String password) {
         boolean rememberPassword = mRememberPasswordTextView.isSelected();
-        mPrefsManager.setEmail(email);
+        mPrefsManager.saveEmail(email);
         if(rememberPassword) {
-            mPrefsManager.setPassword(password);
+            mPrefsManager.savePassword(password);
         } else {
-            mPrefsManager.setPassword("");
+            mPrefsManager.savePassword("");
         }
     }
 

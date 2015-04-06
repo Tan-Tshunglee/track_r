@@ -82,8 +82,8 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
 //                    return;
 //                }
 
-                mPrefs.setSleepTime(true, startTime);
-                mPrefs.setSleepTime(false, endTime);
+                mPrefs.saveSleepTime(true, startTime);
+                mPrefs.saveSleepTime(false, endTime);
                 setResult(RESULT_OK);
                 finish();
                 break;

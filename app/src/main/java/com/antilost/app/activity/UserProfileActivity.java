@@ -257,7 +257,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             @Override
             public void onClick(View arg0) {
 
-                mPrefsManager.setUid(-1);
+                mPrefsManager.saveUid(-1);
                 Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
                 intent.putExtra("exitcounter", "1");
                 startActivity(intent);
@@ -313,13 +313,13 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         int id = compoundButton.getId();
         switch (id) {
             case R.id.cbuser_safezoneswitch:
-                mPrefsManager.setSafeZoneEnable(b);
+                mPrefsManager.saveSafeZoneEnable(b);
                 break;
             case R.id.cbuser_appringswitch:
-                mPrefsManager.setGlobalAlertRingEnabled(b);
+                mPrefsManager.saveGlobalAlertRingEnabled(b);
                 break;
             case R.id.sleepModeSwitch:
-                mPrefsManager.setSleepMode(b);
+                mPrefsManager.saveSleepMode(b);
                 break;
         }
     }

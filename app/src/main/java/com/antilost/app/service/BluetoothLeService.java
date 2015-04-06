@@ -394,12 +394,9 @@ public class BluetoothLeService extends Service implements
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 
                 if (oldState == BluetoothProfile.STATE_CONNECTED) {
-                    Log.i(LOG_TAG, "Disconnected from GATT server.");
-
-
-                    String homeWifiSsid = mPrefsManager.getHomeWifiSsid();
-                    String officeSsid = mPrefsManager.getOfficeSsid();
-                    String otherSsid = mPrefsManager.getOtherSsid();
+                    Log.i(LOG_TAG, "Disconnected state GATT.");
+                    enterFastRepeatMode();
+                    sendBroadcast(new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION));
 
                     if(mLostGpsNeedUpdateIds.add(address)) {
                         Log.v(LOG_TAG, "add lost track's address to update list.");
@@ -408,41 +405,22 @@ public class BluetoothLeService extends Service implements
                     unregisterAmapLocationListener();
                     registerAmapLocationListener();
                     mPrefsManager.saveMissedTrack(address, true);
-                    if (mLastLocation != null) {
-                        mPrefsManager.saveLastLostLocation(mLastLocation, address);
+                    mPrefsManager.saveClosedTrack(address, false);
+                    mPrefsManager.saveDeclareLost(address, false);
 
-                        Thread t = new Thread() {
-                            @Override
-                            public void run() {
-                                ReportLostLocationCommand command
-                                        = new ReportLostLocationCommand(mPrefsManager.getUid(), mLastLocation, address);
-                                command.execTask();
-                                command.dumpResult();
-                            }
-                        };
-                        t.start();
-                    }
+
+                    reportTrackLostPosition(address);
 
                     mPrefsManager.saveLastLostTime(address, System.currentTimeMillis());
-                    if (mGattConnectionStates.containsKey(address)) {
-                        broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
-                    }
-                    WifiInfo info = mWifiManager.getConnectionInfo();
-                    String ssid = info.getSSID();
-                    boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
-                    if (safeWifiEnabled &&
-                            ssid != null &&
-                            (    ssid.equals(homeWifiSsid)
-                                 || ssid.equals(officeSsid)
-                                 || ssid.equals(otherSsid))) {
-                        Log.i(LOG_TAG, "we are in safe wifi zone, don't alert user");
+                    broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
+
+                    if(checkInSafeZone()) {
+                        Log.i(LOG_TAG, "In safe zone, ignore alert.");
                         return;
                     }
-                    Log.v(LOG_TAG, "found disconnected device.");
 
                     alertUserTrackDisconnected(address);
-                    enterFastRepeatMode();
-                    sendBroadcast(new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION));
+
 
                     gatt.close();
                     mBluetoothGatts.remove(address);
@@ -480,7 +458,7 @@ public class BluetoothLeService extends Service implements
                 if(mPrefsManager.isDeclaredLost(address)) {
                     revokeLostDeclare(address);
                 }
-                mPrefsManager.setDeclareLost(address, false);
+                mPrefsManager.saveDeclareLost(address, false);
 
                 mPrefsManager.saveLastLocFoundByOthers(null, address);
                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
@@ -637,6 +615,50 @@ public class BluetoothLeService extends Service implements
             broadcastRssiRead();
             String address = gatt.getDevice().getAddress();
             receiverRssi(address, rssi);
+        }
+    }
+
+    private boolean checkInSafeZone() {
+        String homeWifiSsid = mPrefsManager.getHomeWifiSsid();
+        String officeSsid = mPrefsManager.getOfficeSsid();
+        String otherSsid = mPrefsManager.getOtherSsid();
+        WifiInfo info = mWifiManager.getConnectionInfo();
+        String ssid = unornamatedSsid(info.getSSID());
+
+        boolean safeWifiEnabled = mPrefsManager.getSafeZoneEnable();
+        if (safeWifiEnabled &&
+                ssid != null &&
+                (    ssid.equals(homeWifiSsid)
+                        || ssid.equals(officeSsid)
+                        || ssid.equals(otherSsid))) {
+            Log.i(LOG_TAG, "we are in safe wifi zone, don't alert user");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * remove double quote from start and end of the string
+     */
+    private String unornamatedSsid(String ssid) {
+        ssid = ssid.replaceFirst("^\"", "");
+        return ssid.replaceFirst("\"$", "");
+    }
+
+    private void reportTrackLostPosition(final String address) {
+        if (mLastLocation != null) {
+            mPrefsManager.saveLastLostLocation(mLastLocation, address);
+
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    ReportLostLocationCommand command
+                            = new ReportLostLocationCommand(mPrefsManager.getUid(), mLastLocation, address);
+                    command.execTask();
+                    command.dumpResult();
+                }
+            };
+            t.start();
         }
     }
 
@@ -1425,7 +1447,7 @@ public class BluetoothLeService extends Service implements
         mPrefsManager.removeTrackId(address);
         mPrefsManager.saveMissedTrack(address, false);
         mPrefsManager.saveClosedTrack(address, false);
-        mPrefsManager.setDeclareLost(address, false);
+        mPrefsManager.saveDeclareLost(address, false);
         mPrefsManager.saveLastTimeFoundByOthers(-1, address);
         mPrefsManager.saveLastLostLocation(null, address);
 

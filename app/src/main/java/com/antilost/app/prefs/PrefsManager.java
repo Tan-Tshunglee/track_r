@@ -81,7 +81,7 @@ public class PrefsManager {
         return mPrefs.getInt(PREFS_UID_KEY, -1);
     }
 
-    public boolean setUid(int uid) {
+    public boolean saveUid(int uid) {
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putInt(PREFS_UID_KEY, uid);
         return editor.commit();
@@ -112,7 +112,7 @@ public class PrefsManager {
         return /*BuildConfig.DEBUG ? true :*/ getUid() > 0;
     }
 
-    public void setEmail(String email) {
+    public void saveEmail(String email) {
         mPrefs.edit().putString(PREFS_EMAIL_KEY, email).commit();
     }
 
@@ -121,7 +121,7 @@ public class PrefsManager {
         return mPrefs.getString(PREFS_EMAIL_KEY, "");
     }
 
-    public void setPassword(String password) {
+    public void savePassword(String password) {
         mPrefs.edit().putString(PREFS_PASSWORD_KEY, password).commit();
 
     }
@@ -207,7 +207,7 @@ public class PrefsManager {
         return location;
     }
 
-    public void setTrackAlert(String address, boolean enable) {
+    public void saveTrackAlert(String address, boolean enable) {
         String key = PREFS_TRACK_ALERT_PREFIX + address;
         mPrefs.edit().putBoolean(key, enable).commit();
     }
@@ -218,7 +218,7 @@ public class PrefsManager {
     }
 
 
-    public void setPhoneAlert(String address, boolean enable) {
+    public void savePhoneAlert(String address, boolean enable) {
         String key = PREFS_PHONE_ALERT_PREFIX + address;
         mPrefs.edit().putBoolean(key, enable).commit();
     }
@@ -228,7 +228,7 @@ public class PrefsManager {
         return mPrefs.getBoolean(key, true);
     }
 
-    public void setSafeZoneEnable(boolean enabled) {
+    public void saveSafeZoneEnable(boolean enabled) {
         mPrefs.edit().putBoolean(PREFS_SAFE_ZONE_ENABLED, enabled).commit();
     }
 
@@ -236,7 +236,7 @@ public class PrefsManager {
         return mPrefs.getBoolean(PREFS_SAFE_ZONE_ENABLED, false);
     }
 
-    public void setHomeWifiSsid(String ssid) {
+    public void saveHomeWifiSsid(String ssid) {
         mPrefs.edit().putString(PREFS_HOME_WIFI_SSID_KEY, ssid).commit();
     }
 
@@ -244,7 +244,7 @@ public class PrefsManager {
         return mPrefs.getString(PREFS_HOME_WIFI_SSID_KEY, "");
     }
 
-    public void setOfficeSsid(String ssid) {
+    public void saveOfficeSsid(String ssid) {
         mPrefs.edit().putString(PREFS_OFFICE_WIFI_SSID_KEY, ssid).commit();
     }
 
@@ -252,7 +252,7 @@ public class PrefsManager {
         return mPrefs.getString(PREFS_OFFICE_WIFI_SSID_KEY, "");
     }
 
-    public void setOtherSsid(String ssid) {
+    public void saveOtherSsid(String ssid) {
         mPrefs.edit().putString(PREFS_OTHER_WIFI_SSID_KEY, ssid).commit();
     }
 
@@ -260,7 +260,7 @@ public class PrefsManager {
         return mPrefs.getString(PREFS_OTHER_WIFI_SSID_KEY, "");
     }
 
-    public void setGlobalAlertRingEnabled(boolean b) {
+    public void saveGlobalAlertRingEnabled(boolean b) {
         mPrefs.edit().putBoolean(PREFS_GLOBAL_ALERT_RING_ENABLED, b).commit();
     }
 
@@ -335,7 +335,7 @@ public class PrefsManager {
     }
 
 
-    public void setSleepMode(boolean enable) {
+    public void saveSleepMode(boolean enable) {
         mPrefs.edit().putBoolean(PREFS_SLEEP_MODE_KEY, enable).commit();
     }
 
@@ -343,7 +343,7 @@ public class PrefsManager {
         return mPrefs.getBoolean(PREFS_SLEEP_MODE_KEY, false);
     }
 
-    public void setSleepTime(boolean start, long timestamp) {
+    public void saveSleepTime(boolean start, long timestamp) {
         String key = start ? PREFS_SLEEP_START_TIME_KEY : PREFS_SLEEP_END_TIME_KEY;
         mPrefs.edit().putLong(key, timestamp).commit();
     }
@@ -375,7 +375,7 @@ public class PrefsManager {
     }
 
 
-    public void setDeclareLost(String address, boolean declareLost) {
+    public void saveDeclareLost(String address, boolean declareLost) {
         String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
 
         SharedPreferences.Editor editor = mPrefs.edit();
@@ -391,7 +391,7 @@ public class PrefsManager {
         Set<String> oldIds = mPrefs.getStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>());
 
         for(String id: oldIds) {
-            setDeclareLost(id, false);
+            saveDeclareLost(id, false);
             saveClosedTrack(id, false);
             saveMissedTrack(id, false);
             saveLastLocFoundByOthers(null, id);
@@ -403,7 +403,7 @@ public class PrefsManager {
     public int getAlertTime() {
         return mPrefs.getInt(PREFS_ALERT_TIME_KEY, 5);
     }
-    public void setAlertTime(int time) {
+    public void saveAlertTime(int time) {
         mPrefs.edit().putInt(PREFS_ALERT_TIME_KEY, time).commit();
     }
 

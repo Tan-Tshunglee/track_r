@@ -93,8 +93,7 @@ public class AlartTimeActivity extends Activity implements TrackRInitialize {
                 timeScrolled = false;
                 ialarttime=  wvAlarTime.getCurrentItem();
                 tvAlarttime.setText(getResources().getString(R.string.alarttime_tip)+wvAlarTime.getCurrentItem() + getResources().getString(R.string.alarttime_second));
-
-                mPrefsManager.setAlertTime(wvAlarTime.getCurrentItem());
+                mPrefsManager.saveAlertTime(wvAlarTime.getCurrentItem());
             }
         };
         wvAlarTime.addScrollingListener(scrollListener);
