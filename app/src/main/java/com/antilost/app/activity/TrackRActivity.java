@@ -55,6 +55,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.android.camera.Camera;
 import com.antilost.app.R;
 import com.antilost.app.camera.CameraActivity;
 import com.antilost.app.model.TrackR;
@@ -467,7 +469,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.photo:
-                startActivity(new Intent(this, CameraActivity.class));
+                startActivity(new Intent(this, Camera.class));
                 break;
 
             case R.id.batteryStatus:

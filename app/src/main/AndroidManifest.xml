@@ -5,15 +5,17 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="21" />
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+	
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+	
     <supports-screens android:smallScreens="true"
         android:normalScreens="true" android:largeScreens="true"
         android:resizeable="true" android:anyDensity="true" />
@@ -35,6 +37,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -286,6 +289,52 @@
             android:enabled="true"
             android:exported="false" >
         </service>
+
+        <activity android:name="com.android.camera.Camera"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:screenOrientation="landscape"
+                android:clearTaskOnLaunch="true"
+                android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.android.camera.VideoCamera"
+                android:label="@string/video_camera_label"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:screenOrientation="landscape"
+                android:clearTaskOnLaunch="true"
+                android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.VIDEO_CAPTURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name="com.android.camera.panorama.PanoramaActivity"
+                android:label="@string/pano_dialog_title"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:screenOrientation="landscape"
+                android:clearTaskOnLaunch="true"
+                android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
     </application>
 
 </manifest>
