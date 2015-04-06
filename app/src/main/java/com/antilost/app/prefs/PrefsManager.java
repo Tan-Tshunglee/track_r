@@ -395,6 +395,8 @@ public class PrefsManager {
             setDeclareLost(id, false);
             saveClosedTrack(id, false);
             saveMissedTrack(id, false);
+            saveLastLocFoundByOthers(null, id);
+            saveLastTimeFoundByOthers(-1, id);
         }
         mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()).commit();
     }

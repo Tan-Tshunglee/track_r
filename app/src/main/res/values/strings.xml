@@ -198,5 +198,8 @@
     <string name="iTrack_close_tip">Please Press iTrack \n to reconnect</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
+    <string name="good_news">Good news</string>
+    <string name="your_track_is_found_by_others_at">Your iTrack is found by others at %1$s.</string>
+    <string name="title_activity_found_by_others">FoundByOthers</string>
 
 </resources>

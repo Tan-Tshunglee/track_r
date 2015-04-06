@@ -2,6 +2,7 @@ package com.antilost.app.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -39,15 +40,18 @@ import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
+import com.antilost.app.activity.FoundByOthersActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.network.Command;
 import com.antilost.app.network.FetchLostLocationCommand;
+import com.antilost.app.network.LostDeclareCommand;
 import com.antilost.app.network.ReportLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -69,6 +73,7 @@ public class BluetoothLeService extends Service implements
         AMapLocationListener {
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
+    public static final int NOTIFICATION_ID_TRACK_FOUND_BY_OTHERS = 2;
 
     public static  final String INTENT_FROM_BROADCAST_EXTRA_KEY_NAME = "INTENT_FROM_BROADCAST_EXTRA_KEY_NAME";
 
@@ -88,6 +93,10 @@ public class BluetoothLeService extends Service implements
     public static final int LOCATION_UPDATE_PERIOD_IN_MS = 5 * 60 * 1000;
 
     public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 2 * 60 * 1000;
+
+    public static final int MIN_DISTANCE = 20;
+
+
     public final static String ACTION_GATT_CONNECTED =
             "com.antilost.bluetooth.le.ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED =
@@ -121,7 +130,10 @@ public class BluetoothLeService extends Service implements
             "com.antilost.bluetooth.le.ACTION_DEVICE_CLICKED";
     public final static String EXTRA_KEY_BLUETOOTH_ADDRESS =
             "EXTRA_KEY_BLUETOOTH_ADDRESS";
-    public static final int MIN_DISTANCE = 20;
+
+
+
+
 
 
     private BluetoothManager mBluetoothManager;
@@ -147,6 +159,7 @@ public class BluetoothLeService extends Service implements
 
     private boolean mSleeping = false;
     private volatile Thread mUploadUnknownTrackLocationThread;
+    private NotificationManager mNotificationManager;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -464,6 +477,9 @@ public class BluetoothLeService extends Service implements
                     mPrefsManager.saveClosedTrack(address, false);
                 }
                 mPrefsManager.saveMissedTrack(address, false);
+                if(mPrefsManager.isDeclaredLost(address)) {
+                    revokeLostDeclare(address);
+                }
                 mPrefsManager.setDeclareLost(address, false);
 
                 mPrefsManager.saveLastLocFoundByOthers(null, address);
@@ -616,6 +632,21 @@ public class BluetoothLeService extends Service implements
             broadcastRssiRead();
             String address = gatt.getDevice().getAddress();
             receiverRssi(address, rssi);
+        }
+    }
+
+    private void revokeLostDeclare(String address) {
+        int declareTobe =  0;
+        Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), address, declareTobe);
+        try {
+            declareCommand.execTask();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(declareCommand.success()) {
+            Log.v(LOG_TAG, "revoke lost declaration ok.");
+        } else {
+            Log.e(LOG_TAG, "revoke lost declaration failed.");
         }
     }
 
@@ -827,6 +858,8 @@ public class BluetoothLeService extends Service implements
                 }
             }
         };
+
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Receiver.REPEAT_BROADCAST_RECEIVER_ACTION), 0);
@@ -1221,9 +1254,11 @@ public class BluetoothLeService extends Service implements
                             loc.setLatitude(command.getLatitude());
                             loc.setLongitude(command.getLongitude());
                             long timeFound = command.getLostTime();
+
                             mPrefsManager.saveLastLocFoundByOthers(loc, address);
                             mPrefsManager.saveLastTimeFoundByOthers(timeFound, address);
                             mDeclaredLostTrackLastFetchedTime.put(address, System.currentTimeMillis());
+                            notifyFoundByOthers(address, loc, timeFound);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1233,6 +1268,35 @@ public class BluetoothLeService extends Service implements
             }
         };
         t.start();
+    }
+
+    private void notifyFoundByOthers(String address, Location loc, long timeFound) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(getString(R.string.good_news));
+        String contentText = getString(R.string.your_track_is_found_by_others_at, Utils.convertTimeStampToLiteral(timeFound));
+
+        builder.setContentText(contentText);
+        builder.setSmallIcon(R.drawable.ic_launcher);
+
+
+        // Creates an Intent for the Activity
+        Intent notifyIntent =
+                new Intent(this, FoundByOthersActivity.class);
+        // Sets the Activity to start in a new, empty task
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        notifyIntent.putExtra(FoundByOthersActivity.EXTRA_TRACK_ADDRESS, address);
+        // Creates the PendingIntent
+        PendingIntent notifyPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(notifyPendingIntent);
+        mNotificationManager.notify(NOTIFICATION_ID_TRACK_FOUND_BY_OTHERS, builder.build());
     }
 
     private void tryConnectGatt(String address, BluetoothDevice device) {
