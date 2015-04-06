@@ -238,7 +238,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(UserProfileActivity.this, TrackrUsereditor.class);
+                Intent intent = new Intent(UserProfileActivity.this, TrackrUserEditor.class);
                 startActivity(intent);
 //				UserProfileActivity.this.finish();
             }

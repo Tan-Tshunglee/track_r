@@ -13,7 +13,6 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -21,8 +20,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,13 +37,9 @@ import com.antilost.app.util.CsstSHImageData;
 import java.io.File;
 import java.util.Calendar;
 
-import android.os.Bundle;
-
 import android.os.Handler;
 
-import android.os.Message;
-
-public class TrackrUsereditor extends Activity implements TrackRInitialize {
+public class TrackrUserEditor extends Activity implements TrackRInitialize {
     private String TAG = "TrackrUsereditor";
     private Button btmBack, btmDone;
     private ImageView Imguser_usericon;
@@ -214,9 +207,9 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
+                Intent intent = new Intent(TrackrUserEditor.this, UserProfileActivity.class);
                 startActivity(intent);
-                TrackrUsereditor.this.finish();
+                TrackrUserEditor.this.finish();
             }
         });
         Imguser_usericon.setOnClickListener(mBtnListener);
@@ -315,12 +308,12 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                     break;
                 case R.id.takePhoto:
 //                    Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
-                    CsstSHImageData.tackPhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                    CsstSHImageData.tackPhoto(TrackrUserEditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                     dismissImageSourceDialog();
                     break;
                 case R.id.choosePicture:
 //                    Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_LONG).show();
-                    CsstSHImageData.pickAlbum(TrackrUsereditor.this, GET_ICON_FROM_ALBUM);
+                    CsstSHImageData.pickAlbum(TrackrUserEditor.this, GET_ICON_FROM_ALBUM);
                     dismissImageSourceDialog();
                     break;
             }
@@ -328,7 +321,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     }
 
     private void showBloodTypeSelector(){
-        new AlertDialog.Builder(TrackrUsereditor.this)
+        new AlertDialog.Builder(TrackrUserEditor.this)
                 .setTitle(getResources().getString(R.string.usereditor_select) + getResources().getString(R.string.user_xuexing))
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setSingleChoiceItems(new String[]{"O", "A", "AB", "B"}, 0,
@@ -393,8 +386,8 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private void Dailog(View view){
         final View v = view;
         String title=null;
-        final EditText inputServer = new EditText(TrackrUsereditor.this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUsereditor.this);
+        final EditText inputServer = new EditText(TrackrUserEditor.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUserEditor.this);
         switch (v.getId()) {
             case R.id.rlusereditor_smallname:
                 title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_smallname);
@@ -558,8 +551,8 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
             setDateTime();
             Message msg = new Message();
-            msg.what = TrackrUsereditor.SHOW_DATAPICK;
-            TrackrUsereditor.this.saleHandler.sendMessage(msg);
+            msg.what = TrackrUserEditor.SHOW_DATAPICK;
+            TrackrUserEditor.this.saleHandler.sendMessage(msg);
 
         }
 
@@ -621,7 +614,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
             switch (msg.what) {
 
-                case TrackrUsereditor.SHOW_DATAPICK:
+                case TrackrUserEditor.SHOW_DATAPICK:
 
                     showDialog(DATE_DIALOG_ID);
 
@@ -638,9 +631,9 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(TrackrUsereditor.this, UserProfileActivity.class);
+            Intent intent = new Intent(TrackrUserEditor.this, UserProfileActivity.class);
             startActivity(intent);
-            TrackrUsereditor.this.finish();
+            TrackrUserEditor.this.finish();
             return true;
         }
         return true;

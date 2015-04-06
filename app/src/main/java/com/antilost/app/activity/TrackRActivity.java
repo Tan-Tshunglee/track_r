@@ -58,6 +58,7 @@ import android.widget.Toast;
 
 import com.android.camera.Camera;
 import com.antilost.app.R;
+import com.antilost.app.TrackRApplication;
 import com.antilost.app.camera.CameraActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
@@ -483,6 +484,12 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 updateRssi();
                 break;
         }
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        TrackRApplication.onUserInteraction(this);
     }
 
     private boolean silentRing() {

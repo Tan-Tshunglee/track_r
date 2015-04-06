@@ -38,6 +38,7 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
+import com.antilost.app.TrackRApplication;
 import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.FoundByOthersActivity;
@@ -353,6 +354,12 @@ public class BluetoothLeService extends Service implements
 
     public Location getLastLocation() {
         return mLastLocation;
+    }
+
+    public void onUserInteraction() {
+        enterFastRepeatMode();
+        updateRepeatAlarmRegister();
+        Log.v(LOG_TAG, "onUserInteraction in BluetoothLeService.");
     }
 
 
@@ -699,6 +706,7 @@ public class BluetoothLeService extends Service implements
 
     private void enterFastRepeatMode() {
         Log.d(LOG_TAG, "service enter fast repeat mode");
+        mHandler.removeMessages(MSG_FAST_REPEAT_MODE_FLAG);
         mHandler.sendEmptyMessageDelayed(MSG_FAST_REPEAT_MODE_FLAG, TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE);
     }
 
@@ -910,8 +918,35 @@ public class BluetoothLeService extends Service implements
 
         goForeground();
         registerAmapLocationListener();
+        TrackRApplication app = (TrackRApplication) getApplication();
+        app.setBluetootLeService(this);
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPrefsManager.removePrefsListener(this);
+
+        Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
+        for (Map.Entry<String, BluetoothGatt> entry : gatts) {
+            String address = entry.getKey();
+            entry.getValue().close();
+            mBluetoothGatts.remove(address);
+        }
+
+        disableGpsUpdate();
+        if(mAmapLocationManagerProxy != null) {
+            mAmapLocationManagerProxy.destroy();
+            mAmapLocationManagerProxy = null;
+        }
+
+        mAlarmManager.cancel(mPendingIntent);
+        startReadRssiRepeat(false, null);
+        TrackRApplication app = (TrackRApplication) getApplication();
+        app.setBluetootLeService(this);
+    }
+
 
     private void registerAmapLocationListener() {
         //使用高德定位API
@@ -948,9 +983,13 @@ public class BluetoothLeService extends Service implements
         if (inFastRepeatMode()) {
             repeatPeriod = FAST_ALARM_REPEAT_PERIOD;
         }
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + repeatPeriod, repeatPeriod, mPendingIntent);
-
-        Log.d(LOG_TAG, "alerm repeat period is " + repeatPeriod);
+        mAlarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP, //type
+                System.currentTimeMillis() + repeatPeriod, //trigger time
+                repeatPeriod, //intervalMillis
+                mPendingIntent //operation
+        );
+        Log.d(LOG_TAG, "Alerm repeat period is " + repeatPeriod);
     }
 
 
@@ -984,27 +1023,6 @@ public class BluetoothLeService extends Service implements
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPrefsManager.removePrefsListener(this);
-
-        Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
-        for (Map.Entry<String, BluetoothGatt> entry : gatts) {
-            String address = entry.getKey();
-            entry.getValue().close();
-            mBluetoothGatts.remove(address);
-        }
-
-        disableGpsUpdate();
-        if(mAmapLocationManagerProxy != null) {
-            mAmapLocationManagerProxy.destroy();
-            mAmapLocationManagerProxy = null;
-        }
-
-        mAlarmManager.cancel(mPendingIntent);
-        startReadRssiRepeat(false, null);
-    }
 
 
 

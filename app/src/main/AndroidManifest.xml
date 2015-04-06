@@ -145,7 +145,7 @@
         </receiver>
 
         <activity
-            android:name=".activity.TrackrUsereditor"
+            android:name=".activity.TrackrUserEditor"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

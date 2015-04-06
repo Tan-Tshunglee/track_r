@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.antilost.app.R;
+import com.antilost.app.TrackRApplication;
 import com.antilost.app.adapter.TrackRListAdapter;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
@@ -185,10 +186,11 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         unregisterReceiver(mGattUpdateReceiver);
     }
 
-
-
-
-
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        TrackRApplication.onUserInteraction(this);
+    }
 
     @Override
     public void onClick(View v) {
