@@ -67,6 +67,7 @@ import com.android.camera.ui.RotateLayout;
 import com.android.camera.ui.SharePopup;
 import com.android.camera.ui.ZoomControl;
 import com.antilost.app.R;
+import com.antilost.app.service.BluetoothLeService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -318,6 +319,15 @@ public class Camera extends ActivityBase implements FocusManager.Listener,
             }
         }
     }
+
+    private BroadcastReceiver mTrackClickReceiver = new  BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            if(BluetoothLeService.ACTION_DEVICE_CLICKED.equals(intent.getAction())) {
+                onShutterButtonFocus(true);
+                onShutterButtonClick();
+            };
+        }
+    };
 
     private void resetExposureCompensation() {
         String value = mPreferences.getString(CameraSettings.KEY_EXPOSURE,
@@ -1486,8 +1496,14 @@ public class Camera extends ActivityBase implements FocusManager.Listener,
         }
     }
 
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mTrackClickReceiver, new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLICKED));
+    }
+
     @Override
     protected void onPause() {
+        unregisterReceiver(mTrackClickReceiver);
         mPausing = true;
         stopPreview();
         // Close the camera now because other activities may need to use it.

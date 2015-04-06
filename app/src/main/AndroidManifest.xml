@@ -294,20 +294,8 @@
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:screenOrientation="landscape"
                 android:clearTaskOnLaunch="true"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
                 android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.media.action.IMAGE_CAPTURE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
 
@@ -316,20 +304,14 @@
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:screenOrientation="landscape"
                 android:clearTaskOnLaunch="true"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
                 android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-            <intent-filter>
-                <action android:name="android.media.action.VIDEO_CAMERA" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.media.action.VIDEO_CAPTURE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
 
         <activity android:name="com.android.camera.panorama.PanoramaActivity"
                 android:label="@string/pano_dialog_title"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:screenOrientation="landscape"
                 android:clearTaskOnLaunch="true"
