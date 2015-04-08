@@ -14,8 +14,10 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
@@ -161,6 +163,7 @@ public class BluetoothLeService extends Service implements
     private boolean mSleeping = false;
     private volatile Thread mUploadUnknownTrackLocationThread;
     private NotificationManager mNotificationManager;
+    private IntentFilter mIntentFilter;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -817,6 +820,18 @@ public class BluetoothLeService extends Service implements
 
     private final IBinder mBinder = new LocalBinder();
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
+                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
+                if(state == BluetoothAdapter.STATE_ON) {
+                    enterFastRepeatMode();
+                    updateRepeatAlarmRegister();
+                }
+            }
+        }
+    };
     @Override
     public void onCreate() {
         super.onCreate();
@@ -920,6 +935,8 @@ public class BluetoothLeService extends Service implements
         registerAmapLocationListener();
         TrackRApplication app = (TrackRApplication) getApplication();
         app.setBluetootLeService(this);
+        mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(mReceiver, mIntentFilter);
 
     }
 
@@ -945,6 +962,9 @@ public class BluetoothLeService extends Service implements
         startReadRssiRepeat(false, null);
         TrackRApplication app = (TrackRApplication) getApplication();
         app.setBluetootLeService(this);
+        if(mIntentFilter != null) {
+            unregisterReceiver(mReceiver);
+        }
     }
 
 
@@ -1115,7 +1135,6 @@ public class BluetoothLeService extends Service implements
         if(allConnected) {
             Log.i(LOG_TAG, "all trackr connected, exit fast repeat mode");
             exitFastRepeatMode();
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
         return true;
 
@@ -1202,12 +1221,22 @@ public class BluetoothLeService extends Service implements
     }
 
     private void scanLeDevice() {
+
+
         // Stops scanning after a pre-defined scan period.
         Log.v(LOG_TAG, "scanLeDevice");
         if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
             Log.v(LOG_TAG, "start bluetooth le scan successfully.");
         } else {
             Log.v(LOG_TAG, "start bluetooth scan failed.");
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.v(LOG_TAG, "restart ble scan.");
+                    mBluetoothAdapter.startLeScan(mLeScanCallback);
+                }
+            }, 1000);
         };
 
     }
