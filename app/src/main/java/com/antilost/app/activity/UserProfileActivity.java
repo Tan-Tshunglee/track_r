@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -84,59 +85,64 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         initDataSource();
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    //first to init
+       if (UserDataTable.getInstance().countRecord(mDb) == 0) {
+           Log.d(TAG, "userdatatable is empty here " + getString(R.string.user_smallname));
+           curUserDataBean = new UserdataBean("", "3", getString(R.string.user_smallname), "3", getString(R.string.user_borddate), getString(R.string.user_xuexing),
+                   getString(R.string.user_liks), getString(R.string.user_editorself), getString(R.string.user_homepage));
+           UserDataTable.getInstance().insert(mDb, curUserDataBean);
+       } else {
 
+           curUserDataBean = UserDataTable.getInstance().query(mDb);
+           //setting icon
+           if (curUserDataBean.getMimage() != "3") {
+               int targetWidth = 100;
+               int targetHeight = 100;
+               Bitmap targetBitmap = Bitmap.createBitmap(
+                       targetWidth,
+                       targetHeight,
+                       Bitmap.Config.ARGB_8888);
+               Canvas canvas = new Canvas(targetBitmap);
+               Path path = new Path();
+               path.addCircle(
+                       ((float) targetWidth - 1) / 2,
+                       ((float) targetHeight - 1) / 2,
+                       (Math.min(((float) targetWidth), ((float) targetHeight)) / 2),
+                       Path.Direction.CCW);
+               canvas.clipPath(path);
+               Bitmap sourceBitmap = BitmapFactory.decodeFile(curUserDataBean.getMimage());
+
+               if (sourceBitmap != null) {
+
+                   canvas.drawBitmap(
+                           sourceBitmap,
+                           new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+                           new Rect(0, 0, targetWidth, targetHeight),
+                           null);
+
+//                    imgUser_usericon.setImageBitmap(targetBitmap);
+                   imgUser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
+               }
+           }
+           tvtime.setText(mPrefsManager.getAlertTime() + getResources().getString(R.string.alarttime_second));
+
+           if (curUserDataBean == null) {
+               Log.d(TAG, " curUserDataBean==null");
+           } else {
+               Log.d(TAG, " curUserDataBean!=null");
+           }
+
+       }
+   }
     @Override
     public void initDataSource() {
         trackRDataBase = new TrackRDataBase(this);
         mDb = trackRDataBase.getWritDatabase();
-        //first to init
-        if (UserDataTable.getInstance().countRecord(mDb) == 0) {
-            Log.d(TAG, "userdatatable is empty here " + getString(R.string.user_smallname));
-            curUserDataBean = new UserdataBean("", "3", getString(R.string.user_smallname), "3", getString(R.string.user_borddate), getString(R.string.user_xuexing),
-                    getString(R.string.user_liks), getString(R.string.user_editorself), getString(R.string.user_homepage));
-            UserDataTable.getInstance().insert(mDb, curUserDataBean);
-        } else {
 
-            curUserDataBean = UserDataTable.getInstance().query(mDb);
-            //setting icon
-            if (curUserDataBean.getMimage() != "3") {
-                int targetWidth = 100;
-                int targetHeight = 100;
-                Bitmap targetBitmap = Bitmap.createBitmap(
-                        targetWidth,
-                        targetHeight,
-                        Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(targetBitmap);
-                Path path = new Path();
-                path.addCircle(
-                        ((float) targetWidth - 1) / 2,
-                        ((float) targetHeight - 1) / 2,
-                        (Math.min(((float) targetWidth), ((float) targetHeight)) / 2),
-                        Path.Direction.CCW);
-                canvas.clipPath(path);
-                Bitmap sourceBitmap = BitmapFactory.decodeFile(curUserDataBean.getMimage());
 
-                if (sourceBitmap != null) {
-
-                    canvas.drawBitmap(
-                            sourceBitmap,
-                            new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-                            new Rect(0, 0, targetWidth, targetHeight),
-                            null);
-
-//                    imgUser_usericon.setImageBitmap(targetBitmap);
-                    imgUser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
-                }
-            }
-            tvtime.setText(mPrefsManager.getAlertTime() + getResources().getString(R.string.alarttime_second));
-
-            if (curUserDataBean == null) {
-                Log.d(TAG, " curUserDataBean==null");
-            } else {
-                Log.d(TAG, " curUserDataBean!=null");
-            }
-
-        }
     }
 
     @Override
@@ -229,7 +235,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, HelpActivity.class);
                 startActivity(intent);
-//                UserProfileActivity.this.finish();
+
             }
         });
 
@@ -238,18 +244,18 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(UserProfileActivity.this, TrackrUserEditor.class);
+                Intent intent = new Intent(UserProfileActivity.this, TrackrUsereditor.class);
                 startActivity(intent);
-//				UserProfileActivity.this.finish();
+
             }
         });
         rluser_safezone.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(UserProfileActivity.this, SafeZoneWifiActivity.class);
+                Intent intent = new Intent(UserProfileActivity.this, SafeZonewifiActivity.class);
                 startActivity(intent);
-//				UserProfileActivity.this.finish();
+
             }
         });
         btmexit.setOnClickListener(new View.OnClickListener() {
@@ -282,7 +288,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 Intent intent = new Intent(UserProfileActivity.this, AlartTimeActivity.class);
                 intent.putExtra(AlartTime, curUserDataBean.getMalarmtime());
                 startActivity(intent);
-//                UserProfileActivity.this.finish();
+
 
             }
         });
@@ -294,7 +300,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
                 Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
-//                UserProfileActivity.this.finish();
+
 
             }
         });
@@ -325,17 +331,15 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     }
 
 
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        // 是否触发按键为back键
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            // 弹出 退出确认框
-//            Intent intent = new Intent(UserProfileActivity.this, MainTrackRListActivity.class);
-//            startActivity(intent);
-//            UserProfileActivity.this.finish();
-//            return true;
-//        }
-//        return true;
-//    }
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            UserProfileActivity.this.finish();
+            return true;
+        }
+        return true;
+    }
 
     @Override
     public void onClick(View v) {

@@ -15,7 +15,7 @@ import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.prefs.PrefsManager;
 
-public class SafeZoneWifiActivity extends Activity implements TrackRInitialize {
+public class SafeZonewifiActivity extends Activity implements TrackRInitialize {
 
     private static final int REQUEST_CODE_SET_HOME_WIFI = 1;
     private static final int REQUEST_CODE_SET_OFFICE_WIFI = 1;
@@ -94,14 +94,14 @@ public class SafeZoneWifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                SafeZoneWifiActivity.this.finish();
+                SafeZonewifiActivity.this.finish();
             }
         });
         rlsafezone_home.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneWifiSelectActivity.class);
                 intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_HOME);
                 startActivity(intent);
 
@@ -112,7 +112,7 @@ public class SafeZoneWifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneWifiSelectActivity.class);
                 intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_OFFICE);
                 startActivity(intent);
             }
@@ -122,7 +122,7 @@ public class SafeZoneWifiActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(SafeZoneWifiActivity.this, SafeZoneWifiSelectActivity.class);
+                Intent intent = new Intent(SafeZonewifiActivity.this, SafeZoneWifiSelectActivity.class);
                 intent.putExtra(SafeZoneWifiSelectActivity.EXTRA_KEY_TARGET, SafeZoneWifiSelectActivity.TARGET_OTHER);
                 startActivity(intent);
             }

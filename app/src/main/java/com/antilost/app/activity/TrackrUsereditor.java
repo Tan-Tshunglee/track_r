@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,9 +40,9 @@ import java.util.Calendar;
 
 import android.os.Handler;
 
-public class TrackrUserEditor extends Activity implements TrackRInitialize {
+public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private String TAG = "TrackrUsereditor";
-    private Button btmBack, btmDone;
+    private ImageButton btmBack;
     private ImageView Imguser_usericon;
     private TextView tvtitle ;
     private RelativeLayout rluser_smallname, rluser_bord, rluser_xuexing,
@@ -111,7 +112,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
         trackRDataBase = new TrackRDataBase(this);
 
         mDb = trackRDataBase.getWritDatabase();
-
         //file init
         mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
         //first to init
@@ -125,7 +125,7 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
             if(!curUserDataBean.getMimage().equals("3")){
                 Log.d(TAG,"the mlastupdateIconpath is "+curUserDataBean.getMimage());
                 mLastUpdatedIconFileName = curUserDataBean.getMimage();
-                Log.d(TAG,"the mlastupdateIconpath isqqqqq"+mLastUpdatedIconFileName);
+                Log.d(TAG,"the mlastupdateIconpath is "+mLastUpdatedIconFileName);
 
                 int targetWidth = 100;
                 int targetHeight = 100;
@@ -147,10 +147,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
                         new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
                         new Rect(0, 0, targetWidth, targetHeight),
                         null);
-
-//                imgUser_usericon.setImageBitmap(targetBitmap);
-//                Imguser_usericon.setImageBitmap(targetBitmap);
-
                 Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
 
 
@@ -170,8 +166,8 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidget() {
-        btmBack = (Button) findViewById(R.id.mBtnCancel);
-        btmDone = (Button) findViewById(R.id.mBtnDone);
+        btmBack = (ImageButton) findViewById(R.id.mBtnCancel);
+//        btmDone = (Button) findViewById(R.id.mBtnDone);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         Imguser_usericon = (ImageView) findViewById(R.id.tvusereditor_icon);
         rlusereditor_icon = (RelativeLayout) findViewById(R.id.rlusereditor_icon);
@@ -188,13 +184,12 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
         tvusereditorlikes=(TextView) findViewById(R.id.tvusereditorlikes);
         tvSignature=(TextView) findViewById(R.id.tvSignature);
         tvusereditorhomepage=(TextView) findViewById(R.id.tvusereditorhomepage);
-
     }
 
     @Override
     public void initWidgetState() {
         mBtnListener = new BtnListener();
-        btmDone.setVisibility(View.GONE);
+//        btmDone.setVisibility(View.GONE);
     }
 
     @Override
@@ -207,23 +202,17 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(TrackrUserEditor.this, UserProfileActivity.class);
-                startActivity(intent);
-                TrackrUserEditor.this.finish();
+                TrackrUsereditor.this.finish();
             }
         });
         Imguser_usericon.setOnClickListener(mBtnListener);
         rlusereditor_icon.setOnClickListener(mBtnListener);
         rluser_smallname.setOnClickListener(mBtnListener);
-//        rluser_bord.setOnClickListener(mBtnListener);
         rluser_bord.setOnClickListener(new DateButtonOnClickListener());
         rluser_xuexing.setOnClickListener(mBtnListener);
         rluser_likes.setOnClickListener(mBtnListener);
         rluser_qianming.setOnClickListener(mBtnListener);
         rluser_homepage.setOnClickListener(mBtnListener);
-
-
-
     }
 
     @Override
@@ -264,12 +253,7 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
                                 new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
                                 new Rect(0, 0, targetWidth, targetHeight),
                                 null);
-
-
-//                        Imguser_usericon.setImageBitmap(targetBitmap);
                         Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(source));
-
-//                        Imguser_usericon.setImageBitmap(source);
                         curUserDataBean.setMimage(mLastUpdatedIconFileName);
                         UserDataTable.getInstance().update(mDb,curUserDataBean);
                     }catch(Exception ex ){
@@ -289,7 +273,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
     }
 
     private final class BtnListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -307,13 +290,11 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
                     Dailog(v);
                     break;
                 case R.id.takePhoto:
-//                    Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
-                    CsstSHImageData.tackPhoto(TrackrUserEditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                    CsstSHImageData.tackPhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                     dismissImageSourceDialog();
                     break;
                 case R.id.choosePicture:
-//                    Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_LONG).show();
-                    CsstSHImageData.pickAlbum(TrackrUserEditor.this, GET_ICON_FROM_ALBUM);
+                    CsstSHImageData.pickAlbum(TrackrUsereditor.this, GET_ICON_FROM_ALBUM);
                     dismissImageSourceDialog();
                     break;
             }
@@ -321,7 +302,7 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
     }
 
     private void showBloodTypeSelector(){
-        new AlertDialog.Builder(TrackrUserEditor.this)
+        new AlertDialog.Builder(TrackrUsereditor.this)
                 .setTitle(getResources().getString(R.string.usereditor_select) + getResources().getString(R.string.user_xuexing))
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setSingleChoiceItems(new String[]{"O", "A", "AB", "B"}, 0,
@@ -378,16 +359,18 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
         mImageSourceDialog = b.create();
         mImageSourceDialog.show();
     }
+
     private void dismissImageSourceDialog() {
         if(mImageSourceDialog != null) {
             mImageSourceDialog.dismiss();
         }
     }
+
     private void Dailog(View view){
         final View v = view;
         String title=null;
-        final EditText inputServer = new EditText(TrackrUserEditor.this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUserEditor.this);
+        final EditText inputServer = new EditText(TrackrUsereditor.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TrackrUsereditor.this);
         switch (v.getId()) {
             case R.id.rlusereditor_smallname:
                 title= getResources().getString(R.string.usereditor_select)+getResources().getString(R.string.user_smallname);
@@ -450,10 +433,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
     }
 
 
-
-
-
-
     private void setDateTime() {
 
         final Calendar c = Calendar.getInstance();
@@ -483,14 +462,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
                 (mDay < 10) ? "0" + mDay : mDay));
         curUserDataBean.setMbirthday(tvusereditor_board.getText().toString());
         UserDataTable.getInstance().update(mDb,curUserDataBean);
-
-//
-//
-//        showDate.setText(new StringBuilder().append(mYear).append(
-//
-//                (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
-//
-//                (mDay < 10) ? "0" + mDay : mDay));
 
     }
 
@@ -551,17 +522,14 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
 
             setDateTime();
             Message msg = new Message();
-            msg.what = TrackrUserEditor.SHOW_DATAPICK;
-            TrackrUserEditor.this.saleHandler.sendMessage(msg);
+            msg.what = TrackrUsereditor.SHOW_DATAPICK;
+            TrackrUsereditor.this.saleHandler.sendMessage(msg);
 
         }
 
     }
 
-
-
     @Override
-
     protected Dialog onCreateDialog(int id) {
 
         switch (id) {
@@ -597,9 +565,6 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
     }
 
 
-
-
-
     /**
 
      * 处理日期控件的Handler
@@ -614,7 +579,7 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
 
             switch (msg.what) {
 
-                case TrackrUserEditor.SHOW_DATAPICK:
+                case TrackrUsereditor.SHOW_DATAPICK:
 
                     showDialog(DATE_DIALOG_ID);
 
@@ -631,9 +596,7 @@ public class TrackrUserEditor extends Activity implements TrackRInitialize {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框
-            Intent intent = new Intent(TrackrUserEditor.this, UserProfileActivity.class);
-            startActivity(intent);
-            TrackrUserEditor.this.finish();
+            TrackrUsereditor.this.finish();
             return true;
         }
         return true;

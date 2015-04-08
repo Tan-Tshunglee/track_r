@@ -145,7 +145,7 @@
         </receiver>
 
         <activity
-            android:name=".activity.TrackrUserEditor"
+            android:name=".activity.TrackrUsereditor"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -159,7 +159,7 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.SafeZoneWifiActivity"
+            android:name=".activity.SafeZonewifiActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

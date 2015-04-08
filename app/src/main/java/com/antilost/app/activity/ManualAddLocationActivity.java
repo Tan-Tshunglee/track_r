@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ManualAddLocationActivity extends Activity implements View.OnClickListener,AMapLocationListener {
+public class ManualAddLocationActivity extends Activity implements View.OnClickListener {
 
     private static final int REQUEST_CODE_ADD_TRACK_R = 1;
     private static final String LOG_TAG = "ManualLocationActivity";
@@ -168,7 +169,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                     return;
                 }
                 locationBean.setmLocationName(sensorName);
-                LocationTable.getInstance().update(mDb,locationBean);
+                LocationTable.getInstance().update(mDb, locationBean);
 
             }
         });
@@ -240,14 +241,15 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                         String timerStringday =new SimpleDateFormat("yyyy年MM月dd日hh时mm分").format(new java.util.Date());
 
 //                        Location location    = GpsManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                        if(location==null){
-//                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)1222.3,(float)10.5));
-//                        }else{
+                        if(mPrefsManager.getLastAMPALocation()==null){
+                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)1222.3,(float)10.5));
+                            Log.d(LOG_TAG,"the location is null");
+                        }else{
 //                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)location.getLongitude(),(float)location.getLongitude()));
                               LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)mPrefsManager.getLastAMPALocation().getLatitude(),(float)mPrefsManager.getLastAMPALocation().getLongitude()));
-//                            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
-//                        }
-                        Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
+                            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
+                        }
+//                        Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
                         if(LocationTable.getInstance().query(mDb)!=null){
                             locationBeans =  LocationTable.getInstance().query(mDb);
                             locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
@@ -266,47 +268,14 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
 
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d(LOG_TAG,"the location is the lat is "+location.getLatitude()+ "  the long is "+location.getLongitude());
-        this.location =location;
-    }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onLocationChanged(AMapLocation arg0) {
-        //定位回调
-        if(arg0!=null&&arg0.getAMapException().getErrorCode() == 0){
-            Log.e(LOG_TAG, arg0.toString());
-
-
-            //debug
-                        String uri = String.format(Locale.ENGLISH, "geo:%f,%f",arg0.getLatitude(),arg0.getLongitude());
-//                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        intent = new Intent(ManualAddLocationActivity.this, AmapActivity.class);
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(uri));
-                                    try {
-                            ManualAddLocationActivity.this.startActivity(intent);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 弹出 退出确认框
+            ManualAddLocationActivity.this.finish();
+            return true;
         }
-
+        return true;
     }
 }
