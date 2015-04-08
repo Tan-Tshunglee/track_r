@@ -1115,6 +1115,7 @@ public class BluetoothLeService extends Service implements
         if(allConnected) {
             Log.i(LOG_TAG, "all trackr connected, exit fast repeat mode");
             exitFastRepeatMode();
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
         return true;
 
@@ -1209,13 +1210,6 @@ public class BluetoothLeService extends Service implements
             Log.v(LOG_TAG, "start bluetooth scan failed.");
         };
 
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.i(LOG_TAG, "auto delay stop scan after scanLeDevice");
-//                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//            }
-//        }, 6 * 1000);
     }
 
     /**
