@@ -1203,14 +1203,19 @@ public class BluetoothLeService extends Service implements
     private void scanLeDevice() {
         // Stops scanning after a pre-defined scan period.
         Log.v(LOG_TAG, "scanLeDevice");
-        mBluetoothAdapter.startLeScan(mLeScanCallback);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.i(LOG_TAG, "auto delay stop scan after scanLeDevice");
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            }
-        }, 6 * 1000);
+        if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
+            Log.v(LOG_TAG, "start bluetooth le scan successfully.");
+        } else {
+            Log.v(LOG_TAG, "start bluetooth scan failed.");
+        };
+
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.i(LOG_TAG, "auto delay stop scan after scanLeDevice");
+//                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+//            }
+//        }, 6 * 1000);
     }
 
     /**
