@@ -22,6 +22,9 @@ import java.util.Set;
 public class NetworkSyncService extends Service {
 
     public static final String ACTION_SYNC_AFTER_LOGIN = "server_intent_action_sync_after_login";
+
+    public static final String ACTION_TRACKS_FETCH_DONE = "user_tracks_fetched_done";
+
     private static final String LOG_TAG = "NetworkSyncService"  ;
     private PrefsManager mPrefs;
 
@@ -57,14 +60,16 @@ public class NetworkSyncService extends Service {
 
                 if(trackRs == null || trackRs.isEmpty()) {
                     Log.i(LOG_TAG, "no track bound info return.");
-                    return;
+                } else {
+                    Set<Map.Entry<String, TrackR>> entrySet = trackRs.entrySet();
+                    for(Map.Entry<String, TrackR> entry: entrySet) {
+                        mPrefs.addTrackR(entry.getValue());
+                    }
+                    TrackPhotosFetcher fetcher = new TrackPhotosFetcher();
+                    fetcher.start();
                 }
-                Set<Map.Entry<String, TrackR>> entrySet = trackRs.entrySet();
-                for(Map.Entry<String, TrackR> entry: entrySet) {
-                    mPrefs.addTrackR(entry.getValue());
-                }
-                TrackPhotosFetcher fetcher = new TrackPhotosFetcher();
-                fetcher.start();
+                sendBroadcast(new Intent(ACTION_TRACKS_FETCH_DONE));
+
             } else {
                 Log.e(LOG_TAG, "will to sync data while user is not login.");
             }

@@ -201,5 +201,7 @@
     <string name="good_news">Good news</string>
     <string name="your_track_is_found_by_others_at">Your iTrack is found by others at %1$s.</string>
     <string name="title_activity_found_by_others">FoundByOthers</string>
+    <string name="fetching_your_tracks">Fetching Your iTracks.</string>
+    <string name="just_a_moment">Just a moment, please</string>
 
 </resources>

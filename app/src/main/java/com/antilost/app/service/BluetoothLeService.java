@@ -1063,6 +1063,7 @@ public class BluetoothLeService extends Service implements
             }
         }, 100);
 
+        //this will read file
         int uid = mPrefsManager.getUid();
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {

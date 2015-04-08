@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -30,6 +33,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
     public  static final String LOG_TAG = "LoginActivity";
     public static final int PROMPT_OPEN_NETWORK_ID = 1;
+    public static final int FETCHING_TRACKS_DIALOG_ID = 2;
 
     private Button mSignInBtn;
     private PrefsManager mPrefsManager;
@@ -42,6 +46,15 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     private String exitcounter = null;
     private ConnectivityManager mConnectivityManager;
 
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(NetworkSyncService.ACTION_TRACKS_FETCH_DONE.equals(intent.getAction())) {
+                startMainTrackRListActivity();
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +74,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             exitcounter = (String) intent.getSerializableExtra("exitcounter");
         }
 
-
+        registerReceiver(mReceiver, new IntentFilter(NetworkSyncService.ACTION_TRACKS_FETCH_DONE));
         mPrefsManager = PrefsManager.singleInstance(this);
         if (mPrefsManager.validUserLog() && exitcounter==null) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
@@ -91,6 +104,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
 
     @Override
     public void onClick(View v) {
@@ -170,11 +188,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                         if(command.success()) {
                             mPrefsManager.saveUid(command.getUid());
                             Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(LoginActivity.this, MainTrackRListActivity.class);
-                            startActivity(i);
-
                             startNetworkSyncService();
-                            finish();
+                            showDialog(FETCHING_TRACKS_DIALOG_ID);
+
                         } else if(command.resultError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
                         } else if(command.isNetworkError()){
@@ -189,6 +205,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             }
         };
         t.start();
+    }
+
+    private void startMainTrackRListActivity() {
+        Intent i = new Intent(this, MainTrackRListActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void startNetworkSyncService() {
@@ -229,6 +251,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             builder.setMessage(getString(R.string.enable_network_before_login));
             builder.setNegativeButton(R.string.cancel, this);
             builder.setPositiveButton(R.string.ok, this);
+            return builder.create();
+        } else if(id == FETCHING_TRACKS_DIALOG_ID) {
+            ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
+            builder.setTitle(R.string.just_a_moment);
+            builder.setMessage(R.string.fetching_your_tracks);
             return builder.create();
         }
         return null;
