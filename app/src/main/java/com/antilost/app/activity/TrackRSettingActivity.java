@@ -157,20 +157,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
-        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+
         trackImage = (ImageView) findViewById(R.id.icon);
-
-
-
-
-        if(customIconUri != null) {
-            trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
-        } else {
-            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-            trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        }
-
 
         mDeclaredLost = findViewById(R.id.declared_lost);
         mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
@@ -190,7 +178,15 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
 
     private void updateStateUi() {
-        if(mBluetoothLeService == null) {
+        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        if(customIconUri != null) {
+            trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
+        } else {
+            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+            trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+            trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        }
+    if(mBluetoothLeService == null) {
             trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             Log.v(LOG_TAG, "mBluetoothLeService == null");
         } else {
