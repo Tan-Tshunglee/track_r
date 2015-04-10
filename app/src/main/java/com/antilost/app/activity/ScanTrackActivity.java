@@ -35,7 +35,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     public static final int MAX_COUNT = 5;
 
-    public static final int MAX_RETRY_TIMES = 12;
+    public static final int MAX_RETRY_TIMES = 5;//zql  reduce to  25S
     public static final int MSG_RETRY_SCAN_LE = 100;
 
     private static final String LOG_TAG = "ScanTrackActivity";

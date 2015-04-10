@@ -145,11 +145,15 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     };
 
     private void playAlertSound() {
-        try {
-            mMediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+       if(!mMediaPlayer.isPlaying()) {// zql two losser is lose have error
+           try {
+               mMediaPlayer.prepare();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
+
 
         boolean globalAlertEnabled = mPrefsManager.getGlobalAlertRingEnabled();
         boolean trackAlertEnabled = mPrefsManager.getPhoneAlert(mBluetoothAddress);
