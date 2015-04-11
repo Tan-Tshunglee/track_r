@@ -144,6 +144,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 updateIconPosition(rssi);
             } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 restartMyself();
+            } else if(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE.equals(action)) {
+                String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
+                if(mBluetoothDeviceAddress.equals(address)) {
+                    showTrackRinging();
+                }
             }
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
@@ -283,9 +288,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     }
 
-
-
-
     private void updateStateUi() {
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
@@ -367,6 +369,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_RSSI_READ);
         filter.addAction(BluetoothLeService.ACTION_BATTERY_LEVEL_READ);
         filter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        filter.addAction(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE);
         return filter;
     }
 
@@ -424,13 +427,10 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 } else {
                     Log.d(LOG_TAG, "make trackr ring.");
                     if(makeTrackRRing()) {
-                        mRingButton.setBackgroundResource(R.drawable.ringing_btn_bkg);
-                        AnimationDrawable anim = (AnimationDrawable) mRingButton.getBackground();
-                        anim.start();
-                        mRingStateMap.put(mBluetoothDeviceAddress, true);
-                        mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
+                        //showTrackRinging();
+                        Log.i(LOG_TAG, "Write track ring command ok");
                     } else {
-                        Log.e(LOG_TAG, "write track ring...");
+                        Log.e(LOG_TAG, "Write track ring command failed...");
                     };
                 }
                 break;
@@ -484,6 +484,14 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 updateRssi();
                 break;
         }
+    }
+
+    private void showTrackRinging() {
+        mRingButton.setBackgroundResource(R.drawable.ringing_btn_bkg);
+        AnimationDrawable anim = (AnimationDrawable) mRingButton.getBackground();
+        anim.start();
+        mRingStateMap.put(mBluetoothDeviceAddress, true);
+        mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
     }
 
     @Override

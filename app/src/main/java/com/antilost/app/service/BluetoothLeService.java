@@ -131,8 +131,12 @@ public class BluetoothLeService extends Service implements
 
     public final static String ACTION_DEVICE_CLICKED =
             "com.antilost.bluetooth.le.ACTION_DEVICE_CLICKED";
+
     public final static String EXTRA_KEY_BLUETOOTH_ADDRESS =
             "EXTRA_KEY_BLUETOOTH_ADDRESS";
+
+    public final static String ACTION_DEVICE_RING_COMMAND_WRITE_DONE =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_RING_COMMAND_WRITE_DONE";
 
 
 
@@ -488,7 +492,7 @@ public class BluetoothLeService extends Service implements
         private void registerKeyListener(BluetoothGatt gatt) {
             //registry key press notification;
             if (setCharacteristicNotification(gatt,
-                    UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID),
+                    UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID_STRING),
                     com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
                     true)) {
                 Log.v(LOG_TAG, "setCharacteristicNotification ok");
@@ -563,8 +567,13 @@ public class BluetoothLeService extends Service implements
             UUID charUuid = characteristic.getUuid();
             Log.i(LOG_TAG, "onCharacteristicWrite is " + charUuid);
             int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+
+
+            if(charUuid == null || serviceUuid == null) {
+                Log.e(LOG_TAG, "onCharacteristicWrite charateristic or service uuid is null");
+            }
             Log.d(LOG_TAG, "onCharacteristicWrite value is " + value);
-             final String address = gatt.getDevice().getAddress();
+            final String address = gatt.getDevice().getAddress();
             //make track sleep command;
             if (serviceUuid.equals(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID)
@@ -589,7 +598,7 @@ public class BluetoothLeService extends Service implements
                 } else {
                     //just make track sleep
                 }
-
+            //custom veriy code write
             } else if(serviceUuid.equals(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE)
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
                 Log.w(LOG_TAG, "write done callback of verify code ");
@@ -606,6 +615,9 @@ public class BluetoothLeService extends Service implements
                         requestRssiLevel(address);
                     }
                 }, 5000);
+            } else if(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID.equals(serviceUuid)
+                    && com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID.equals(charUuid)) {
+                broadcastUpdate(ACTION_DEVICE_RING_COMMAND_WRITE_DONE, address);
             }
         }
 
@@ -1529,24 +1541,17 @@ public class BluetoothLeService extends Service implements
         }
 
 
-        BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
+        BluetoothGattService alertService = gatt.getService(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID);
         if (alertService == null) {
-            Log.w(LOG_TAG, "silentRing No IMMEDIATE_ALERT_SERVICE_UUID....");
+            Log.w(LOG_TAG, "silentRing No IMMEDIATE_ALERT_SERVICE_UUID_STRING....");
             return false;
         }
-//        List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
-//
-//        for (BluetoothGattCharacteristic c : characteristics) {
-//            if (c.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.ALARM_CHARACTERISTIC_UUID_PREFIX)) {
-//                byte[] sendData = new byte[]{0x02}; //高音 {0x01}; 低音
-//                c.setValue(sendData);
-//                gatt.writeCharacteristic(c);
-//            }
-//        }
+
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
         if (c == null) {
             return false;
         }
+        //{0x02}; //高音 {0x01}; 低音
         c.setValue(new byte[]{02});
         return gatt.writeCharacteristic(c);
     }
@@ -1560,9 +1565,9 @@ public class BluetoothLeService extends Service implements
             Log.w(LOG_TAG, "gatt has not connected....");
             return;
         }
-        BluetoothGattService alertService = gatt.getService(UUID.fromString(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID));
+        BluetoothGattService alertService = gatt.getService(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID);
         if (alertService == null) {
-            Log.w(LOG_TAG, "No IMMEDIATE_ALERT_SERVICE_UUID....");
+            Log.w(LOG_TAG, "No IMMEDIATE_ALERT_SERVICE_UUID_STRING....");
             return;
         }
 //        List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
