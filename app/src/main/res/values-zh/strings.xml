@@ -66,6 +66,9 @@
     <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
+    <string name="phone_alart_tip">远距离,iTrack断开报警</string>
+    <string name="alert_level_tip">远距离,手机断开报警</string>
+
     <string name="turn_off_track_r">Turn off iTrack</string>
     <string name="unbind_track_r">Unbind iTrack</string>
     <string name="take_photo">Take Photo</string>
@@ -84,7 +87,8 @@
     <string name="user_language">语言选择</string>
     <string name="user_background">背景选择</string>
     <string name="user_tip">意见反馈</string>
-    <string name="user_version">新版本检测</string>
+    <string name="user_version">APP版本检测: 1.2.0</string>
+    <string name="userhardware_version">硬件版本: 1.0</string>
     <string name="user_exitcount">退出登录</string>
     <string name="user_editor">编辑</string>
     <string name="user_usericon">头像</string>

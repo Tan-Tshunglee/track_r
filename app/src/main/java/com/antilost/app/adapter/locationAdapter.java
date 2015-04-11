@@ -15,11 +15,13 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.activity.ManualAddLocationActivity;
 import com.antilost.app.dao.LocationTable;
 import com.antilost.app.model.LocationBean;
 import com.antilost.app.util.LocUtils;
@@ -43,7 +45,12 @@ public class locationAdapter extends BaseAdapter implements View.OnClickListener
     }
     @Override
     public int getCount() {
-        return  locationBeans.size();
+        if(locationBeans==null){
+            return 0;
+        }else{
+            return  locationBeans.size();
+        }
+
     }
 
     @Override
@@ -65,12 +72,21 @@ public class locationAdapter extends BaseAdapter implements View.OnClickListener
         return convertView;
     }
 
-    private void bindView(View convertView,  int position) {
+    private void bindView(View convertView,  final int position) {
         final int positions = position;
         final int mpositions = position;
         TextView titile = (TextView) convertView.findViewById(R.id.tvlocationtitle);
         TextView time = (TextView) convertView.findViewById(R.id.tvlocationtime);
         RelativeLayout relativeLayout = (RelativeLayout) convertView.findViewById(R.id.rllocation);
+        ImageButton btnlocation  = (ImageButton) convertView.findViewById(R.id.btnlocation);
+        btnlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG,"delete the position locationBeans ");
+                deleteSensor(locationBeans.get(positions));
+            }
+            }
+        );
 //        relativeLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -167,19 +183,19 @@ public class locationAdapter extends BaseAdapter implements View.OnClickListener
         builder.show();
     }
 
-    /**
-     * 删除房间
-     *
-     */
     private final void deleteSensor(final LocationBean locationBean) {
         LocationTable.getInstance().delete(mDb, locationBean);
-
+        if(LocationTable.getInstance().query(mDb)!=null){
+            locationBeans =  LocationTable.getInstance().query(mDb);
+        }else{
+            locationBeans = null;
+        }
+        notifyDataSetChanged();
 
     }
 
 
     public void updateData() {
-
         notifyDataSetChanged();
     }
 

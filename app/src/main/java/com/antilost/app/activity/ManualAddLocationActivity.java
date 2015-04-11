@@ -182,9 +182,13 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
      */
     private final void deleteSensor(final LocationBean locationBean) {
         LocationTable.getInstance().delete(mDb, locationBean);
+        locationadatper.notifyDataSetChanged();
         if(LocationTable.getInstance().query(mDb)!=null){
             locationBeans =  LocationTable.getInstance().query(mDb);
             locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
+            mListView.setAdapter(locationadatper);
+        }else{
+            locationadatper = new locationAdapter(ManualAddLocationActivity.this,null,mDb);
             mListView.setAdapter(locationadatper);
         }
 
