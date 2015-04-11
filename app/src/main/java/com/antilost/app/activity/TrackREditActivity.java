@@ -317,8 +317,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mBluetoothGatt = null;
         }
 
-        toast(getString(R.string.binding_success));
-
         Thread t = new Thread() {
             @Override
             public void run() {

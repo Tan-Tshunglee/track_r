@@ -37,6 +37,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
     public static final int MSG_SHOW_FIRST_PAGE = 3;
+    public static final int MSG_RETRY_CONNECT_GATT = 4;
 
     public static final int MAX_COUNT = 5;
 
@@ -124,6 +125,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 if(newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.v(LOG_TAG, "bluetooth connection state is STATE_CONNECTED");
+
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -154,7 +156,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         if(gatt.writeCharacteristic(characteristic)) {
                             log("Write verify code success.");
                             mConnectedBluetoothGatt = gatt;
-                            startTrackEdit(gatt);
+                            startTrackEdit();
                         } else {
                             log("Write verify code failed.");
                         }
@@ -206,8 +208,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     }
 
     private void tryConnectBluetoothGatt(final String deviceAddress) {
-        if(mConnectedBluetoothGatt != null && mConnectedBluetoothGatt.getDevice().getAddress().equals(deviceAddress)) {
-            Log.d(LOG_TAG, "Try connect to a connected gatt.");
+        if(mConnectedBluetoothGatt != null) {
+            Log.e(LOG_TAG, "Already has one bluetoothGatt connected.");
+            mHandler.removeMessages(MSG_RETRY_CONNECT_GATT);
+            mHandler.sendEmptyMessageDelayed(MSG_RETRY_CONNECT_GATT, 10 * 1000);
             return;
         }
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
@@ -220,15 +224,16 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         });
     }
 
-    private void startTrackEdit(BluetoothGatt gatt) {
-
+    private void startTrackEdit() {
         if(mConnectedBluetoothGatt != null) {
-            sBluetoothConnected = gatt;
+            sBluetoothConnected = mConnectedBluetoothGatt;
             Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
-            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, gatt.getDevice().getAddress());
+            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mConnectedBluetoothGatt.getDevice().getAddress());
             i.putExtra(TrackREditActivity.EXTRA_EDIT_NEW_TRACK, true);
             startActivity(i);
             finish();
+            mConnectedBluetoothGatt = null;
+
         }
     }
 
@@ -364,11 +369,21 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(mConnectedBluetoothGatt != null) {
+            mConnectedBluetoothGatt.close();
+        }
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.backBtn:
+                if(mConnectedBluetoothGatt != null) {
+                    mConnectedBluetoothGatt.close();
+                }
                 finish();
                 break;
             case R.id.tryAgain:
