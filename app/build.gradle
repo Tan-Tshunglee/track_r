@@ -16,7 +16,7 @@ android {
         }
     }
     compileSdkVersion 18
-    buildToolsVersion '22.0.1'
+    buildToolsVersion '21.1.2'
     defaultConfig {
         applicationId "com.antilost.app"
         minSdkVersion 18

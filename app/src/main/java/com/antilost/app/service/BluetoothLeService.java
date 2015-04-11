@@ -301,7 +301,7 @@ public class BluetoothLeService extends Service implements
         mUploadUnknownTrackLocationThread.start();
     }
 
-    private void connectTrackAfterScan(String address) {
+    private void connectTrackAfterScan(final String address) {
 
         Integer oldState = mGattConnectionStates.get(address);
         BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
@@ -312,8 +312,8 @@ public class BluetoothLeService extends Service implements
             return;
         }
 
-
         if(bluetoothGatt != null) {
+            Log.i(LOG_TAG, "found old gatt with same address");
             bluetoothGatt.close();
             mBluetoothGatts.remove(address);
         }
@@ -324,7 +324,13 @@ public class BluetoothLeService extends Service implements
             return;
         }
 
-        tryConnectGatt(address, device);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                tryConnectGatt(address, device);
+            }
+        });
+
 
     }
 
