@@ -49,6 +49,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical"
                     android:paddingBottom="20dp"
+                    android:visibility="gone"
                     android:paddingTop="20dp">
                     <!-- 头像 -->
                     <ImageButton
@@ -80,11 +81,10 @@
                         android:textSize="20sp" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
-                <!-- 分隔线 -->
-                <!-- 分隔线 -->
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
+                    android:visibility="gone"
                     android:background="@color/user_data_text" />
                 <!-- Appring 报警铃声 -->
                 <RelativeLayout
@@ -404,6 +404,41 @@
                     <!-- 编辑 -->
                     <ImageButton
                         android:id="@+id/imgusersversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:src="@drawable/tri_right" />
+                </RelativeLayout>
+
+                <!-- 分隔线 -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/user_data_text" />
+                <!--硬件版本 -->
+                <RelativeLayout
+                    android:id="@+id/rluser_hardwareversion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical">
+                    <!-- language text-->
+                    <TextView
+                        android:id="@+id/tvuserhardwareversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/userhardware_version"
+                        android:textColor="@color/user_data_text"
+                        android:textSize="20sp" />
+                    <!-- 编辑 -->
+                    <ImageButton
+                        android:id="@+id/imgusershardwareversion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
