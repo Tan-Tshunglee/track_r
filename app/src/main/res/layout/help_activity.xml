@@ -43,7 +43,7 @@
                 android:paddingLeft="15dp"
                 android:text="@string/help_privacy"
                 android:textColor="@color/user_data_text"
-                android:textSize="@dimen/itemtextsize" />
+                android:textSize="@@dimen/activity_horizontal_margin" />
             <!--家 点击wifi-->
             <TextView
                 android:id="@+id/tvsafezonehomeadd"
@@ -78,7 +78,7 @@
                 android:paddingLeft="15dp"
                 android:text="@string/help_use"
                 android:textColor="@color/user_data_text"
-                android:textSize="@dimen/itemtextsize" />
+                android:textSize="@@dimen/activity_horizontal_margin" />
             <!-- office add wifi -->
             <TextView
                 android:id="@+id/tvsafezone_officeadd"

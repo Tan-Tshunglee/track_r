@@ -47,7 +47,7 @@
         android:padding="20dp"
         android:gravity="top"
         android:id="@+id/etfeedback"
-        android:textSize="@dimen/normal_textsize"
+        android:textSize="@dimen/activity_horizontal_margin"
         android:background="#ffffffff"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
