@@ -43,7 +43,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     private Button mForgetPassword;
     private Button mUserRegistration;
     private ProgressDialog mProgressDialog;
-    private String exitcounter = null;
     private ConnectivityManager mConnectivityManager;
 
 
@@ -51,6 +50,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         @Override
         public void onReceive(Context context, Intent intent) {
             if(NetworkSyncService.ACTION_TRACKS_FETCH_DONE.equals(intent.getAction())) {
+                Log.i(LOG_TAG, "receiver ACTION_TRACKS_FETCH_DONE start main activity");
                 startMainTrackRListActivity();
             }
         }
@@ -70,13 +70,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         }
 
         Intent intent = getIntent();
-        if (null != intent) {
-            exitcounter = (String) intent.getSerializableExtra("exitcounter");
-        }
+
 
         registerReceiver(mReceiver, new IntentFilter(NetworkSyncService.ACTION_TRACKS_FETCH_DONE));
         mPrefsManager = PrefsManager.singleInstance(this);
-        if (mPrefsManager.validUserLog() && exitcounter==null) {
+        if (mPrefsManager.validUserLog()) {
             Intent i = new Intent(this, MainTrackRListActivity.class);
             startActivity(i);
             finish();
@@ -152,7 +150,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             Toast.makeText(this, getString(R.string.password_length_is_6_to_18_chars), Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if(mProgressDialog != null && mProgressDialog.isShowing()) {
+            return;
+        }
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
         mProgressDialog.setTitle(getString(R.string.signing_in));//设置标题
@@ -214,6 +214,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     }
 
     private void startNetworkSyncService() {
+        Log.w(LOG_TAG, "startNetworkSyncService");
         Intent serviceIntent = new Intent(this, NetworkSyncService.class);
         serviceIntent.setAction(NetworkSyncService.ACTION_SYNC_AFTER_LOGIN);
         startService(serviceIntent);

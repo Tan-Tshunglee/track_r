@@ -103,6 +103,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(LOG_TAG, "MainTrackRListActivity start.");
         mPrefsManager = PrefsManager.singleInstance(this);
         setContentView(R.layout.activity_main_track_rlist);
         mListView = (ListView) findViewById(R.id.listview);
@@ -155,6 +156,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
 
         if(!mPrefsManager.validUserLog()) {
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
 

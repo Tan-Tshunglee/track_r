@@ -18,8 +18,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -135,6 +138,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 Log.i(LOG_TAG, "send gatt.discoverServices command success.");
                             } else {
                                 Log.e(LOG_TAG, "send gatt.discoverServices command failed..");
+                                gatt.close();
+                                mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                             }
                         }
                     }, 1000);
@@ -177,6 +182,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             }
         }
     };
+    private ImageView mSearchingIcon;
+    private Animation mSearchingAnimation;
 
     private void log(String s) {
         Log.d(LOG_TAG, s);
@@ -282,6 +289,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         mTryAgain = (Button) findViewById(R.id.tryAgain);
         mTryAgain.setOnClickListener(this);
 
+        mSearchingIcon = (ImageView) findViewById(R.id.imageViewSearchIcon);
         mBindingDotsMarquee = (DotsMarquee) findViewById(R.id.bindingDotsMarquee);
         mConnecingDotsMarquee = (DotsMarquee) findViewById(R.id.connectingDotsMarquee);
 
@@ -348,6 +356,17 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         unregisterReceiver(mGattUpdateReceiver);
         mBindingDotsMarquee.stopMarquee();
         mConnecingDotsMarquee.stopMarquee();
+        stopSearchAnimation();
+    }
+
+    private void stopSearchAnimation() {
+    }
+
+    private void startSearchingAnimation() {
+        if(mSearchingAnimation == null) {
+            mSearchingAnimation = AnimationUtils.loadAnimation(this, R.anim.searching);
+        }
+        mSearchingIcon.startAnimation(mSearchingAnimation);
     }
 
     @Override
@@ -363,8 +382,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
         mBindingDotsMarquee.startMarquee();
         mConnecingDotsMarquee.startMarquee();
-
+        startSearchingAnimation();
     }
+
+
 
     private void scanLeDevice(final boolean enable) {
         if (enable) {

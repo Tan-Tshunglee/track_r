@@ -46,6 +46,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private static final int CHECKING_NEW_VERSION_DIALOG_ID = 1;
     private static final int PROMPT_USER_UPDATE_OR_NOT_DIALOG_ID = 2;
     private static final int NO_UPDATE_FOUND_DIALOG_ID = 3;
+
+    public static final String ACTION_USER_LOGOUT = "com.antilost.app.ACTION_USER_LOGOUT";
     private static final String LOG_TAG = "UserProfileActivity";
 
     private String TAG = "UserProfileActivity";
@@ -264,12 +266,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View arg0) {
 
                 mPrefsManager.saveUid(-1);
-                Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
-                intent.putExtra("exitcounter", "1");
-                startActivity(intent);
+                sendBroadcast(new Intent(ACTION_USER_LOGOUT));
                 UserProfileActivity.this.finish();
-
-
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
             }
         });
