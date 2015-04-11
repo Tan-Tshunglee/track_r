@@ -191,7 +191,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
 
 		/* 设置图片放大的比例 */
-        double scale=2.5;
+        double scale=1.3;
 		/* 计算这次要放大的比例 */
         scaleWidth=(float)(scaleWidth*scale);
         scaleHeight=(float)(scaleHeight*scale);
