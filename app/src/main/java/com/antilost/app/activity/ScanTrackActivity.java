@@ -37,7 +37,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
     public static final int MSG_SHOW_FIRST_PAGE = 3;
-    public static final int MSG_RETRY_CONNECT_GATT = 4;
+    public static final int MSG_GATT_CONNECTION_TIMEOUT = 4;
 
     public static final int MAX_COUNT = 5;
 
@@ -130,6 +130,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         @Override
                         public void run() {
                             if(gatt.discoverServices()) {
+                                mHandler.removeMessages(MSG_GATT_CONNECTION_TIMEOUT);
+                                mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, 30 * 1000);
                                 Log.i(LOG_TAG, "send gatt.discoverServices command success.");
                             } else {
                                 Log.e(LOG_TAG, "send gatt.discoverServices command failed..");
@@ -140,7 +142,9 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                     Log.v(LOG_TAG, "bluetooth connection state is not STATE_CONNECTED");
                 }
             } else {
-                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not :" + status);
+                gatt.close();
+                mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
+                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not success :");
             }
         }
 
@@ -166,6 +170,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 } else {
                     Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
                 }
+            } else {
+                Log.v(LOG_TAG, "onServicesDiscovered status is not sucess.");
+                gatt.close();
+                mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
             }
         }
     };
@@ -210,8 +218,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private void tryConnectBluetoothGatt(final String deviceAddress) {
         if(mConnectedBluetoothGatt != null) {
             Log.e(LOG_TAG, "Already has one bluetoothGatt connected.");
-            mHandler.removeMessages(MSG_RETRY_CONNECT_GATT);
-            mHandler.sendEmptyMessageDelayed(MSG_RETRY_CONNECT_GATT, 10 * 1000);
+            mHandler.removeMessages(MSG_GATT_CONNECTION_TIMEOUT);
+            mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, 30 * 1000);
             return;
         }
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
@@ -233,7 +241,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             startActivity(i);
             finish();
             mConnectedBluetoothGatt = null;
-
         }
     }
 
@@ -309,6 +316,13 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mScanedTime = 0;
                         sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                         break;
+                    case MSG_GATT_CONNECTION_TIMEOUT:
+                        if(mConnectedBluetoothGatt != null) {
+                            mConnectedBluetoothGatt.close();
+                            mConnectedBluetoothGatt = null;
+                            sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
+                        }
+                        break;
                 }
             }
         };
@@ -320,6 +334,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     @Override
     protected void onDestroy() {
+        if(mConnectedBluetoothGatt != null) {
+            mConnectedBluetoothGatt.close();
+            mConnectedBluetoothGatt = null;
+        }
         super.onDestroy();
     }
 
