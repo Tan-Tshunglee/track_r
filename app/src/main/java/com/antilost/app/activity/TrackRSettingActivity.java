@@ -142,6 +142,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
         findViewById(R.id.declared_lost).setOnClickListener(this);
         findViewById(R.id.icon).setOnClickListener(this);
+        findViewById(R.id.iconAndName).setOnClickListener(this);
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
@@ -273,6 +274,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 startActivity(i);
                 TrackRSettingActivity.this.finish();
                 break;
+            case R.id.iconAndName:
             case R.id.icon:
                 i = new Intent(TrackRSettingActivity.this, TrackREditActivity.class);
                 i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothDeviceAddress);
