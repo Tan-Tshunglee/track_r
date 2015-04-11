@@ -87,7 +87,7 @@
     <string name="user_language">语言选择</string>
     <string name="user_background">背景选择</string>
     <string name="user_tip">意见反馈</string>
-    <string name="user_version">APP版本检测: 1.2.0</string>
+    <string name="user_version">APP检测更新:（当前版本：1.2.0）</string>
     <string name="userhardware_version">硬件版本: 1.0</string>
     <string name="user_exitcount">退出登录</string>
     <string name="user_editor">编辑</string>

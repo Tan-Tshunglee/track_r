@@ -79,14 +79,14 @@ public class locationAdapter extends BaseAdapter implements View.OnClickListener
         TextView time = (TextView) convertView.findViewById(R.id.tvlocationtime);
         RelativeLayout relativeLayout = (RelativeLayout) convertView.findViewById(R.id.rllocation);
         ImageButton btnlocation  = (ImageButton) convertView.findViewById(R.id.btnlocation);
-        btnlocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(LOG_TAG,"delete the position locationBeans ");
-                deleteSensor(locationBeans.get(positions));
-            }
-            }
-        );
+//        btnlocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(LOG_TAG,"delete the position locationBeans ");
+//                deleteSensor(locationBeans.get(positions));
+//            }
+//            }
+//        );
 //        relativeLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

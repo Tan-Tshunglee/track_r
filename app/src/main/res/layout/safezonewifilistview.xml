@@ -32,7 +32,7 @@
             android:focusable="false"
             android:singleLine="true"
             android:textColor="@color/user_data_text"
-            android:textSize="@dimen/normal_textsize_test"
+            android:textSize="@dimen/activity_horizontal_margin"
             android:layout_weight="1" />
         <!-- select -->
         <LinearLayout

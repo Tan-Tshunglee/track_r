@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:text="@string/connected"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:singleLine="true"
             android:textColor="@color/user_data_text"
             android:drawableLeft="@drawable/green_dot"
@@ -144,7 +144,7 @@
                 android:text="远"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:textSize="18sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:textColor="@color/user_data_text"
                 />
@@ -152,7 +152,7 @@
                 android:text="中"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:textSize="18sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:textColor="@color/user_data_text"
                 />
@@ -160,7 +160,7 @@
                 android:text="近"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:textSize="18sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:textColor="@color/user_data_text"
                 android:layout_weight="1"
                 />

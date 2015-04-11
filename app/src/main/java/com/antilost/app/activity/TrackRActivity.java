@@ -1,38 +1,6 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothProfile;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,26 +9,26 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.graphics.Matrix;
 
 import com.android.camera.Camera;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
-import com.antilost.app.camera.CameraActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -92,6 +60,10 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private ImageView mDistanceImage;
     private ImageView mBatteryLeve;
     private ImageView mTrackRIcon;
+    private Bitmap bmp;
+    private float scaleWidth=1;
+    private float scaleHeight=1;
+
 
     //ring state of every trackr;
     private HashMap<String, Boolean> mRingStateMap = new HashMap<String, Boolean>();
@@ -257,11 +229,35 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             if(track != null) {
                 mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
                 mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                bmp =BitmapFactory.decodeResource(getResources(),TrackREditActivity.DrawableIds[track.type]);
+                mTrackImage.setImageBitmap(big());
             }
+
         }
 
 
     }
+
+    /* 图片放大的method */
+    private Bitmap big() {
+        int bmpWidth=bmp.getWidth();
+        int bmpHeight=bmp.getHeight();
+
+        Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
+
+		/* 设置图片放大的比�? */
+        double scale=3;
+		/* 计算这次要放大的比例 */
+        scaleWidth=(float)(scaleWidth*scale);
+        scaleHeight=(float)(scaleHeight*scale);
+		/* 产生reSize后的Bitmap对象 */
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizeBmp = Bitmap.createBitmap(bmp,0,0,bmpWidth,
+                bmpHeight,matrix,true);
+        return  resizeBmp;
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

@@ -44,7 +44,7 @@
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_home"
                 android:textColor="@color/user_data_text"
-                android:textSize="@dimen/itemtextsize" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!--家 点击wifi-->
             <TextView
                 android:id="@+id/tvsafezonehomeadd"
@@ -80,7 +80,7 @@
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_office"
                 android:textColor="@color/user_data_text"
-                android:textSize="@dimen/itemtextsize" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- office add wifi -->
             <TextView
                 android:id="@+id/tvsafezone_officeadd"
@@ -116,7 +116,7 @@
                 android:paddingLeft="15dp"
                 android:text="@string/safezone_other"
                 android:textColor="@color/user_data_text"
-                android:textSize="@dimen/itemtextsize" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- other text -->
             <TextView
                 android:id="@+id/tvsafezone_otheradd"
