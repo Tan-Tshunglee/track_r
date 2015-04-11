@@ -285,5 +285,8 @@ public final class CsstSHImageData {
     }
 
 
-
+    public static void removePhoto(String address) {
+        File imageFile = new File(TRACKR_IMAGE_FOLDER, address);
+        imageFile.delete();
+    }
 }

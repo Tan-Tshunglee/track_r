@@ -1517,6 +1517,8 @@ public class BluetoothLeService extends Service implements
         mPrefsManager.saveLastTimeFoundByOthers(-1, address);
         mPrefsManager.saveLastLostLocation(null, address);
 
+        mPrefsManager.removeTrackImageAndInfo(address);
+
         broadcastDeviceUbbind(address);
 
     }

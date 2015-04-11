@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.antilost.app.activity.ScanTrackActivity;
 import com.antilost.app.model.TrackR;
+import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
@@ -139,6 +140,12 @@ public class PrefsManager {
     public String getPassword() {
         return mPrefs.getString(PREFS_PASSWORD_KEY, "");
 
+    }
+
+    public boolean removeTrackFile(String address) {
+        File dir = mCtx.getDir("tracks", 0);
+        File trackFile = new File(dir, address);
+        return trackFile.delete();
     }
 
     public boolean saveTrackToFile(String address, TrackR track) {
@@ -408,4 +415,8 @@ public class PrefsManager {
     }
 
 
+    public void removeTrackImageAndInfo(String address) {
+        CsstSHImageData.removePhoto(address);
+        removeTrackFile(address);
+    }
 }
