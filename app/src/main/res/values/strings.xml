@@ -67,10 +67,10 @@
     <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
-    <string name="phone_alart_tip">远距离,iTrack断开报警</string>
-    <string name="alert_level_tip">远距离,手机断开报警</string>
+    <string name="phone_alart_tip">Far away,iTrack alerts</string>
+    <string name="alert_level_tip">Far away, phone alerts</string>
     <string name="turn_off_track_r">Turn off iTrack</string>
-    <string name="unbind_track_r">Unbind iTrack</string>
+    <string name="unbind_track_r">Delete iTrack</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_picture">Choose Picture</string>
     <string name="reconect_to_s">"Reconnect to %s"</string>
@@ -168,8 +168,8 @@
     <string name="alarttime_title">AlartTime Setting</string>
     <string name="title_activity_amap">AmapActivity</string>
     <string name="place_lost">Place Lost</string>
-    <string name="unbind_successfully">Unbind Success.</string>
-    <string name="unbind_track_server_error">Server Error, Can not unbind this iTrack.</string>
+    <string name="unbind_successfully">Delete Success.</string>
+    <string name="unbind_track_server_error">Server Error, Can not delete this iTrack.</string>
     <string name="title_activity_google_map">GoogleMapActivity</string>
     <string name="no_location_data">No Location Data! </string>
     <string name="title_activity_start_and_end_timer_picker">StartAndEndTimerPickerActivity</string>
@@ -207,5 +207,7 @@
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
     <string name="edit_itrack">Edit iTrack</string>
+    <string name="delete_track_on_server">Delete iTrack on Server</string>
+    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
 
 </resources>

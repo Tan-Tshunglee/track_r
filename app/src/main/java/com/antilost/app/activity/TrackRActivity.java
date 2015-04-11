@@ -254,8 +254,10 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 //            mTrackImage.setImageURI(customIconUri);
         }else {
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-            mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            if(track != null) {
+                mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
+                mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            }
         }
 
 

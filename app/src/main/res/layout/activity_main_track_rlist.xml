@@ -48,8 +48,14 @@
         android:layout_height="match_parent"
         android:layout_below="@id/titleBarLayout"
         >
-
     </ListView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/title_bar_height">
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,6 +35,7 @@ import com.antilost.app.util.CsstSHImageData;
 public class TrackRSettingActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
+
     private static final String LOG_TAG = "TrackRSettingActivity";
     private String mBluetoothDeviceAddress;
 
@@ -250,6 +253,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             case R.id.turnOffTrackR:
                 if(mBluetoothLeService == null) {
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
+                    Toast.makeText(this, getString(R.string.can_not_close_disconnected_itrack), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
@@ -263,31 +267,13 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 if(mBackgroundThread != null) {
                     return;
                 }
-
-
+                mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
+                toast(getString(R.string.unbind_successfully));
                 mBackgroundThread = new Thread() {
                     @Override
                     public void run() {
                         UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
                         command.execTask();
-
-                        if(command.success()) {
-                            mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    toast(getString(R.string.unbind_successfully));
-                                }
-                            });
-                        } else {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    toast(getString(R.string.unbind_track_server_error));
-                                }
-                            });
-                        }
-
                         mBackgroundThread = null;
                     }
                 };
@@ -369,5 +355,17 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             return true;
         }
         return true;
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case 0:
+                ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
+                builder.setTitle(R.string.wait_a_moment);
+                builder.setMessage(getString(R.string.delete_track_on_server));
+                return builder.create();
+        }
+        return null;
     }
 }

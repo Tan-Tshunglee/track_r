@@ -33,6 +33,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -1487,6 +1488,7 @@ public class BluetoothLeService extends Service implements
             };
             //disconnected gatt can be reused later ;
         } else {
+            Toast.makeText(this, getString(R.string.can_not_close_disconnected_itrack), Toast.LENGTH_SHORT).show();
             mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
             Log.i(LOG_TAG, "turn off disconnected Track");
             BluetoothGatt gatt = mBluetoothGatts.get(address);

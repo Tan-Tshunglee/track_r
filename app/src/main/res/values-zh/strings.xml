@@ -217,6 +217,8 @@
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
     <string name="edit_itrack">Edit iTrack</string>
+    <string name="delete_track_on_server">Delete iTrack on Server</string>
+    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
 
     <string-array name="modify_location">
         <item>rename</item>
