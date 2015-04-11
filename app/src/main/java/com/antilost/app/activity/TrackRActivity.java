@@ -232,10 +232,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 bmp =BitmapFactory.decodeResource(getResources(),TrackREditActivity.DrawableIds[track.type]);
                 mTrackImage.setImageBitmap(big());
             }
-
         }
-
-
     }
 
     /* 图片放大的method */
@@ -245,7 +242,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
         Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
 
-		/* 设置图片放大的比�? */
+		/* 设置图片放大的比例 */
         double scale=3;
 		/* 计算这次要放大的比例 */
         scaleWidth=(float)(scaleWidth*scale);
