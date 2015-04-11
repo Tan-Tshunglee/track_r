@@ -66,6 +66,9 @@
     <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
+    <string name="phone_alart_tip">远距离,iTrack断开报警</string>
+    <string name="alert_level_tip">远距离,手机断开报警</string>
+
     <string name="turn_off_track_r">Turn off iTrack</string>
     <string name="unbind_track_r">Unbind iTrack</string>
     <string name="take_photo">Take Photo</string>
