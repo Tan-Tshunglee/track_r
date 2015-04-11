@@ -78,41 +78,43 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 //            LocationTable.getInstance().insert(mDb,new LocationBean("HOME","2015年11月25日10时25分",(float)12.5,(float)12.5));
 //            LocationTable.getInstance().insert(mDb,new LocationBean("OFFICE","2015年11月25日08时26分",(float)12.5,(float)12.5));
 //        }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int mposition = position;
+
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", locationBeans.get(mposition).getMlatitude(), locationBeans.get(mposition).getMlongitude());
+//                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
+                Log.d(LOG_TAG, "the string is " + uri);
+
+
+                Location location = new Location(LocationManager.NETWORK_PROVIDER);
+                double longitude = Double.valueOf(locationBeans.get(mposition).getMlatitude());
+                double latitude = Double.valueOf(locationBeans.get(mposition).getMlongitude());
+
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                LocUtils.viewLocation(ManualAddLocationActivity.this, location);
+            }
+        });
+        mListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(LOG_TAG,"setOnItemLongClickListener");
+                try {
+                    modifyLocation(locationBeans.get(position));
+                } catch (Exception ex) {
+                    Log.d(LOG_TAG, ex.toString());
+                }
+                return true;
+            }
+        });
         if(LocationTable.getInstance().query(mDb)!=null){
             locationBeans =  LocationTable.getInstance().query(mDb);
             locationadatper = new locationAdapter(this,locationBeans,mDb);
             mListView.setAdapter(locationadatper);
             Log.d(LOG_TAG, " mListView.setAdapter(locationadatper) ");
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int mposition = position;
 
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", locationBeans.get(mposition).getMlatitude(), locationBeans.get(mposition).getMlongitude());
-//                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
-                    Log.d(LOG_TAG, "the string is " + uri);
-
-
-                    Location location = new Location(LocationManager.NETWORK_PROVIDER);
-                    double longitude = Double.valueOf(locationBeans.get(mposition).getMlatitude());
-                    double latitude = Double.valueOf(locationBeans.get(mposition).getMlongitude());
-
-                    location.setLatitude(latitude);
-                    location.setLongitude(longitude);
-                    LocUtils.viewLocation(ManualAddLocationActivity.this, location);
-                }
-            });
-            mListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    try {
-                        modifyLocation(locationBeans.get(position));
-                    } catch (Exception ex) {
-                        Log.d(LOG_TAG, ex.toString());
-                    }
-                    return true;
-                }
-            });
         }
         mPrefsManager = PrefsManager.singleInstance(this);
         //debug
@@ -227,8 +229,6 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
         }
     }
     private void Dailog(){
-
-
         final EditText inputServer = new EditText(ManualAddLocationActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(ManualAddLocationActivity.this);
         builder.setIcon(R.drawable.location);
@@ -239,28 +239,29 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Log.d(LOG_TAG,"the string is "+mPrefsManager.getHomeWifiSsid());
+        Log.d(LOG_TAG,"the string is "+mPrefsManager.getHomeWifiSsid());
 
-                        String  Name = inputServer.getText().toString().trim();
-                        String timerStringday =new SimpleDateFormat("yyyy年MM月dd日hh时mm分").format(new java.util.Date());
+        String  Name = inputServer.getText().toString().trim();
+        String timerStringday =new SimpleDateFormat("yyyy年MM月dd日hh时mm分").format(new java.util.Date());
 
 //                        Location location    = GpsManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if(mPrefsManager.getLastAMPALocation()==null){
-                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)1222.3,(float)10.5));
-                            Log.d(LOG_TAG,"the location is null");
-                        }else{
+        if(mPrefsManager.getLastAMPALocation()==null){
+            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)1222.3,(float)10.5));
+            Log.d(LOG_TAG,"the location is null");
+        }else{
 //                            LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)location.getLongitude(),(float)location.getLongitude()));
-                              LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)mPrefsManager.getLastAMPALocation().getLatitude(),(float)mPrefsManager.getLastAMPALocation().getLongitude()));
-                            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
-                        }
+              LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)mPrefsManager.getLastAMPALocation().getLatitude(),(float)mPrefsManager.getLastAMPALocation().getLongitude()));
+            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
+        }
 //                        Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
-                        if(LocationTable.getInstance().query(mDb)!=null){
-                            locationBeans =  LocationTable.getInstance().query(mDb);
-                            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
-                            mListView.setAdapter(locationadatper);
-                        }
-                    }
-                }
+        if(LocationTable.getInstance().query(mDb)!=null){
+            locationBeans =  LocationTable.getInstance().query(mDb);
+            locationadatper = new locationAdapter(ManualAddLocationActivity.this,locationBeans,mDb);
+            mListView.setAdapter(locationadatper);
+            locationadatper.notifyDataSetChanged();
+        }
+    }
+}
         );
         builder.show();
 
