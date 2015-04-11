@@ -203,5 +203,6 @@
     <string name="title_activity_found_by_others">FoundByOthers</string>
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
+    <string name="edit_itrack">Edit iTrack</string>
 
 </resources>

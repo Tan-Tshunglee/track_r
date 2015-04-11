@@ -212,6 +212,7 @@
     <string name="your_track_is_found_by_others_at">Your iTrack is found by others at %1$s.</string>
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
+    <string name="edit_itrack">Edit iTrack</string>
 
     <string-array name="modify_location">
         <item>rename</item>

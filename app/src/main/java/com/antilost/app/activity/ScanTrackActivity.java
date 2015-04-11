@@ -3,7 +3,12 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -57,7 +62,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private int mScanedTime = 0;
 
     private Handler mHandler;
-
+    public static BluetoothGatt sBluetoothConnected;
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
@@ -68,7 +73,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         @Override
                         public void run() {
                             String deviceName = device.getName();
-
+                            //check device name first
                             if (!Utils.DEVICE_NAME.equals(deviceName)) {
                                 if (BuildConfig.DEBUG && "Keyfobdemo".equals(deviceName)) {
                                     Log.i(LOG_TAG, "debug mode allow  device of name " + deviceName);
@@ -91,9 +96,9 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
                             if (!mTrackIds.contains(deviceAddress)) {
                                 Log.v(LOG_TAG, "find a unknown track device.");
-                                startBindTackOnServer(deviceAddress);
+                                tryConnectBluetoothGatt(deviceAddress);
                             } else {
-                                //                            Toast.makeText(ScanTrackActivity.this, "get device address " + deviceAddress, Toast.LENGTH_LONG).show();
+                                //find a diconnected or closed track;
                                 Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
 //                            startService(new Intent(ScanTrackActivity.this, MonitorService.class));
                                 if (mPrefsManager.isClosedTrack(deviceAddress)) {
@@ -110,6 +115,53 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                     });
                 }
             };
+
+    private BluetoothGatt mConnectedBluetoothGatt;
+    private final BluetoothGattCallback  mBluetoothGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
+            super.onConnectionStateChange(gatt, status, newState);
+            if(status == BluetoothGatt.GATT_SUCCESS) {
+                if(newState == BluetoothProfile.STATE_CONNECTED) {
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            gatt.discoverServices();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            if(status == BluetoothGatt.GATT_SUCCESS) {
+                BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
+                if(service != null) {
+                    BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+
+                    if(characteristic != null) {
+                        characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                        if(gatt.writeCharacteristic(characteristic)) {
+                            log("Write verify code success.");
+                            mConnectedBluetoothGatt = gatt;
+                            startTrackEdit(gatt);
+                        } else {
+                            log("Write verify code failed.");
+                        }
+                    } else {
+                        Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
+                    }
+                } else {
+                    Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
+                }
+            }
+        }
+    };
+
+    private void log(String s) {
+        Log.d(LOG_TAG, s);
+    }
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -144,13 +196,26 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         return filter;
     }
 
-    private void startBindTackOnServer(final String deviceAddress) {
+    private void tryConnectBluetoothGatt(final String deviceAddress) {
+        if(mConnectedBluetoothGatt != null && mConnectedBluetoothGatt.getDevice().getAddress().equals(deviceAddress)) {
+            Log.d(LOG_TAG, "try connect to a connected gatt.");
+            return;
+        }
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
+        device.connectGatt(this, false, mBluetoothGattCallback);
+    }
 
-        Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
-        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
-        startActivity(i);
-        finish();
+    private void startTrackEdit(BluetoothGatt gatt) {
+
+        if(mConnectedBluetoothGatt != null) {
+            sBluetoothConnected = gatt;
+            Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
+            i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, gatt.getDevice().getAddress());
+            i.putExtra(TrackREditActivity.EXTRA_EDIT_NEW_TRACK, true);
+            startActivity(i);
+            finish();
+        }
     }
 
 
@@ -188,7 +253,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         mBackBtn = (ImageButton) findViewById(R.id.backBtn);
         mBackBtn.setOnClickListener(this);
 
-
         mTryAgain = (Button) findViewById(R.id.tryAgain);
         mTryAgain.setOnClickListener(this);
 
@@ -216,11 +280,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mFailedPage.setVisibility(View.GONE);
                         break;
                     case MSG_RETRY_SCAN_LE:
-
                         mScanedTime += SCAN_PERIOD;
                         scanLeDevice(false);
                         if (mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
-                            Log.v(LOG_TAG, "scan last time " + mScanedTime / 1000);
+                            Log.v(LOG_TAG, "Scan last time " + mScanedTime / 1000);
                             scanLeDevice(true);
                             return;
                         }
@@ -233,6 +296,16 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         startService(gattServiceIntent);
         scanLeDevice(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(sBluetoothConnected != null) {
+            sBluetoothConnected.close();
+            sBluetoothConnected = null;
+        }
     }
 
     private void finishAndEdit(String deviceAddress) {

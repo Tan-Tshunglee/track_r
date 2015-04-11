@@ -3,6 +3,7 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bluetooth.BluetoothGatt;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
@@ -35,6 +37,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     public static final int REQUEST_CODE_CHOOSE_PICTURE = 2;
 
     public static final String BLUETOOTH_ADDRESS_BUNDLE_KEY = "bluetooth_address_key";
+    public static final String EXTRA_EDIT_NEW_TRACK = "bluetooth_edit_new";
+
     private static final String LOG_TAG = "TrackREditActivity";
     private AlertDialog mImageSourceDialog;
     private String mBluetoothDeviceAddress;
@@ -101,18 +105,33 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     };
     private ImageView mImageView;
     private String[] mTypeNames;
-
+    private boolean mEditNewTrack;
+    private BluetoothGatt mBluetoothGatt;
+    private TextView mTitleTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_track_redit);
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
+
+        mEditNewTrack = getIntent().getBooleanExtra(EXTRA_EDIT_NEW_TRACK, false);
+
+        if(mEditNewTrack) {
+            if(ScanTrackActivity.sBluetoothConnected != null) {
+                mBluetoothGatt = ScanTrackActivity.sBluetoothConnected;
+                ScanTrackActivity.sBluetoothConnected = null;
+            } else {
+                Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
             finish();
             return;
         }
+        setContentView(R.layout.activity_track_redit);
         findViewById(R.id.changeImage).setOnClickListener(this);
         findViewById(R.id.btnCancel).setOnClickListener(this);
         findViewById(R.id.btnOK).setOnClickListener(this);
@@ -136,6 +155,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(mBluetoothDeviceAddress)));
         }
 
+
+        mTitleTextView = (TextView) findViewById(R.id.titleTextView);
+
+        if(mEditNewTrack) {
+            mTitleTextView.setText(R.string.add_track_r);
+        } else {
+            mTitleTextView.setText(getString(R.string.edit_itrack));
+        }
+
         mTypeNames = getResources().getStringArray(R.array.default_type_names);
         if(!TextUtils.isEmpty(mTrack.name)) {
             mTrackRName.setText(mTrack.name);
@@ -145,7 +173,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         for(int id: TypeIds) {
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
-
         startService(new Intent(this, BluetoothLeService.class));
     }
 
@@ -154,7 +181,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -217,6 +243,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         File folder = ensureIconFolder();
                         if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
                             Log.e(LOG_TAG, "Rename to address failed");
+                            return;
                         };
 //                        mImageView.setImageBitmap(source);
                         mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(source));
