@@ -3,13 +3,17 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -103,6 +107,20 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             return -1;
         }
     };
+
+    private BluetoothLeService mBluetoothLeService;
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBluetoothDeviceAddress = null;
+        }
+    };
+
     private ImageView mImageView;
     private String[] mTypeNames;
     private boolean mEditNewTrack;
@@ -114,17 +132,19 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
-
         mEditNewTrack = getIntent().getBooleanExtra(EXTRA_EDIT_NEW_TRACK, false);
 
         if(mEditNewTrack) {
             if(ScanTrackActivity.sBluetoothConnected != null) {
                 mBluetoothGatt = ScanTrackActivity.sBluetoothConnected;
                 ScanTrackActivity.sBluetoothConnected = null;
-            } else {
-                Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
-                finish();
             }
+        }
+
+        if(mBluetoothGatt == null) {
+            Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
@@ -174,6 +194,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
         startService(new Intent(this, BluetoothLeService.class));
+
+        bindService(new Intent(this, BluetoothLeService.class), mServiceConnection, BIND_AUTO_CREATE);
     }
 
 
@@ -186,6 +208,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(mServiceConnection);
     }
 
 
@@ -281,44 +304,49 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mTrack.name = name;
         }
 
+        mPrefs.addTrackId(mBluetoothDeviceAddress);
+        mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
 
+        if(mBluetoothLeService != null) {
+            BluetoothDevice device = mBluetoothGatt.getDevice();
+            if(device == null) {
+                Log.e(LOG_TAG, "mBluetoothGatt device get device is null.");
+                return;
+            }
+            mBluetoothLeService.addNewTrack(mBluetoothGatt);
+            mBluetoothGatt = null;
+        }
+
+        toast(getString(R.string.binding_success));
 
         Thread t = new Thread() {
             @Override
             public void run() {
-                final BindCommand bindcommand = new BindCommand(String.valueOf(mPrefs.getUid()), name, mBluetoothDeviceAddress, String.valueOf(mTrack.type));
+                final BindCommand bindcommand = new BindCommand(String.valueOf(mPrefs.getUid()),
+                        name,
+                        mBluetoothDeviceAddress,
+                        String.valueOf(mTrack.type));
 
                 bindcommand.execTask();
                 boolean bindOk = bindcommand.success();
-                boolean uploadPhotoOk = false;
                 if(bindOk) {
                     Log.i(LOG_TAG, "Bind track ok.");
-                    mPrefs.addTrackId(mBluetoothDeviceAddress);
-                    mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toast(getString(R.string.binding_success));
-                            finish();
-                        }
-                    });
-
                     startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
                     UpdateTrackImageCommand command = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                     command.execTask();
                     if(command.success()) {
-                        uploadPhotoOk = true;
                         Log.v(LOG_TAG, "upload track photo to server success.");
                     } else {
                         Log.e(LOG_TAG, "upload track photo to server failed.");
                     }
                 } else {
-                    Log.e(LOG_TAG, "Bind RrackR Error.");
+                    Log.e(LOG_TAG, "Bind RrackR on Server Error.");
                 }
             }
         };
         t.start();
 
+        finish();
     }
 
     private void toast(String s) {

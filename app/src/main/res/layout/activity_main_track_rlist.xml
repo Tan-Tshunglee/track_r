@@ -26,8 +26,8 @@
 
         <ImageButton
             android:id="@+id/btnAdd"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
             android:src="@drawable/add_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -36,7 +36,7 @@
         <ImageButton
             android:id="@+id/btnLocation"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/location"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/btnAdd"

@@ -138,9 +138,8 @@ public class BluetoothLeService extends Service implements
     public final static String ACTION_DEVICE_RING_COMMAND_WRITE_DONE =
             "com.antilost.bluetooth.le.ACTION_DEVICE_RING_COMMAND_WRITE_DONE";
 
-
-
-
+    public final static String ACTION_STOP_BACKGROUND_LOOP =
+            "com.antilost.bluetooth.le.ACTION_STOP_BACKGROUND_LOOP";
 
 
     private BluetoothManager mBluetoothManager;
@@ -371,8 +370,16 @@ public class BluetoothLeService extends Service implements
 
     public void onUserInteraction() {
         enterFastRepeatMode();
-        updateRepeatAlarmRegister();
+        updateRepeatAlarmRegister(true);
         Log.v(LOG_TAG, "onUserInteraction in BluetoothLeService.");
+    }
+
+    public void addNewTrack(BluetoothGatt gatt) {
+        Log.i(LOG_TAG, "add new track to BluetoothService...");
+        String address = gatt.getDevice().getAddress();
+        BluetoothDevice device = gatt.getDevice();
+        gatt.close();
+        tryConnectGatt(address, device);
     }
 
 
@@ -846,7 +853,7 @@ public class BluetoothLeService extends Service implements
                 int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
                 if(state == BluetoothAdapter.STATE_ON) {
                     enterFastRepeatMode();
-                    updateRepeatAlarmRegister();
+                    updateRepeatAlarmRegister(true);
                 }
             }
         }
@@ -940,15 +947,8 @@ public class BluetoothLeService extends Service implements
             return;
         }
 
-        if (!mPrefsManager.hasTrack()) {
-            Log.i(LOG_TAG, "no track, stop service");
-            stopSelf();
-            return;
-        }
-
-
         enterFastRepeatMode();
-        updateRepeatAlarmRegister();
+        updateRepeatAlarmRegister(true);
 
         goForeground();
         registerAmapLocationListener();
@@ -1016,19 +1016,24 @@ public class BluetoothLeService extends Service implements
         startForeground(ONGOING_NOTIFICATION, notification);
     }
 
-    private void updateRepeatAlarmRegister() {
-
-        int repeatPeriod = ALARM_REPEAT_PERIOD;
-        if (inFastRepeatMode()) {
-            repeatPeriod = FAST_ALARM_REPEAT_PERIOD;
+    private void updateRepeatAlarmRegister(boolean enabled) {
+        if(enabled) {
+            int repeatPeriod = ALARM_REPEAT_PERIOD;
+            if (inFastRepeatMode()) {
+                repeatPeriod = FAST_ALARM_REPEAT_PERIOD;
+            }
+            mAlarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP, //type
+                    System.currentTimeMillis() + repeatPeriod, //trigger time
+                    repeatPeriod, //intervalMillis
+                    mPendingIntent //operation
+            );
+            Log.d(LOG_TAG, "Alerm repeat period is " + repeatPeriod);
+        } else {
+            mAlarmManager.cancel(mPendingIntent);
+            Log.v(LOG_TAG, "cancel alarm repeat.");
         }
-        mAlarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP, //type
-                System.currentTimeMillis() + repeatPeriod, //trigger time
-                repeatPeriod, //intervalMillis
-                mPendingIntent //operation
-        );
-        Log.d(LOG_TAG, "Alerm repeat period is " + repeatPeriod);
+
     }
 
 
@@ -1068,16 +1073,25 @@ public class BluetoothLeService extends Service implements
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(LOG_TAG, "onStartCommand");
-        if (intent != null) {
-            mLastStartCommandMeet = System.currentTimeMillis();
-            repeatConnect();
 
-            //intent source activity or broadcast;
-            if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
-                Log.v(LOG_TAG, "Service go in fast repeat mode.");
-                enterFastRepeatMode();
+
+        if (intent != null) {
+
+            if(ACTION_STOP_BACKGROUND_LOOP.equals(intent.getAction())) {
+                updateRepeatAlarmRegister(false);
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            } else {
+                mLastStartCommandMeet = System.currentTimeMillis();
+                repeatConnect();
+
+                //intent source activity or broadcast;
+                if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
+                    Log.v(LOG_TAG, "Service go in fast repeat mode.");
+                    enterFastRepeatMode();
+                }
+                updateRepeatAlarmRegister(true);
             }
-            updateRepeatAlarmRegister();
+
         }
 
 
@@ -1240,8 +1254,6 @@ public class BluetoothLeService extends Service implements
     }
 
     private void scanLeDevice() {
-
-
         // Stops scanning after a pre-defined scan period.
         Log.v(LOG_TAG, "scanLeDevice");
         if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
@@ -1396,7 +1408,6 @@ public class BluetoothLeService extends Service implements
             Log.i(LOG_TAG, "Trying to create a new callback to " + address);
             oldCallback = new MyBluetootGattCallback();
             bluetoothGatt = device.connectGatt(this, false, oldCallback);
-
         } else {
             Log.v(LOG_TAG, "Use old callback to connect gatt");
             bluetoothGatt = device.connectGatt(this, false, oldCallback);

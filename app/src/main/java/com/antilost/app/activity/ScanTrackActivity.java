@@ -95,7 +95,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             }
 
                             if (!mTrackIds.contains(deviceAddress)) {
-                                Log.v(LOG_TAG, "find a unknown track device.");
+                                Log.v(LOG_TAG, "find a new track device.");
                                 tryConnectBluetoothGatt(deviceAddress);
                             } else {
                                 //find a diconnected or closed track;
@@ -120,26 +120,35 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private final BluetoothGattCallback  mBluetoothGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
-            super.onConnectionStateChange(gatt, status, newState);
+            Log.v(LOG_TAG, "mBluetoothGattCallback.onConnectionStateChange get state " + newState);
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 if(newState == BluetoothProfile.STATE_CONNECTED) {
+                    Log.v(LOG_TAG, "bluetooth connection state is STATE_CONNECTED");
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            gatt.discoverServices();
+                            if(gatt.discoverServices()) {
+                                Log.i(LOG_TAG, "send gatt.discoverServices command success.");
+                            } else {
+                                Log.e(LOG_TAG, "send gatt.discoverServices command failed..");
+                            }
                         }
                     }, 1000);
+                } else {
+                    Log.v(LOG_TAG, "bluetooth connection state is not STATE_CONNECTED");
                 }
+            } else {
+                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not :" + status);
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            Log.d(LOG_TAG, "onServiceDiscovered... " + status);
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
                 if(service != null) {
                     BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
-
                     if(characteristic != null) {
                         characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
                         if(gatt.writeCharacteristic(characteristic)) {
@@ -198,12 +207,17 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     private void tryConnectBluetoothGatt(final String deviceAddress) {
         if(mConnectedBluetoothGatt != null && mConnectedBluetoothGatt.getDevice().getAddress().equals(deviceAddress)) {
-            Log.d(LOG_TAG, "try connect to a connected gatt.");
+            Log.d(LOG_TAG, "Try connect to a connected gatt.");
             return;
         }
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
-        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
-        device.connectGatt(this, false, mBluetoothGattCallback);
+        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                device.connectGatt(ScanTrackActivity.this, false, mBluetoothGattCallback);
+            }
+        });
     }
 
     private void startTrackEdit(BluetoothGatt gatt) {
@@ -294,6 +308,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             }
         };
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        gattServiceIntent.setAction(BluetoothLeService.ACTION_STOP_BACKGROUND_LOOP);
         startService(gattServiceIntent);
         scanLeDevice(true);
     }
@@ -301,20 +316,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if(sBluetoothConnected != null) {
-            sBluetoothConnected.close();
-            sBluetoothConnected = null;
-        }
     }
-
-    private void finishAndEdit(String deviceAddress) {
-        Intent i = new Intent(this, TrackREditActivity.class);
-        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
-        startActivity(i);
-        finish();
-    }
-
 
     @Override
     protected void onPause() {
@@ -341,13 +343,17 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     }
 
-
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
             Log.w(LOG_TAG, "scanLeDevice " + enable);
             mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
+            if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
+                Log.i(LOG_TAG, "startLeScan success");
+            } else {
+                Log.i(LOG_TAG, "startLeScan failed");
+            }
+
             mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);
         } else {
             mScanning = false;

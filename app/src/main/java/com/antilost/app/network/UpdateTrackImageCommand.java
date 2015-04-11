@@ -1,6 +1,7 @@
 package com.antilost.app.network;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.antilost.app.util.CsstSHImageData;
 
@@ -53,9 +54,9 @@ public class UpdateTrackImageCommand extends Command {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         } else {
             //TODO: user delete custom icon;
+            Log.v(LOG_TAG, "image not set how to delete it");
         }
         return null;
     }
