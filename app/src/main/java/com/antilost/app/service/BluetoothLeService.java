@@ -616,7 +616,8 @@ public class BluetoothLeService extends Service implements
                     }
                 }, 5000);
             } else if(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID.equals(serviceUuid)
-                    && com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID.equals(charUuid)) {
+                    && com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID.equals(charUuid)
+                    && value == 2 ) {
                 broadcastUpdate(ACTION_DEVICE_RING_COMMAND_WRITE_DONE, address);
             }
         }

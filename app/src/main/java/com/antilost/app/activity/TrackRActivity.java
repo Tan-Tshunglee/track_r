@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -408,19 +409,22 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 if(mBluetoothLeService == null) {
                     return;
                 }
-
                 if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     return;
                 }
 
                 Boolean ringing = mRingStateMap.get(mBluetoothDeviceAddress);
-
                 if(ringing == null) {
                     ringing = false;
                 }
-
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
+//                    Drawable oldBackgroundDrawable = mRingButton.getBackground();
+//                    if(oldBackgroundDrawable instanceof AnimationDrawable ) {
+//                        AnimationDrawable animationDrawable = (AnimationDrawable) oldBackgroundDrawable;
+//                        animationDrawable.stop();
+//                    }
+
                     mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
                     silentRing();
                     mRingStateMap.put(mBluetoothDeviceAddress, false);
