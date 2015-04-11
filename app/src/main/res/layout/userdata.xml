@@ -64,7 +64,7 @@
                         android:src="@drawable/user_usericondefault"
                         android:text="@string/user_usericon"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- 编辑 -->
                     <TextView
                         android:id="@+id/tvuser_editor"
@@ -78,7 +78,7 @@
                         android:paddingRight="20dp"
                         android:text="@string/user_editor"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
                 <TextView
@@ -102,7 +102,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/user_app_ring"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- appring switch-->
                     <CheckBox
                         android:id="@+id/cbuser_appringswitch"
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_timering"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- appring switch-->
                     <TextView
                         android:id="@+id/tvtime"
@@ -144,7 +144,7 @@
                         android:gravity="center_vertical|right"
                         android:text="@string/three_seconds"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
                 <TextView
@@ -171,7 +171,7 @@
                         android:gravity="center"
                         android:text="@string/user_airsafe"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- zone  switch-->
                     <CheckBox
                         android:id="@+id/cbuser_safezoneswitch"
@@ -220,7 +220,7 @@
                         android:gravity="center"
                         android:text="@string/user_language"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- 编辑 -->
                     <ImageButton
                         android:id="@+id/imguserlanguage"
@@ -247,7 +247,7 @@
                         android:textColor="@color/user_data_text"
                         android:text="@string/sleep_mode"
                         android:layout_centerVertical="true"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/activity_horizontal_margin"/>
                     <CheckBox
                         android:id="@+id/sleepModeSwitch"
                         android:layout_width="@dimen/checkbox_width"
@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/user_data_text"
                         android:text="@string/start"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/activity_horizontal_margin"/>
 
                     <TextView
                         android:id="@+id/labelEnd"
@@ -291,7 +291,7 @@
                         android:textColor="@color/user_data_text"
                         android:text="@string/end"
                         android:layout_below="@id/labelStart"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/activity_horizontal_margin"/>
 
                     <TextView
                         android:id="@+id/startTimeText"
@@ -300,7 +300,7 @@
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/activity_horizontal_margin"/>
 
                     <TextView
                         android:id="@+id/endTimeText"
@@ -310,7 +310,7 @@
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/activity_horizontal_margin"/>
 
 
                 </RelativeLayout>
@@ -331,7 +331,7 @@
                         android:gravity="center"
                         android:text="@string/user_background"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- select switch-->
                     <ImageButton
                         android:id="@+id/imguserselectbackground"
@@ -365,7 +365,7 @@
                         android:gravity="center"
                         android:text="@string/user_tip"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!--tip switch -->
                     <ImageButton
                         android:id="@+id/imguserbacktip"
@@ -400,45 +400,10 @@
                         android:gravity="center"
                         android:text="@string/user_version"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- 编辑 -->
                     <ImageButton
                         android:id="@+id/imgusersversion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:src="@drawable/tri_right" />
-                </RelativeLayout>
-
-                <!-- 分隔线 -->
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
-                <!--硬件版本 -->
-                <RelativeLayout
-                    android:id="@+id/rluser_hardwareversion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:gravity="center_vertical">
-                    <!-- language text-->
-                    <TextView
-                        android:id="@+id/tvuserhardwareversion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/userhardware_version"
-                        android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
-                    <!-- 编辑 -->
-                    <ImageButton
-                        android:id="@+id/imgusershardwareversion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -470,7 +435,7 @@
                         android:gravity="center"
                         android:text="@string/help"
                         android:textColor="@color/user_data_text"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- select switch-->
                     <ImageButton
                         android:id="@+id/imguserhelp"

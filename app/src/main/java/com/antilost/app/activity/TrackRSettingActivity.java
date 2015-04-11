@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -82,6 +85,9 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private View mDeclaredLost;
     private TextView mDeclaredLostText;
     private volatile Thread mBackgroundThread;
+    private Bitmap bmp;
+    private float scaleWidth=1;
+    private float scaleHeight=1;
 
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -177,6 +183,26 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
 
+    /* 图片放大的method */
+    private Bitmap big() {
+        int bmpWidth=bmp.getWidth();
+        int bmpHeight=bmp.getHeight();
+
+        Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
+
+		/* 设置图片放大的比例 */
+        double scale=2.5;
+		/* 计算这次要放大的比例 */
+        scaleWidth=(float)(scaleWidth*scale);
+        scaleHeight=(float)(scaleHeight*scale);
+		/* 产生reSize后的Bitmap对象 */
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizeBmp = Bitmap.createBitmap(bmp,0,0,bmpWidth,
+                bmpHeight,matrix,true);
+        return  resizeBmp;
+    }
+
     private void updateStateUi() {
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
         if(customIconUri != null) {
@@ -185,6 +211,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
+            trackImage.setImageBitmap(big());
         }
     if(mBluetoothLeService == null) {
             trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);

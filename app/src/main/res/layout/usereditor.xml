@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/user_usericon"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- 头像 -->
 
             <ImageButton
@@ -58,7 +58,7 @@
                 android:gravity="center"
                 android:text="@string/user_usericon"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:background="@android:color/transparent" />
 
         </RelativeLayout>
@@ -82,7 +82,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/user_smallname"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- appring switch-->
             <ImageButton
                 android:id="@+id/imgbtusereditorname"
@@ -116,7 +116,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/user_borddate"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- bord !-->
             <ImageButton
                 android:id="@+id/imgbtusereditorbord"
@@ -150,7 +150,7 @@
                 android:gravity="center"
                 android:text="@string/user_xuexing"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:layout_alignParentLeft="true" />
             <!-- xuexing -->
             <ImageButton
@@ -185,7 +185,7 @@
                 android:gravity="center"
                 android:text="@string/user_liks"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/activity_horizontal_margin" />
             <!-- likes -->
             <ImageButton
                 android:id="@+id/imgusereditorlikes"
@@ -219,7 +219,7 @@
                 android:gravity="center"
                 android:text="@string/user_editorself"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp"/>
+                android:textSize="@dimen/activity_horizontal_margin"/>
             <!--tip switch -->
             <ImageButton
                 android:id="@+id/imgusereidtoreditorself"
@@ -254,7 +254,7 @@
                 android:gravity="center"
                 android:text="@string/user_homepage"
                 android:textColor="@color/user_data_text"
-                android:textSize="20sp"
+                android:textSize="@dimen/activity_horizontal_margin"
                 android:layout_alignParentLeft="true" />
             <!-- homepage -->
             <ImageButton
