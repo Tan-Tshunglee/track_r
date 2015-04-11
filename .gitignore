@@ -22,6 +22,3 @@ local.properties
 
 #build folder
 build/
-
-.idea/libraries/
-.idea/
