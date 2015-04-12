@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/titleBarLayout"
-        android:id="@+id/firstPage">
+        android:id="@+id/firstPage"
+        >
         <TextView
             android:id="@+id/bindingSteps"
             android:text="@string/binding_steps_describe"
@@ -44,7 +45,7 @@
             android:padding="20dp"
             android:layout_marginTop="@dimen/binding_step_textview_margin_top"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="22sp"
             android:layout_centerHorizontal="true" />
 
         <RelativeLayout
@@ -90,10 +91,10 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/connectingPage"
-        android:visibility="gone"
         android:layout_centerInParent="true">
 
         <RelativeLayout
@@ -130,18 +131,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="16sp"
-            android:textColor="@color/user_data_text"
+            android:textSize="25sp"
+            android:textColor="@color/white"
             android:layout_marginTop="200dp"
             android:text="@string/connecting_with_track_r"/>
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/failedPage"
-        android:visibility="gone">
+        >
         <TextView
             android:id="@+id/connectingFailedTitle"
             android:layout_width="wrap_content"
@@ -150,7 +152,7 @@
             android:textColor="@android:color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/connect_failed_title_margin_top"
-            android:textSize="20sp"/>
+            android:textSize="25sp"/>
         <TextView
             android:id="@+id/bindingAgainSteps"
             android:text="@string/try_again_steps"
@@ -159,12 +161,12 @@
             android:padding="20dp"
             android:layout_below="@id/connectingFailedTitle"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="22sp"
             android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/tryAgain"
-            android:background="@drawable/purple_btn_bkg"
+            android:background="@drawable/search_failed_bkg"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:text="@string/try_again"

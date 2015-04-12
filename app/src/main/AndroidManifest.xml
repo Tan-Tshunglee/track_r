@@ -212,7 +212,7 @@
             android:label="@string/title_activity_findme"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
 
         <service
             android:name=".service.NetworkSyncService"
