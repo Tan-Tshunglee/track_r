@@ -183,58 +183,17 @@
                         android:paddingRight="20dp" />
                 </RelativeLayout>
             </LinearLayout>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"></TableRow>
-
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:background="@color/user_data_text"
-                android:visibility="invisible" />
-            <!-- 下部分编辑界面-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/item_block_bkg"
-                android:orientation="vertical">
-                <!-- 语言选择 -->
-                <RelativeLayout
-                    android:id="@+id/rluser_langauage"
-                    android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+                <!-- 中间-->
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:background="@android:color/transparent"
-                    android:visibility="gone"
-                    android:gravity="center_vertical">
-                    <!-- language text-->
-                    <TextView
-                        android:id="@+id/tvuserlangauage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:gravity="center"
-                        android:text="@string/user_language"
-                        android:textColor="@color/user_data_text"
-                        android:textSize="@dimen/activity_horizontal_margin" />
-                    <!-- 编辑 -->
-                    <ImageButton
-                        android:id="@+id/imguserlanguage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:paddingRight="20dp"
-                        android:src="@drawable/tri_right" />
-                </RelativeLayout>
-
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/item_block_bkg"
+                    android:orientation="vertical">
                 <!--睡眠模式 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -344,11 +303,20 @@
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
-                <!-- 分隔线 -->
+                </LinearLayout>
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                   />
+                <!-- 下面-->
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/item_block_bkg"
+                    android:orientation="vertical">
                 <!-- 意见反馈 -->
                 <RelativeLayout
                     android:id="@+id/rluser_backtip"
@@ -448,8 +416,8 @@
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
+                </LinearLayout>
 
-            </LinearLayout>
 
             <!-- 分隔线 -->
             <TextView
@@ -467,7 +435,6 @@
                 android:text="@string/user_exitcount"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_title_size" />
-
 
         </LinearLayout>
     </ScrollView>

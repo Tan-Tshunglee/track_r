@@ -156,7 +156,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         rluser_editor = (RelativeLayout) findViewById(R.id.rluser_editor);
         rluser_noticetimer = (RelativeLayout) findViewById(R.id.rluser_notice);
         tvtime = (TextView) findViewById(R.id.tvtime);
-        rluser_language = (RelativeLayout) findViewById(R.id.rluser_langauage);
+//        rluser_language = (RelativeLayout) findViewById(R.id.rluser_langauage);
         rluser_tipback = (RelativeLayout) findViewById(R.id.rluser_backtip);
         rluser_version = (RelativeLayout) findViewById(R.id.rluser_version);
         rluser_background = (RelativeLayout) findViewById(R.id.rluser_selectbackground);

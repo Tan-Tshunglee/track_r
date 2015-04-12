@@ -213,14 +213,17 @@
     <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
 
     <string-array name="modify_location">
-        <item>rename</item>
-        <item>delete</item>
+        <item>Rename</item>
+        <item>Delete</item>
     </string-array>
 
+    <string name="distan_mid">mid</string>
+    <string name="distan_close">Close</string>
+    <string name="distan_far">Far</string>
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confire</string>
-    <string name="notice_delete_loser_tip">删除后，再次使用需要重新绑定iTrack,是否确认删除？</string>
-    <string name="notice_close_loser_tip">关闭后需要按长iTrack按键唤醒，是否确定关闭？</string>
-    <string name="notice_declare_loser_tip">声明丢失，系统将会帮您寻找，失物信息将保密，只对您可见，找到会通过APP通知您，确定声明？</string>
+    <string name="notice_delete_loser_tip">After you delete this item, it will be delete from your iTrack list, we cannot use it unless you bind it again.</string>
+    <string name="notice_close_loser_tip">As you turn off the item ,you need to wake it up to use it. Are you sure to turn it off?</string>
+    <string name="notice_declare_loser_tip">As you declare the item as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
 
 </resources>

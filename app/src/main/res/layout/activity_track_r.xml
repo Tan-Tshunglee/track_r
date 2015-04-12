@@ -141,7 +141,7 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
             <TextView
-                android:text="远"
+                android:text="@string/distan_far"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:textSize="@dimen/activity_horizontal_margin"
@@ -149,7 +149,6 @@
                 android:textColor="@color/user_data_text"
                 />
             <TextView
-                android:text="中"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:textSize="@dimen/activity_horizontal_margin"
@@ -157,7 +156,7 @@
                 android:textColor="@color/user_data_text"
                 />
             <TextView
-                android:text="近"
+                android:text="@string/distan_close"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:textSize="@dimen/activity_horizontal_margin"
