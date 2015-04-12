@@ -320,13 +320,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
 
         if(mBluetoothLeService != null) {
-            BluetoothDevice device = mBluetoothGatt.getDevice();
-            if(device == null) {
-                Log.e(LOG_TAG, "mBluetoothGatt device get device is null.");
-                return;
+            if(mEditNewTrack) {
+                BluetoothDevice device = mBluetoothGatt.getDevice();
+                if (device == null) {
+                    Log.e(LOG_TAG, "mBluetoothGatt device get device is null.");
+                    return;
+                }
+                mBluetoothLeService.addNewTrack(mBluetoothGatt);
+                mBluetoothGatt = null;
             }
-            mBluetoothLeService.addNewTrack(mBluetoothGatt);
-            mBluetoothGatt = null;
         }
 
         Thread t = new Thread() {
