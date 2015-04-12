@@ -139,6 +139,12 @@ public class BluetoothLeService extends Service implements
     public final static String ACTION_DEVICE_RING_COMMAND_WRITE_DONE =
             "com.antilost.bluetooth.le.ACTION_DEVICE_RING_COMMAND_WRITE_DONE";
 
+
+    public final static String ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE";
+
+
+
     public final static String ACTION_STOP_BACKGROUND_LOOP =
             "com.antilost.bluetooth.le.ACTION_STOP_BACKGROUND_LOOP";
 
@@ -625,10 +631,16 @@ public class BluetoothLeService extends Service implements
                         requestRssiLevel(address);
                     }
                 }, 5000);
+            //alert ring
             } else if(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID.equals(serviceUuid)
                     && com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID.equals(charUuid)
-                    && value == 2 ) {
-                broadcastUpdate(ACTION_DEVICE_RING_COMMAND_WRITE_DONE, address);
+                     ) {
+                if(value == 2) {
+                    broadcastUpdate(ACTION_DEVICE_RING_COMMAND_WRITE_DONE, address);
+                } else if(value == 0) {
+                    broadcastUpdate(ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE, address);
+                }
+
             }
         }
 
@@ -968,24 +980,29 @@ public class BluetoothLeService extends Service implements
     public void onDestroy() {
         super.onDestroy();
         mPrefsManager.removePrefsListener(this);
+        mAlarmManager.cancel(mPendingIntent);
+
+        disableGpsUpdate();
+
 
         Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> entry : gatts) {
             String address = entry.getKey();
             entry.getValue().close();
-            mBluetoothGatts.remove(address);
         }
 
-        disableGpsUpdate();
+        mBluetoothGatts.clear();
+        mBluetoothCallbacks.clear();
+
         if(mAmapLocationManagerProxy != null) {
             mAmapLocationManagerProxy.destroy();
             mAmapLocationManagerProxy = null;
         }
 
-        mAlarmManager.cancel(mPendingIntent);
+
         startReadRssiRepeat(false, null);
         TrackRApplication app = (TrackRApplication) getApplication();
-        app.setBluetootLeService(this);
+        app.setBluetootLeService(null);
         if(mIntentFilter != null) {
             unregisterReceiver(mReceiver);
         }
@@ -1260,6 +1277,10 @@ public class BluetoothLeService extends Service implements
 
     private void scanLeDevice() {
         // Stops scanning after a pre-defined scan period.
+
+        if(mBluetoothAdapter == null) {
+            return;
+        }
         Log.v(LOG_TAG, "scanLeDevice");
         if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
             Log.v(LOG_TAG, "start bluetooth le scan successfully.");
@@ -1535,7 +1556,6 @@ public class BluetoothLeService extends Service implements
         mPrefsManager.saveDeclareLost(address, false);
         mPrefsManager.saveLastTimeFoundByOthers(-1, address);
         mPrefsManager.saveLastLostLocation(null, address);
-
         mPrefsManager.removeTrackImageAndInfo(address);
 
         broadcastDeviceUbbind(address);
@@ -1578,32 +1598,25 @@ public class BluetoothLeService extends Service implements
         return gatt.writeCharacteristic(c);
     }
 
-    public void silentRing(String bluetoothDeviceAddress) {
+    public boolean silentRing(String bluetoothDeviceAddress) {
         Integer state = mGattConnectionStates.get(bluetoothDeviceAddress);
         Log.v(LOG_TAG, "silentRing() gatt connection state is " + state);
         BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
 
         if (gatt == null) {
             Log.w(LOG_TAG, "gatt has not connected....");
-            return;
+            return false;
         }
         BluetoothGattService alertService = gatt.getService(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID);
         if (alertService == null) {
             Log.w(LOG_TAG, "No IMMEDIATE_ALERT_SERVICE_UUID_STRING....");
-            return;
+            return false;
         }
-//        List<BluetoothGattCharacteristic> characteristics = alertService.getCharacteristics();
-//
-//        for (BluetoothGattCharacteristic c : characteristics) {
-//            if (c.getUuid().toString().startsWith(com.antilost.app.bluetooth.UUID.ALARM_CHARACTERISTIC_UUID_PREFIX)) {
-//                byte[] sendData = new byte[]{0x02}; //高音 {0x01}; 低音
-//                c.setValue(sendData);
-//                gatt.writeCharacteristic(c);
-//            }
-//        }
+
+       // {00} 静音，{0x02}; //高音 {0x01}; 低音
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
         c.setValue(new byte[]{00});
-        gatt.writeCharacteristic(c);
+        return gatt.writeCharacteristic(c);
     }
 
     public void setTrackAlertMode(String bluetoothDeviceAddress, boolean enable) {

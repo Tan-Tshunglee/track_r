@@ -16,6 +16,7 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.antilost.app.common.ICsstSHConstant;
 
@@ -33,7 +34,8 @@ import java.io.IOException;
 public final class CsstSHImageData {
 
     public static final String SDCARD = Environment.getExternalStorageDirectory().getPath();
-    public static final String TRACKR_IMAGE_FOLDER = SDCARD + File.separator + "TrackR";
+    public static final String TRACKR_IMAGE_FOLDER = SDCARD + File.separator + "iTrack";
+    private static final String LOG_TAG = "CsstSHImageData";
     /**
      * 拍照临时文件
      */
@@ -287,6 +289,7 @@ public final class CsstSHImageData {
 
     public static void removePhoto(String address) {
         File imageFile = new File(TRACKR_IMAGE_FOLDER, address);
-        imageFile.delete();
+        boolean result = imageFile.delete();
+        Log.d(LOG_TAG, "remove track 's photo" + result );
     }
 }

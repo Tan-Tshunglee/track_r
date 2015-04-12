@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -116,22 +114,25 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
                 updateIconPosition(rssi);
             } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                restartMyself();
+                updateStateUi();
             } else if(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE.equals(action)) {
                 String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
                 if(mBluetoothDeviceAddress.equals(address)) {
                     showTrackRinging();
+                } else {
+
+                }
+            } else if(BluetoothLeService.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE.equals(action)) {
+                String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
+                if(mBluetoothDeviceAddress.equals(address)) {
+                    showTrackRingStop();
                 }
             }
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
         }
     };
 
-    private void restartMyself() {
-        Intent i = getIntent();
-        finish();
-        startActivity(i);
-    }
+
 
     private PrefsManager mPrefsManager;
     private Button mRingButton;
@@ -291,7 +292,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackImage.setText(getResources().getString(R.string.iTrack_close_tip));
-                mTrackImage.setColor(getResources().getColor(R.color.whitesmoke));
+                mTrackImage.setColor(getResources().getColor(R.color.red));
                 mTrackImage.setTextSize(32f);
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
@@ -366,6 +367,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         filter.addAction(BluetoothLeService.ACTION_BATTERY_LEVEL_READ);
         filter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         filter.addAction(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE);
+        filter.addAction(BluetoothLeService.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE);
         return filter;
     }
 
@@ -415,10 +417,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
-
-                    mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
-                    silentRing();
-                    mRingStateMap.put(mBluetoothDeviceAddress, false);
+                    sendSilentRingCommand();
                 } else {
                     Log.d(LOG_TAG, "make trackr ring.");
                     if(makeTrackRRing()) {
@@ -487,6 +486,13 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         anim.start();
         mRingStateMap.put(mBluetoothDeviceAddress, true);
         mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
+        Log.d(LOG_TAG, "ring command write done, show track ringing.");
+    }
+
+    private void showTrackRingStop() {
+        mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
+        mRingStateMap.put(mBluetoothDeviceAddress, false);
+        Log.d(LOG_TAG, "silent command write done, show track ring stop.");
     }
 
     @Override
@@ -495,9 +501,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         TrackRApplication.onUserInteraction(this);
     }
 
-    private boolean silentRing() {
+    private boolean sendSilentRingCommand() {
         if(mBluetoothLeService != null) {
-            mBluetoothLeService.silentRing(mBluetoothDeviceAddress);
+            return mBluetoothLeService.silentRing(mBluetoothDeviceAddress);
         }
         return false;
     }
