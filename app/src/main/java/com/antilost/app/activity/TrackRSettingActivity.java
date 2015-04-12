@@ -321,18 +321,20 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         AlertDialog.Builder builder = new AlertDialog.Builder(TrackRSettingActivity.this);
         switch (v.getId()) {
             case R.id.turnOffTrackR:
-                inputServer.setText(getResources().getString(R.string.declare_lost));
-                builder.setTitle(getResources().getString(R.string.notice_close_loser_tip));
+                inputServer.setText(getResources().getString(R.string.notice_close_loser_tip));
+                builder.setTitle(getResources().getString(R.string.declare_lost));
                 break;
             case R.id.unbindTrackR:
-                inputServer.setText(getResources().getString(R.string.turn_off_track_r));
-                builder.setTitle(getResources().getString(R.string.notice_delete_loser_tip));
+                inputServer.setText(getResources().getString(R.string.notice_delete_loser_tip));
+                builder.setTitle(getResources().getString(R.string.turn_off_track_r));
                 break;
             case R.id.declared_lost:
-                inputServer.setText(getResources().getString(R.string.unbind_track_r));
-                builder.setTitle(getResources().getString(R.string.notice_declare_loser_tip));
+                inputServer.setText(getResources().getString(R.string.notice_declare_loser_tip));
+                builder.setTitle(getResources().getString(R.string.unbind_track_r));
                 break;
         }
+        builder.setView(inputServer);
+
         builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override

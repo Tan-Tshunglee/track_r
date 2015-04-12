@@ -210,10 +210,15 @@
     <string name="delete_track_on_server">Delete iTrack on Server</string>
     <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
 
+    <string-array name="modify_location">
+        <item>rename</item>
+        <item>delete</item>
+    </string-array>
+
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confire</string>
     <string name="notice_delete_loser_tip">删除后，再次使用需要重新绑定iTrack,是否确认删除？</string>
-    <string name="notice_close_loser_tip">关闭后需要按iTrack按键唤醒，是否确定关闭？</string>
+    <string name="notice_close_loser_tip">关闭后需要按长iTrack按键唤醒，是否确定关闭？</string>
     <string name="notice_declare_loser_tip">声明丢失，系统将会帮您寻找，失物信息将保密，只对您可见，找到会通过APP通知您，确定声明？</string>
 
 </resources>
