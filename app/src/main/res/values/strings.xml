@@ -222,7 +222,7 @@
     <string name="distan_far">Far</string>
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confire</string>
-    <string name="notice_delete_loser_tip">After you delete this item, it will be delete from your iTrack list, we cannot use it unless you bind it again.</string>
+    <string name="notice_delete_loser_tip">After you delete this item, the tag will be deleted from your iTrack list, you cannot use it unless you bind it again.</string>
     <string name="notice_close_loser_tip">As you turn off the item ,you need to wake it up to use it. Are you sure to turn it off?</string>
     <string name="notice_declare_loser_tip">As you declare the item as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
 
