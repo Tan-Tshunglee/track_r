@@ -56,7 +56,7 @@ public class UpdateTrackImageCommand extends Command {
             }
         } else {
             //TODO: user delete custom icon;
-            Log.d(LOG_TAG, "image not set how to delete it");
+            Log.d(LOG_TAG, "Image not set delete photo on server");
             StringBuilder sb = new StringBuilder(30);
             sb.append("cmd:setpic").append(LINE_SPLITTER);
             sb.append("uid:").append(mUid).append(LINE_SPLITTER);

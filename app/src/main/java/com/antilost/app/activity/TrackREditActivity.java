@@ -349,15 +349,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 if(bindOk) {
                     Log.i(LOG_TAG, "Bind track ok.");
                     startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
-                    UpdateTrackImageCommand command = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
-                    command.execTask();
-                    if(command.success()) {
+                    UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                    uploadImageCommand.execTask();
+                    if(uploadImageCommand.success()) {
                         Log.v(LOG_TAG, "upload track photo to server success.");
                     } else {
                         Log.e(LOG_TAG, "upload track photo to server failed.");
                     }
                 } else {
-                    Log.e(LOG_TAG, "Bind RrackR on Server Error.");
+                    Log.e(LOG_TAG, "Bind iRrack on Server Error.");
                 }
             }
         };

@@ -54,6 +54,7 @@ import com.antilost.app.network.ReportLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
+import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
@@ -1207,6 +1208,8 @@ public class BluetoothLeService extends Service implements
             String address = e.getKey();
             if (!TextUtils.isEmpty(address)) {
                 silentlyTurnOffTrack(address);
+                CsstSHImageData.removePhoto(address);
+                mPrefsManager.removeTrackFile(address);
             }
         }
 
