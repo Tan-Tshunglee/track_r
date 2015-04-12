@@ -1110,6 +1110,10 @@ public class BluetoothLeService extends Service implements
 
         if (intent != null) {
 
+            if(mBluetoothAdapter == null) {
+                Log.e(LOG_TAG, "mBluetoothAdapter is null in onStartCommand");
+                return START_NOT_STICKY;
+            }
             if(ACTION_STOP_BACKGROUND_LOOP.equals(intent.getAction())) {
                 updateRepeatAlarmRegister(false);
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);

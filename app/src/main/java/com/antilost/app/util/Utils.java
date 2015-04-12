@@ -1,10 +1,16 @@
 package com.antilost.app.util;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.text.TextUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -96,4 +102,37 @@ public class Utils {
         }
         return -1;
     }
+
+    public static final BluetoothGatt connectBluetoothGatt(BluetoothDevice device,
+                                                           Context ctx,
+                                                           BluetoothGattCallback callback) {
+        if(isLollipop()) {
+            // Little hack with reflect to use the connect gatt with defined transport in Lollipop
+            Method connectGattMethod = null;
+
+            try {
+                connectGattMethod = device.getClass().getMethod("connectGatt", Context.class, boolean.class, BluetoothGattCallback.class, int.class);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                return (BluetoothGatt) connectGattMethod.invoke(device, ctx, false, callback, 2);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return null;
+        } else {
+            return device.connectGatt(ctx, false, callback);
+        }
+    }
+
+    public static boolean  isLollipop() {
+        return Build.VERSION.SDK_INT >= 20 ;
+    }
+
 }

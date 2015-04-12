@@ -167,6 +167,7 @@
         <Button
             android:id="@+id/tryAgain"
             android:background="@drawable/search_failed_bkg"
+            android:textColor="@android:color/white"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:text="@string/try_again"

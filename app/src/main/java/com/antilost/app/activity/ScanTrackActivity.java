@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.camera.Util;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
@@ -128,7 +129,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 if(newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.v(LOG_TAG, "bluetooth connection state is STATE_CONNECTED");
-
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -234,7 +234,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                device.connectGatt(ScanTrackActivity.this, false, mBluetoothGattCallback);
+                Utils.connectBluetoothGatt(device, ScanTrackActivity.this, mBluetoothGattCallback);
             }
         });
     }

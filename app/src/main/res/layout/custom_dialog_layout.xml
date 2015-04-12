@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/dialogText"
-        android:textColor="@android:color/white"
+        android:textColor="@color/gray"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
