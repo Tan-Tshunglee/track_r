@@ -41,11 +41,11 @@
     <string name="track_r_is_running">iTrack is running.</string>
     <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
     <string name="title_activity_track_rsetting">iTrackSettingActivity</string>
-    <string name="binding_steps_describe">1.Make sure the bluetooth is enabled.\n2.Make iTrack closed to phone\n3.Press the key on iTrack and track will beep</string>
+    <string name="binding_steps_describe">1.Ensure that Bluetooth is turned on.\n2.Ensure iTrack close to phone\n3.Press the key on iTrack and track will beep</string>
     <string name="add_track_r">Add iTrack</string>
     <string name="connecting_with_track_r">Connecting with iTrack</string>
     <string name="connecting_failed">Connecting Failed</string>
-    <string name="try_again_steps">You could try:\n1.Make sure the phone\'s bluetooth is enabled.\n2.Make sure that iTrack is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
+    <string name="try_again_steps">You could try:\n1.Ensure that Bluetooth is turned on.\n2.Make sure that iTrack is close to phone（distance less than 10cm）\n3.Press the key until beep.\n4.Click Try Again</string>
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
