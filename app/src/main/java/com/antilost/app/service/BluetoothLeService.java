@@ -942,6 +942,8 @@ public class BluetoothLeService extends Service implements
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
+
+
         if (!mPrefsManager.validUserLog()) {
             Log.i(LOG_TAG, "user not login, stop service");
             stopSelf();

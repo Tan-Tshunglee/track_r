@@ -13,6 +13,9 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -22,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
@@ -88,6 +92,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     private AlertDialog mDisconnectedDialog;
     private BluetoothAdapter mBluetoothAdapter;
     private LocationManager mLocationManager;
+    private RelativeLayout mNoLocationProviderAlertLayout;
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -119,8 +124,12 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             addNewTrackR();
         }
 
+        mNoLocationProviderAlertLayout = (RelativeLayout) findViewById(R.id.noLocationProviderAlertLayout);
+        mNoLocationProviderAlertLayout.setOnClickListener(this);
         mListView.setOnItemClickListener(this);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         startService(gattServiceIntent);
@@ -141,18 +150,9 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
-        List<String> locationProviders = mLocationManager.getAllProviders();
-        for(String providerName: locationProviders) {
-            Log.i(LOG_TAG, "get provider with name:" + providerName);
-        }
 
-//        if(locationProviders.contains(LocationManager.NETWORK_PROVIDER)
-//                && !mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
-//        } else if(locationProviders.contains(LocationManager.GPS_PROVIDER)
-//                && !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            showDialog(PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID);
-//        }
+        int visibility = checkLocationProviverAvailable() ? View.GONE: View.VISIBLE;
+        mNoLocationProviderAlertLayout.setVisibility(visibility);
 
 
         if(!mPrefsManager.validUserLog()) {
@@ -161,6 +161,21 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         }
 
         startService(new Intent(this, BluetoothLeService.class));
+    }
+
+    private boolean checkLocationProviverAvailable() {
+        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))  {
+            return true;
+        }
+
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if(netInfo.isConnected()) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -206,7 +221,14 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             case R.id.btnLocation:
                 showLocations();
                 break;
+            case R.id.noLocationProviderAlertLayout:
+                openLocationSettings();
+                break;
         }
+    }
+
+    private void openLocationSettings() {
+        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 
     private void showLocations() {
