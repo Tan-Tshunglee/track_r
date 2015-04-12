@@ -139,13 +139,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 mBluetoothGatt = ScanTrackActivity.sBluetoothConnected;
                 ScanTrackActivity.sBluetoothConnected = null;
             }
+
+            if(mBluetoothGatt == null) {
+                Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
         }
 
-        if(mBluetoothGatt == null) {
-            Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
+
 
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
             finish();
