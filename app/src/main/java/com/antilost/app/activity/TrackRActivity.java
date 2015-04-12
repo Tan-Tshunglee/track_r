@@ -119,12 +119,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
                 if(mBluetoothDeviceAddress.equals(address)) {
                     showTrackRinging();
-                } else {
-
                 }
             } else if(BluetoothLeService.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE.equals(action)) {
                 String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
                 if(mBluetoothDeviceAddress.equals(address)) {
+                    mHandler.removeMessages(MSG_RESET_RING_STATE);
                     showTrackRingStop();
                 }
             }

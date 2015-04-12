@@ -193,7 +193,6 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
             locationadatper = new locationAdapter(ManualAddLocationActivity.this,null,mDb);
             mListView.setAdapter(locationadatper);
         }
-
     }
 
 
