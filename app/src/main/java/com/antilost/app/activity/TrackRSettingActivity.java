@@ -322,15 +322,15 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.turnOffTrackR:
                 inputServer.setText(getResources().getString(R.string.notice_close_loser_tip));
-                builder.setTitle(getResources().getString(R.string.declare_lost));
+                builder.setTitle(getResources().getString(R.string.turn_off_track_r));
                 break;
             case R.id.unbindTrackR:
                 inputServer.setText(getResources().getString(R.string.notice_delete_loser_tip));
-                builder.setTitle(getResources().getString(R.string.turn_off_track_r));
+                builder.setTitle(getResources().getString(R.string.unbind_track_r));
                 break;
             case R.id.declared_lost:
                 inputServer.setText(getResources().getString(R.string.notice_declare_loser_tip));
-                builder.setTitle(getResources().getString(R.string.unbind_track_r));
+                builder.setTitle(getResources().getString(R.string.declare_lost));
                 break;
         }
         builder.setView(inputServer);
