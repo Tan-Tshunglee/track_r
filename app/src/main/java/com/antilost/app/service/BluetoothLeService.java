@@ -822,11 +822,6 @@ public class BluetoothLeService extends Service implements
 
     private void onTrackKeyLongPress() {
         Log.v(LOG_TAG, "onTrackKeyLongPress...");
-        Uri uri = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
-        if (!ringtone.isPlaying()) {
-            ringtone.play();
-        }
 
         Intent i = new Intent(this, FindmeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
