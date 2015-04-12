@@ -42,7 +42,7 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         int volume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-        
+
         audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
 
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),
