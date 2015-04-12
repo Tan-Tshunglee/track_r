@@ -200,14 +200,15 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mLocationManagerProxy.destroy();
+        if(mDb != null) {
+            mDb.close();
+        }
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
 
