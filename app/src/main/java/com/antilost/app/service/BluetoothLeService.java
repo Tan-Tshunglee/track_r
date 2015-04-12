@@ -378,8 +378,10 @@ public class BluetoothLeService extends Service implements
     public void addNewTrack(BluetoothGatt gatt) {
         Log.i(LOG_TAG, "add new track to BluetoothService...");
         String address = gatt.getDevice().getAddress();
+        mBluetoothCallbacks.put(address, null);
         BluetoothDevice device = gatt.getDevice();
-        gatt.close();
+        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+        gatt.disconnect();
         tryConnectGatt(address, device);
     }
 
@@ -1410,6 +1412,7 @@ public class BluetoothLeService extends Service implements
         if (oldCallback == null) {
             Log.i(LOG_TAG, "Trying to create a new callback to " + address);
             oldCallback = new MyBluetootGattCallback();
+
             bluetoothGatt = device.connectGatt(this, false, oldCallback);
         } else {
             Log.v(LOG_TAG, "Use old callback to connect gatt");
@@ -1418,7 +1421,8 @@ public class BluetoothLeService extends Service implements
 
         if (bluetoothGatt != null) {
             mBluetoothCallbacks.put(address, oldCallback);
-            Log.i(LOG_TAG, "add bluetooth gatt to out list");
+            mBluetoothGatts.put(address, bluetoothGatt);
+            Log.i(LOG_TAG, "add bluetooth gatt callback to callback list");
         } else {
             Log.e(LOG_TAG, "Device connectGatt return null.");
         }

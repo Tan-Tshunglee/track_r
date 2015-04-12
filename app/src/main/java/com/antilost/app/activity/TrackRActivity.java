@@ -412,13 +412,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 if(ringing == null) {
                     ringing = false;
                 }
+
                 if(ringing) {
                     Log.d(LOG_TAG, "trackr is ringing, ringing silent it");
-//                    Drawable oldBackgroundDrawable = mRingButton.getBackground();
-//                    if(oldBackgroundDrawable instanceof AnimationDrawable ) {
-//                        AnimationDrawable animationDrawable = (AnimationDrawable) oldBackgroundDrawable;
-//                        animationDrawable.stop();
-//                    }
 
                     mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
                     silentRing();
