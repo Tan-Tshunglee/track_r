@@ -6,7 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.antilost.app.model.TrackR;
-import com.antilost.app.network.DownloadImageCommand;
+import com.antilost.app.network.FetchTrackImageCommand;
 import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.CsstSHImageData;
@@ -81,14 +81,14 @@ public class NetworkSyncService extends Service {
         public void run() {
             Set<String> ids = mPrefs.getTrackIds();
             for(String id : ids) {
-                final DownloadImageCommand command = new DownloadImageCommand(mPrefs.getUid(), id);
+                final FetchTrackImageCommand command = new FetchTrackImageCommand(mPrefs.getUid(), id);
                 command.execTask();
                 byte[] rawImageData = command.getRawImageData();
                 if(rawImageData != null) {
                     Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
                     saveDataToFile(rawImageData, id);
                 } else {
-                    Log.e(LOG_TAG, "no rawImageData return.");
+                    Log.e(LOG_TAG, "fetch track image No rawImageData return.");
                 }
             }
         }

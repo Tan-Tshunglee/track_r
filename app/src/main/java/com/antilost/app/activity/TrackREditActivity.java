@@ -93,7 +93,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mImageView.setImageResource(drawableId);
             mTrackRName.setText(mTypeNames[mTrack.type]);
 
-            new File(CsstSHImageData.TRACKR_IMAGE_FOLDER, mBluetoothDeviceAddress).delete();
+            CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
         }
 
         private int positionOfView(View v) {
@@ -210,7 +210,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if(mBluetoothGatt != null) {
             mBluetoothGatt.close();
             mBluetoothGatt = null;
@@ -260,6 +259,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case GET_ICON_FROM_TAKE:
                 if (RESULT_OK == resultCode){
                     CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
+                } else {
+                    Log.e(LOG_TAG, "take photo  result not ok");
                 }
                 break;
 
@@ -290,6 +291,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 if (resultCode == RESULT_OK){
                     Uri uri = data.getData();
                     CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
+                } else {
+                    Log.e(LOG_TAG, "choose photo from album result not ok");
                 }
                 break;
         }
@@ -398,11 +401,9 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         b.setPositiveButton(getString(R.string.reset), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(!new File(CsstSHImageData.TRACKR_IMAGE_FOLDER, mBluetoothDeviceAddress).delete()) {
-                    Log.w(LOG_TAG, "Reset trackr custom image failed.");
-                    int drawableId = DrawableIds[mTrack.type];
-                    mImageView.setImageResource(drawableId);
-                };
+                CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
+                int drawableId = DrawableIds[mTrack.type];
+                mImageView.setImageResource(drawableId);
             }
         });
 
