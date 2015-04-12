@@ -52,7 +52,6 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
             ringtone.play();
         }
 
-        
     }
 
     @Override
