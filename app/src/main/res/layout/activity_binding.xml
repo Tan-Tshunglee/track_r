@@ -35,6 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/titleBarLayout"
+
+
         android:id="@+id/firstPage"
         >
         <TextView
@@ -91,16 +93,17 @@
 
 
     <RelativeLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/connectingPage"
+        android:visibility="gone"
         android:layout_centerInParent="true">
 
         <RelativeLayout
             android:id="@+id/connectingTrackPictures"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_marginBottom="@dimen/connectingTrackPictures">
 
 
@@ -112,16 +115,15 @@
                 android:layout_centerInParent="true" />
 
             <ImageView
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/connectingDotsMarquee"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="@dimen/binding_pictures_margin"
+                android:layout_width="100dp"
                 android:src="@drawable/phone_connecting" />
 
             <ImageView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_width="100dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/connectingDotsMarquee"
                 android:src="@drawable/ic_launcher" />
