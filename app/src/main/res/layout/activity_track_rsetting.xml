@@ -91,15 +91,25 @@
                         android:paddingRight="20dp" />
 
                 </RelativeLayout>
+                <!-- 分割-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="3sp"
+                    />
                 <!-- iTrack Alert Tip-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                 android:layout_centerVertical="true"
-                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                 android:gravity="center"
-                 android:textSize="20sp"/>
+                    android:textColor="@color/alert_text"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:text="@string/alert_level_tip"
+                    android:textSize="13sp"/>
+
+                <!-- 分割-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20sp"
+                />
 
              <RelativeLayout
                  android:layout_width="match_parent"
@@ -123,15 +133,20 @@
                      android:button="@drawable/custom_switch_button"
                      android:paddingRight="20dp" />
              </RelativeLayout>
+                <!-- 分割-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="3sp"
+              />
              <!-- Phone Alert Tip-->
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/alert_text"
+                android:text="@string/phone_alart_tip"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:textSize="20sp"/>
+                android:textSize="13sp"/>
 
 
             <RelativeLayout

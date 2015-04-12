@@ -67,8 +67,8 @@
     <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
-    <string name="phone_alart_tip">Far away,iTrack alerts</string>
-    <string name="alert_level_tip">Far away, phone alerts</string>
+    <string name="phone_alart_tip">When this option is turned on, your phone will beep when your iTrack tag is disconnected from the phone.</string>
+    <string name="alert_level_tip">When this option is turned on, your iTrack tag will beep when it is disconnected from the phone.</string>
     <string name="turn_off_track_r">Turn off iTrack</string>
     <string name="unbind_track_r">Delete iTrack</string>
     <string name="take_photo">Take Photo</string>
