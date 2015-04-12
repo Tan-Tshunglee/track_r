@@ -208,6 +208,12 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(mBluetoothGatt != null) {
+            mBluetoothGatt.close();
+            mBluetoothGatt = null;
+            Log.i(LOG_TAG, "found unused gatt. close it.");
+        }
         if(mBluetoothLeService != null) {
             unbindService(mServiceConnection);
         }
@@ -244,7 +250,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             mImageSourceDialog.dismiss();
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
