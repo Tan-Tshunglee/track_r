@@ -1,11 +1,13 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -21,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -283,10 +286,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             case R.id.turnOffTrackR:
                 if(mBluetoothLeService == null) {
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
-                    Toast.makeText(this, getString(R.string.can_not_close_disconnected_itrack), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.can_not_close_disconnected_itrack), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
+                confireNotice(view);
                 break;
             case R.id.unbindTrackR:
                 if(mBluetoothLeService == null) {
@@ -297,58 +300,102 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 if(mBackgroundThread != null) {
                     return;
                 }
-                mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
-                toast(getString(R.string.unbind_successfully));
-                mBackgroundThread = new Thread() {
-                    @Override
-                    public void run() {
-                        UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
-                        command.execTask();
-                        mBackgroundThread = null;
-                    }
-                };
-                mBackgroundThread.start();
+                confireNotice(view);
                 break;
-
             case R.id.declared_lost:
-
                 if(mBackgroundThread != null) {
                     return;
                 }
-                mBackgroundThread = new Thread () {
-                    @Override
-                    public void run() {
-                        int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)  ? 0 : 1;
-                        Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
-                        try {
-                            declareCommand.execTask();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if(declareCommand.success()) {
-                            mPrefsManager.saveDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.declare_success), Toast.LENGTH_SHORT).show();
-                                    updateDeclareText();
-                                }
-                            });
-                        } else {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.declaration_failed), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                        mBackgroundThread = null;
-                    }
-                };
-                mBackgroundThread.start();
+                confireNotice(view);
                 break;
         }
     }
+
+
+    /**
+     * 修改名字
+     *
+     */
+    private final void confireNotice(final View v) {
+        final EditText inputServer = new EditText(TrackRSettingActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TrackRSettingActivity.this);
+        switch (v.getId()) {
+            case R.id.turnOffTrackR:
+                inputServer.setText(getResources().getString(R.string.declare_lost));
+                builder.setTitle(getResources().getString(R.string.notice_close_loser_tip));
+                break;
+            case R.id.unbindTrackR:
+                inputServer.setText(getResources().getString(R.string.turn_off_track_r));
+                builder.setTitle(getResources().getString(R.string.notice_delete_loser_tip));
+                break;
+            case R.id.declared_lost:
+                inputServer.setText(getResources().getString(R.string.unbind_track_r));
+                builder.setTitle(getResources().getString(R.string.notice_declare_loser_tip));
+                break;
+        }
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (v.getId()) {
+                case R.id.turnOffTrackR:
+                    mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
+                    break;
+                case R.id.unbindTrackR:
+                    mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
+                    toast(getString(R.string.unbind_successfully));
+                    mBackgroundThread = new Thread() {
+                        @Override
+                        public void run() {
+                            UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
+                            command.execTask();
+                            mBackgroundThread = null;
+                        }
+                    };
+                    mBackgroundThread.start();
+                    break;
+                case R.id.declared_lost:
+                    mBackgroundThread = new Thread () {
+                        @Override
+                        public void run() {
+                            int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)  ? 0 : 1;
+                            Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
+                            try {
+                                declareCommand.execTask();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if(declareCommand.success()) {
+                                mPrefsManager.saveDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(TrackRSettingActivity.this, getString(R.string.declare_success), Toast.LENGTH_SHORT).show();
+                                        updateDeclareText();
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(TrackRSettingActivity.this, getString(R.string.declaration_failed), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            mBackgroundThread = null;
+                        }
+                    };
+                    mBackgroundThread.start();
+                    break;
+            }
+
+            }
+        });
+        builder.show();
+    }
+
+
+
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
