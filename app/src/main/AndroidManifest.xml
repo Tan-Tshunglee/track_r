@@ -196,7 +196,7 @@
             android:name=".activity.DisconnectAlertActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.NoActionBar" />
+            android:theme="@style/Theme.Holo.Transparent" />
         <activity
             android:name=".activity.TrackRSettingActivity"
             android:label="@string/title_activity_track_rsetting"
