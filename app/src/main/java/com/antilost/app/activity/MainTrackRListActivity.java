@@ -172,7 +172,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo.isConnected()) {
+        if(netInfo != null && netInfo.isConnected()) {
             return true;
         }
         return false;
