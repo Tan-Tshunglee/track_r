@@ -1107,7 +1107,6 @@ public class BluetoothLeService extends Service implements
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(LOG_TAG, "onStartCommand");
 
-
         if (intent != null) {
 
             if(mBluetoothAdapter == null) {
@@ -1143,6 +1142,11 @@ public class BluetoothLeService extends Service implements
                 Log.e(LOG_TAG, "Unable to repeatConnect BluetoothManager.");
                 return false;
             }
+        }
+
+        if(!mBluetoothAdapter.isEnabled()) {
+            Log.w(LOG_TAG, "Bluetooth disable...");
+            return false;
         }
 
         //scan devices
@@ -1327,6 +1331,10 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
+        if(!mBluetoothAdapter.isEnabled()) {
+            Log.v(LOG_TAG, "In connectSingleTrack BluetoothAdapter is disabled...");
+        }
+
         if(mPrefsManager.isDeclaredLost(address)
                 &&  mDeclaredLostTrackLastFetchedTime.get(address) == null ) {
             fetchDeclaredLostTrackGps(address);
@@ -1466,6 +1474,14 @@ public class BluetoothLeService extends Service implements
     }
 
     private void tryConnectGatt(String address, BluetoothDevice device) {
+
+        if(mBluetoothAdapter == null) {
+            Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is null");
+        }
+
+        if(!mBluetoothAdapter.isEnabled()) {
+            Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is disabled");
+        }
 
         MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
         BluetoothGatt bluetoothGatt;
