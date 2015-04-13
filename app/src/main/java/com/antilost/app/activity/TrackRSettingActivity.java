@@ -69,7 +69,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private CheckBox mTrackAlert;
     private Switch mSleepMode;
     private ImageView trackImage;
-
+    private TextView trackName;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -144,6 +144,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             return;
         }
         setContentView(R.layout.activity_track_rsetting);
+        trackName =(TextView) findViewById(R.id.track_name);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
@@ -216,10 +217,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     private void updateStateUi() {
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+        trackName.setText(track.name);
         if(customIconUri != null) {
             trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
         } else {
-            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
