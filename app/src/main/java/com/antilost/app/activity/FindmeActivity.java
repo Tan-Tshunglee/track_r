@@ -74,7 +74,7 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
     private void ensureDialog() {
         if(mAlertDialog == null) {
             AlertDialog.Builder  builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.i_am_here));
+//            builder.setTitle(getString(R.string.i_am_here));
             View v = mLayoutInflater.inflate(R.layout.custom_dialog_layout, null);
             builder.setView(v);
             ImageView iv = (ImageView) v.findViewById(R.id.dialogIcon);

@@ -968,7 +968,8 @@ public class BluetoothLeService extends Service implements
         mPrefsManager = PrefsManager.singleInstance(this);
         mPrefsManager.addPrefsListener(this);
 
-
+        mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = mBluetoothManager.getAdapter();
 
         if (!mPrefsManager.validUserLog()) {
             Log.i(LOG_TAG, "user not login, stop service");

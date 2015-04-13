@@ -64,7 +64,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="No Location Provider Available, iTrack Can not Record Your Location."/>
+            android:text="@string/no_location_provider_available" />
     </RelativeLayout>
 
 

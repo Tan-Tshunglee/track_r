@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -34,7 +33,6 @@ import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -43,6 +41,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     private static final int REQUEST_CODE_ADD_TRACK_R = 1;
     private static final String LOG_TAG = "MainTrackRListActivity";
     public static final int PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID = 1;
+    public static final int BLUETOOTH_DISABLED_DIALOG = 2;
 
 
     private TrackRListAdapter mListViewAdapter;
@@ -93,6 +92,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     private BluetoothAdapter mBluetoothAdapter;
     private LocationManager mLocationManager;
     private RelativeLayout mNoLocationProviderAlertLayout;
+    private AlertDialog mLocationUnavailableDialog;
+    private AlertDialog mBluetoothDisableDialog;
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -151,9 +152,9 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
 
-        int visibility = checkLocationProviverAvailable() ? View.GONE: View.VISIBLE;
-        mNoLocationProviderAlertLayout.setVisibility(visibility);
-
+        updateLocationAlertVisibility();
+        
+        checkBluetoothAvailability();
 
         if(!mPrefsManager.validUserLog()) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -161,6 +162,17 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         }
 
         startService(new Intent(this, BluetoothLeService.class));
+    }
+
+    private void checkBluetoothAvailability() {
+        if(!mBluetoothAdapter.isEnabled()) {
+            showDialog(BLUETOOTH_DISABLED_DIALOG);
+        }
+    }
+
+    private void updateLocationAlertVisibility() {
+        int visibility = checkLocationProviverAvailable() ? View.GONE: View.VISIBLE;
+        mNoLocationProviderAlertLayout.setVisibility(visibility);
     }
 
     private boolean checkLocationProviverAvailable() {
@@ -184,17 +196,34 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         switch (id) {
             case PROMPT_OPEN_LOCATION_SERVICE_DIAOLOG_ID:
                 return createPromptOpenLocationServiceDialog();
+            case BLUETOOTH_DISABLED_DIALOG:
+                return createBluetoothDisabledDialog();
         }
         return null;
     }
 
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+    }
+
+    private Dialog createBluetoothDisabledDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?");
+        builder.setPositiveButton(R.string.ok, this);
+        builder.setNegativeButton(R.string.cancel, this);
+        mBluetoothDisableDialog = builder.create();
+        return mBluetoothDisableDialog;
+
+    }
+
     private Dialog createPromptOpenLocationServiceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.warm_prompt));
         builder.setMessage(getString(R.string.warm_prompt_open_location_service));
         builder.setPositiveButton(R.string.ok, this);
         builder.setNegativeButton(R.string.cancel, this);
-        return builder.create();
+        mLocationUnavailableDialog = builder.create();
+        return mLocationUnavailableDialog;
     }
 
     @Override
@@ -323,19 +352,36 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        switch (i) {
-            case DialogInterface.BUTTON_POSITIVE:
-                Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                try {
-                    startActivity(openGpsIntent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case DialogInterface.BUTTON_NEGATIVE:
-                //do nothing
-                break;
+        if(dialogInterface == mBluetoothDisableDialog) {
+            switch (i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    Intent bluetoothSettingIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                    bluetoothSettingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        startActivity(bluetoothSettingIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    finish();
+                    break;
+            }
+        } else if(dialogInterface == mLocationUnavailableDialog) {
+            switch (i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    Intent openGpsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    openGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    try {
+                        startActivity(openGpsIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //do nothing
+                    break;
+            }
         }
     }
 }
