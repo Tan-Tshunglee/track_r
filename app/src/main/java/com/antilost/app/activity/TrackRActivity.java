@@ -268,10 +268,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mBluetoothLeService != null) {
+        try {
             unbindService(mServiceConnection);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        mBluetoothLeService = null;
     }
 
     @Override
