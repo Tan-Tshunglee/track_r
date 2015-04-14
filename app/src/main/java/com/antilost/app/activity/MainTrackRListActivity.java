@@ -359,6 +359,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
                     bluetoothSettingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     try {
                         startActivity(bluetoothSettingIntent);
+                        dismissDialog(BLUETOOTH_DISABLED_DIALOG);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
