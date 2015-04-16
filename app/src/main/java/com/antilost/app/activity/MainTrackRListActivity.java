@@ -85,6 +85,15 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 mListViewAdapter.updateData();
                 Log.v(LOG_TAG, "receive ACTION_GATT_SERVICES_DISCOVERED");
+            } else if(BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
+                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
+                if(state == BluetoothAdapter.STATE_ON) {
+                    try {
+                        dismissDialog(BLUETOOTH_DISABLED_DIALOG);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     };
@@ -102,6 +111,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_CLOSED);
         intentFilter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
+        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         return intentFilter;
     }
 
@@ -144,6 +154,18 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         mBluetoothLeService = null;
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.v(LOG_TAG, "onWindowsFocusChanged is " + hasFocus);
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) {
+            try {
+                dismissDialog(BLUETOOTH_DISABLED_DIALOG);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -165,8 +187,15 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     }
 
     private void checkBluetoothAvailability() {
-        if(!mBluetoothAdapter.isEnabled()) {
-            showDialog(BLUETOOTH_DISABLED_DIALOG);
+        try {
+            if(!mBluetoothAdapter.isEnabled()) {
+                showDialog(BLUETOOTH_DISABLED_DIALOG);
+            } else{
+
+                dismissDialog(BLUETOOTH_DISABLED_DIALOG);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
