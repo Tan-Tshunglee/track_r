@@ -342,7 +342,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
         trackName.setText(track.name);
         if(customIconUri != null) {
-            icontrack.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
+            bmp=CsstSHImageData.toRoundCorner(customIconUri);
+            icontrack.setImageBitmap(big());
         } else {
             icontrack.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             icontrack.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

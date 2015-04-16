@@ -23,14 +23,14 @@
         android:layout_height="1dp"
         android:background="@color/user_data_text" />
     <ImageView
+        android:padding="5dp"
         android:id="@+id/tipicon"
         android:src="@drawable/key_photo"
-        android:padding="10dp"
         android:layout_gravity="center"
-        android:layout_width="@dimen/track_r_setting_icon_size"
-        android:layout_height="@dimen/track_r_setting_icon_size"
+        android:layout_width="@dimen/track_r_photo_size"
+        android:layout_height="@dimen/track_r_photo_size"
         />
-    <!-- 确认按钮 -->
+
     <TextView
         android:id="@+id/text_tip"
         android:layout_centerInParent="true"
@@ -38,7 +38,10 @@
         android:layout_width="wrap_content"
         android:text="@string/phone_alart_tip"
         android:textColor="@color/black"
-        android:padding="30sp"
+        android:paddingBottom="20sp"
+        android:paddingTop="10sp"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
         android:textSize="20sp"
         />
     <!-- 确认按钮 -->
