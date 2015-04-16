@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,13 +25,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.dao.UserDataTable;
 import com.antilost.app.model.UserdataBean;
+import com.antilost.app.network.Command;
 import com.antilost.app.network.CommandPerformer;
+import com.antilost.app.network.LostDeclareCommand;
+import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.network.VersionCheckCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -264,11 +269,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             @Override
             public void onClick(View arg0) {
+                confireNotice();
 
-                mPrefsManager.saveUid(-1);
-                sendBroadcast(new Intent(ACTION_USER_LOGOUT));
-                UserProfileActivity.this.finish();
-                startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -305,6 +307,39 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
         mSleepModeSwitch.setOnCheckedChangeListener(this);
         rluser_version.setOnClickListener(this);
+    }
+    private  void confireNotice() {
+
+        final AlertDialog dlg = new AlertDialog.Builder(this).create();
+        dlg.show();
+        Window window = dlg.getWindow();
+        // *** 主要就是在这里实现这种效果的.
+        // 设置窗口的内容页面,shrew_exit_dialog.xml文件中定义view内容
+        window.setContentView(R.layout.tiplayout);
+        TextView title = (TextView) window.findViewById(R.id.title_tip);
+        TextView text = (TextView) window.findViewById(R.id.text_tip);
+        ImageView icontrack = (ImageView) window.findViewById(R.id.tipicon);
+        icontrack.setVisibility(View.GONE);
+        text.setText(getResources().getString(R.string.sihnout_tip));
+        title.setText(getResources().getString(R.string.sihnout_tip_title));
+        Button ok = (Button) window.findViewById(R.id.tipbtn_ok);
+        ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mPrefsManager.saveUid(-1);
+                sendBroadcast(new Intent(ACTION_USER_LOGOUT));
+                UserProfileActivity.this.finish();
+                startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));
+                dlg.cancel();
+            }
+
+        });
+        // 关闭alert对话框架
+        Button cancel = (Button) window.findViewById(R.id.tipbtn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dlg.cancel();
+            }
+        });
     }
 
     @Override

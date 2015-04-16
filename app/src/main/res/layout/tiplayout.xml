@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/phone_alart_tip"
-        android:textColor="@color/yellow"
+        android:textColor="@color/black"
         android:textSize="@dimen/titile"
         android:padding="20sp"
         />
@@ -22,23 +22,25 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/user_data_text" />
+    <ImageView
+        android:id="@+id/tipicon"
+        android:src="@drawable/key_photo"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/track_r_setting_icon_size"
+        android:layout_height="@dimen/track_r_setting_icon_size"
+        />
     <!-- 确认按钮 -->
-    <!-- title -->
     <TextView
         android:id="@+id/text_tip"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/phone_alart_tip"
-        android:textColor="@color/red"
+        android:textColor="@color/black"
         android:padding="30sp"
         android:textSize="20sp"
         />
-    <!-- 分隔线 -->
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/user_data_text" />
     <!-- 确认按钮 -->
     <RelativeLayout
         android:layout_height="wrap_content"
