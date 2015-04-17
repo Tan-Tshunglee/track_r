@@ -211,7 +211,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     }
 
     private void reconnectMissingTrack(String address) {
-        mPrefsManager.saveMissedTrack(address, false);
         startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
         finish();
     }

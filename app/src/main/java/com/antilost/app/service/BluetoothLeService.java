@@ -47,6 +47,7 @@ import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.FoundByOthersActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
+import com.antilost.app.model.TrackR;
 import com.antilost.app.network.Command;
 import com.antilost.app.network.FetchLostLocationCommand;
 import com.antilost.app.network.LostDeclareCommand;
@@ -79,6 +80,9 @@ public class BluetoothLeService extends Service implements
     private final static String LOG_TAG = "BluetoothLeService";
     private static final int ONGOING_NOTIFICATION = 1;
     public static final int NOTIFICATION_ID_TRACK_FOUND_BY_OTHERS = 2;
+    public static final int NOTIFICATION_ID_TRACK_DISCONNECTED = 3;
+    public static final int NOTIFICATION_ID_TRACK_RECONNECTED = 3;
+
 
     public static  final String INTENT_FROM_BROADCAST_EXTRA_KEY_NAME = "INTENT_FROM_BROADCAST_EXTRA_KEY_NAME";
 
@@ -462,6 +466,7 @@ public class BluetoothLeService extends Service implements
                         return;
                     }
 
+                    notifyUserDisconnected(address);
                     alertUserTrackDisconnected(address);
 
 
@@ -497,7 +502,11 @@ public class BluetoothLeService extends Service implements
                     Log.d(LOG_TAG, "reconnect to closed trackr");
                     mPrefsManager.saveClosedTrack(address, false);
                 }
-                mPrefsManager.saveMissedTrack(address, false);
+                if(mPrefsManager.isMissedTrack(address)) {
+                    notifyDeviceReconnected(address);
+                    mPrefsManager.saveMissedTrack(address, false);
+                }
+
                 if(mPrefsManager.isDeclaredLost(address)) {
                     revokeLostDeclare(address);
                 }
@@ -686,6 +695,80 @@ public class BluetoothLeService extends Service implements
             String address = gatt.getDevice().getAddress();
             receiverRssi(address, rssi);
         }
+    }
+
+    private void notifyDeviceReconnected(String address) {
+        mNotificationManager.cancel(address, NOTIFICATION_ID_TRACK_DISCONNECTED);
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(getString(R.string.app_name));
+        TrackR trackR = mPrefsManager.getTrack(address);
+
+        String trackName = null;
+        if(!TextUtils.isEmpty(trackR.name)) {
+            trackName = trackR.name;
+        } else {
+            String[] names = getResources().getStringArray(R.array.default_type_names);
+            trackName =  names[trackR.type];
+        }
+        builder.setContentText(trackName + " has reconnected.");
+        builder.setSmallIcon(R.drawable.ic_launcher);
+
+
+        // Creates an Intent for the Activity
+        Intent notifyIntent =
+                new Intent(this, FoundByOthersActivity.class);
+        // Sets the Activity to start in a new, empty task
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        notifyIntent.putExtra(FoundByOthersActivity.EXTRA_TRACK_ADDRESS, address);
+        // Creates the PendingIntent
+        PendingIntent notifyPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(notifyPendingIntent);
+        mNotificationManager.notify(address, NOTIFICATION_ID_TRACK_RECONNECTED, builder.build());
+    }
+
+    private void notifyUserDisconnected(String address) {
+        mNotificationManager.cancel(address, NOTIFICATION_ID_TRACK_RECONNECTED);
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(getString(R.string.app_name));
+        TrackR trackR = mPrefsManager.getTrack(address);
+
+        String trackName = null;
+        if(!TextUtils.isEmpty(trackR.name)) {
+            trackName = trackR.name;
+        } else {
+            String[] names = getResources().getStringArray(R.array.default_type_names);
+            trackName =  names[trackR.type];
+        }
+        builder.setContentText(trackName + " has disconnected");
+        builder.setSmallIcon(R.drawable.ic_launcher);
+
+
+        // Creates an Intent for the Activity
+        Intent notifyIntent =
+                new Intent(this, FoundByOthersActivity.class);
+        // Sets the Activity to start in a new, empty task
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        notifyIntent.putExtra(FoundByOthersActivity.EXTRA_TRACK_ADDRESS, address);
+        // Creates the PendingIntent
+        PendingIntent notifyPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(notifyPendingIntent);
+        mNotificationManager.notify(address, NOTIFICATION_ID_TRACK_DISCONNECTED, builder.build());
     }
 
     private boolean inSafeZone() {

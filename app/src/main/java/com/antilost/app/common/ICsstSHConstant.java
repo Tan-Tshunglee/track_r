@@ -219,7 +219,7 @@ public interface ICsstSHConstant {
 	/** sd卡根目录 */
 	String SDCARD = Environment.getExternalStorageDirectory().getPath();
 	/** 设备封面路径 */
-	String DEVICE_ICON_PATH = SDCARD + File.separator + "CSST" + File.separator;
+	String DEVICE_ICON_PATH = SDCARD + File.separator + "iTrack" + File.separator;
 	/** 设备封面缩略图宽 */
 	int DEVICE_ICON_WIDTH = 180;
 	/** 设备封面缩略图高 */

@@ -48,7 +48,7 @@ public final class CsstSHImageData {
      */
     public static final File deviceIconTempFile() {
         if (null == DEVICE_TAKE_TEMP) {
-            DEVICE_TAKE_TEMP = new File(ICsstSHConstant.DEVICE_ICON_PATH, "device.jpg");
+            DEVICE_TAKE_TEMP = new File(TRACKR_IMAGE_FOLDER, "device.jpg");
         }
         return DEVICE_TAKE_TEMP;
     }
