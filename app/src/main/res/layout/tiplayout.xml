@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_block_bkg"
+    android:background="@drawable/itembgd_white_tip"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:orientation="vertical">
@@ -19,8 +19,8 @@
         />
     <!-- 分隔线 -->
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:background="@color/user_data_text" />
     <ImageView
         android:padding="5dp"
