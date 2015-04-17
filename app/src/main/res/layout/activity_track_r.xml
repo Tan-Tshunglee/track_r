@@ -125,13 +125,14 @@
             android:src="@drawable/small_phone"
             android:layout_below="@id/distanceLevel"
             android:layout_centerHorizontal="true"
-            />
+            android:id="@+id/imageView" />
 
         <ImageView android:id="@+id/trackIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/track_r_icon_green" />
+            android:src="@drawable/track_r_icon_green"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/imageView" />
 
         <LinearLayout
             android:layout_width="wrap_content"

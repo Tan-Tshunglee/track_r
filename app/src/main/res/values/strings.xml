@@ -230,5 +230,5 @@
     <string name="sihnout_tip">All iTrack stickers will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
         Are you sure to log out?</string>
 
-    <string name="unbined_tip_disconnected">Unbined your iTrack ,you should connected it.</string>
+    <string name="unbined_tip_disconnected">Please don\'t delete the iTrack when disconnetion,otherwise you cannot reconnect it again.</string>
 </resources>
