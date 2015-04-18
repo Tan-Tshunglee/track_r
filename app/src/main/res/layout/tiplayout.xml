@@ -2,28 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/item_block_bkg"
+    android:background="@drawable/purple_btn_bkg"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:orientation="vertical">
+
     <!-- title -->
     <TextView
         android:id="@+id/title_tip"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:gravity="center"
         android:text="@string/phone_alart_tip"
-        android:textColor="@color/black"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/titile"
         android:padding="20sp"
         />
     <!-- 分隔线 -->
-    <TextView
+    <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/user_data_text" />
+        android:background="@color/white" />
+
     <ImageView
-        android:padding="5dp"
+        android:padding="10dp"
         android:id="@+id/tipicon"
         android:src="@drawable/key_photo"
         android:layout_gravity="center"
@@ -37,27 +40,29 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/phone_alart_tip"
-        android:textColor="@color/black"
-        android:paddingBottom="20sp"
-        android:paddingTop="10sp"
-        android:paddingLeft="20sp"
-        android:paddingRight="20sp"
+        android:textColor="@android:color/white"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:textSize="20sp"
         />
     <!-- 确认按钮 -->
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         >
         <!-- 确认按钮 -->
         <Button
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:id="@+id/tipbtn_cancel"
-            android:layout_marginLeft="10sp"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/cancel"
+            android:textColor="@android:color/white"
             android:background="@drawable/search_failed_bkg" />
 
         <!-- 取消按钮 -->
@@ -67,8 +72,8 @@
             android:id="@+id/tipbtn_ok"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginRight="10sp"
             android:text="@string/ok"
+            android:textColor="@android:color/white"
             android:background="@drawable/tipbutton" />
     </RelativeLayout>
-    </LinearLayout>
+</LinearLayout>

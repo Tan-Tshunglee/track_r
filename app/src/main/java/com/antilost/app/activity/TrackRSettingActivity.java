@@ -198,22 +198,22 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     /* 图片放大的method */
     private Bitmap big() {
-        int bmpWidth=bmp.getWidth();
-        int bmpHeight=bmp.getHeight();
+        int bmpWidth = bmp.getWidth();
+        int bmpHeight = bmp.getHeight();
 
         Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
 
-		/* 设置图片放大的比例 */
-        double scale=1.3;
-		/* 计算这次要放大的比例 */
-        scaleWidth=(float)(scaleWidth*scale);
-        scaleHeight=(float)(scaleHeight*scale);
-		/* 产生reSize后的Bitmap对象 */
+        /* 设置图片放大的比例 */
+        double scale = 1.3;
+        /* 计算这次要放大的比例 */
+        scaleWidth = (float) (scaleWidth * scale);
+        scaleHeight = (float) (scaleHeight * scale);
+        /* 产生reSize后的Bitmap对象 */
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizeBmp = Bitmap.createBitmap(bmp,0,0,bmpWidth,
-                bmpHeight,matrix,true);
-        return  resizeBmp;
+        Bitmap resizeBmp = Bitmap.createBitmap(bmp, 0, 0, bmpWidth,
+                bmpHeight, matrix, true);
+        return resizeBmp;
     }
 
     private void updateStateUi() {

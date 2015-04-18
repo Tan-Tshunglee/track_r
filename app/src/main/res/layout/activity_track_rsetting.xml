@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bkg">
+
         <ImageButton
             android:id="@+id/backBtn"
             android:layout_width="60dp"
@@ -22,7 +23,8 @@
             android:src="@drawable/back_arrow"
             android:background="@android:color/transparent" />
 
-        <TextView android:id="@+id/titleText"
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/track_r_settings"
@@ -30,13 +32,16 @@
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/iconAndName"
                 android:layout_width="match_parent"
@@ -44,14 +49,16 @@
                 android:background="@drawable/item_block_bkg"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_margin="@dimen/activity_horizontal_margin">
-                <ImageView android:id="@+id/icon"
+
+                <ImageView
+                    android:id="@+id/icon"
                     android:src="@drawable/key_photo"
                     android:padding="10dp"
                     android:layout_width="@dimen/track_r_setting_icon_size"
-                    android:layout_height="@dimen/track_r_setting_icon_size"
-                    />
+                    android:layout_height="@dimen/track_r_setting_icon_size" />
 
-                <TextView android:id="@+id/track_name"
+                <TextView
+                    android:id="@+id/track_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/user_data_text"
@@ -59,7 +66,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/icon"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -67,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:orientation="vertical" >
+                android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:background="@drawable/item_block_bkg"
@@ -80,7 +88,8 @@
                         android:text="@string/itrak_alart"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:textSize="@dimen/activity_horizontal_margin"/>
+                        android:textSize="@dimen/activity_horizontal_margin" />
+
                     <CheckBox
                         android:id="@+id/itrack_alert_checkbox"
                         android:layout_width="wrap_content"
@@ -88,14 +97,13 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:button="@drawable/custom_switch_button"
-                        android:paddingRight="20dp" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
                 </RelativeLayout>
                 <!-- 分割-->
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="3sp"
-                    />
+                    android:layout_height="3sp" />
                 <!-- iTrack Alert Tip-->
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,266 +111,272 @@
                     android:textColor="@color/alert_text"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:text="@string/alert_level_tip"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
                 <!-- 分割-->
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="20sp"
-                />
+                    android:layout_height="20sp" />
 
-             <RelativeLayout
-                 android:layout_width="match_parent"
-                 android:background="@drawable/item_block_bkg"
-                 android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@drawable/item_block_bkg"
+                    android:layout_height="wrap_content">
 
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:textColor="@color/user_data_text"
-                     android:text="@string/phone_alart"
-                     android:layout_centerVertical="true"
-                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                     android:textSize="@dimen/activity_horizontal_margin"/>
-                 <CheckBox
-                     android:id="@+id/phone_alert_checkbox"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentRight="true"
-                     android:layout_centerVertical="true"
-                     android:button="@drawable/custom_switch_button"
-                     android:paddingRight="20dp" />
-             </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/phone_alart"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="@dimen/activity_horizontal_margin" />
+
+                    <CheckBox
+                        android:id="@+id/phone_alert_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:button="@drawable/custom_switch_button"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
                 <!-- 分割-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="3sp"
-              />
-             <!-- Phone Alert Tip-->
                 <TextView
-                android:layout_width="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="3sp" />
+                <!-- Phone Alert Tip-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/alert_text"
+                    android:text="@string/phone_alart_tip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:textSize="13sp" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/alert_level"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+                    <SeekBar
+                        android:id="@+id/alertLevel"
+                        android:layout_width="100dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/alert_text"
-                android:text="@string/phone_alart_tip"
-                android:layout_centerVertical="true"
+                android:background="@drawable/item_block_bkg"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/sleep_mode"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+                    <Switch
+                        android:id="@+id/sleepModeSwitch"
+                        android:layout_width="100dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"
+                        android:checked="false" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:background="@color/user_data_text" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sleepModeLayout">
+
+                    <ImageView
+                        android:id="@+id/moreIcon"
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/tri_right"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/labelStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/start"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/labelEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/end"
+                        android:layout_below="@id/labelStart"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/startTimeText"
+                        android:text="22:00"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/endTimeText"
+                        android:layout_below="@id/startTimeText"
+                        android:text="8:00"
+                        android:layout_toLeftOf="@id/moreIcon"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:background="@color/user_data_text"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/sleep_mode"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/everyday"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:background="@color/user_data_text" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:text="@string/help"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:textSize="20sp" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/declared_lost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_bkg"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:textSize="13sp"/>
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/declared_lost_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/declare_lost"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/turnOffTrackR"
                 android:layout_width="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/alert_level"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-                <SeekBar
-                    android:id="@+id/alertLevel"
-                    android:layout_width="100dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/item_block_bkg"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:visibility="gone"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/sleep_mode"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-                <Switch
-                    android:id="@+id/sleepModeSwitch"
-                    android:layout_width="100dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:checked="false" />
-            </RelativeLayout>
-            <View android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:background="@color/user_data_text" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content"
-                android:id="@+id/sleepModeLayout">
-
-                <ImageView
-                    android:id="@+id/moreIcon"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/tri_right"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/labelStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/start"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/labelEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/end"
-                    android:layout_below="@id/labelStart"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/startTimeText"
-                    android:text="22:00"
-                    android:layout_toLeftOf="@id/moreIcon"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/endTimeText"
-                    android:layout_below="@id/startTimeText"
-                    android:text="8:00"
-                    android:layout_toLeftOf="@id/moreIcon"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-
-
-            </RelativeLayout>
-            <View android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="@color/user_data_text"
-                android:visibility="gone"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/sleep_mode"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/everyday"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-            </RelativeLayout>
-
-            <View android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:background="@color/user_data_text" />
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
-                    android:text="@string/help"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:textSize="20sp"/>
-
-
-            </RelativeLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/declared_lost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/blue_bkg"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/declared_lost_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:text="@string/declare_lost"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/blue_bkg"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
+                android:text="@string/turn_off_track_r" />
 
-        <Button
-            android:id="@+id/turnOffTrackR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/blue_bkg"
-            android:textColor="@android:color/white"
-            android:text="@string/turn_off_track_r"/>
-
-        <Button
-            android:id="@+id/unbindTrackR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unbind_track_r"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/red_bkg"
-            android:textColor="@android:color/white"
-            />
-    </LinearLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/unbindTrackR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/unbind_track_r"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/red_bkg"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
