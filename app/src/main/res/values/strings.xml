@@ -108,7 +108,7 @@
     <string name="safezone_other">Other</string>
     <string name="safezone_modifywifi">Set, click to change</string>
     <string name="safezone_addwifi">Click to add wifi</string>
-    <string name="safezone_wifiselcettitle">Choose safe wifi</string>
+    <string name="safezone_wifiselcettitle">Choose Safe Wifi</string>
     <string name="safezone_wifitip">When you connect these trusted wifi zone,both iTrack tag and phone won\'t beep when disconnection to avoid constant alarm.</string>
     <string name="wifisameple">WIFI</string>
     <string name="gps_disable_hint">Location is disabled , iTrack can\'t save the location info</string>

@@ -111,7 +111,7 @@
                     android:textColor="@color/alert_text"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:text="@string/alert_level_tip"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/small_tip" />
 
                 <!-- 分割-->
                 <TextView

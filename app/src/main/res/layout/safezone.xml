@@ -142,7 +142,7 @@
         android:paddingLeft="25dp"
         android:text="@string/safezone_message"
         android:textColor="@color/alert_text"
-        android:textSize="@dimen/activity_horizontal_margin" />
+        android:textSize="@dimen/small_tip" />
 
 
 </LinearLayout>
