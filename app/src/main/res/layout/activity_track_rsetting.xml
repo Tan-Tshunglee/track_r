@@ -79,7 +79,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:background="@drawable/item_block_bkg"
-                    android:layout_height="wrap_content">
+                    android:layout_height="55sp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:background="@drawable/item_block_bkg"
-                    android:layout_height="wrap_content">
+                    android:layout_height="55sp">
 
                     <TextView
                         android:layout_width="wrap_content"
