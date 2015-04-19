@@ -28,12 +28,14 @@ import android.graphics.Matrix;
 import com.android.mod.Camera;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
+import com.antilost.app.common.ICsstSHConstant;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.CustomImageButton;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.util.HashMap;
 
@@ -218,17 +220,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
 
-        if(customIconUri != null) {
-            mTrackImage.setImageURI(customIconUri);
-        } else {
-            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-            if(track != null) {
-                mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-                mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            }
-        }
     }
 
 
@@ -264,8 +256,27 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     }
 
     private void updateStateUi() {
+
+        String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size) - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2;
+        if(customIconFilePath != null) {
+            mTrackImage.setImageURI(null);
+            Bitmap scaleBitmap = Utils.scaleBitmap(customIconFilePath,    viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH );
+            mTrackImage.setImageBitmap(scaleBitmap);
+        } else {
+            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+            if(track != null) {
+                Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
+                viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size) - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 4;
+                Bitmap sceledBitmap = Utils.scaleBitmap(source, viewWidth / source.getWidth());
+                mTrackImage.setImageBitmap(sceledBitmap);
+            }
+        }
+
+
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+            mTrackImage.setText("");
             mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {

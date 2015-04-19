@@ -47,6 +47,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     public static final String EXTRA_EDIT_NEW_TRACK = "bluetooth_edit_new";
 
     private static final String LOG_TAG = "TrackREditActivity";
+    private static final String TEMP_ICON_FOR_CROPPED_FILE = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";;
     private AlertDialog mImageSourceDialog;
     private String mBluetoothDeviceAddress;
     private EditText mTrackRName;
@@ -60,8 +61,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     private static final int GET_ICON_FROM_CROP = 0x01;
     private static final int GET_ICON_FROM_TAKE = 0x02;
     private static final int SCAN_UUID_REQUEST = 0x03;
-    private File                mDeviceIconTempFile = null;
-    private String              mLastUpdatedIconFileName  = null;
+    private File mTempFileForPhotoTaken = null;
 
     public static int[] TypeIds = {
             R.id.key,
@@ -171,7 +171,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mResource = getResources();
         mImageView = (ImageView) findViewById(R.id.centerLargeImage);
         mImageView.setImageResource(DrawableIds[mTrack.type]);
-        mDeviceIconTempFile = CsstSHImageData.deviceIconTempFile();
+        mTempFileForPhotoTaken = CsstSHImageData.deviceIconTempFile();
 
         Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
 
@@ -232,7 +232,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.takePhoto:
                 Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
-                CsstSHImageData.takePhoto(TrackREditActivity.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                CsstSHImageData.takePhoto(TrackREditActivity.this, mTempFileForPhotoTaken, GET_ICON_FROM_TAKE);
                 dismissImageSourceDialog();
                 break;
             case R.id.choosePicture:
@@ -263,9 +263,8 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 //after user take photo we let user to crop it
                 if (resultCode == RESULT_OK) {
                     //temp file name;
-                    String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-                    Uri savedCroppedFile = Uri.fromFile(new File(path));
-                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), savedCroppedFile, GET_ICON_FROM_CROP);
+                    Uri savedCroppedFile = Uri.fromFile(new File(TEMP_ICON_FOR_CROPPED_FILE));
+                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mTempFileForPhotoTaken), savedCroppedFile, GET_ICON_FROM_CROP);
                 } else {
                     Log.e(LOG_TAG, "take photo  result not ok");
                 }
@@ -273,23 +272,21 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
             case GET_ICON_FROM_CROP:
                 int orientation = -1;
-                if(mDeviceIconTempFile.exists()) {
-                    orientation = Utils.neededRotation(mDeviceIconTempFile.getAbsoluteFile());
-                   mDeviceIconTempFile.delete();
+                if(mTempFileForPhotoTaken.exists()) {
+                    orientation = Utils.neededRotation(mTempFileForPhotoTaken.getAbsoluteFile());
+                   mTempFileForPhotoTaken.delete();
                 }
                 if (resultCode == RESULT_OK) {
                     try {
                         Log.v(LOG_TAG, "user choose crop photo");
-                        String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-                        File croppedTargetFile = new File(path);
-                        File folder = ensureIconFolder();
-                        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
+                        File croppedTargetFile = new File(TEMP_ICON_FOR_CROPPED_FILE);
+
 
                         //check weather we should rotate  the cropped image
                         if ( orientation > 0){
                             Matrix m = new Matrix();
                             m.postRotate(orientation);
-                            Bitmap origin = BitmapFactory.decodeFile(path);
+                            Bitmap origin = BitmapFactory.decodeFile(TEMP_ICON_FOR_CROPPED_FILE);
                             Bitmap rotated = Bitmap.createBitmap(origin,
                                     0,
                                     0,
@@ -300,17 +297,19 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                             rotated.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(croppedTargetFile));
                         }
 
-                        if(trackIconFile.exists()) {
-                            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
-                            trackIconFile.delete();
-                        }
+//                        File folder = ensureIconFolder();
+//                        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
+//                        if(trackIconFile.exists()) {
+//                            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
+//                            trackIconFile.delete();
+//                        }
 
-
-                        if (!croppedTargetFile.renameTo(trackIconFile)) {
-                            Log.e(LOG_TAG, "Rename to address failed");
-                            return;
-                        }
-                        mImageView.setImageURI(Uri.fromFile(trackIconFile));
+//
+//                        if (!croppedTargetFile.renameTo(trackIconFile)) {
+//                            Log.e(LOG_TAG, "Rename to address failed");
+//                            return;
+//                        }
+                        mImageView.setImageURI(Uri.fromFile(croppedTargetFile));
                     } catch (Exception ex) {
                         System.out.println("The error is " + ex.toString());
                     }
@@ -321,8 +320,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case GET_ICON_FROM_ALBUM:
                 if (resultCode == RESULT_OK) {
                     Uri sourceImageUri = data.getData();
-                    String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-                    CsstSHImageData.cropDeviceIconPhoto(this, sourceImageUri, Uri.fromFile(new File(path)), GET_ICON_FROM_CROP);
+                    CsstSHImageData.cropDeviceIconPhoto(this, sourceImageUri, Uri.fromFile(new File(TEMP_ICON_FOR_CROPPED_FILE)), GET_ICON_FROM_CROP);
                 } else {
                     Log.e(LOG_TAG, "choose photo from album result not ok");
                 }
@@ -350,6 +348,18 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
         mPrefs.addTrackId(mBluetoothDeviceAddress);
         mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
+
+        File folder = ensureIconFolder();
+        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
+        if (trackIconFile.exists()) {
+            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
+            trackIconFile.delete();
+        }
+
+
+        if (new File(TEMP_ICON_FOR_CROPPED_FILE).renameTo(trackIconFile)) {
+            Log.e(LOG_TAG, "Rename to address failed");
+        }
 
         if(mBluetoothLeService != null) {
             if(mEditNewTrack) {

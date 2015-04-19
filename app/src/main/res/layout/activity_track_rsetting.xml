@@ -50,10 +50,9 @@
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_margin="@dimen/activity_horizontal_margin">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/icon"
                     android:src="@drawable/key_photo"
-                    android:padding="10dp"
                     android:layout_width="@dimen/track_r_setting_icon_size"
                     android:layout_height="@dimen/track_r_setting_icon_size" />
 

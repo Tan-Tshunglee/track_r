@@ -62,9 +62,9 @@
             android:layout_height="@dimen/track_r_photo_size"
             android:padding="18dp"
             android:layout_centerInParent="true"
+            android:scaleType="centerInside"
             android:layout_marginTop="@dimen/main_add_btn_margin_top"
             android:background="@android:color/transparent"
-            android:scaleType="fitXY"
             android:src="@drawable/key_photo"/>
 
         <TextView

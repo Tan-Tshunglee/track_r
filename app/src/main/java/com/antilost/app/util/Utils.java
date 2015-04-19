@@ -6,7 +6,11 @@ import android.bluetooth.BluetoothGattCallback;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -168,4 +172,12 @@ public class Utils {
     }
 
 
+    public static Bitmap scaleBitmap(String originFilePath, float scale) {
+        Bitmap origin = BitmapFactory.decodeFile(originFilePath);
+        return Bitmap.createScaledBitmap(origin, (int) (origin.getWidth() * scale), (int) (origin.getHeight() * scale), true);
+    }
+
+    public static Bitmap scaleBitmap(Bitmap origin, float scale) {
+        return Bitmap.createScaledBitmap(origin, (int) (origin.getWidth() * scale), (int) (origin.getHeight() * scale), true);
+    }
 }
