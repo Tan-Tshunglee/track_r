@@ -326,9 +326,25 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         ImageView iconTrack = (ImageView) window.findViewById(R.id.tipicon);
         final Button tipbtn_ok = (Button) window.findViewById(R.id.tipbtn_ok);
 
-        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+        String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
 
-        iconTrack.setImageURI(customIconUri);
+        if (customIconFilePath != null) {
+            iconTrack.setImageURI(null);
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 1.5f;
+            float scaled  =  viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH;
+            Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
+            iconTrack.setImageURI(customIconUri);
+        } else {
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2*8/10;
+
+            Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[mTrack.type]);
+            float scaled  =  (viewWidth / source.getWidth())*8/10;
+            iconTrack.setImageBitmap(Utils.scaleBitmap(source, scaled));
+        }
+
+
 
         if (mBluetoothLeService == null) {
             iconTrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
