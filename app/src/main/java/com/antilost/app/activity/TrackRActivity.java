@@ -283,7 +283,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackImage.setText(getResources().getString(R.string.iTrack_close_tip));
-                mTrackImage.setColor(getResources().getColor(R.color.alert_text));
+                mTrackImage.setColor(getResources().getColor(R.color.red));
                 mTrackImage.setTextSize(32f);
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
