@@ -51,6 +51,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     private BluetoothLeService mBluetoothLeService;
     private Boolean isconnected = false;
+    TrackR track = null;
+    Bitmap bmp=null;
     //Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -96,7 +98,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private View mDeclaredLost;
     private TextView mDeclaredLostText;
     private volatile Thread mBackgroundThread;
-    private Bitmap bmp;
+//    private Bitmap bmp;
     private float scaleWidth=1;
     private float scaleHeight=1;
 
@@ -197,14 +199,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
 
     /* 图片放大的method */
-    private Bitmap big() {
+    private Bitmap big( int type) {
         int bmpWidth = bmp.getWidth();
         int bmpHeight = bmp.getHeight();
+        double scale =0;
 
         Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
 
         /* 设置图片放大的比例 */
-        double scale = 1.3;
+        scale = 1.2;
+        if(TrackREditActivity.DrawableIds[type]==TrackREditActivity.DrawableIds[4]){
+             scale =1.15;
+        }
         /* 计算这次要放大的比例 */
         scaleWidth = (float) (scaleWidth * scale);
         scaleHeight = (float) (scaleHeight * scale);
@@ -218,15 +224,16 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     private void updateStateUi() {
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
-        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+        track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
         trackName.setText(track.name);
         if(customIconUri != null) {
             trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
         } else {
             trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            bmp =null;
             bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
-            trackImage.setImageBitmap(big());
+            trackImage.setImageBitmap(big(track.type));
         }
     if(mBluetoothLeService == null) {
             trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
@@ -338,18 +345,16 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         TextView title = (TextView) window.findViewById(R.id.title_tip);
         TextView text = (TextView) window.findViewById(R.id.text_tip);
         ImageView icontrack = (ImageView) window.findViewById(R.id.tipicon);
+
         String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
-        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-        trackName.setText(track.name);
+        bmp=null;
         if(customIconUri != null) {
             bmp=CsstSHImageData.toRoundCorner(customIconUri);
-            icontrack.setImageBitmap(big());
         } else {
-            icontrack.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            icontrack.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
-            icontrack.setImageBitmap(big());
         }
+        icontrack.setImageBitmap(big(track.type));
+
         if(mBluetoothLeService == null) {
             icontrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             Log.v(LOG_TAG, "mBluetoothLeService == null");
@@ -370,20 +375,20 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         switch (view.getId()) {
             case R.id.turnOffTrackR:
-                text.setText(getResources().getString(R.string.notice_close_loser_tip));
+                text.setText(getResources().getString(R.string.notice_close_loser_tip_1)+track.name+getResources().getString(R.string.notice_close_loser_tip_2));
                 title.setText(getResources().getString(R.string.turn_off_track_r));
                 break;
             case R.id.unbindTrackR:
                 title.setText(getResources().getString(R.string.unbind_track_r));
                 if(isconnected){
-                    text.setText(getResources().getString(R.string.notice_delete_loser_tip));
+                    text.setText(getResources().getString(R.string.notice_delete_loser_tip_1)+track.name+getResources().getString(R.string.notice_delete_loser_tip_2));
                 }else{
                     text.setText(getResources().getString(R.string.unbined_tip_disconnected));
                 }
 
                 break;
             case R.id.declared_lost:
-                text.setText(getResources().getString(R.string.notice_declare_loser_tip));
+                text.setText(getResources().getString(R.string.notice_declare_loser_tip_1)+track.name+getResources().getString(R.string.notice_declare_loser_tip_2));
                 title.setText(getResources().getString(R.string.declare_lost));
                 break;
         }

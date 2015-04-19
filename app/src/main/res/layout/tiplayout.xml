@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/purple_btn_bkg"
+    android:background="@drawable/itembgd_white_tip"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:orientation="vertical">
@@ -14,22 +14,22 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:gravity="center"
-        android:text="@string/phone_alart_tip"
-        android:textColor="@android:color/white"
+        android:text="@string/declare_lost"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/titile"
         android:paddingRight="20sp"
         android:paddingLeft="20sp"
-        android:paddingTop="20sp"
+        android:paddingTop="1sp"
         android:paddingBottom="5sp"
         />
     <!-- 分隔线 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/white" />
+        android:background="@color/black" />
 
     <ImageView
-        android:padding="10dp"
+        android:padding="20dp"
         android:id="@+id/tipicon"
         android:src="@drawable/key_photo"
         android:layout_gravity="center"
@@ -42,8 +42,8 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="@string/phone_alart_tip"
-        android:textColor="@android:color/white"
+        android:text="@string/notice_delete_loser_tip_1"
+        android:textColor="@android:color/black"
         android:paddingBottom="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/cancel"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:background="@drawable/search_failed_bkg" />
 
         <!-- 取消按钮 -->
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/ok"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:background="@drawable/tipbutton" />
     </RelativeLayout>
 </LinearLayout>
