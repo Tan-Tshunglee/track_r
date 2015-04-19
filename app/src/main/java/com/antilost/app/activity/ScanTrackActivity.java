@@ -99,10 +99,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             }
 
                             if (!mTrackIds.contains(deviceAddress)) {
-                                Log.v(LOG_TAG, "find a new track device.");
+                                Log.v(LOG_TAG, "find a new mTrack device.");
                                 tryConnectBluetoothGatt(deviceAddress);
                             } else {
-                                //find a diconnected or closed track;
+                                //find a diconnected or closed mTrack;
                                 Log.v(LOG_TAG, "found bluetooth device address + " + deviceAddress);
 //                            startService(new Intent(ScanTrackActivity.this, MonitorService.class));
                                 if (mPrefsManager.isClosedTrack(deviceAddress)) {

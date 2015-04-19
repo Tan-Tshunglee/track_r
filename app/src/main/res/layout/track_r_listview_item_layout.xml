@@ -66,10 +66,9 @@
         android:src="@drawable/other"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="5dp"
         android:focusable="false"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@drawable/large_circle_btn_bkg" />
+        android:background="@drawable/closed_icon_bkg" />
 
     <View
         android:id="@+id/bottomDivider"

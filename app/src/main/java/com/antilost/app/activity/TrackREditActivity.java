@@ -301,7 +301,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         }
 
                         if(trackIconFile.exists()) {
-                            Log.v(LOG_TAG, "track icon file exist delete it.");
+                            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
                             trackIconFile.delete();
                         }
 
@@ -365,7 +365,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 }
             }
         } else {
-            Log.e(LOG_TAG, "can not add track to bluetoothLe Service, cause mBluetoothLeService is null");
+            Log.e(LOG_TAG, "can not add mTrack to bluetoothLe Service, cause mBluetoothLeService is null");
         }
 
         Thread t = new Thread() {
@@ -379,14 +379,14 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 bindcommand.execTask();
                 boolean bindOk = bindcommand.success();
                 if(bindOk) {
-                    Log.i(LOG_TAG, "Bind track ok.");
+                    Log.i(LOG_TAG, "Bind mTrack ok.");
                     startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
                     UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                     uploadImageCommand.execTask();
                     if(uploadImageCommand.success()) {
-                        Log.v(LOG_TAG, "upload track photo to server success.");
+                        Log.v(LOG_TAG, "upload mTrack photo to server success.");
                     } else {
-                        Log.e(LOG_TAG, "upload track photo to server failed.");
+                        Log.e(LOG_TAG, "upload mTrack photo to server failed.");
                     }
                 } else {
                     Log.e(LOG_TAG, "Bind iRrack on Server Error.");

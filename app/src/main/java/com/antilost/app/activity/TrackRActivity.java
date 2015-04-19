@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -217,43 +218,19 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 
-        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
 
         if(customIconUri != null) {
-            mTrackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
-
-
-//            mTrackImage.setImageURI(customIconUri);
-        }else {
+            mTrackImage.setImageURI(customIconUri);
+        } else {
             TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
             if(track != null) {
                 mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
                 mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                bmp =BitmapFactory.decodeResource(getResources(),TrackREditActivity.DrawableIds[track.type]);
-                mTrackImage.setImageBitmap(big());
             }
         }
     }
 
-    /* 图片放大的method */
-    private Bitmap big() {
-        int bmpWidth=bmp.getWidth();
-        int bmpHeight=bmp.getHeight();
-
-        Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
-
-		/* 设置图片放大的比例 */
-        double scale=3;
-		/* 计算这次要放大的比例 */
-        scaleWidth=(float)(scaleWidth*scale);
-        scaleHeight=(float)(scaleHeight*scale);
-		/* 产生reSize后的Bitmap对象 */
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizeBmp = Bitmap.createBitmap(bmp,0,0,bmpWidth,
-                bmpHeight,matrix,true);
-        return  resizeBmp;
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -264,6 +241,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             return;
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -422,9 +400,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     Log.d(LOG_TAG, "make trackr ring.");
                     if(makeTrackRRing()) {
                         //showTrackRinging();
-                        Log.i(LOG_TAG, "Write track ring command ok");
+                        Log.i(LOG_TAG, "Write mTrack ring command ok");
                     } else {
-                        Log.e(LOG_TAG, "Write track ring command failed...");
+                        Log.e(LOG_TAG, "Write mTrack ring command failed...");
                     };
                 }
                 break;
@@ -486,13 +464,13 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         anim.start();
         mRingStateMap.put(mBluetoothDeviceAddress, true);
         mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
-        Log.d(LOG_TAG, "ring command write done, show track ringing.");
+        Log.d(LOG_TAG, "ring command write done, show mTrack ringing.");
     }
 
     private void showTrackRingStop() {
         mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
         mRingStateMap.put(mBluetoothDeviceAddress, false);
-        Log.d(LOG_TAG, "silent command write done, show track ring stop.");
+        Log.d(LOG_TAG, "silent command write done, show mTrack ring stop.");
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -101,11 +100,8 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         Uri customIconUri = CsstSHImageData.getIconImageUri(address);
 
         if(customIconUri != null) {
-//            icon.setImageURI(customIconUri);
-//            icon.setScaleType(ImageView.ScaleType.FIT_XY);
-            Log.d(LOG_TAG,"customIconUri != null");
-
-            icon.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(address)));
+            Log.d(LOG_TAG,"user custom track icon");
+            icon.setImageURI(customIconUri);
             icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         } else {
             icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
