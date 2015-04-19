@@ -3,12 +3,16 @@ app/app-release.apk
 app/manifest-merger-release-report.txt
 local.properties
 
+.gradle
+.idea/workspace.xml
+.idea/libraries
+.DS_Store
+captures
+
+
 # Built application files
 *.apk
 *.ap_
-
-#boring .gradle\2.2.1\taskArtifacts 
-.gradle
 
 # Files for the Dalvik VM
 *.dex
