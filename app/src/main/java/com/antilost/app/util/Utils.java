@@ -6,9 +6,13 @@ import android.bluetooth.BluetoothGattCallback;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.text.TextUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -24,26 +28,27 @@ import java.util.Locale;
 public class Utils {
 
     public static final String DEVICE_NAME = "TrackR";
+
     public static final boolean isValidMacAddress(String mac) {
-        if(TextUtils.isEmpty(mac)) {
+        if (TextUtils.isEmpty(mac)) {
             return false;
         }
 
-        if(mac.length() != 17) {
+        if (mac.length() != 17) {
             return false;
         }
 
-        if(!mac.contains(":")) {
+        if (!mac.contains(":")) {
             return false;
         }
 
         String[] addressBits = mac.split(":");
-        if(addressBits.length != 6) {
+        if (addressBits.length != 6) {
             return false;
         }
 
         boolean valid = true;
-        for(String bit: addressBits) {
+        for (String bit : addressBits) {
             try {
                 Integer.parseInt(bit, 16);
             } catch (NumberFormatException e) {
@@ -86,7 +91,7 @@ public class Utils {
 
     public static final String convertTimeStampToLiteral(long timeStamp) {
 
-        if(timeStamp  == -1) {
+        if (timeStamp == -1) {
             return null;
         }
         Date date = new Date(timeStamp);
@@ -96,7 +101,7 @@ public class Utils {
     public static final long convertTimeStrToLongTime(String dateStr) {
 
         try {
-            return  DATE_FORMAT.parse(dateStr).getTime();
+            return DATE_FORMAT.parse(dateStr).getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -106,7 +111,7 @@ public class Utils {
     public static final BluetoothGatt connectBluetoothGatt(BluetoothDevice device,
                                                            Context ctx,
                                                            BluetoothGattCallback callback) {
-        if(isLollipop()) {
+        if (isLollipop()) {
             // Little hack with reflect to use the connect gatt with defined transport in Lollipop
             Method connectGattMethod = null;
 
@@ -131,8 +136,36 @@ public class Utils {
         }
     }
 
-    public static boolean  isLollipop() {
-        return Build.VERSION.SDK_INT >= 20 ;
+    public static boolean isLollipop() {
+        return Build.VERSION.SDK_INT >= 20;
     }
+
+
+    public static int neededRotation(File imageFile) {
+        try {
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                return 270;
+            }
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                return 180;
+            }
+            if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                return 90;
+            }
+            return 0;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
 }

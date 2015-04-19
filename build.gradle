@@ -11,10 +11,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        //add android-cropimage support
-        mavenCentral()
-        maven {
-            url 'http://lorenzo.villani.me/android-cropimage/'
-        }
+//        //add android-cropimage support
+//        mavenCentral()
+//        maven {
+//            url 'http://lorenzo.villani.me/android-cropimage/'
+//        }
     }
 }

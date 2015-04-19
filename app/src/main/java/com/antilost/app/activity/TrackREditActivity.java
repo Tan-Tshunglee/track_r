@@ -10,6 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -28,6 +31,7 @@ import com.antilost.app.network.UpdateTrackImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
+import com.antilost.app.util.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -256,9 +260,10 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
+                //after user take photo we let user to crop it
                 if (resultCode == RESULT_OK) {
+                    //temp file name;
                     String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-
                     Uri savedCroppedFile = Uri.fromFile(new File(path));
                     CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), savedCroppedFile, GET_ICON_FROM_CROP);
                 } else {
@@ -267,21 +272,47 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
 
             case GET_ICON_FROM_CROP:
-                if (resultCode == RESULT_OK){
-                    try{
+                int orientation = -1;
+                if(mDeviceIconTempFile.exists()) {
+                    orientation = Utils.neededRotation(mDeviceIconTempFile.getAbsoluteFile());
+                   mDeviceIconTempFile.delete();
+                }
+                if (resultCode == RESULT_OK) {
+                    try {
                         Log.v(LOG_TAG, "user choose crop photo");
                         String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-                        File pngFile = new File(path);
-
+                        File croppedTargetFile = new File(path);
                         File folder = ensureIconFolder();
                         File trackIconFile = new File(folder, mBluetoothDeviceAddress);
-                        if(!pngFile.renameTo(trackIconFile)) {
+
+                        //check weather we should rotate  the cropped image
+                        if ( orientation > 0){
+                            Matrix m = new Matrix();
+                            m.postRotate(orientation);
+                            Bitmap origin = BitmapFactory.decodeFile(path);
+                            Bitmap rotated = Bitmap.createBitmap(origin,
+                                    0,
+                                    0,
+                                    origin.getWidth(),
+                                    origin.getHeight(),
+                                    m,
+                                    true);
+                            rotated.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(croppedTargetFile));
+                        }
+
+                        if(trackIconFile.exists()) {
+                            Log.v(LOG_TAG, "track icon file exist delete it.");
+                            trackIconFile.delete();
+                        }
+
+
+                        if (!croppedTargetFile.renameTo(trackIconFile)) {
                             Log.e(LOG_TAG, "Rename to address failed");
                             return;
                         }
                         mImageView.setImageURI(Uri.fromFile(trackIconFile));
-                    }catch(Exception ex ){
-                        System.out.println("The error is "+ex.toString());
+                    } catch (Exception ex) {
+                        System.out.println("The error is " + ex.toString());
                     }
 
                 }
