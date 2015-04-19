@@ -330,17 +330,16 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         if (customIconFilePath != null) {
             iconTrack.setImageURI(null);
-            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
-                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 1.5f;
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2;
             float scaled  =  viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH;
-            Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
-            iconTrack.setImageURI(customIconUri);
+            iconTrack.setImageBitmap(Utils.scaleBitmap(customIconFilePath, scaled));
         } else {
-            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
-                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2*8/10;
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 4;
 
             Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[mTrack.type]);
-            float scaled  =  (viewWidth / source.getWidth())*8/10;
+            float scaled  =  (viewWidth / source.getWidth())  ;
             iconTrack.setImageBitmap(Utils.scaleBitmap(source, scaled));
         }
 

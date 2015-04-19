@@ -28,7 +28,7 @@
         android:layout_height="2dp"
         android:background="@color/black" />
 
-    <ImageView
+    <ImageButton
         android:padding="20dp"
         android:id="@+id/tipicon"
         android:src="@drawable/key_photo"
