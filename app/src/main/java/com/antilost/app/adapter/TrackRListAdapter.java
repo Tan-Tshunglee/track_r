@@ -95,7 +95,6 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         }
 
 
-
         icon.setTag(position);
         Uri customIconUri = CsstSHImageData.getIconImageUri(address);
 
