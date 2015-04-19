@@ -64,6 +64,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private Bitmap bmp;
     private float scaleWidth=1;
     private float scaleHeight=1;
+    private  TextView titleText = null;
 
 
     //ring state of every trackr;
@@ -214,6 +215,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mDistanceImage = (ImageView) findViewById(R.id.distanceLevel);
         mTrackRIcon = (ImageView) findViewById(R.id.trackIcon);
         mBatteryLeve = (ImageView) findViewById(R.id.batteryStatus);
+        titleText =(TextView) findViewById(R.id.titleText);
 
         mRingButton = (Button) findViewById(R.id.ring);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -349,6 +351,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             mSleepTime.setText(R.string.sleep_mode_off);
         }
+        titleText.setText(mPrefsManager.getTrack(mBluetoothDeviceAddress).name);
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {
