@@ -127,7 +127,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
                             finish();
                         } else if(command.resultError()) {
                             Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
