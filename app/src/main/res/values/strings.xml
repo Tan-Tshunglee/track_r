@@ -230,8 +230,9 @@
     <string name="notice_declare_loser_tip_2">\" &#160;as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
     <string name="no_location_provider_available">No Location Provider Available, iTrack Can not Record Lost Location.</string>
     <string name="sihnout_tip_title">Sign Out</string>
-    <string name="sihnout_tip">All iTrack stickers will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
+    <string name="sihnout_tip">All iTracks will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
         Are you sure to log out?</string>
 
-    <string name="unbined_tip_disconnected">Please don\'t delete this disconnected iTrack,otherwise you cannot reconnect it again.</string>
+    <string name="unbined_tip_disconnected_tip1">Once you delete the  &#160;\"</string>
+    <string name="unbined_tip_disconnected_tip2">\", &#160;you cannot reconnect it forever.Please consider it for 10 seconds before you confirm to delete.</string>
 </resources>

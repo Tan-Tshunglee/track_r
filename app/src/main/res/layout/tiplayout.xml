@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:text="@string/notice_delete_loser_tip_1"
         android:textColor="@android:color/black"
+        android:paddingTop="20dp"
         android:paddingBottom="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -53,6 +54,7 @@
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

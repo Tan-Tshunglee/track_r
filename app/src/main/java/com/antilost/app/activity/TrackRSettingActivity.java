@@ -208,6 +208,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
         /* 设置图片放大的比例 */
         scale = 1.2;
+        //是宠物的时候放大比例减小
         if(TrackREditActivity.DrawableIds[type]==TrackREditActivity.DrawableIds[4]){
              scale =1.15;
         }
@@ -339,8 +340,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         final AlertDialog dlg = new AlertDialog.Builder(this).create();
         dlg.show();
         Window window = dlg.getWindow();
-        //解绑计数可以强制解绑
-        final int[] delNumber = {7};
         // *** 主要就是在这里实现这种效果的.
         // 设置窗口的内容页面,shrew_exit_dialog.xml文件中定义view内容
         window.setContentView(R.layout.tiplayout);
@@ -386,8 +385,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 if(isconnected){
                     text.setText(getResources().getString(R.string.notice_delete_loser_tip_1)+track.name+getResources().getString(R.string.notice_delete_loser_tip_2));
                 }else{
-                    tipbtn_ok.setText(getResources().getString(R.string.ok)+"("+ delNumber[0] +")");
-                    text.setText(getResources().getString(R.string.unbined_tip_disconnected));
+                    text.setText(getResources().getString(R.string.unbined_tip_disconnected_tip1)+track.name+getResources().getString(R.string.unbined_tip_disconnected_tip2));
                 }
 
                 break;
@@ -404,7 +402,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                         dlg.cancel();
                         break;
                     case R.id.unbindTrackR:
-                        if(isconnected){
                             mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
                             toast(getString(R.string.unbind_successfully));
                             mBackgroundThread = new Thread() {
@@ -417,24 +414,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                             };
                             mBackgroundThread.start();
                             dlg.cancel();
-                        }else{
-                            tipbtn_ok.setText(getResources().getString(R.string.ok)+"("+ --delNumber[0] +")");
-                            if(delNumber[0]==0){
-                                Log.d(LOG_TAG," forth delete iTrack !");
-                                mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
-                                toast(getString(R.string.unbind_successfully));
-                                mBackgroundThread = new Thread() {
-                                    @Override
-                                    public void run() {
-                                        UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
-                                        command.execTask();
-                                        mBackgroundThread = null;
-                                    }
-                                };
-                                mBackgroundThread.start();
-                            }
-
-                        }
 
                         break;
                     case R.id.declared_lost:
