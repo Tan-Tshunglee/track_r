@@ -17,7 +17,10 @@
         android:text="@string/phone_alart_tip"
         android:textColor="@android:color/white"
         android:textSize="@dimen/titile"
-        android:padding="20sp"
+        android:paddingRight="20sp"
+        android:paddingLeft="20sp"
+        android:paddingTop="20sp"
+        android:paddingBottom="5sp"
         />
     <!-- 分隔线 -->
     <View
@@ -44,7 +47,7 @@
         android:paddingBottom="15dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:textSize="20sp"
+        android:textSize="@dimen/activity_horizontal_margin"
         />
     <!-- 确认按钮 -->
     <RelativeLayout
