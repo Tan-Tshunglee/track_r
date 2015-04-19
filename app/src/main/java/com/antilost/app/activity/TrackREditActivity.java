@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -229,7 +228,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.takePhoto:
                 Toast.makeText(this, R.string.take_photo, Toast.LENGTH_LONG).show();
-                CsstSHImageData.tackPhoto(TrackREditActivity.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                CsstSHImageData.takePhoto(TrackREditActivity.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                 dismissImageSourceDialog();
                 break;
             case R.id.choosePicture:

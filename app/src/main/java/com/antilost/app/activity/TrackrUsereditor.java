@@ -268,7 +268,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                     Dailog(v);
                     break;
                 case R.id.takePhoto:
-                    CsstSHImageData.tackPhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                    CsstSHImageData.takePhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                     dismissImageSourceDialog();
                     break;
                 case R.id.choosePicture:

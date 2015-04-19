@@ -187,7 +187,7 @@ public final class CsstSHImageData {
      * @param file        拍照保持文件路径
      * @param requestCode 请求骂
      */
-    public static final void tackPhoto(Activity context, File file, int requestCode) {
+    public static final void takePhoto(Activity context, File file, int requestCode) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         context.startActivityForResult(intent, requestCode);
