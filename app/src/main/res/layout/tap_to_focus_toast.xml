@@ -16,7 +16,7 @@
 ** limitations under the License.
 */
 -->
-<com.android.camera.ui.RotateLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.RotateLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tap_to_focus_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,4 +32,4 @@
             android:paddingBottom="5dp"
             android:textAppearance="?android:textAppearanceMedium"
             android:background="@color/on_viewfinder_label_background_color" />
-</com.android.camera.ui.RotateLayout>
+</com.android.mod.ui.RotateLayout>

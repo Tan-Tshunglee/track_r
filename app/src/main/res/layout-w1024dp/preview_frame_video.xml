@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-    <com.android.camera.PreviewFrameLayout android:id="@+id/frame"
+    <com.android.mod.PreviewFrameLayout
+        android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -27,16 +28,17 @@
         <SurfaceView android:id="@+id/camera_preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        <com.android.camera.ui.RotateLayout android:id="@+id/recording_time_rect"
+        <com.android.mod.ui.RotateLayout
+            android:id="@+id/recording_time_rect"
                 style="@style/ViewfinderLableLayout">
             <include layout="@layout/viewfinder_labels_video" android:id="@+id/labels_w1024" />
-        </com.android.camera.ui.RotateLayout>
+        </com.android.mod.ui.RotateLayout>
         <ImageView android:id="@+id/review_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 android:background="@android:color/black"/>
-        <com.android.camera.ui.RotateImageView
+        <com.android.mod.ui.RotateImageView
                 android:id="@+id/btn_play"
                 style="@style/ReviewControlIcon"
                 android:layout_centerInParent="true"
@@ -44,5 +46,5 @@
                 android:background="@drawable/bg_pressed"
                 android:visibility="gone"
                 android:onClick="onReviewPlayClicked" />
-    </com.android.camera.PreviewFrameLayout>
+    </com.android.mod.PreviewFrameLayout>
 </RelativeLayout>

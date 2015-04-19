@@ -257,8 +257,11 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
-                if (RESULT_OK == resultCode){
-                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
+                if (RESULT_OK == resultCode) {
+                    String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
+
+                    Uri savedCroppedFile = Uri.fromFile(new File(path));
+                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), savedCroppedFile, GET_ICON_FROM_CROP);
                 } else {
                     Log.e(LOG_TAG, "take photo  result not ok");
                 }
@@ -267,30 +270,32 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case GET_ICON_FROM_CROP:
                 if (null != data){
                     try{
-                        Bundle extras = data.getExtras();
-                        Bitmap source = extras.getParcelable("data");
+//                        Bundle extras = data.getExtras();
+//                        Bitmap source = extras.getParcelable("data");
+//                        String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
+//                        source = CsstSHImageData.zoomBitmap(source, path);
                         String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-                        source = CsstSHImageData.zoomBitmap(source, path);
                         File pngFile = new File(path);
 
                         File folder = ensureIconFolder();
                         if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
                             Log.e(LOG_TAG, "Rename to address failed");
                             return;
-                        };
-//                        mImageView.setImageBitmap(source);
-                        mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(source));
+                        }
+//                      mImageView.setImageBitmap(source);
+                        mImageView.setImageURI(Uri.fromFile(pngFile));
                     }catch(Exception ex ){
-                        System.out.println("the error is "+ex.toString());
+                        System.out.println("The error is "+ex.toString());
                     }
 
                 }
                 break;
 
             case GET_ICON_FROM_ALBUM:
-                if (resultCode == RESULT_OK){
-                    Uri uri = data.getData();
-                    CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
+                if (resultCode == RESULT_OK) {
+                    Uri sourceImageUri = data.getData();
+                    String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
+                    CsstSHImageData.cropDeviceIconPhoto(this, sourceImageUri, Uri.fromFile(new File(path)), GET_ICON_FROM_CROP);
                 } else {
                     Log.e(LOG_TAG, "choose photo from album result not ok");
                 }

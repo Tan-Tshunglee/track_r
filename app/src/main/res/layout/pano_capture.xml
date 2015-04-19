@@ -52,7 +52,7 @@
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pano_mosaic_surface_height">
-                <com.android.camera.panorama.MosaicRendererSurfaceView
+                <com.android.mod.panorama.MosaicRendererSurfaceView
                         android:id="@+id/pano_renderer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />

@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.graphics.Matrix;
 
-import com.android.camera.Camera;
+import com.android.mod.Camera;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
 import com.antilost.app.model.TrackR;

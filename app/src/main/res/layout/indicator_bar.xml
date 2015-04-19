@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.android.camera.ui.IndicatorControlBarContainer xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.IndicatorControlBarContainer xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/indicator_control"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -25,27 +25,27 @@
             android:layout_toRightOf="@+id/zoom_index_bar"
             android:layout_width="@dimen/indicator_bar_width"
             android:layout_height="match_parent">
-        <com.android.camera.ui.IndicatorControlBar
+        <com.android.mod.ui.IndicatorControlBar
                 android:id="@+id/indicator_bar"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true">
-            <com.android.camera.ui.ZoomControlBar
+            <com.android.mod.ui.ZoomControlBar
                     android:id="@+id/zoom_control"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
-            <com.android.camera.ui.RotateImageView
+            <com.android.mod.ui.RotateImageView
                     android:id="@+id/second_level_indicator_bar_icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:contentDescription="@string/accessibility_second_level_indicators"
                     android:src="@drawable/ic_settings_holo_light" />
-        </com.android.camera.ui.IndicatorControlBar>
+        </com.android.mod.ui.IndicatorControlBar>
 
-        <com.android.camera.ui.SecondLevelIndicatorControlBar
+        <com.android.mod.ui.SecondLevelIndicatorControlBar
                 android:id="@+id/second_level_indicator_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -64,13 +64,13 @@
                     android:layout_height="0dp"
                     android:background="@color/mode_selection_border"
                     android:visibility="gone" />
-            <com.android.camera.ui.ColorFilterImageView
+            <com.android.mod.ui.ColorFilterImageView
                     android:id="@+id/back_to_first_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/accessibility_back_to_first_level"
                     android:src="@drawable/btn_close_settings" />
-        </com.android.camera.ui.SecondLevelIndicatorControlBar>
+        </com.android.mod.ui.SecondLevelIndicatorControlBar>
 
     </RelativeLayout>
-</com.android.camera.ui.IndicatorControlBarContainer>
+</com.android.mod.ui.IndicatorControlBarContainer>

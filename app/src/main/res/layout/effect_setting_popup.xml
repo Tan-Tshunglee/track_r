@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.android.camera.ui.EffectSettingPopup xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.EffectSettingPopup xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/SettingPopupWindow">
 
     <LinearLayout android:orientation="vertical"
@@ -48,7 +48,8 @@
                         android:text="@string/effect_silly_faces"
                         android:visibility="gone"
                         style="@style/EffectSettingTypeTitle"/>
-                <com.android.camera.ui.ExpandedGridView android:id="@+id/effect_silly_faces"
+                <com.android.mod.ui.ExpandedGridView
+                    android:id="@+id/effect_silly_faces"
                         style="@style/EffectSettingGrid"/>
                 <View android:id="@+id/effect_background_separator"
                         android:visibility="gone"
@@ -57,10 +58,11 @@
                         android:text="@string/effect_background"
                         android:visibility="gone"
                         style="@style/EffectSettingTypeTitle"/>
-                <com.android.camera.ui.ExpandedGridView android:id="@+id/effect_background"
+                <com.android.mod.ui.ExpandedGridView
+                    android:id="@+id/effect_background"
                         android:visibility="gone"
                         style="@style/EffectSettingGrid"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-</com.android.camera.ui.EffectSettingPopup>
+</com.android.mod.ui.EffectSettingPopup>

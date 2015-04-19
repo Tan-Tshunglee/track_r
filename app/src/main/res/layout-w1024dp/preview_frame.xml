@@ -18,19 +18,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-    <com.android.camera.PreviewFrameLayout android:id="@+id/frame"
+    <com.android.mod.PreviewFrameLayout
+        android:id="@+id/frame"
             android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <SurfaceView android:id="@+id/camera_preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        <com.android.camera.ui.FaceView android:id="@+id/face_view"
+        <com.android.mod.ui.FaceView
+            android:id="@+id/face_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"/>
         <include layout="@layout/focus_indicator"/>
         <include layout="@layout/priority_indicators"/>
         <include layout="@layout/tap_to_focus_toast"/>
-    </com.android.camera.PreviewFrameLayout>
+    </com.android.mod.PreviewFrameLayout>
 </RelativeLayout>

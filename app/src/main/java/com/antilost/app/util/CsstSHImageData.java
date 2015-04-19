@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.android.camera.CropImageIntentBuilder;
 import com.antilost.app.common.ICsstSHConstant;
 
 import java.io.File;
@@ -196,22 +197,36 @@ public final class CsstSHImageData {
      * 剪切设备封面图片
      *
      * @param context     上下文
-     * @param uri         剪切图片源文件路径
+     * @param sourceImageUri   剪切图片源文件Uri
+     * @param savedImageUri 保存剪切处理之后图片文件的Uri
      * @param requestCode 请求code
      */
-    public static final void cropDeviceIconPhoto(Activity context, Uri uri, int requestCode) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", ICsstSHConstant.DEVICE_ICON_WIDTH);
-        intent.putExtra("outputY", ICsstSHConstant.DEVICE_ICON_HEIGHT);
-        intent.putExtra("return-data", true);
-        context.startActivityForResult(intent, requestCode);
+    public static final void cropDeviceIconPhoto(Activity context, Uri sourceImageUri, Uri savedImageUri, int requestCode) {
+//        Intent intent = new Intent("com.android.camera.action.CROP");
+//        intent.setDataAndType(uri, "image/*");
+//        // 设置裁剪
+//        intent.putExtra("crop", "true");
+//        // aspectX aspectY 是宽高的比例
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+//        // outputX outputY 是裁剪图片宽高
+//        intent.putExtra("outputX", ICsstSHConstant.DEVICE_ICON_WIDTH);
+//        intent.putExtra("outputY", ICsstSHConstant.DEVICE_ICON_HEIGHT);
+//        intent.putExtra("return-data", true);
+//        context.startActivityForResult(intent, requestCode);
+
+        CropImageIntentBuilder cropImageIntentBuilder =
+                new CropImageIntentBuilder(
+                        1,//Horizontal aspect ratio.
+                        1,//Vertical  aspect ratio.
+                        ICsstSHConstant.DEVICE_ICON_WIDTH,//Output vertical size in pixels.
+                        ICsstSHConstant.DEVICE_ICON_HEIGHT,//Output horizontal size in pixels.
+                        savedImageUri//
+                );
+        cropImageIntentBuilder.setOutlineColor(0xFF03A9F4);
+        cropImageIntentBuilder.setSourceImage(sourceImageUri);
+        cropImageIntentBuilder.setCircleCrop(true);
+        context.startActivityForResult(cropImageIntentBuilder.getIntent(context), requestCode);
     }
 
 

@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.camera.Util;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;

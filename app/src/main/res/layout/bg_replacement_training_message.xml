@@ -21,7 +21,7 @@
         android:visibility="gone"
         android:onClick="onProtectiveCurtainClick"
         android:background="#77000000">
-    <com.android.camera.ui.RotateLayout
+    <com.android.mod.ui.RotateLayout
             android:id="@+id/bg_replace_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,5 +52,5 @@
                     android:text="@android:string/cancel"
                     android:onClick="onCancelBgTraining"/>
         </LinearLayout>
-    </com.android.camera.ui.RotateLayout>
+    </com.android.mod.ui.RotateLayout>
 </RelativeLayout>
