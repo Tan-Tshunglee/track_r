@@ -299,6 +299,13 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                                     true);
                             rotated.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(croppedTargetFile));
                         }
+
+                        if(trackIconFile.exists()) {
+                            Log.v(LOG_TAG, "track icon file exist delete it.");
+                            trackIconFile.delete();
+                        }
+
+
                         if (!croppedTargetFile.renameTo(trackIconFile)) {
                             Log.e(LOG_TAG, "Rename to address failed");
                             return;
