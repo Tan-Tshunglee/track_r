@@ -102,7 +102,7 @@ public class MenuHelper {
             String className) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-        intent.setClassName(activity.getPackageName(), className);
+        intent.setClassName(activity.getPackageName(), MenuHelper.class.getPackage().getName()+ "." + className);
 
         // Keep the camera instance for a while.
         // This avoids re-opening the camera and saves time.

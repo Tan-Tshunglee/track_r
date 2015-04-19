@@ -309,8 +309,11 @@
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:label="@string/title_activity_found_by_others" >
-
         </activity>
+        
+        <activity
+            android:name="com.android.camera.CropImage"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"/>
 
 
     </application>

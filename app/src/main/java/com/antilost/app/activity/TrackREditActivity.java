@@ -257,7 +257,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
-                if (RESULT_OK == resultCode) {
+                if (resultCode == RESULT_OK) {
                     String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
 
                     Uri savedCroppedFile = Uri.fromFile(new File(path));
@@ -268,22 +268,19 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 break;
 
             case GET_ICON_FROM_CROP:
-                if (null != data){
+                if (resultCode == RESULT_OK){
                     try{
-//                        Bundle extras = data.getExtras();
-//                        Bitmap source = extras.getParcelable("data");
-//                        String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
-//                        source = CsstSHImageData.zoomBitmap(source, path);
+                        Log.v(LOG_TAG, "user choose crop photo");
                         String path = CsstSHImageData.TRACKR_IMAGE_FOLDER + File.separator + "temp_trackr_image.tmp";
                         File pngFile = new File(path);
 
                         File folder = ensureIconFolder();
-                        if(!pngFile.renameTo(new File(folder, mBluetoothDeviceAddress))) {
+                        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
+                        if(!pngFile.renameTo(trackIconFile)) {
                             Log.e(LOG_TAG, "Rename to address failed");
                             return;
                         }
-//                      mImageView.setImageBitmap(source);
-                        mImageView.setImageURI(Uri.fromFile(pngFile));
+                        mImageView.setImageURI(Uri.fromFile(trackIconFile));
                     }catch(Exception ex ){
                         System.out.println("The error is "+ex.toString());
                     }
