@@ -231,6 +231,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             } else {
                 if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     Log.v(LOG_TAG, "isGattConnected...");
+                    //            失联之后就去掉close botton
+                    btnCloseItrack.setVisibility(View.VISIBLE);
                     mIsConnected = true;
                     mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
                 } else {
