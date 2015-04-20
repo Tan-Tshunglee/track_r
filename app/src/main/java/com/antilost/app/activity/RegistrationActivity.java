@@ -98,7 +98,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-        mProgressDialog.setTitle(R.string.signing_in);//设置标题
+        mProgressDialog.setTitle(R.string.new_user_registration);//设置标题
         mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
         mProgressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
         mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {

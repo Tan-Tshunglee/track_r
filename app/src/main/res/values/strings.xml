@@ -130,7 +130,7 @@
     <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
-    <string name="registration_success">Registration Success,Please go to the email to activate </string>
+    <string name="registration_success">Registration Success, you should activate your account by click the link send your email box. </string>
     <string name="email_has_been_used">Email has been used.</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
