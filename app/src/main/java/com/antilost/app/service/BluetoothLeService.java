@@ -717,6 +717,7 @@ public class BluetoothLeService extends Service implements
         builder.setSmallIcon(R.drawable.ic_launcher);
 
 
+        builder.setDefaults(Notification.DEFAULT_ALL);
         // Creates an Intent for the Activity
         Intent notifyIntent =
                 new Intent(this, FoundByOthersActivity.class);
