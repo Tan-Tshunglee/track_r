@@ -128,7 +128,7 @@
         android:layout_below="@id/passwordConfirmInputLayout"
         android:layout_centerHorizontal="true"
         android:background="@drawable/purple_btn_bkg"
-        android:text="@string/sign_in"
+        android:text="@string/new_user_registration"
         android:layout_marginTop="@dimen/registration_btn_margin_top"
         android:layout_width="wrap_content"
         android:textColor="@android:color/white"
