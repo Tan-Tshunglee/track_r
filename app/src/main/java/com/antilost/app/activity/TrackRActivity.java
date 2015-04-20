@@ -158,18 +158,26 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
 
     private void updateIconPosition(int rssi) {
-        if(rssi > MAX_RSSI_LEVEL || rssi < MIN_RSSI_LEVEL) {
-            return;
+        if(rssi > MAX_RSSI_LEVEL ) {
+            rssi = MAX_RSSI_LEVEL;
+        }
+
+
+        if(rssi < MIN_RSSI_LEVEL) {
+            rssi = MIN_RSSI_LEVEL;
         }
 
         int to_min = rssi - MIN_RSSI_LEVEL;
+
         float percentage = to_min / (float) (MAX_RSSI_LEVEL - MIN_RSSI_LEVEL);
+
         int top = mDistanceImage.getTop();
         int bottom = mDistanceImage.getBottom();
 
         int marginTop = (int) ((bottom - top) * percentage);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTrackRIcon.getLayoutParams();
         params.topMargin = marginTop;
+        params.removeRule(RelativeLayout.CENTER_VERTICAL);
         mTrackRIcon.setLayoutParams(params);
 
         Log.v(LOG_TAG, percentage + " margin top " + marginTop);

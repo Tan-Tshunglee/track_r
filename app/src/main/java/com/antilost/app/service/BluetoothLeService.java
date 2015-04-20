@@ -98,7 +98,7 @@ public class BluetoothLeService extends Service implements
     public static final int ALARM_REPEAT_PERIOD = 2 * 60 * 1000;
 
     public static final int FAST_ALARM_REPEAT_PERIOD = 10 * 1000;
-    private static final int SCAN_PERIOD_OF_RSSI_READ = 30 * 1000;
+    private static final int SCAN_PERIOD_OF_RSSI_READ = 10 * 1000;
 
     public static final int LOCATION_UPDATE_PERIOD_IN_MS = 5 * 60 * 1000;
 
