@@ -3,6 +3,9 @@ app/app-release.apk
 app/manifest-merger-release-report.txt
 local.properties
 
+.idea/workspace.xml
+.idea/scopes/
+
 # Built application files
 *.apk
 *.ap_

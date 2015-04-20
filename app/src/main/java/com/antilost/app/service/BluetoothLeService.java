@@ -92,6 +92,7 @@ public class BluetoothLeService extends Service implements
     private static final int MSG_FAST_REPEAT_MODE_FLAG = 4;
     private static final int MSG_DISCOVER_BLE_SERVICES = 5;
     private static final int MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER = 6;
+    private static final int MSG_DELAY_CHECK_NEW_TRACK_CONNECTED = 7;
 
 
     public static final int ALARM_REPEAT_PERIOD = 2 * 60 * 1000;
@@ -393,7 +394,9 @@ public class BluetoothLeService extends Service implements
         mBluetoothCallbacks.put(address, null);
         BluetoothDevice device = gatt.getDevice();
         mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-        gatt.disconnect();
+        gatt.close();
+        Message msg = mHandler.obtainMessage(MSG_DELAY_CHECK_NEW_TRACK_CONNECTED, address);
+        mHandler.sendMessageDelayed(msg, 10 * 1000);
         tryConnectGatt(address, device);
     }
 
@@ -1036,6 +1039,21 @@ public class BluetoothLeService extends Service implements
                     case MSG_DISCOVER_BLE_SERVICES:
                         gatt = (BluetoothGatt) msg.obj;
                         gatt.discoverServices();
+                        break;
+
+                    case MSG_DELAY_CHECK_NEW_TRACK_CONNECTED:
+
+                        state = mGattConnectionStates.get(msg.obj);
+                        if(state == null || state != BluetoothProfile.STATE_CONNECTED) {
+                            Log.e(LOG_TAG, "reconnect new track in delay check");
+                            gatt = mBluetoothGatts.get(msg.obj);
+                            gatt.close();
+                            address = (String) msg.obj;
+                            if(address != null && mBluetoothAdapter != null) {
+                                tryConnectGatt(address, mBluetoothAdapter.getRemoteDevice(address));
+                            }
+
+                        }
                         break;
                 }
             }
