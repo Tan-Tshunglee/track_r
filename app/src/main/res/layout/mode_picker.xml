@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.android.camera.ModePicker xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ModePicker xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/mode_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,8 @@
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="match_parent">
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_0"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_0"
                     android:layout_width="32dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -45,14 +46,16 @@
                     android:scaleType="fitCenter"
                     android:contentDescription="@string/empty"
                     android:src="@drawable/ic_switch_video_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_1"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:scaleType="fitCenter"
                     android:contentDescription="@string/empty"
                     android:src="@drawable/ic_switch_camera_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_2"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_2"
                     android:layout_width="32dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -79,7 +82,8 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_centerVertical="true">
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_camera"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_camera"
                     android:contentDescription="@string/switch_to_camera_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,7 +92,8 @@
                     android:background="@drawable/bg_pressed"
                     android:visibility="gone"
                     android:src="@drawable/ic_switch_camera_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_video"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_video"
                     android:contentDescription="@string/switch_to_video_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +102,8 @@
                     android:background="@drawable/bg_pressed"
                     android:visibility="gone"
                     android:src="@drawable/ic_switch_video_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_panorama"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_panorama"
                     android:contentDescription="@string/switch_to_panorama_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,4 +114,4 @@
                 />
         </LinearLayout>
     </RelativeLayout>
-</com.android.camera.ModePicker>
+</com.android.mod.ModePicker>

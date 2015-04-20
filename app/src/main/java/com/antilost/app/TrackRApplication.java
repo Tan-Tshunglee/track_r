@@ -3,7 +3,7 @@ package com.antilost.app;
 import android.app.Activity;
 import android.app.Application;
 
-import com.android.camera.Util;
+import com.android.mod.Util;
 import com.antilost.app.service.BluetoothLeService;
 
 public class TrackRApplication extends Application {

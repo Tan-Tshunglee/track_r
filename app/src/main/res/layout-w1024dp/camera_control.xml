@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.android.camera.ui.ControlPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.ControlPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:camera="http://schemas.android.com/apk/res/com.android.camera"
         android:id="@+id/control_panel"
         android:layout_width="wrap_content"
@@ -28,28 +28,31 @@
 
         <include layout="@layout/review_thumbnail" />
         <include layout="@layout/review_control" />
-        <com.android.camera.ui.IndicatorControlWheelContainer android:id="@+id/indicator_control"
+        <com.android.mod.ui.IndicatorControlWheelContainer
+            android:id="@+id/indicator_control"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true">
-            <com.android.camera.ShutterButton android:id="@+id/shutter_button"
+            <com.android.mod.ShutterButton
+                android:id="@+id/shutter_button"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:scaleType="center"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="@drawable/btn_shutter" />
-            <com.android.camera.ui.IndicatorControlWheel android:id="@+id/indicator_control_wheel"
+            <com.android.mod.ui.IndicatorControlWheel
+                android:id="@+id/indicator_control_wheel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-            </com.android.camera.ui.IndicatorControlWheel>
-            <com.android.camera.ui.ZoomControlWheel
+            </com.android.mod.ui.IndicatorControlWheel>
+            <com.android.mod.ui.ZoomControlWheel
                     android:id="@+id/zoom_control"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
-        </com.android.camera.ui.IndicatorControlWheelContainer>
+        </com.android.mod.ui.IndicatorControlWheelContainer>
         <include layout="@layout/mode_picker" />
-</com.android.camera.ui.ControlPanelLayout>
+</com.android.mod.ui.ControlPanelLayout>
 

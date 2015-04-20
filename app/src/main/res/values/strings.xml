@@ -101,15 +101,15 @@
     <string name="user_homepage">Homepage:</string>
     <string name="done">Done</string>
     <string name="back">Back</string>
-    <string name="safezone_title">Safe zone</string>
-    <string name="safezone_message">In safe wifi zone,both iTrack tag and phone won\'t beep when disconnection.</string>
+    <string name="safezone_title">Safe Zone</string>
+    <string name="safezone_message">When you connect these trusted wifi zone,both iTrack tag and phone won\'t beep when disconnection to avoid constant alarm.</string>
     <string name="safezone_home">Home</string>
     <string name="safezone_office">Office</string>
     <string name="safezone_other">Other</string>
     <string name="safezone_modifywifi">Set, click to change</string>
     <string name="safezone_addwifi">Click to add wifi</string>
-    <string name="safezone_wifiselcettitle">Choose safe wifi</string>
-    <string name="safezone_wifitip">When connected to safe wifi ,Track App will only alarm for disconnected.</string>
+    <string name="safezone_wifiselcettitle">Choose Safe Wifi</string>
+    <string name="safezone_wifitip">When you connect these trusted wifi zone,both iTrack tag and phone won\'t beep when disconnection to avoid constant alarm.</string>
     <string name="wifisameple">WIFI</string>
     <string name="gps_disable_hint">Location is disabled , iTrack can\'t save the location info</string>
     <string name="connecting">Connecting</string>
@@ -130,7 +130,7 @@
     <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
-    <string name="registration_success">Registration Success</string>
+    <string name="registration_success">Registration Success,Please go to the email to activate </string>
     <string name="email_has_been_used">Email has been used.</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
@@ -178,8 +178,8 @@
     <string name="title_activity_camera">Camera</string>
     <string name="sleep_mode_on_and_time_format">Sleep On\n\n%1$s - %2$s</string>
     <string name="sleep_mode_off">Sleep Mode off</string>
-    <string name="feed_back_success">Feedback Received, thanks!</string>
-    <string name="feedback_failed">Sorry, feedback failed.</string>
+    <string name="feed_back_success">Thanks,your feedback is submitted!</string>
+    <string name="feedback_failed">Sorry,your feedback failed to submit，please check your internet!</string>
     <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
     <string name="wait_a_moment">Wait a moment.</string>
     <string name="checking_for_new_version">Checking for new version</string>
@@ -218,17 +218,21 @@
     </string-array>
 
     <string name="distan_mid">mid</string>
-    <string name="distan_close">Close</string>
+    <string name="distan_close">Near</string>
     <string name="distan_far">Far</string>
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confire</string>
-    <string name="notice_delete_loser_tip">After you delete this item, the tag will be deleted from your iTrack list, you cannot use it unless you bind it again.</string>
-    <string name="notice_close_loser_tip">As you turn off the item ,you need to wake it up to use it. Are you sure to turn it off?</string>
-    <string name="notice_declare_loser_tip">As you declare the item as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
+    <string name="notice_delete_loser_tip_1">After you delete this&#160;\" </string>
+    <string name="notice_delete_loser_tip_2">\" &#160;item, the tag will be deleted from your iTrack list, you cannot use it unless you bind it again.</string>
+    <string name="notice_close_loser_tip_1">As you turn off the &#160;\"</string>
+    <string name="notice_close_loser_tip_2">\" &#160;you need to wake it up to use it. Are you sure to turn it off?</string>
+    <string name="notice_declare_loser_tip_1">As you declare the &#160;\"</string>
+    <string name="notice_declare_loser_tip_2">\" &#160;as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
     <string name="no_location_provider_available">No Location Provider Available, iTrack Can not Record Lost Location.</string>
     <string name="sihnout_tip_title">Sign Out</string>
-    <string name="sihnout_tip">All iTrack stickers will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
+    <string name="sihnout_tip">All iTracks will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
         Are you sure to log out?</string>
 
-    <string name="unbined_tip_disconnected">Please don\'t delete the iTrack when disconnetion,otherwise you cannot reconnect it again.</string>
+    <string name="unbined_tip_disconnected_tip1">Once you delete the  &#160;\"</string>
+    <string name="unbined_tip_disconnected_tip2">\", &#160;you cannot reconnect it forever.Please consider it for 10 seconds before you confirm to delete.</string>
 </resources>

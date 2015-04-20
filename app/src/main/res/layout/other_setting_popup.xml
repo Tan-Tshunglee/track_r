@@ -17,7 +17,7 @@
 */
 -->
 
-<com.android.camera.ui.OtherSettingsPopup xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.OtherSettingsPopup xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:camera="http://schemas.android.com/apk/res/com.android.camera"
         style="@style/SettingPopupWindow">
 
@@ -44,4 +44,4 @@
                     style="@style/SettingItemList" />
         </FrameLayout>
     </LinearLayout>
-</com.android.camera.ui.OtherSettingsPopup>
+</com.android.mod.ui.OtherSettingsPopup>

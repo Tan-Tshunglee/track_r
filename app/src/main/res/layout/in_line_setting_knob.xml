@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.android.camera.ui.InLineSettingKnob xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ui.InLineSettingKnob xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/setting_item"
         style="@style/SettingRow">
     <TextView android:id="@+id/title"
@@ -30,5 +30,5 @@
     <Button android:id="@+id/increment"
             style="@style/SettingKnob"
             android:text="@string/setting_increment" />
-</com.android.camera.ui.InLineSettingKnob>
+</com.android.mod.ui.InLineSettingKnob>
 

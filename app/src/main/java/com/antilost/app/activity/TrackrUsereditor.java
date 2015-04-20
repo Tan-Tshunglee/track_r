@@ -9,18 +9,15 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,8 +34,6 @@ import com.antilost.app.util.CsstSHImageData;
 
 import java.io.File;
 import java.util.Calendar;
-
-import android.os.Handler;
 
 public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private String TAG = "TrackrUsereditor";
@@ -63,8 +58,8 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
     private static final int GET_ICON_FROM_CROP = 0x01;
     private static final int GET_ICON_FROM_TAKE = 0x02;
     private static final int SCAN_UUID_REQUEST = 0x03;
-    private File mDeviceIconTempFile = null;
-    private String              mLastUpdatedIconFileName  = null;
+    private File                mDeviceIconTempFile = null;
+    private String mTempFileForSavedCroppedImage = null;
 
     private AlertDialog mImageSourceDialog;
 
@@ -123,37 +118,11 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                 Log.d(TAG," curUserDataBean!=null");
             }
             if(!curUserDataBean.getMimage().equals("3")){
-                Log.d(TAG,"the mlastupdateIconpath is "+curUserDataBean.getMimage());
-                mLastUpdatedIconFileName = curUserDataBean.getMimage();
-                Log.d(TAG,"the mlastupdateIconpath is "+mLastUpdatedIconFileName);
-
-                int targetWidth = 100;
-                int targetHeight = 100;
-                Bitmap targetBitmap = Bitmap.createBitmap(
-                        targetWidth,
-                        targetHeight,
-                        Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(targetBitmap);
-                Path path = new Path();
-                path.addCircle(
-                        ((float)targetWidth - 1) / 2,
-                        ((float)targetHeight - 1) / 2,
-                        (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
-                        Path.Direction.CCW);
-                canvas.clipPath(path);
-                Bitmap sourceBitmap =BitmapFactory.decodeFile(curUserDataBean.getMimage());
-                canvas.drawBitmap(
-                        sourceBitmap,
-                        new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-                        new Rect(0, 0, targetWidth, targetHeight),
-                        null);
-                Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(curUserDataBean.getMimage()));
-
-
-                Log.d(TAG,"the the bitmap  ismmmmm"+BitmapFactory.decodeFile(mLastUpdatedIconFileName));
-                Log.d(TAG,"the the bitmap  is"+ BitmapFactory.decodeFile(mLastUpdatedIconFileName));
-
+                mTempFileForSavedCroppedImage = curUserDataBean.getMimage();
+                Log.d(TAG,"the mlastupdateIconpath is "+ mTempFileForSavedCroppedImage);
+                Imguser_usericon.setImageURI(Uri.fromFile(new File(mTempFileForSavedCroppedImage)));
             }
+
             tvusereditor_name.setText(curUserDataBean.getMnickname());
             tvusereditor_board.setText(curUserDataBean.getMbirthday());
             tvusereditorxuexing.setText(curUserDataBean.getMbloodType());
@@ -221,41 +190,47 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
         switch (requestCode) {
             case GET_ICON_FROM_TAKE:
                 if (RESULT_OK == resultCode){
-                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), GET_ICON_FROM_CROP);
+                    //save cropped file to temp file for later use
+                    mTempFileForSavedCroppedImage = CsstSHImageData.zoomIconTempFile().getPath();
+                    Uri savedCropFile = Uri.fromFile(new File(mTempFileForSavedCroppedImage));
+                    CsstSHImageData.cropDeviceIconPhoto(this, Uri.fromFile(mDeviceIconTempFile), savedCropFile, GET_ICON_FROM_CROP);
                 }
                 break;
 
             case GET_ICON_FROM_CROP:
                 if (null != data){
                     try{
-                        Bundle extras = data.getExtras();
-                        Bitmap source = extras.getParcelable("data");
-                        mLastUpdatedIconFileName = CsstSHImageData.zoomIconTempFile().getPath();
-                        source = CsstSHImageData.zoomBitmap(source, mLastUpdatedIconFileName);
+//                        Bundle extras = data.getExtras();
+//                        Bitmap source = extras.getParcelable("data");
+//                        mTempFileForSavedCroppedImage = CsstSHImageData.zoomIconTempFile().getPath();
+//                        source = CsstSHImageData.zoomBitmap(source, mTempFileForSavedCroppedImage);
+//
+//                        int targetWidth = 100;
+//                        int targetHeight = 100;
+//                        Bitmap targetBitmap = Bitmap.createBitmap(
+//                                targetWidth,
+//                                targetHeight,
+//                                Bitmap.Config.ARGB_8888);
+//                        Canvas canvas = new Canvas(targetBitmap);
+//                        Path path = new Path();
+//                        path.addCircle(
+//                                ((float)targetWidth - 1) / 2,
+//                                ((float)targetHeight - 1) / 2,
+//                                (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
+//                                Path.Direction.CCW);
+//                        canvas.clipPath(path);
+//                        Bitmap sourceBitmap =source;
+//                        canvas.drawBitmap(
+//                                sourceBitmap,
+//                                new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
+//                                new Rect(0, 0, targetWidth, targetHeight),
+//                                null);
+//                        Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(source));
+//                        curUserDataBean.setMimage(mTempFileForSavedCroppedImage);
+//                        UserDataTable.getInstance().update(mDb,curUserDataBean);
 
-                        int targetWidth = 100;
-                        int targetHeight = 100;
-                        Bitmap targetBitmap = Bitmap.createBitmap(
-                                targetWidth,
-                                targetHeight,
-                                Bitmap.Config.ARGB_8888);
-                        Canvas canvas = new Canvas(targetBitmap);
-                        Path path = new Path();
-                        path.addCircle(
-                                ((float)targetWidth - 1) / 2,
-                                ((float)targetHeight - 1) / 2,
-                                (Math.min(((float)targetWidth), ((float)targetHeight)) / 2),
-                                Path.Direction.CCW);
-                        canvas.clipPath(path);
-                        Bitmap sourceBitmap =source;
-                        canvas.drawBitmap(
-                                sourceBitmap,
-                                new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight()),
-                                new Rect(0, 0, targetWidth, targetHeight),
-                                null);
-                        Imguser_usericon.setImageBitmap(CsstSHImageData.toRoundCorner(source));
-                        curUserDataBean.setMimage(mLastUpdatedIconFileName);
-                        UserDataTable.getInstance().update(mDb,curUserDataBean);
+                        Bitmap croppedBitmap = BitmapFactory.decodeFile(mTempFileForSavedCroppedImage);
+
                     }catch(Exception ex ){
                         System.out.println("the error is "+ex.toString());
                     }
@@ -265,8 +240,11 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
 
             case GET_ICON_FROM_ALBUM:
                 if (resultCode == RESULT_OK){
-                    Uri uri = data.getData();
-                    CsstSHImageData.cropDeviceIconPhoto(this, uri, GET_ICON_FROM_CROP);
+                    Uri sourceImageUri = data.getData();
+                    //save cropped file to temp file for later use
+                    mTempFileForSavedCroppedImage = CsstSHImageData.zoomIconTempFile().getPath();
+                    Uri savedCropFile = Uri.fromFile(new File(mTempFileForSavedCroppedImage));
+                    CsstSHImageData.cropDeviceIconPhoto(this, sourceImageUri, savedCropFile, GET_ICON_FROM_CROP);
                 }
                 break;
         }
@@ -290,7 +268,7 @@ public class TrackrUsereditor extends Activity implements TrackRInitialize {
                     Dailog(v);
                     break;
                 case R.id.takePhoto:
-                    CsstSHImageData.tackPhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
+                    CsstSHImageData.takePhoto(TrackrUsereditor.this, mDeviceIconTempFile, GET_ICON_FROM_TAKE);
                     dismissImageSourceDialog();
                     break;
                 case R.id.choosePicture:

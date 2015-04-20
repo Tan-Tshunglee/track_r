@@ -18,7 +18,8 @@
         android:id="@+id/review_control"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.android.camera.ui.RotateImageView android:id="@+id/btn_done"
+    <com.android.mod.ui.RotateImageView
+        android:id="@+id/btn_done"
             style="@style/ReviewControlIcon"
             android:visibility="gone"
             android:layout_alignParentTop="true"
@@ -34,7 +35,8 @@
             android:visibility="gone"
             android:onClick="onReviewRetakeClicked"
             android:background="@drawable/btn_shutter_retake" />
-    <com.android.camera.ui.RotateImageView android:id="@+id/btn_cancel"
+    <com.android.mod.ui.RotateImageView
+        android:id="@+id/btn_cancel"
             style="@style/ReviewControlIcon"
             android:visibility="gone"
             android:layout_alignParentBottom="true"

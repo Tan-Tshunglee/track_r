@@ -140,8 +140,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         mListView.setOnItemClickListener(this);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-
-
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         startService(gattServiceIntent);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -394,7 +392,7 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    finish();
+                    //do nothing;
                     break;
             }
         } else if(dialogInterface == mLocationUnavailableDialog) {

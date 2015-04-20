@@ -27,7 +27,7 @@
         android:layout_width="fill_parent"
         android:id="@+id/tvsafezone_tip"
         android:layout_height="wrap_content"
-        android:textColor="@color/user_data_text"
+        android:textColor="@color/alert_text"
         android:textSize="@dimen/activity_horizontal_margin"
         android:text="@string/safezone_wifitip"
         android:maxLines="5"

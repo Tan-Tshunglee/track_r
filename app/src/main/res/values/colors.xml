@@ -203,10 +203,10 @@
 	<color name="navy">#000080</color><!--海军�?--> 
 	<color name="black">#000000</color><!--黑色 -->
 
-    <color name="register_text">#b2bcdd</color><!--黑色 -->
-    <color name="user_data_text">#787d81</color><!--灰色-->
+    <color	name="register_text">#b2bcdd</color><!--黑色 -->
+<color name="user_data_text">#787d81</color><!--灰色-->
 
 	<!--<color name="alert_text">#788d91</color>&lt;!&ndash;灰色&ndash;&gt;-->
-	<color name="alert_text">#c0c0c0</color><!--灰色-->
+<color name="alert_text">#c0c0c0</color><!--灰色-->
 
-</resources>
+	</resources>

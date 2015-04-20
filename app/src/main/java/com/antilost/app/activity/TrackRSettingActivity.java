@@ -7,33 +7,30 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.common.ICsstSHConstant;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.network.Command;
 import com.antilost.app.network.LostDeclareCommand;
@@ -41,6 +38,7 @@ import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
+import com.antilost.app.util.Utils;
 
 public class TrackRSettingActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -50,7 +48,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private String mBluetoothDeviceAddress;
 
     private BluetoothLeService mBluetoothLeService;
-    private Boolean isconnected = false;
+    private Boolean mIsConnected = false;
+    TrackR mTrack = null;
     //Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -69,19 +68,19 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private PrefsManager mPrefsManager;
     private CheckBox mTrackAlert;
     private Switch mSleepMode;
-    private ImageView trackImage;
+    private ImageView mTrackImage;
     private TextView trackName;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
-            if(BluetoothLeService.ACTION_DEVICE_CLOSED.equals(action)) {
+            if (BluetoothLeService.ACTION_DEVICE_CLOSED.equals(action)) {
                 finish();
                 return;
-            } else if(BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)
+            } else if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)
                     || BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                if(mBluetoothDeviceAddress.equals(address)) {
+                if (mBluetoothDeviceAddress.equals(address)) {
                     updateDeclareLayoutVisibility();
                     updateStateUi();
                 }
@@ -96,9 +95,9 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private View mDeclaredLost;
     private TextView mDeclaredLostText;
     private volatile Thread mBackgroundThread;
-    private Bitmap bmp;
-    private float scaleWidth=1;
-    private float scaleHeight=1;
+    //    private Bitmap bmp;
+    private float scaleWidth = 1;
+    private float scaleHeight = 1;
 
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -108,11 +107,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
             Log.v(LOG_TAG, String.format("TrackRSettingActivity receiver onReceive get action ") + action);
             if (BluetoothLeService.ACTION_BATTERY_LEVEL_READ.equals(action)) {
-                int batteryLevel =mBluetoothLeService.getBatteryLevel(mBluetoothDeviceAddress);
+                int batteryLevel = mBluetoothLeService.getBatteryLevel(mBluetoothDeviceAddress);
             } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
                 int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
                 //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
-            } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 updateDeclareLayoutVisibility();
             }
             Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
@@ -120,7 +119,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     };
 
     private void updateDeclareLayoutVisibility() {
-        if(mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
+        if (mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
             mDeclaredLost.setVisibility(View.VISIBLE);
             updateDeclareText();
         } else {
@@ -139,13 +138,13 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         filter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         filter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
 
-        if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
+        if (TextUtils.isEmpty(mBluetoothDeviceAddress)) {
             Log.w(LOG_TAG, "get empty bluetooth address.");
             finish();
             return;
         }
         setContentView(R.layout.activity_track_rsetting);
-        trackName =(TextView) findViewById(R.id.track_name);
+        trackName = (TextView) findViewById(R.id.track_name);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
@@ -177,7 +176,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
 
-        trackImage = (ImageView) findViewById(R.id.icon);
+        mTrackImage = (ImageView) findViewById(R.id.icon);
 
         mDeclaredLost = findViewById(R.id.declared_lost);
         mDeclaredLostText = (TextView) findViewById(R.id.declared_lost_text);
@@ -186,7 +185,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
     private void updateDeclareText() {
-        if(mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)) {
+        if (mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)) {
             mDeclaredLostText.setText(getString(R.string.revoke_statement));
             mDeclaredLost.setBackground(getResources().getDrawable(R.drawable.red_bkg));
         } else {
@@ -196,56 +195,44 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
 
-    /* 图片放大的method */
-    private Bitmap big() {
-        int bmpWidth = bmp.getWidth();
-        int bmpHeight = bmp.getHeight();
-
-        Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
-
-        /* 设置图片放大的比例 */
-        double scale = 1.3;
-        /* 计算这次要放大的比例 */
-        scaleWidth = (float) (scaleWidth * scale);
-        scaleHeight = (float) (scaleHeight * scale);
-        /* 产生reSize后的Bitmap对象 */
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizeBmp = Bitmap.createBitmap(bmp, 0, 0, bmpWidth,
-                bmpHeight, matrix, true);
-        return resizeBmp;
-    }
-
     private void updateStateUi() {
-        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
-        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-        trackName.setText(track.name);
-        if(customIconUri != null) {
-            trackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
+        String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        mTrack = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+        trackName.setText(mTrack.name);
+        if (customIconFilePath != null) {
+            mTrackImage.setImageURI(null);
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 1.5f;
+            float scaled  =  viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH;
+            mTrackImage.setImageBitmap(Utils.scaleBitmap(customIconFilePath, scaled));
         } else {
-            trackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            trackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
-            trackImage.setImageBitmap(big());
+
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2;
+
+            Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[mTrack.type]);
+            float scaled  =  viewWidth / source.getWidth();
+            mTrackImage.setImageBitmap(Utils.scaleBitmap(source, scaled));
         }
-    if(mBluetoothLeService == null) {
-            trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
-            isconnected=false;
+
+        if (mBluetoothLeService == null) {
+            mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+            mIsConnected = false;
             Log.v(LOG_TAG, "mBluetoothLeService == null");
         } else {
             if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
-                trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
-                isconnected=false;
+                mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                mIsConnected = false;
                 Log.v(LOG_TAG, "isClosedTrack...");
             } else {
                 if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     Log.v(LOG_TAG, "isGattConnected...");
-                    isconnected=true;
-                    trackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
+                    mIsConnected = true;
+                    mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
                 } else {
                     Log.v(LOG_TAG, "disconnected...");
-                    isconnected=false;
-                    trackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                    mIsConnected = false;
+                    mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                 }
             }
         }
@@ -295,7 +282,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 startActivity(i);
                 break;
             case R.id.turnOffTrackR:
-                if(mBluetoothLeService == null) {
+                if (mBluetoothLeService == null) {
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     Toast.makeText(TrackRSettingActivity.this, getString(R.string.can_not_close_disconnected_itrack), Toast.LENGTH_SHORT).show();
                     return;
@@ -303,18 +290,18 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 confireNotice(view);
                 break;
             case R.id.unbindTrackR:
-                if(mBluetoothLeService == null) {
+                if (mBluetoothLeService == null) {
                     Log.w(LOG_TAG, "mBluetoothLeService is null");
                     return;
                 }
 
-                if(mBackgroundThread != null) {
+                if (mBackgroundThread != null) {
                     return;
                 }
                 confireNotice(view);
                 break;
             case R.id.declared_lost:
-                if(mBackgroundThread != null) {
+                if (mBackgroundThread != null) {
                     return;
                 }
                 confireNotice(view);
@@ -325,9 +312,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
     /**
      * 修改名字
-     *
      */
-    private  void confireNotice(final View view) {
+    private void confireNotice(final View view) {
 
         final AlertDialog dlg = new AlertDialog.Builder(this).create();
         dlg.show();
@@ -337,91 +323,99 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         window.setContentView(R.layout.tiplayout);
         TextView title = (TextView) window.findViewById(R.id.title_tip);
         TextView text = (TextView) window.findViewById(R.id.text_tip);
-        ImageView icontrack = (ImageView) window.findViewById(R.id.tipicon);
-        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
-        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-        trackName.setText(track.name);
-        if(customIconUri != null) {
-            bmp=CsstSHImageData.toRoundCorner(customIconUri);
-            icontrack.setImageBitmap(big());
+        ImageView iconTrack = (ImageView) window.findViewById(R.id.tipicon);
+        final Button tipbtn_ok = (Button) window.findViewById(R.id.tipbtn_ok);
+
+        String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+
+        if (customIconFilePath != null) {
+            iconTrack.setImageURI(null);
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2;
+            float scaled  =  viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH;
+            iconTrack.setImageBitmap(Utils.scaleBitmap(customIconFilePath, scaled));
         } else {
-            icontrack.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-            icontrack.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            bmp = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
-            icontrack.setImageBitmap(big());
+            float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size)
+                    - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 4;
+
+            Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[mTrack.type]);
+            float scaled  =  (viewWidth / source.getWidth())  ;
+            iconTrack.setImageBitmap(Utils.scaleBitmap(source, scaled));
         }
-        if(mBluetoothLeService == null) {
-            icontrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+
+
+
+        if (mBluetoothLeService == null) {
+            iconTrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             Log.v(LOG_TAG, "mBluetoothLeService == null");
         } else {
             if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
-                icontrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                iconTrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                 Log.v(LOG_TAG, "isClosedTrack...");
             } else {
                 if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     Log.v(LOG_TAG, "isGattConnected...");
-                    icontrack.setBackgroundResource(R.drawable.connected_icon_bkg);
+                    iconTrack.setBackgroundResource(R.drawable.connected_icon_bkg);
                 } else {
                     Log.v(LOG_TAG, "disconnected...");
-                    icontrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                    iconTrack.setBackgroundResource(R.drawable.disconnected_icon_bkg);
                 }
             }
         }
 
         switch (view.getId()) {
             case R.id.turnOffTrackR:
-                text.setText(getResources().getString(R.string.notice_close_loser_tip));
+                text.setText(getResources().getString(R.string.notice_close_loser_tip_1) + mTrack.name + getResources().getString(R.string.notice_close_loser_tip_2));
                 title.setText(getResources().getString(R.string.turn_off_track_r));
                 break;
             case R.id.unbindTrackR:
                 title.setText(getResources().getString(R.string.unbind_track_r));
-                if(isconnected){
-                    text.setText(getResources().getString(R.string.notice_delete_loser_tip));
-                }else{
-                    text.setText(getResources().getString(R.string.unbined_tip_disconnected));
+                if (mIsConnected) {
+                    text.setText(getResources().getString(R.string.notice_delete_loser_tip_1) + mTrack.name + getResources().getString(R.string.notice_delete_loser_tip_2));
+                } else {
+                    text.setText(getResources().getString(R.string.unbined_tip_disconnected_tip1) + mTrack.name + getResources().getString(R.string.unbined_tip_disconnected_tip2));
                 }
 
                 break;
             case R.id.declared_lost:
-                text.setText(getResources().getString(R.string.notice_declare_loser_tip));
+                text.setText(getResources().getString(R.string.notice_declare_loser_tip_1) + mTrack.name + getResources().getString(R.string.notice_declare_loser_tip_2));
                 title.setText(getResources().getString(R.string.declare_lost));
                 break;
         }
-        Button ok = (Button) window.findViewById(R.id.tipbtn_ok);
-        ok.setOnClickListener(new View.OnClickListener() {
+        tipbtn_ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 switch (view.getId()) {
                     case R.id.turnOffTrackR:
                         mBluetoothLeService.turnOffTrackR(mBluetoothDeviceAddress);
+                        dlg.cancel();
                         break;
                     case R.id.unbindTrackR:
-                        if(isconnected){
-                            mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
-                            toast(getString(R.string.unbind_successfully));
-                            mBackgroundThread = new Thread() {
-                                @Override
-                                public void run() {
-                                    UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
-                                    command.execTask();
-                                    mBackgroundThread = null;
-                                }
-                            };
-                            mBackgroundThread.start();
-                        }
+                        mBluetoothLeService.unbindTrackR(mBluetoothDeviceAddress);
+                        toast(getString(R.string.unbind_successfully));
+                        mBackgroundThread = new Thread() {
+                            @Override
+                            public void run() {
+                                UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
+                                command.execTask();
+                                mBackgroundThread = null;
+                            }
+                        };
+                        mBackgroundThread.start();
+                        dlg.cancel();
 
                         break;
                     case R.id.declared_lost:
-                        mBackgroundThread = new Thread () {
+                        mBackgroundThread = new Thread() {
                             @Override
                             public void run() {
-                                int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)  ? 0 : 1;
+                                int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress) ? 0 : 1;
                                 Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
                                 try {
                                     declareCommand.execTask();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                if(declareCommand.success()) {
+                                if (declareCommand.success()) {
                                     mPrefsManager.saveDeclareLost(mBluetoothDeviceAddress, declareTobe == 0 ? false : true);
                                     runOnUiThread(new Runnable() {
                                         @Override
@@ -442,9 +436,10 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                             }
                         };
                         mBackgroundThread.start();
+                        dlg.cancel();
                         break;
                 }
-                dlg.cancel();
+
             }
 
         });
@@ -458,15 +453,13 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
 
-
-
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.itrack_alert_checkbox:
                 mPrefsManager.saveTrackAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.setTrackAlertMode(mBluetoothDeviceAddress, b);
-            break;
+                break;
 
             case R.id.phone_alert_checkbox:
                 mPrefsManager.savePhoneAlert(mBluetoothDeviceAddress, b);
@@ -474,7 +467,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
 
             case R.id.sleepModeSwitch:
                 mPrefsManager.saveSleepMode(b);
-            break;
+                break;
         }
     }
 
@@ -483,7 +476,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     }
 
 
-    public boolean onKeyDown(int keyCode,KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         // 是否触发按键为back键
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 弹出 退出确认框

@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.android.camera.ModePicker xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mod.ModePicker xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/mode_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,24 +33,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_camera"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_camera"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:scaleType="center"
                     android:src="@drawable/ic_switch_camera_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_video"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_video"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:scaleType="center"
                     android:src="@drawable/ic_switch_video_holo_light" />
-            <com.android.camera.ui.RotateImageView android:id="@+id/mode_panorama"
+            <com.android.mod.ui.RotateImageView
+                android:id="@+id/mode_panorama"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:scaleType="center"
                     android:src="@drawable/ic_switch_pan_holo_light" />
         </LinearLayout>
-</com.android.camera.ModePicker>
+</com.android.mod.ModePicker>
 

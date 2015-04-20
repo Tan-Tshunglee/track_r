@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -24,15 +25,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.graphics.Matrix;
 
-import com.android.camera.Camera;
+import com.android.mod.Camera;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
+import com.antilost.app.common.ICsstSHConstant;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.CustomImageButton;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.util.HashMap;
 
@@ -61,6 +64,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private Bitmap bmp;
     private float scaleWidth=1;
     private float scaleHeight=1;
+    private  TextView titleText = null;
 
 
     //ring state of every trackr;
@@ -211,49 +215,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mDistanceImage = (ImageView) findViewById(R.id.distanceLevel);
         mTrackRIcon = (ImageView) findViewById(R.id.trackIcon);
         mBatteryLeve = (ImageView) findViewById(R.id.batteryStatus);
+        titleText =(TextView) findViewById(R.id.titleText);
 
         mRingButton = (Button) findViewById(R.id.ring);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 
-        String customIconUri = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
 
-        if(customIconUri != null) {
-            mTrackImage.setImageBitmap(CsstSHImageData.toRoundCorner(customIconUri));
-
-
-//            mTrackImage.setImageURI(customIconUri);
-        }else {
-            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
-            if(track != null) {
-                mTrackImage.setImageResource(TrackREditActivity.DrawableIds[track.type]);
-                mTrackImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                bmp =BitmapFactory.decodeResource(getResources(),TrackREditActivity.DrawableIds[track.type]);
-                mTrackImage.setImageBitmap(big());
-            }
-        }
     }
 
-    /* 图片放大的method */
-    private Bitmap big() {
-        int bmpWidth=bmp.getWidth();
-        int bmpHeight=bmp.getHeight();
-
-        Log.i(LOG_TAG, "bmpWidth = " + bmpWidth + ", bmpHeight = " + bmpHeight);
-
-		/* 设置图片放大的比例 */
-        double scale=3;
-		/* 计算这次要放大的比例 */
-        scaleWidth=(float)(scaleWidth*scale);
-        scaleHeight=(float)(scaleHeight*scale);
-		/* 产生reSize后的Bitmap对象 */
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizeBmp = Bitmap.createBitmap(bmp,0,0,bmpWidth,
-                bmpHeight,matrix,true);
-        return  resizeBmp;
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -264,6 +235,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             return;
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -286,13 +258,32 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     }
 
     private void updateStateUi() {
+
+        String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
+        float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size) - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 2;
+        if(customIconFilePath != null) {
+            mTrackImage.setImageURI(null);
+            Bitmap scaleBitmap = Utils.scaleBitmap(customIconFilePath,    viewWidth / ICsstSHConstant.DEVICE_ICON_WIDTH );
+            mTrackImage.setImageBitmap(scaleBitmap);
+        } else {
+            TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+            if(track != null) {
+                Bitmap source = BitmapFactory.decodeResource(getResources(), TrackREditActivity.DrawableIds[track.type]);
+                viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_photo_size) - getResources().getDimensionPixelOffset(R.dimen.track_icon_padding) * 4;
+                Bitmap sceledBitmap = Utils.scaleBitmap(source, viewWidth / source.getWidth());
+                mTrackImage.setImageBitmap(sceledBitmap);
+            }
+        }
+
+
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
+            mTrackImage.setText("");
             mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackImage.setText(getResources().getString(R.string.iTrack_close_tip));
-                mTrackImage.setColor(getResources().getColor(R.color.alert_text));
+                mTrackImage.setColor(getResources().getColor(R.color.red));
                 mTrackImage.setTextSize(32f);
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
@@ -360,6 +351,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             mSleepTime.setText(R.string.sleep_mode_off);
         }
+        titleText.setText(mPrefsManager.getTrack(mBluetoothDeviceAddress).name);
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {
@@ -422,9 +414,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     Log.d(LOG_TAG, "make trackr ring.");
                     if(makeTrackRRing()) {
                         //showTrackRinging();
-                        Log.i(LOG_TAG, "Write track ring command ok");
+                        Log.i(LOG_TAG, "Write mTrack ring command ok");
                     } else {
-                        Log.e(LOG_TAG, "Write track ring command failed...");
+                        Log.e(LOG_TAG, "Write mTrack ring command failed...");
                     };
                 }
                 break;
@@ -486,13 +478,13 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         anim.start();
         mRingStateMap.put(mBluetoothDeviceAddress, true);
         mHandler.sendEmptyMessageDelayed(MSG_RESET_RING_STATE, TIME_RINGING_STATE_KEEP);
-        Log.d(LOG_TAG, "ring command write done, show track ringing.");
+        Log.d(LOG_TAG, "ring command write done, show mTrack ringing.");
     }
 
     private void showTrackRingStop() {
         mRingButton.setBackgroundResource(R.drawable.large_circle_btn_bkg);
         mRingStateMap.put(mBluetoothDeviceAddress, false);
-        Log.d(LOG_TAG, "silent command write done, show track ring stop.");
+        Log.d(LOG_TAG, "silent command write done, show mTrack ring stop.");
     }
 
     @Override
