@@ -82,7 +82,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 case MSG_ENABLE_RING_BUTTON:
                     break;
                 case MSG_DELAY_INIT:
-                    updateRssi();
+                    updateRssi(true);
                     updateBatteryLevel();
                     break;
             }
@@ -95,7 +95,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            updateRssi();
+            updateRssi(true);
             updateBatteryLevel();
             updateStateUi();
         }
@@ -185,11 +185,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     }
 
 
-    private void updateRssi() {
+    private void updateRssi(boolean enable) {
         if(mBluetoothLeService != null) {
             Log.d(LOG_TAG, "read rssi repeat.");
             updateIconPosition(mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress));
-            mBluetoothLeService.startReadRssiRepeat(true, mBluetoothDeviceAddress);
+            mBluetoothLeService.startReadRssiRepeat(enable, mBluetoothDeviceAddress);
         }
     }
 
@@ -261,6 +261,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
         mHandler.sendEmptyMessageDelayed(MSG_DELAY_INIT, 5000);
 
+        updateRssi(true);
         updateStateUi();
 
     }
@@ -385,7 +386,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         super.onPause();
         mHandler.removeCallbacksAndMessages(null);
         unregisterReceiver(mGattUpdateReceiver);
-        updateRssi();
+        updateRssi(false);
     }
 
     @Override
@@ -475,7 +476,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 mBluetoothLeService.readBatteryLevel(mBluetoothDeviceAddress);
                 break;
             case R.id.distanceLevel:
-                updateRssi();
+                updateRssi(true);
                 break;
         }
     }
