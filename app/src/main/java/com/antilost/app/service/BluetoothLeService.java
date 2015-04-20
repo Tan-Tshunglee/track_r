@@ -720,12 +720,8 @@ public class BluetoothLeService extends Service implements
         builder.setDefaults(Notification.DEFAULT_ALL);
         // Creates an Intent for the Activity
         Intent notifyIntent =
-                new Intent(this, FoundByOthersActivity.class);
-        // Sets the Activity to start in a new, empty task
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                new Intent(this, MainTrackRListActivity.class);
 
-        notifyIntent.putExtra(FoundByOthersActivity.EXTRA_TRACK_ADDRESS, address);
         // Creates the PendingIntent
         PendingIntent notifyPendingIntent =
                 PendingIntent.getActivity(
@@ -757,12 +753,8 @@ public class BluetoothLeService extends Service implements
 
         // Creates an Intent for the Activity
         Intent notifyIntent =
-                new Intent(this, FoundByOthersActivity.class);
-        // Sets the Activity to start in a new, empty task
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                new Intent(this, MainTrackRListActivity.class);
 
-        notifyIntent.putExtra(FoundByOthersActivity.EXTRA_TRACK_ADDRESS, address);
         // Creates the PendingIntent
         PendingIntent notifyPendingIntent =
                 PendingIntent.getActivity(
