@@ -69,6 +69,7 @@ public abstract class Command {
 
     }
 
+
     public boolean resultError() {
         if(mResultMap == null) {
             return false;

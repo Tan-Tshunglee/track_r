@@ -1040,7 +1040,9 @@ public class BluetoothLeService extends Service implements
                         if(state == null || state != BluetoothProfile.STATE_CONNECTED) {
                             Log.e(LOG_TAG, "reconnect new track in delay check");
                             gatt = mBluetoothGatts.get(msg.obj);
-                            gatt.close();
+                            if(gatt != null) {
+                                gatt.close();
+                            }
                             address = (String) msg.obj;
                             if(address != null && mBluetoothAdapter != null) {
                                 tryConnectGatt(address, mBluetoothAdapter.getRemoteDevice(address));

@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 
 public class LoginActivity extends Activity implements View.OnClickListener, Dialog.OnClickListener {
 
-    public  static final String LOG_TAG = "LoginActivity";
+    public static final String LOG_TAG = "LoginActivity";
     public static final int PROMPT_OPEN_NETWORK_ID = 1;
     public static final int FETCHING_TRACKS_DIALOG_ID = 2;
 
@@ -49,19 +49,20 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(NetworkSyncService.ACTION_TRACKS_FETCH_DONE.equals(intent.getAction())) {
+            if (NetworkSyncService.ACTION_TRACKS_FETCH_DONE.equals(intent.getAction())) {
                 Log.i(LOG_TAG, "receiver ACTION_TRACKS_FETCH_DONE start main activity");
                 startMainTrackRListActivity();
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
 
-        if(!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
                 Toast.makeText(this, R.string.ble_not_support, Toast.LENGTH_SHORT).show();
                 finish();
@@ -131,7 +132,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     }
 
 
-
     private void onUserClickRememberMe() {
         mRememberPasswordTextView.setSelected(!mRememberPasswordTextView.isSelected());
     }
@@ -140,17 +140,17 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
             return;
         }
         final String password = mPasswordInput.getText().toString();
 
-        if(password.length() < 6 || password.length() > 18) {
+        if (password.length() < 6 || password.length() > 18) {
             Toast.makeText(this, getString(R.string.password_length_is_6_to_18_chars), Toast.LENGTH_SHORT).show();
             return;
         }
-        if(mProgressDialog != null && mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             return;
         }
         mProgressDialog = new ProgressDialog(this);
@@ -167,10 +167,10 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
         });
         mProgressDialog.show();
-        
+
         updateRememberPassword(email, password);
 
-        Thread t  = new Thread() {
+        Thread t = new Thread() {
             @Override
             public void run() {
                 final LoginCommand command = new LoginCommand(email, password);
@@ -180,22 +180,24 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                     @Override
                     public void run() {
 
-                        if(!mProgressDialog.isShowing()) {
+                        if (!mProgressDialog.isShowing()) {
                             Log.d(LOG_TAG, "user cancel login");
                             return;
                         }
                         mProgressDialog.dismiss();
-                        if(command.success()) {
+                        if (command.success()) {
                             mPrefsManager.saveUid(command.getUid());
                             Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                             startNetworkSyncService();
                             showDialog(FETCHING_TRACKS_DIALOG_ID);
 
-                        } else if(command.resultError()) {
+                        } else if (command.invalidateEmailOrPassword()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
-                        } else if(command.isNetworkError()){
+                        } else if(command.inActiveAccount()) {
+                            Toast.makeText(LoginActivity.this, "Inactive account, you can active your account by click the active link in your email box", Toast.LENGTH_LONG).show();
+                        } else if (command.isNetworkError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
-                        } else if(command.isStatusBad()) {
+                        } else if (command.isStatusBad()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(LoginActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT).show();
@@ -223,7 +225,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     private void updateRememberPassword(String email, String password) {
         boolean rememberPassword = mRememberPasswordTextView.isSelected();
         mPrefsManager.saveEmail(email);
-        if(rememberPassword) {
+        if (rememberPassword) {
             mPrefsManager.savePassword(password);
         } else {
             mPrefsManager.savePassword("");
@@ -239,21 +241,21 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
     private void validateNetworkConnectivity() {
         NetworkInfo info = mConnectivityManager.getActiveNetworkInfo();
-        if(info == null || !info.isConnected()) {
+        if (info == null || !info.isConnected()) {
             showDialog(PROMPT_OPEN_NETWORK_ID);
         }
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        if(id == PROMPT_OPEN_NETWORK_ID) {
+        if (id == PROMPT_OPEN_NETWORK_ID) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.warm_prompt);
             builder.setMessage(getString(R.string.enable_network_before_login));
             builder.setNegativeButton(R.string.cancel, this);
             builder.setPositiveButton(R.string.ok, this);
             return builder.create();
-        } else if(id == FETCHING_TRACKS_DIALOG_ID) {
+        } else if (id == FETCHING_TRACKS_DIALOG_ID) {
             ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
             builder.setTitle(R.string.just_a_moment);
             builder.setMessage(R.string.fetching_your_tracks);
