@@ -32,6 +32,9 @@ public class LocUtils {
     }
 
     public static final Location convertLocation(String loc) {
+        if(loc == null) {
+            return null;
+        }
         String[] pair = loc.split("-");
         Location location = new Location(LocationManager.NETWORK_PROVIDER);
         double latitude = Double.valueOf(pair[0]);
