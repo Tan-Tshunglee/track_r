@@ -95,6 +95,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private View mDeclaredLost;
     private TextView mDeclaredLostText;
     private volatile Thread mBackgroundThread;
+    private Button btnCloseItrack;
     //    private Bitmap bmp;
     private float scaleWidth = 1;
     private float scaleHeight = 1;
@@ -146,6 +147,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_track_rsetting);
         trackName = (TextView) findViewById(R.id.track_name);
         findViewById(R.id.backBtn).setOnClickListener(this);
+        btnCloseItrack =(Button) findViewById(R.id.turnOffTrackR);
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
         findViewById(R.id.unbindTrackR).setOnClickListener(this);
         findViewById(R.id.declared_lost).setOnClickListener(this);
@@ -218,6 +220,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         if (mBluetoothLeService == null) {
             mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             mIsConnected = false;
+//            失联之后就去掉close botton
+            btnCloseItrack.setVisibility(View.GONE);
             Log.v(LOG_TAG, "mBluetoothLeService == null");
         } else {
             if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
@@ -227,12 +231,16 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             } else {
                 if (mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     Log.v(LOG_TAG, "isGattConnected...");
+                    //            失联之后就去掉close botton
+                    btnCloseItrack.setVisibility(View.VISIBLE);
                     mIsConnected = true;
                     mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
                 } else {
                     Log.v(LOG_TAG, "disconnected...");
                     mIsConnected = false;
                     mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                    //            失联之后就去掉close botton
+                    btnCloseItrack.setVisibility(View.GONE);
                 }
             }
         }
