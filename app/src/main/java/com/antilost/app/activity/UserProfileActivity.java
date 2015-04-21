@@ -325,7 +325,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         Button ok = (Button) window.findViewById(R.id.tipbtn_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mPrefsManager.saveUid(-1);
+                mPrefsManager.logoutUser();
                 sendBroadcast(new Intent(ACTION_USER_LOGOUT));
                 UserProfileActivity.this.finish();
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));

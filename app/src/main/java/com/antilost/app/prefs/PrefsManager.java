@@ -24,6 +24,7 @@ import java.util.Set;
 public class PrefsManager {
 
     public static final String PREFS_UID_KEY = "uid";
+    public static final String PREFS_OLD_UID_KEY = "old_uid";
     @SuppressWarnings("unused")
     public static final String PREFS_NAME_KEY = "name";
     public static final String PREFS_PASSWORD_KEY = "password";
@@ -60,6 +61,8 @@ public class PrefsManager {
     public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
     public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
     private static final String LOG_TAG = "PrefsManager";
+    public static final int INVALID_UID = -1;
+    public static final int INVALID_TIME = -1;
 
     private final Context mCtx;
     private SharedPreferences mPrefs;
@@ -79,7 +82,7 @@ public class PrefsManager {
     }
 
     public int getUid() {
-        return mPrefs.getInt(PREFS_UID_KEY, -1);
+        return mPrefs.getInt(PREFS_UID_KEY, INVALID_UID);
     }
 
     public boolean saveUid(int uid) {
@@ -88,6 +91,16 @@ public class PrefsManager {
         return editor.commit();
     }
 
+
+    public void logoutUser() {
+        mPrefs.edit().putInt(PREFS_OLD_UID_KEY, getUid());
+        saveUid(INVALID_UID);
+    }
+
+    public boolean userChanged() {
+        return mPrefs.getInt(PREFS_OLD_UID_KEY, INVALID_UID)
+                != mPrefs.getInt(PREFS_UID_KEY, INVALID_UID);
+    }
     public Set<String> getTrackIds() {
         return new HashSet<String>(mPrefs.getStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()));
     }
@@ -318,7 +331,7 @@ public class PrefsManager {
 
     public long getLastLostTime(String address) {
         String key = PREFS_LAST_LOST_TIME_KEY_PREFIX + address;
-        return mPrefs.getLong(key, -1);
+        return mPrefs.getLong(key, INVALID_TIME);
     }
 
     public void saveLastTimeFoundByOthers(long time, String address) {
@@ -328,7 +341,7 @@ public class PrefsManager {
 
     public long getLastTimeFoundByOthers(String address) {
         String key = PREFS_LAST_TIME_FOUND_BY_OTHERS_PREFIX + address;
-        return mPrefs.getLong(key, -1);
+        return mPrefs.getLong(key, INVALID_TIME);
     }
 
     public void saveLastLocFoundByOthers(Location loc, String address) {
@@ -394,7 +407,7 @@ public class PrefsManager {
         return mPrefs.getBoolean(key, false);
     }
 
-    public void cleanUpAfterUserLogout() {
+    public void cleanUpTracks() {
         Set<String> oldIds = mPrefs.getStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>());
 
         for(String id: oldIds) {
@@ -402,7 +415,10 @@ public class PrefsManager {
             saveClosedTrack(id, false);
             saveMissedTrack(id, false);
             saveLastLocFoundByOthers(null, id);
-            saveLastTimeFoundByOthers(-1, id);
+            saveLastTimeFoundByOthers(INVALID_TIME, id);
+
+            CsstSHImageData.removePhoto(id);
+            removeTrackFile(id);
         }
         mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, new HashSet<String>()).commit();
     }
@@ -419,4 +435,6 @@ public class PrefsManager {
         CsstSHImageData.removePhoto(address);
         removeTrackFile(address);
     }
+
+
 }

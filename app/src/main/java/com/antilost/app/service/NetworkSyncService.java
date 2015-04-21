@@ -58,17 +58,23 @@ public class NetworkSyncService extends Service {
                 fetchAllCommand.execTask();
                 HashMap<String, TrackR> trackRs = fetchAllCommand.getBoundTrackRs();
 
-                if(trackRs == null || trackRs.isEmpty()) {
+                if(mPrefs.userChanged()) {
+                   mPrefs.cleanUpTracks();
+                }
+
+                if (trackRs == null || trackRs.isEmpty()) {
                     Log.i(LOG_TAG, "no track bound info return.");
                 } else {
                     Set<Map.Entry<String, TrackR>> entrySet = trackRs.entrySet();
-                    for(Map.Entry<String, TrackR> entry: entrySet) {
+                    for (Map.Entry<String, TrackR> entry : entrySet) {
                         mPrefs.addTrackR(entry.getValue());
                     }
                     TrackPhotosFetcher fetcher = new TrackPhotosFetcher();
                     fetcher.start();
                 }
                 sendBroadcast(new Intent(ACTION_TRACKS_FETCH_DONE));
+
+
 
             } else {
                 Log.e(LOG_TAG, "will to sync data while user is not login.");

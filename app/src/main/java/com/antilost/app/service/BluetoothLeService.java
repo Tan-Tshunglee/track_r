@@ -21,9 +21,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -55,7 +52,6 @@ import com.antilost.app.network.ReportLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
-import com.antilost.app.util.CsstSHImageData;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
@@ -1259,7 +1255,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
             Log.v(LOG_TAG, "User has logout, exit.");
-            cleanupAndStopSelf();
+            closeAllTracksAndStopSelf();
             return true;
         }
 
@@ -1294,17 +1290,13 @@ public class BluetoothLeService extends Service implements
 
 
 
-    private void cleanupAndStopSelf() {
-
-        mPrefsManager.cleanUpAfterUserLogout();
+    private void closeAllTracksAndStopSelf() {
 
         Set<Map.Entry<String, BluetoothGatt>> entrys = mBluetoothGatts.entrySet();
         for (Map.Entry<String, BluetoothGatt> e : entrys) {
             String address = e.getKey();
             if (!TextUtils.isEmpty(address)) {
                 silentlyTurnOffTrack(address);
-                CsstSHImageData.removePhoto(address);
-                mPrefsManager.removeTrackFile(address);
             }
         }
 
