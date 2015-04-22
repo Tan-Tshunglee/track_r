@@ -21,6 +21,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -45,11 +47,13 @@ import com.antilost.app.activity.FoundByOthersActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
 import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.model.TrackR;
+import com.antilost.app.network.BindCommand;
 import com.antilost.app.network.Command;
 import com.antilost.app.network.FetchLostLocationCommand;
 import com.antilost.app.network.LostDeclareCommand;
 import com.antilost.app.network.ReportLostLocationCommand;
 import com.antilost.app.network.ReportUnkownTrackLocationCommand;
+import com.antilost.app.network.UpdateTrackImageCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
@@ -176,6 +180,7 @@ public class BluetoothLeService extends Service implements
     private volatile Thread mUploadUnknownTrackLocationThread;
     private NotificationManager mNotificationManager;
     private IntentFilter mIntentFilter;
+    private ConnectivityManager mConnectivityManager;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -1063,6 +1068,8 @@ public class BluetoothLeService extends Service implements
         mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
 
+        mConnectivityManager = (ConnectivityManager)  getSystemService(CONNECTIVITY_SERVICE);
+
         if (!mPrefsManager.validUserLog()) {
             Log.i(LOG_TAG, "user not login, stop service");
             stopSelf();
@@ -1220,7 +1227,45 @@ public class BluetoothLeService extends Service implements
                 }
                 updateRepeatAlarmRegister(true);
             }
+            NetworkInfo activeNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if(mPrefsManager.getNewlyTrackIds().size() > 0
+                    && activeNetworkInfo != null
+                    && activeNetworkInfo.isConnected()) {
+                Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        Log.v(LOG_TAG, "start delay track update.");
+                        Set<String> newTracks = mPrefsManager.getNewlyTrackIds();
+                        for(String id: newTracks) {
+                            TrackR track = mPrefsManager.getTrack(id);
 
+                            if(track != null) {
+                                final BindCommand bindcommand = new BindCommand(String.valueOf(mPrefsManager.getUid()),
+                                        track.name,
+                                        id,
+                                        String.valueOf(track.type));
+
+                                bindcommand.execTask();
+                                boolean bindOk = bindcommand.success();
+                                if(bindOk) {
+                                    Log.i(LOG_TAG, "Delay Bind mTrack ok.");
+                                    UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefsManager.getUid(), id);
+                                    uploadImageCommand.execTask();
+                                    mPrefsManager.removeNewlyTrackId(id);
+                                    if(uploadImageCommand.success()) {
+                                        Log.v(LOG_TAG, "delay upload mTrack photo to server success.");
+                                    } else {
+                                        Log.e(LOG_TAG, "delay upload mTrack photo to server failed.");
+                                    }
+                                } else {
+                                    Log.e(LOG_TAG, "Delay Bind iRrack on Server Error.");
+                                }
+                            }
+                        }
+                    }
+                };
+                t.start();
+            }
         }
 
 

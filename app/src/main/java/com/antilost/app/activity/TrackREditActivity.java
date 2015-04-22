@@ -399,6 +399,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         Log.e(LOG_TAG, "upload mTrack photo to server failed.");
                     }
                 } else {
+                    mPrefs.addNewlyTrackId(mBluetoothDeviceAddress);
                     Log.e(LOG_TAG, "Bind iRrack on Server Error.");
                 }
             }

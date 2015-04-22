@@ -57,6 +57,7 @@ public class PrefsManager {
 
     public static final String PREFS_ALERT_TIME_KEY = "alert_time_key";
 
+    public static final String PREFS_NEWLY_ADD_TRACKS_KEY = "newly_add_tracks";
 
     public static final int SLEEP_MODE_STATR_TIME_OFFSET = 79200000;// 22 * 60 * 60 * 1000
     public static final int SLEEP_MODE_END_TIME_OFFSET = 28800000;// 8 * 60 * 60 * 1000
@@ -117,6 +118,26 @@ public class PrefsManager {
         Set<String> ids = getTrackIds();
         if(ids.remove(trackId)) {
             return mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
+        }
+        return false;
+    }
+
+    public Set<String> getNewlyTrackIds() {
+        return new HashSet<String>(mPrefs.getStringSet(PREFS_NEWLY_ADD_TRACKS_KEY, new HashSet<String>()));
+    }
+
+    public boolean addNewlyTrackId(String trackId) {
+        Set<String> ids = getNewlyTrackIds();
+        if(ids.size() >= ScanTrackActivity.MAX_COUNT) {
+            return false;
+        }
+        return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_NEWLY_ADD_TRACKS_KEY, ids).commit();
+    }
+
+    public boolean removeNewlyTrackId(String trackId) {
+        Set<String> ids = getTrackIds();
+        if(ids.remove(trackId)) {
+            return mPrefs.edit().putStringSet(PREFS_NEWLY_ADD_TRACKS_KEY, ids).commit();
         }
         return false;
     }
