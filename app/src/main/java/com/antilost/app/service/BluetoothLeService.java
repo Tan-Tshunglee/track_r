@@ -1363,6 +1363,7 @@ public class BluetoothLeService extends Service implements
     private void silentlyTurnOffTrack(String address) {
         Integer state = mGattConnectionStates.get(address);
 
+        mPrefsManager.saveClosedTrack(address, true);
         if (state == null) {
             Log.w(LOG_TAG, "trying to turn off an unknown state track.");
             return;
