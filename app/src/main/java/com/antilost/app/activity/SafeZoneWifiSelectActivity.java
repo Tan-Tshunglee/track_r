@@ -141,12 +141,21 @@ public class SafeZoneWifiSelectActivity extends Activity implements TrackRInitia
         Log.i(TAG, String.format("user set %d 's ssid is %s", mTarget, ssid));
         switch (mTarget) {
             case TARGET_HOME:
+                if(ssid.equals(mPrefsManager.getHomeWifiSsid())){
+                    ssid=getResources().getString(R.string.safezone_addwifi);
+                }
                 mPrefsManager.saveHomeWifiSsid(ssid);
                 break;
             case TARGET_OFFICE:
+                if(ssid.equals(mPrefsManager.getOfficeSsid())){
+                    ssid=getResources().getString(R.string.safezone_addwifi);
+                }
                 mPrefsManager.saveOfficeSsid(ssid);
                 break;
             case TARGET_OTHER:
+                if(ssid.equals(mPrefsManager.getOtherSsid())){
+                    ssid=getResources().getString(R.string.safezone_addwifi);
+                }
                 mPrefsManager.saveOtherSsid(ssid);
                 break;
         }
