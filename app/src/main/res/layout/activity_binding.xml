@@ -35,8 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/titleBarLayout"
-
-
         android:id="@+id/firstPage"
         >
         <TextView
@@ -45,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:layout_marginTop="@dimen/binding_step_textview_margin_top"
+            android:layout_marginTop="@dimen/password_input_margin_top"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:layout_centerHorizontal="true" />
