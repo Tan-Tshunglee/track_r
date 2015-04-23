@@ -273,6 +273,10 @@ public class BluetoothLeService extends Service implements
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
+                    if(!mPrefsManager.validUserLog()) {
+                        Log.v(LOG_TAG, "User not login.");
+                        return;
+                    }
                     if(!"TrackR".equals(device.getName())) {
                         Log.d(LOG_TAG, "scan an unkown name devices...");
                         return;
