@@ -1755,17 +1755,22 @@ public class BluetoothLeService extends Service implements
         Integer state = mGattConnectionStates.get(address);
 
         if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
-            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            BluetoothGatt gatt = mBluetoothGatts.get(address);
-            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
-            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
-            alertLevelChar.setValue(new byte[]{03});
-
-            if(!gatt.writeCharacteristic(alertLevelChar)) {
-                Log.e(LOG_TAG, "unbindTrackR, write sleep command failed, forcely close the connection");
+            try {
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                gatt.close();
-                broadcastDeviceOff();
+                BluetoothGatt gatt = mBluetoothGatts.get(address);
+                BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+                BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+
+                alertLevelChar.setValue(new byte[]{03});
+
+                if(!gatt.writeCharacteristic(alertLevelChar)) {
+                    Log.e(LOG_TAG, "unbindTrackR, write sleep command failed, forcely close the connection");
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    gatt.close();
+                    broadcastDeviceOff();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } else {
             Log.i(LOG_TAG, "unbind disconnected TrackR");
