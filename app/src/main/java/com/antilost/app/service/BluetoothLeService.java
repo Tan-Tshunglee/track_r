@@ -59,6 +59,7 @@ import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
+import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -346,14 +347,18 @@ public class BluetoothLeService extends Service implements
             return;
         }
 
-        mHandler.post(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 tryConnectGatt(address, device);
             }
-        });
+        }, delayConnectionTime());
 
 
+    }
+    private SecureRandom mSecureRandom = new SecureRandom();
+    private long delayConnectionTime() {
+        return mSecureRandom.nextInt(1000);
     }
 
     @Override
@@ -413,8 +418,7 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (status != BluetoothGatt.GATT_SUCCESS) {
-                Log.e(LOG_TAG, "gatt status is not success.");
-                Log.v(LOG_TAG, "clean up old connection");
+                Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
                 return;
             }
 
@@ -1065,6 +1069,7 @@ public class BluetoothLeService extends Service implements
                                 gatt.close();
                             }
                             address = (String) msg.obj;
+                            mBluetoothGatts.put(address, null);
                             if(address != null && mBluetoothAdapter != null) {
                                 tryConnectGatt(address, mBluetoothAdapter.getRemoteDevice(address));
                             }
@@ -1529,18 +1534,17 @@ public class BluetoothLeService extends Service implements
 
 
         //already send an connectSingleTrack request;
-        if (bluetoothGatt != null) {
-            bluetoothGatt.connect();
+        if (bluetoothGatt != null && bluetoothGatt.connect()) {
             Log.v(LOG_TAG, "use old bluetoothGatt to connectSingleTrack the track.");
-            return false;
+            return true;
         }
 
-        mHandler.post(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 tryConnectGatt(address, device);
             }
-        });
+        }, delayConnectionTime());
 
         return true;
     }
@@ -1643,12 +1647,18 @@ public class BluetoothLeService extends Service implements
             Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is disabled");
         }
 
+        BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
+
+        if(bluetoothGatt != null) {
+            bluetoothGatt.close();
+            mBluetoothGatts.remove(address);
+        }
+
         MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
-        BluetoothGatt bluetoothGatt;
+
         if (oldCallback == null) {
             Log.i(LOG_TAG, "Trying to create a new callback to " + address);
             oldCallback = new MyBluetootGattCallback();
-
             bluetoothGatt = device.connectGatt(this, false, oldCallback);
         } else {
             Log.v(LOG_TAG, "Use old callback to connectSingleTrack gatt");
