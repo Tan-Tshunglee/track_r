@@ -413,8 +413,16 @@ public class BluetoothLeService extends Service implements
                 Log.v(LOG_TAG, "clean up old connection");
                 return;
             }
+
             final String address = gatt.getDevice().getAddress();
 
+
+            if(!mPrefsManager.validUserLog()) {
+                Log.v(LOG_TAG, "user logout close connection");
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                gatt.close();
+                return;
+            }
             if(!mPrefsManager.getTrackIds().contains(address)) {
                 Log.w(LOG_TAG, "close an old connection after unbind.");
                 mGattConnectionStates.remove(address);
@@ -494,9 +502,17 @@ public class BluetoothLeService extends Service implements
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.i(LOG_TAG, "onServicesDiscovered ....");
 
+            String address = gatt.getDevice().getAddress();
+            if(!mPrefsManager.validUserLog()) {
+                Log.v(LOG_TAG, "onServicesDiscovered user logout close connection");
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                gatt.close();
+                return;
+            }
+
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.i(LOG_TAG, "ble connection success.");
-                String address = gatt.getDevice().getAddress();
+
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                 mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
                 verifyConnection(gatt);
@@ -1300,6 +1316,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
             Log.v(LOG_TAG, "User has logout, exit.");
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
             closeAllTracksAndStopSelf();
             return true;
         }
