@@ -188,7 +188,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "BluetoothLeService onSharedPreferenceChanged() key " + key);
         if (PrefsManager.PREFS_TRACK_IDS_KEY.equals(key)) {
             Log.v(LOG_TAG, "key of preference changed is " + PrefsManager.PREFS_TRACK_IDS_KEY);
-            repeatConnect();
+            repeatConnectLoop();
         }
 
         if (PrefsManager.PREFS_SLEEP_MODE_KEY.equals(key)
@@ -385,7 +385,7 @@ public class BluetoothLeService extends Service implements
     }
 
     public void tryConnect() {
-        repeatConnect();
+        repeatConnectLoop();
     }
 
     public Location getLastLocation() {
@@ -417,12 +417,17 @@ public class BluetoothLeService extends Service implements
     private class MyBluetootGattCallback extends BluetoothGattCallback {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+
+            final String address = gatt.getDevice().getAddress();
             if (status != BluetoothGatt.GATT_SUCCESS) {
                 Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                gatt.close();
+                mBluetoothGatts.remove(address);
                 return;
             }
 
-            final String address = gatt.getDevice().getAddress();
+
 
 
             if(!mPrefsManager.validUserLog()) {
@@ -963,7 +968,7 @@ public class BluetoothLeService extends Service implements
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                repeatConnect();
+                repeatConnectLoop();
             }
         });
 
@@ -1243,7 +1248,7 @@ public class BluetoothLeService extends Service implements
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
             } else {
                 mLastStartCommandMeet = System.currentTimeMillis();
-                repeatConnect();
+                repeatConnectLoop();
 
                 //intent source activity or broadcast;
                 if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
@@ -1297,12 +1302,12 @@ public class BluetoothLeService extends Service implements
         return START_STICKY;
     }
 
-    private boolean repeatConnect() {
+    private boolean repeatConnectLoop() {
 
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Log.e(LOG_TAG, "Unable to repeatConnect BluetoothManager.");
+                Log.e(LOG_TAG, "Unable to repeatConnectLoop BluetoothManager.");
                 return false;
             }
         }
@@ -1318,7 +1323,7 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 scanLeDevice();
             }
-        }, 200);
+        }, 100);
 
         //this will read file
         int uid = mPrefsManager.getUid();
@@ -1532,12 +1537,6 @@ public class BluetoothLeService extends Service implements
             return true;
         }
 
-
-        //already send an connectSingleTrack request;
-        if (bluetoothGatt != null && bluetoothGatt.connect()) {
-            Log.v(LOG_TAG, "use old bluetoothGatt to connectSingleTrack the track.");
-            return true;
-        }
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -1882,9 +1881,13 @@ public class BluetoothLeService extends Service implements
         if (gatt == null) {
             Log.w(LOG_TAG, "Gatt has not connected....");
         } else {
-            BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
-            BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
-            gatt.readCharacteristic(c);
+            try {
+                BluetoothGattService batteryService = gatt.getService(com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID);
+                BluetoothGattCharacteristic c = batteryService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID);
+                gatt.readCharacteristic(c);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

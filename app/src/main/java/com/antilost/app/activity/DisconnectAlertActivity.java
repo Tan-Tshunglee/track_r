@@ -57,7 +57,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(assets.openFd("alert.mp3").getFileDescriptor());
-
+            mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,19 +146,15 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
     private void playAlertSound() {
 
-       if(!mMediaPlayer.isPlaying()) {// zql two losser is lose have error
-           try {
-               mMediaPlayer.prepare();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-
 
         boolean globalAlertEnabled = mPrefsManager.getGlobalAlertRingEnabled();
         boolean trackAlertEnabled = mPrefsManager.getPhoneAlert(mBluetoothAddress);
 
         if(globalAlertEnabled && trackAlertEnabled) {
+            if(mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
+                mHandler.removeCallbacks(mStopRingRunnable);
+            }
             mMediaPlayer.start();
             Log.d(LOG_TAG, "playe alert sound...");
             int alertSecond = mPrefsManager.getAlertTime();
