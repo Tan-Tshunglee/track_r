@@ -1337,9 +1337,8 @@ public class BluetoothLeService extends Service implements
 
     private void closeAllTracksAndStopSelf() {
 
-        Set<Map.Entry<String, BluetoothGatt>> entrys = mBluetoothGatts.entrySet();
-        for (Map.Entry<String, BluetoothGatt> e : entrys) {
-            String address = e.getKey();
+        Set<String> ids = mPrefsManager.getTrackIds();
+        for (String address : ids) {
             if (!TextUtils.isEmpty(address)) {
                 silentlyTurnOffTrack(address);
             }
@@ -1442,8 +1441,12 @@ public class BluetoothLeService extends Service implements
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.v(LOG_TAG, "restart ble scan.");
-                    mBluetoothAdapter.startLeScan(mLeScanCallback);
+
+                    if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
+                        Log.v(LOG_TAG, "restart ble scan success..");
+                    } else {
+                        Log.v(LOG_TAG, "restart ble scan failed.");
+                    };
                 }
             }, 1000);
         };
@@ -1468,6 +1471,7 @@ public class BluetoothLeService extends Service implements
 
         if(!mBluetoothAdapter.isEnabled()) {
             Log.v(LOG_TAG, "In connectSingleTrack BluetoothAdapter is disabled...");
+            return false;
         }
 
         if(mPrefsManager.isDeclaredLost(address)

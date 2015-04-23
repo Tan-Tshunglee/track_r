@@ -94,7 +94,7 @@ public class PrefsManager {
 
 
     public void logoutUser() {
-        mPrefs.edit().putInt(PREFS_OLD_UID_KEY, getUid());
+        mPrefs.edit().putInt(PREFS_OLD_UID_KEY, getUid()).commit();
         saveUid(INVALID_UID);
     }
 
