@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.antilost.app.R;
@@ -79,7 +83,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if(!matcher.matches()) {
-            Toast.makeText(this, R.string.invalid_email_address, Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, R.string.invalid_email_address, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             return;
         }
 
@@ -87,15 +93,28 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
         if(password.length() < 6 || password.length() > 18) {
 //            Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT).show();
-            mPassowrdConfirmInput.setText(R.string.password_length_is_6_to_18_chars);
-            mPasswordInput.setText(R.string.password_length_is_6_to_18_chars);
+//            mPassowrdConfirmInput.setText(R.string.password_length_is_6_to_18_chars);
+//            mPasswordInput.setText(R.string.password_length_is_6_to_18_chars);
+
+            Toast toast = Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             return;
         }
 
         String passwordConfirm = mPasswordInput.getText().toString();
         if(!password.equals(passwordConfirm)) {
-            Toast.makeText(this, getString(R.string.the_two_passwords_do_not_match), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.the_two_passwords_do_not_match), Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, R.string.the_two_passwords_do_not_match, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+//
+//            LinearLayout toastView = (LinearLayout) toast.getView();
+//            ImageView imageCodeProject = new ImageView(getApplicationContext());
+//            imageCodeProject.setImageResource(R.drawable.icon);
+//            toastView.addView(imageCodeProject, 0);
             return;
+
         }
 
         mProgressDialog = new ProgressDialog(this);

@@ -65,6 +65,7 @@
     <string name="crop_image">Crop Image</string>
     <string name="ok">OK</string>
     <string name="my_track_r">My Items</string>
+    <string name="add_new_item">Add New Item</string>
     <string name="prepare_track_r_to_bind">Please have your iTrackPro device ready to begin pairing</string>
     <string name="sleep_on_and_time">Sleep Mode On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>
@@ -128,7 +129,7 @@
     <string name="disconnecting">Disconnecting</string>
     <string name="closed">Off</string>
     <string name="invalid_email_address">Invalid Email Address!</string>
-    <string name="password_length_is_6_to_18_chars">Password length of 6 to 18 characters</string>
+    <string name="password_length_is_6_to_18_chars">Password length requires 6 to 18 characters.</string>
     <string name="signing_in">Signing In</string>
     <string name="login_success">Login Success</string>
     <string name="invalid_email_or_password">Invalid Email or Password!</string>
