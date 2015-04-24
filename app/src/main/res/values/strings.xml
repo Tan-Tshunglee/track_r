@@ -17,7 +17,7 @@
     <string name="title_activity_binding">BindingActivity</string>
     <string name="title_activity_track_redit">iTrackEditActivity</string>
     <string name="cancel">Cancel</string>
-    <string name="click_to_add">Click To Add new item</string>
+    <string name="click_to_add ">Click to add new item</string>
     <string name="title_activity_main_track_rlist">MainiTrackListActivity</string>
     <string name="change_image">Change photo</string>
     <string name="title_activity_photo_edit">PhotoEditActivity</string>
@@ -44,8 +44,8 @@
     <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n2.Hold the iTrackPro tag close to your phone\n3.Hold the button on the iTrackPro device until you hear a beep and the LED starts flashing</string>
     <string name="add_track_r">Add New Item</string>
     <string name="connecting_with_track_r">Connecting with iTrack</string>
-    <string name="connecting_failed">Connecting Failed</string>
-    <string name="try_again_steps">You could try:\n1.Make sure you turn on the Bluetooth on your phone.\n2.Make sure the iTrackPro device is near your phone (less than 4 inches)\n3.Make sure to hold the button on the iTrackPro device until you hear the beep.\n4.Tap “Re-scan” to try again</string>
+    <string name="connecting_failed">Failed to Connect</string>
+    <string name="try_again_steps">Tips:\n1.Make sure you turn on the Bluetooth on your phone.\n2.Make sure the iTrackPro device is near your phone (less than 4 inches)\n3.Make sure to hold the button on the iTrackPro device until you hear the beep.\n4.Tap “Re-scan” to try again</string>
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
@@ -58,7 +58,7 @@
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
     <string name="distance_to_track_r">Distance to iTrack</string>
-    <string name="loc">Loc</string>
+    <string name="loc">Map</string>
     <string name="ring">Ring</string>
     <string name="photo">Photo</string>
     <string name="share">Share</string>
@@ -114,7 +114,7 @@
     <string name="gps_disable_hint">Location is disabled , iTrack can\'t save the location info</string>
     <string name="connecting">Connecting</string>
     <string name="disconnecting">Disconnecting</string>
-    <string name="closed">closed</string>
+    <string name="closed">Off</string>
     <string name="invalid_email_address">Invalid Email Address!</string>
     <string name="password_length_is_6_to_18_chars">Password length of 6 to 18 characters</string>
     <string name="signing_in">Signing In</string>
@@ -130,7 +130,7 @@
     <string name="sending_mail_which_contains_your_password">Sending mail which contains your password.</string>
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
-    <string name="registration_success">Registration Success,Please go to the email to activate </string>
+    <string name="registration_success">Registration Success,Please check your email to activate your account </string>
     <string name="email_has_been_used">Email has been used.</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
@@ -176,10 +176,10 @@
     <string name="sleep_mode_time_setting">"Time Setting"</string>
     <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
     <string name="title_activity_camera">Camera</string>
-    <string name="sleep_mode_on_and_time_format">Sleep On\n\n%1$s - %2$s</string>
+    <string name="sleep_mode_on_and_time_format">Sleep Mode On\n\n%1$s - %2$s</string>
     <string name="sleep_mode_off">Sleep Mode off</string>
     <string name="feed_back_success">Thanks,your feedback is submitted!</string>
-    <string name="feedback_failed">Sorry,your feedback failed to submit，please check your internet!</string>
+    <string name="feedback_failed">Sorry,your feedback failed to submit, please check your internet!</string>
     <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
     <string name="wait_a_moment">Wait a moment.</string>
     <string name="checking_for_new_version">Checking for new version</string>
@@ -198,7 +198,7 @@
     <string name="help_title">help</string>
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
-    <string name="iTrack_close_tip">Please Press iTrack \n to reconnect</string>
+    <string name="iTrack_close_tip">Please hold the iTrack button to wake it up</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
     <string name="modify_locationname">Modify name of location</string>
@@ -221,7 +221,7 @@
     <string name="distan_close">Near</string>
     <string name="distan_far">Far</string>
     <string name="notice_delete">Delete</string>
-    <string name="notice_confire">Confire</string>
+    <string name="notice_confire">Confirm</string>
     <string name="notice_delete_loser_tip_1">After you delete this&#160;\" </string>
     <string name="notice_delete_loser_tip_2">\" &#160;item, the tag will be deleted from your iTrack list, you cannot use it unless you add it again.</string>
     <string name="notice_close_loser_tip_1">As you turn off the &#160;\"</string>
