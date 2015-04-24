@@ -17,7 +17,7 @@
     <string name="title_activity_binding">BindingActivity</string>
     <string name="title_activity_track_redit">iTrackEditActivity</string>
     <string name="cancel">Cancel</string>
-    <string name="click_to_add ">Click to add new item</string>
+    <string name="click_to_add">Click to add new item</string>
     <string name="title_activity_main_track_rlist">MainiTrackListActivity</string>
     <string name="change_image">Change photo</string>
     <string name="title_activity_photo_edit">PhotoEditActivity</string>
@@ -36,6 +36,18 @@
         <item>Kid</item>
         <item>Other</item>
     </string-array>
+
+
+    <string name="Key">Key</string>
+    <string name="Wallet">Wallet</string>
+    <string name="Purse">Purse</string>
+    <string name="Computer">Computer</string>
+    <string name="Pet">Pet</string>
+    <string name="Car">Car</string>
+    <string name="Kid">Kid</string>
+    <string name="Other">Other</string>
+
+
 
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="track_r_is_running">iTrack is running.</string>
@@ -208,7 +220,7 @@
     <string name="title_activity_found_by_others">FoundByOthers</string>
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
-    <string name="edit_itrack">Edit iTrack</string>
+    <string name="edit_itrack">Edit Item</string>
     <string name="delete_track_on_server">Delete iTrack on Server</string>
     <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
 

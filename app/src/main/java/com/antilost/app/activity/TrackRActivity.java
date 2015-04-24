@@ -299,6 +299,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 mConnection.setText(R.string.closed);
                 mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             } else {
+//                «Âø’œ‘ æ
+                mTrackImage.setText("");
                 if(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
                     mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
                     mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);

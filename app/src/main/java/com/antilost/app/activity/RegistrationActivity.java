@@ -86,7 +86,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         final String password = mPasswordInput.getText().toString();
 
         if(password.length() < 6 || password.length() > 18) {
-            Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT).show();
+            mPassowrdConfirmInput.setText(R.string.password_length_is_6_to_18_chars);
+            mPasswordInput.setText(R.string.password_length_is_6_to_18_chars);
             return;
         }
 
