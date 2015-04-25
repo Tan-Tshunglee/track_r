@@ -1372,12 +1372,12 @@ public class BluetoothLeService extends Service implements
                 public void run() {
                     Set<String> ids = mPrefsManager.getTrackIds();
                     for (String address : ids) {
-                        connectSingleTrack(address);
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        connectSingleTrack(address);
                     }
 
                     //if all device connected, exit fast repeat mode;
