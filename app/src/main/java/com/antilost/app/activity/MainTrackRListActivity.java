@@ -143,10 +143,13 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         startService(gattServiceIntent);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
     }
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(mGattUpdateReceiver);
         super.onDestroy();
         unbindService(mServiceConnection);
         mBluetoothLeService = null;
@@ -169,11 +172,8 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
     protected void onResume() {
         super.onResume();
 
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         mListViewAdapter.updateData();
-
         updateLocationAlertVisibility();
-        
         checkBluetoothAvailability();
 
         if(!mPrefsManager.validUserLog()) {
@@ -253,11 +253,6 @@ public class MainTrackRListActivity extends Activity implements View.OnClickList
         return mLocationUnavailableDialog;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
-    }
 
     @Override
     public void onUserInteraction() {
