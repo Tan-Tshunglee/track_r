@@ -68,71 +68,197 @@
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/track_r_large_icon_layout_height"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/track_r_type_icon_margin"
-                android:paddingRight="@dimen/track_r_type_icon_margin"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/key"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/user_data_text"
+                        android:layout_gravity="center"
+                        android:text="@string/Key"
+                        android:singleLine="true"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/wallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/wallet"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/user_data_text"
+                    android:layout_gravity="center"
+                    android:text="@string/Wallet"
+                    android:singleLine="true"
+                    />
+            </LinearLayout>
+                <!-- bag-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/bag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/bag"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/user_data_text"
+                    android:layout_gravity="center"
+                    android:text="@string/Purse"
+                    android:singleLine="true"
+                    />
+            </LinearLayout>
+            <!-- computer-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/computer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/computer"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/user_data_text"
+                android:layout_gravity="center"
+                android:text="@string/Computer"
+                android:singleLine="true"
+                />
+        </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingLeft="@dimen/track_r_type_icon_margin"
-                android:paddingRight="@dimen/track_r_type_icon_margin"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_weight="1">
+                <!-- pet-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/pet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/pet"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/user_data_text"
+                    android:layout_gravity="center"
+                    android:text="@string/Pet"
+                    android:singleLine="true"
+                    />
+            </LinearLayout>
+                <!-- car-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/car"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/user_data_text"
+                    android:layout_gravity="center"
+                    android:text="@string/Car"
+                    android:singleLine="true"
+                    />
+            </LinearLayout>
+                <!-- child-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/child"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/user_data_text"
+                android:layout_gravity="center"
+                android:text="@string/Kid"
+                android:singleLine="true"
+                    />
+                </LinearLayout>
+                <!-- other-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
                 <ImageButton android:id="@+id/other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/other"
-                    android:layout_margin="@dimen/track_r_type_icon_margin"
+                    android:layout_gravity="center"
                     android:background="@drawable/large_circle_btn_bkg" />
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/user_data_text"
+                android:layout_gravity="center"
+                android:text="@string/Other"
+                android:singleLine="true"
+                    />
+            </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

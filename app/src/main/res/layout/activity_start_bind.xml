@@ -20,7 +20,7 @@
         <TextView android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_track_r"
+            android:text="@string/add_new_item"
             android:textSize="20sp"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white" />
@@ -54,5 +54,6 @@
         android:textColor="@android:color/white"
         android:gravity="center"
         android:text="@string/prepare_track_r_to_bind"
+        android:lineSpacingMultiplier="1.5"
         android:layout_below="@id/mainAddBtn" />
 </RelativeLayout>
