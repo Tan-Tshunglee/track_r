@@ -1370,7 +1370,7 @@ public class BluetoothLeService extends Service implements
             mConnectionThread = new Thread () {
                 @Override
                 public void run() {
-                    Set<String> ids = mPrefsManager.getTrackIds();
+                    Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
                     for (String address : ids) {
                         try {
                             Thread.sleep(3000);
