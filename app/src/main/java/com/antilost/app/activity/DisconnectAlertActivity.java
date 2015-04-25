@@ -3,8 +3,11 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.media.MediaPlayer;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import com.antilost.app.R;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.LocUtils;
 
 import java.io.IOException;
@@ -41,6 +45,22 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     private LayoutInflater mLayoutInflater;
     private Handler mHandler = new Handler();
 
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                Log.v(LOG_TAG, "receive ACTION_GATT_SERVICES_DISCOVERED");
+                String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
+                if(mTrackR != null
+                        && mTrackR.address.equals(address)) {
+                    finish();
+                }
+
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +77,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mMediaPlayer = new MediaPlayer();
         try {
             mMediaPlayer.setDataSource(assets.openFd("alert.mp3").getFileDescriptor());
+            mMediaPlayer.setLooping(true);
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,7 +85,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
         mMediaPlayer.setVolume(1.0f, 1.0f);
         mLayoutInflater = getLayoutInflater();
-        initAlertDialogPlaySound();
+        vibrateAndMakeALertSound();
 
 
     }
@@ -75,11 +96,15 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        initAlertDialogPlaySound();
+
+        if(mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
+        }
+        vibrateAndMakeALertSound();
 
     }
 
-    private void initAlertDialogPlaySound() {
+    private void vibrateAndMakeALertSound() {
 
         mBluetoothAddress = getIntent().getStringExtra(EXTRA_KEY_DEVICE_ADDRESS);
         mTrackR = mPrefsManager.getTrack(mBluetoothAddress);
@@ -116,7 +141,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
+            mMediaPlayer.pause();
         }
         switch (i) {
             case DialogInterface.BUTTON_NEGATIVE:
@@ -139,20 +164,19 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         public void run() {
             if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
                 Log.v(LOG_TAG, "alert time run out ,stop  mediaplayer.");
-                mMediaPlayer.stop();
+                mMediaPlayer.pause();
             }
         }
     };
 
     private void playAlertSound() {
 
-
         boolean globalAlertEnabled = mPrefsManager.getGlobalAlertRingEnabled();
         boolean trackAlertEnabled = mPrefsManager.getPhoneAlert(mBluetoothAddress);
 
         if(globalAlertEnabled && trackAlertEnabled) {
             if(mMediaPlayer.isPlaying()) {
-                mMediaPlayer.stop();
+                mMediaPlayer.pause();
                 mHandler.removeCallbacks(mStopRingRunnable);
             }
             mMediaPlayer.start();
@@ -169,23 +193,35 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mAlertDialog.show();
 
         Log.v(LOG_TAG, "onResume called.");
+        registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED));
     }
 
     @Override
     protected void onPause() {
+        unregisterReceiver(mGattUpdateReceiver);
         super.onPause();
 
         if(mAlertDialog != null) {
             mAlertDialog.dismiss();
         }
 
+        if(mMediaPlayer != null) {
+
+            if(mMediaPlayer.isPlaying()) {
+                mMediaPlayer.pause();
+            }
+        }
         Log.v(LOG_TAG, "onPause called.");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMediaPlayer.release();
-        mMediaPlayer = null;
+        try {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
