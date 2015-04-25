@@ -505,7 +505,7 @@ public class BluetoothLeService extends Service implements
 
 
             //even device is power off the newState can be STATE_CONNECTEDe,
-            //we think device is connected after onServicesDiscovered is called();
+            //we define device is connected after onServicesDiscovered is called success();
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
             }
@@ -513,9 +513,17 @@ public class BluetoothLeService extends Service implements
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            Log.i(LOG_TAG, "onServicesDiscovered ....");
 
             String address = gatt.getDevice().getAddress();
+            if(status != BluetoothGatt.GATT_SUCCESS) {
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                Log.e(LOG_TAG, "onServicesDiscovered called  with status " + status);
+                //tryConnectGatt will close old gatt
+                tryConnectGatt(address, gatt.getDevice());
+            }
+            Log.i(LOG_TAG, "onServicesDiscovered ....");
+
+
             if(!mPrefsManager.validUserLog()) {
                 Log.v(LOG_TAG, "onServicesDiscovered user logout close connection");
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -1658,11 +1666,11 @@ public class BluetoothLeService extends Service implements
         if (oldCallback == null) {
             Log.i(LOG_TAG, "Trying to create a new callback to " + address);
             oldCallback = new MyBluetootGattCallback();
-            bluetoothGatt = device.connectGatt(this, false, oldCallback);
+
         } else {
             Log.v(LOG_TAG, "Use old callback to connectSingleTrack gatt");
-            bluetoothGatt = device.connectGatt(this, false, oldCallback);
         }
+        Utils.connectBluetoothGatt(device, this, oldCallback);
 
         if (bluetoothGatt != null) {
             mBluetoothCallbacks.put(address, oldCallback);
@@ -1673,7 +1681,7 @@ public class BluetoothLeService extends Service implements
         }
 
         mBluetoothGatts.put(address, bluetoothGatt);
-        mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
+        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
     }
 
 
