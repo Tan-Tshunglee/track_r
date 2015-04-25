@@ -1342,13 +1342,18 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-        //scan devices
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                scanLeDevice();
-            }
-        }, 100);
+        if(mConnectionThread == null) {
+            //scan devices
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanLeDevice();
+                }
+            }, 100);
+        } else {
+            Log.v(LOG_TAG, "background thread is running,  ignore device scan in repeatConnectLoop()");
+        }
+
 
         //this will read file
         int uid = mPrefsManager.getUid();
@@ -1378,8 +1383,14 @@ public class BluetoothLeService extends Service implements
                             e.printStackTrace();
                         }
                         connectSingleTrack(address);
+
                     }
 
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     //if all device connected, exit fast repeat mode;
                     boolean allConnected = true;
                     for (String address : ids) {
@@ -1399,6 +1410,8 @@ public class BluetoothLeService extends Service implements
                 }
             };
             mConnectionThread.start();
+        } else {
+            Log.v(LOG_TAG, "background connection thread is already running.");
         }
 
         return true;
