@@ -135,7 +135,7 @@ public class PrefsManager {
     }
 
     public boolean removeNewlyTrackId(String trackId) {
-        Set<String> ids = getTrackIds();
+        Set<String> ids = getNewlyTrackIds();
         if(ids.remove(trackId)) {
             return mPrefs.edit().putStringSet(PREFS_NEWLY_ADD_TRACKS_KEY, ids).commit();
         }
