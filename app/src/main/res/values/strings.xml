@@ -53,11 +53,11 @@
     <string name="track_r_is_running">iTrack is running.</string>
     <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
     <string name="title_activity_track_rsetting">iTrackSettingActivity</string>
-    <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n2.Hold the iTrackPro tag close to your phone\n3.Hold the button on the iTrackPro device until you hear a beep and the LED starts flashing</string>
+    <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n\n2.Hold the iTrackPro tag close to your phone.\n\n3.Hold the button on the iTrackPro device until you hear a beep and the LED starts flashing.</string>
     <string name="add_track_r">Add New Item</string>
     <string name="connecting_with_track_r">Connecting with iTrack</string>
     <string name="connecting_failed">Failed to Connect</string>
-    <string name="try_again_steps">Tips:\n1.Make sure you turn on the Bluetooth on your phone.\n2.Make sure the iTrackPro device is near your phone (less than 4 inches)\n3.Make sure to hold the button on the iTrackPro device until you hear the beep.\n4.Tap “Re-scan” to try again</string>
+    <string name="try_again_steps">Tips:\n1.Make sure you turn on the Bluetooth on your phone.\n\n2.Make sure the iTrackPro device is near your phone (less than 4 inches).\n\n3.Make sure to hold the button on the iTrackPro device until you hear the beep.\n\n4.Tap “Re-scan” to try again.</string>
     <string name="try_again">Try Again</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
