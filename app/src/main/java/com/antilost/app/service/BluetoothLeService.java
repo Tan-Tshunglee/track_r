@@ -59,6 +59,7 @@ import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
+import java.lang.reflect.Method;
 import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -290,12 +291,15 @@ public class BluetoothLeService extends Service implements
 
                     Set<String> ids = mPrefsManager.getTrackIds();
                     String deviceAddress = device.getAddress();
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                    try {
+                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (ids.contains(deviceAddress)) {
 
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
                         connectTrackAfterScan(deviceAddress);
-                        return;
                     //found an new track r or
                     } else {
                         Log.v(LOG_TAG, "an unkown track has been scanned.");
@@ -1380,12 +1384,17 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
+        
+        
+
+        
         if(mConnectionThread == null) {
             mConnectionThread = new Thread () {
                 @Override
                 public void run() {
                     Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
                     for (String address : ids) {
+
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e) {
@@ -1416,18 +1425,18 @@ public class BluetoothLeService extends Service implements
                     }
 
                     mConnectionThread = null;
+                    Log.i(LOG_TAG, "background connecting thread finished.");
                 }
             };
             mConnectionThread.start();
         } else {
-            Log.v(LOG_TAG, "background connection thread is already running.");
+            Log.w(LOG_TAG, "background connection thread is already running.");
         }
 
         return true;
 
 
     }
-
 
 
     private void closeAllTracksAndStopSelf() {
@@ -1735,6 +1744,7 @@ public class BluetoothLeService extends Service implements
             Log.i(LOG_TAG, "add bluetooth gatt callback to callback list");
         } else {
             Log.e(LOG_TAG, "Device connectGatt return null.");
+            mBluetoothCallbacks.put(address, oldCallback);
         }
 
         mBluetoothGatts.put(address, bluetoothGatt);
