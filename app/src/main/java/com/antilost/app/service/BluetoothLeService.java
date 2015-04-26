@@ -94,6 +94,7 @@ public class BluetoothLeService extends Service implements
     private static final int MSG_DISCOVER_BLE_SERVICES = 5;
     private static final int MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER = 6;
     private static final int MSG_DELAY_CHECK_NEW_TRACK_CONNECTED = 7;
+    private static final int MSG_DELAY_STOP_BLE_SCAN = 8;
 
 
     public static final int ALARM_REPEAT_PERIOD = 2 * 60 * 1000;
@@ -106,6 +107,8 @@ public class BluetoothLeService extends Service implements
     public static final int TIME_TO_KEEP_FAST_ALARM_REPEAT_MODE = 2 * 60 * 1000;
 
     public static final int MIN_DISTANCE = 20;
+    public static final int SCAN_TIMEOUT_MS = 6 * 1000;
+
 
 
     public final static String ACTION_GATT_CONNECTED =
@@ -1101,6 +1104,12 @@ public class BluetoothLeService extends Service implements
 
                         }
                         break;
+                    case MSG_DELAY_STOP_BLE_SCAN:
+                        if(mBluetoothAdapter != null) {
+                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                        }
+
+                        break;
                 }
             }
         };
@@ -1521,6 +1530,7 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "scanLeDevice");
         if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
             Log.v(LOG_TAG, "start bluetooth le scan successfully.");
+            mHandler.sendEmptyMessageDelayed(MSG_DELAY_STOP_BLE_SCAN, SCAN_TIMEOUT_MS);
         } else {
             Log.v(LOG_TAG, "start bluetooth scan failed.");
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
@@ -1530,6 +1540,7 @@ public class BluetoothLeService extends Service implements
 
                     if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
                         Log.v(LOG_TAG, "restart ble scan success..");
+                        mHandler.sendEmptyMessageDelayed(MSG_DELAY_STOP_BLE_SCAN, SCAN_TIMEOUT_MS);
                     } else {
                         Log.v(LOG_TAG, "restart ble scan failed.");
                     };
