@@ -36,7 +36,7 @@ import com.antilost.app.service.BluetoothLeService;
 import java.util.Locale;
 import java.util.Set;
 
-public class MainTrackRListActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener, Dialog.OnClickListener {
+public class MainTrackRListActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener, Dialog.OnClickListener {
 
     private static final int REQUEST_CODE_ADD_TRACK_R = 1;
     private static final String LOG_TAG = "MainTrackRListActivity";
