@@ -78,16 +78,11 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         public void run() {
                             String deviceName = device.getName();
                             //check device name first
-                            if (!Utils.DEVICE_NAME.equals(deviceName)) {
-                                if (BuildConfig.DEBUG && "Keyfobdemo".equals(deviceName)) {
-                                    Log.i(LOG_TAG, "debug mode allow  device of name " + deviceName);
-                                } else {
-                                    Log.w(LOG_TAG, "get unkown device of name " + deviceName);
-                                    return;
-                                }
-
+                            if (!Utils.DEVICE_WAITING_FOR_ADD_NAME.equals(deviceName)) {
+                                Log.w(LOG_TAG, "get unkown device of name " + deviceName);
                             }
-                            scanLeDevice(false);
+
+
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
                             if (mTrackIds.contains(deviceAddress)
@@ -97,6 +92,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 Log.v(LOG_TAG, "find already bind device");
                                 return;
                             }
+
+                            scanLeDevice(false);
 
                             if (!mTrackIds.contains(deviceAddress)) {
                                 Log.v(LOG_TAG, "find a new mTrack device.");

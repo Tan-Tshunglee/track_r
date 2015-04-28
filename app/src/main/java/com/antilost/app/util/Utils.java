@@ -32,6 +32,7 @@ import java.util.Locale;
 public class Utils {
 
     public static final String DEVICE_NAME = "TrackR";
+    public static final String DEVICE_WAITING_FOR_ADD_NAME = "Track0";
 
     public static final boolean isValidMacAddress(String mac) {
         if (TextUtils.isEmpty(mac)) {
