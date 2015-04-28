@@ -50,6 +50,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     //Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 5000;
+    public static final int MIN_RSSI_ACCEPTABLE = -50;
 
 
     private RelativeLayout mFirstPage;
@@ -76,7 +77,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         @Override
                         public void run() {
 
-                            if(rssi < -40) {
+                            if(rssi < MIN_RSSI_ACCEPTABLE) {
                                 Log.i(LOG_TAG, "rssi is too small, rssi:" + rssi);
                                 return;
                             }
@@ -84,6 +85,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             //check device name first
                             if (!Utils.DEVICE_KEY_PRESSED_NAME.equals(deviceName)) {
                                 Log.w(LOG_TAG, "get unkown device of name " + deviceName);
+                                return;
                             }
 
 
