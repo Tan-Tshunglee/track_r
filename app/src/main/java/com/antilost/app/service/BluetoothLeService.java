@@ -38,6 +38,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
+import com.android.mod.Util;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
@@ -283,8 +284,10 @@ public class BluetoothLeService extends Service implements
                         Log.v(LOG_TAG, "User not login.");
                         return;
                     }
-                    if(!"TrackR".equals(device.getName())) {
-                        Log.d(LOG_TAG, "scan an unkown name devices...");
+                    String name = device.getName();
+                    if(!Utils.DEVICE_NAME.equals(name)
+                            && !Utils.DEVICE_KEY_PRESSED_NAME.equals(name)) {
+                        Log.d(LOG_TAG, "scan an unkown name devices... with name:");
                         return;
                     }
                     Log.i(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());

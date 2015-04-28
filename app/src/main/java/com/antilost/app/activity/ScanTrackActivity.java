@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -72,13 +71,18 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             new BluetoothAdapter.LeScanCallback() {
 
                 @Override
-                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                public void onLeScan(final BluetoothDevice device, final int rssi, byte[] scanRecord) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            if(rssi < -40) {
+                                Log.i(LOG_TAG, "rssi is too small, rssi:" + rssi);
+                                return;
+                            }
                             String deviceName = device.getName();
                             //check device name first
-                            if (!Utils.DEVICE_WAITING_FOR_ADD_NAME.equals(deviceName)) {
+                            if (!Utils.DEVICE_KEY_PRESSED_NAME.equals(deviceName)) {
                                 Log.w(LOG_TAG, "get unkown device of name " + deviceName);
                             }
 

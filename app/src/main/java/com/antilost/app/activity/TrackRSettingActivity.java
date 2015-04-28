@@ -200,6 +200,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private void updateStateUi() {
         String customIconFilePath = CsstSHImageData.getIconImageString(mBluetoothDeviceAddress);
         mTrack = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+
+        if(mTrack == null) {
+            finish();
+            return;
+        }
         trackName.setText(mTrack.name);
         if (customIconFilePath != null) {
             mTrackImage.setImageURI(null);
