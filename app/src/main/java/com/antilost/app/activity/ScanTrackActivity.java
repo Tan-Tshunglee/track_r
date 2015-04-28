@@ -397,6 +397,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 Log.i(LOG_TAG, "startLeScan success");
             } else {
                 Log.i(LOG_TAG, "startLeScan failed");
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
             }
 
             mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);
