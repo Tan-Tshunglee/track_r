@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.bluetooth.UUID;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
 import com.antilost.app.util.Utils;
@@ -73,17 +74,24 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
                 @Override
                 public void onLeScan(final BluetoothDevice device, final int rssi, byte[] scanRecord) {
+
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
+                            if(!mScanning) {
+                                Log.w(LOG_TAG, "scan stoped, but onLeScan callback called");
+                                scanLeDevice(false);
+                                return;
+                            }
                             if(rssi < MIN_RSSI_ACCEPTABLE) {
                                 Log.i(LOG_TAG, "rssi is too small, rssi:" + rssi);
                                 return;
                             }
                             String deviceName = device.getName();
                             //check device name first
-                            if (!Utils.DEVICE_KEY_PRESSED_NAME.equals(deviceName)) {
+                            if (!Utils.DEVICE_NAME.equals(deviceName)) {
                                 Log.w(LOG_TAG, "get unkown device of name " + deviceName);
                                 return;
                             }
@@ -150,8 +158,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 }
             } else {
                 gatt.close();
-                mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
-                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not success :");
+                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not success status: " + status);
             }
         }
 
@@ -159,9 +166,26 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             Log.d(LOG_TAG, "onServiceDiscovered... " + status);
             if(status == BluetoothGatt.GATT_SUCCESS) {
+
                 BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
                 if(service != null) {
-                    BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+
+                    BluetoothGattCharacteristic pressedAddCharacteristic = service.getCharacteristic(UUID.CHARACTERISTIC_PRESSED_FOR_ADD);
+                    if (pressedAddCharacteristic == null) {
+                        Log.w(LOG_TAG, " pressedAddCharacteristic is null");
+                        gatt.close();
+                        scanLeDevice(true);
+                        return;
+                    }
+                    int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+
+                    if(keyPressed == 0) {
+                        Log.w(LOG_TAG, " scan and add an unpressed track");
+                        gatt.close();
+                        scanLeDevice(true);
+                        return;
+                    }
+                    BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
                     if(characteristic != null) {
                         characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
                         if(gatt.writeCharacteristic(characteristic)) {
@@ -316,11 +340,12 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         break;
                     case MSG_RETRY_SCAN_LE:
                         mScanedTime += SCAN_PERIOD;
-                        scanLeDevice(false);
                         if (mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
                             Log.v(LOG_TAG, "Scan last time " + mScanedTime / 1000);
                             scanLeDevice(true);
                             return;
+                        } else {
+                            scanLeDevice(false);
                         }
                         mScanedTime = 0;
                         sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
@@ -392,14 +417,17 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         if (enable) {
             // Stops scanning after a pre-defined scan period.
             Log.w(LOG_TAG, "scanLeDevice " + enable);
+            if(mScanning) {
+                Log.w(LOG_TAG, "scan alreay start...");
+                return;
+            }
             mScanning = true;
             if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
                 Log.i(LOG_TAG, "startLeScan success");
             } else {
-                Log.i(LOG_TAG, "startLeScan failed");
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                Log.w(LOG_TAG, "startLeScan failed");
             }
-
+            mHandler.removeMessages(MSG_RETRY_SCAN_LE);
             mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);
         } else {
             mScanning = false;
