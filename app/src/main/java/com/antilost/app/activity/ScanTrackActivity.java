@@ -85,10 +85,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 scanLeDevice(false);
                                 return;
                             }
-                            if(rssi < MIN_RSSI_ACCEPTABLE) {
-                                Log.i(LOG_TAG, "rssi is too small, rssi:" + rssi);
-                                return;
-                            }
+
                             String deviceName = device.getName();
                             //check device name first
                             if (!Utils.DEVICE_NAME.equals(deviceName)) {
@@ -96,6 +93,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 return;
                             }
 
+                            if(rssi < MIN_RSSI_ACCEPTABLE) {
+                                Log.i(LOG_TAG, String.format("%s 's rssi is too small, rssi:%d", deviceName, rssi));
+                                return;
+                            }
 
                             mTrackIds = mPrefsManager.getTrackIds();
                             String deviceAddress = device.getAddress();
@@ -154,11 +155,13 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         }
                     }, 1000);
                 } else {
-                    Log.v(LOG_TAG, "bluetooth connection state is not STATE_CONNECTED");
+                    Log.v(LOG_TAG, "Bluetooth disconnect");
+                    gatt.close();
+                    mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                 }
             } else {
                 gatt.close();
-                Log.e(LOG_TAG, "Scan Track Activity onConnectionStateChange get status is not success status: " + status);
+                Log.e(LOG_TAG, "Scan Track  onConnectionStateChange   status is not success status: " + status);
             }
         }
 
@@ -171,51 +174,88 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                    public void run() {
                        BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
                        if(service != null) {
-
                            BluetoothGattCharacteristic pressedAddCharacteristic = service.getCharacteristic(UUID.CHARACTERISTIC_PRESSED_FOR_ADD);
                            if (pressedAddCharacteristic == null) {
-                               Log.w(LOG_TAG, " pressedAddCharacteristic is null");
+                               Log.w(LOG_TAG, " pressed Add Characteristic is null");
                                gatt.close();
-                               scanLeDevice(true);
+                               mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                                return;
                            }
-                           try {
-                               int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-
-                               if(keyPressed == 0) {
-                                   Log.w(LOG_TAG, " scan and add an unpressed track");
-                                   gatt.close();
-                                   scanLeDevice(true);
-                                   return;
-                               }
-                           } catch (Exception e) {
-                               e.printStackTrace();
-                           }
-
-                           Log.i(LOG_TAG, "find a key pressed track.");
-                           BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
-                           if(characteristic != null) {
-                               characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
-                               if(gatt.writeCharacteristic(characteristic)) {
-                                   log("Write verify code success.");
-                                   mConnectedBluetoothGatt = gatt;
-                                   startTrackEdit();
-                               } else {
-                                   log("Write verify code failed.");
-                               }
+                           if(gatt.readCharacteristic(pressedAddCharacteristic)) {
+                               Log.i(LOG_TAG, "read pressed characteristic ok");
+                               return;
                            } else {
-                               Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
+                               Log.i(LOG_TAG, "read pressed characteristic failed");
                            }
                        } else {
-                           Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
+                           Log.e(LOG_TAG, "gatt has no custom verified service in onServicesDiscovered");
                        }
+
+                       mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                    }
-               }, 1000);
+               }, 200);
             } else {
                 Log.v(LOG_TAG, "onServicesDiscovered status is not sucess.");
                 gatt.close();
                 mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
             }
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
+
+            if(service != null) {
+                BluetoothGattCharacteristic pressedAddCharacteristic = service.getCharacteristic(UUID.CHARACTERISTIC_PRESSED_FOR_ADD);
+                if (pressedAddCharacteristic == null) {
+                    Log.w(LOG_TAG, " pressed Add Characteristic is null");
+                    gatt.close();
+                    mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
+                    return;
+                }
+
+                try {
+                    byte[] valueBytes = pressedAddCharacteristic.getValue();
+                    if(valueBytes != null) {
+                        Log.v(LOG_TAG, "value bytes is " + valueBytes);
+                        int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+
+                        if(keyPressed == 0) {
+                            Log.w(LOG_TAG, " scan and add an unpressed track");
+                            gatt.close();
+                            mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
+                            return;
+                        }
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.w(LOG_TAG, "error happened while read key pressed value");
+                    mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
+                    return;
+                }
+
+                Log.i(LOG_TAG, "find a key pressed track.");
+                characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+                if(characteristic != null) {
+                    characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                    if(gatt.writeCharacteristic(characteristic)) {
+                        log("Write verify code success.");
+                        mConnectedBluetoothGatt = gatt;
+                        startTrackEdit();
+                        return;
+                    } else {
+                        log("Write verify code failed.");
+                    }
+                } else {
+                    Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
+                }
+            } else {
+                Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
+            }
+
+            mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
         }
     };
     private ImageView mSearchingIcon;
@@ -240,15 +280,12 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
 
     private void reconnectedClosedTrackR(String address) {
-        Toast.makeText(this, "Reconnect Closed TrackR Found.", Toast.LENGTH_SHORT).show();
         mPrefsManager.saveClosedTrack(address, false);
         startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
-        finish();
     }
 
     private void reconnectMissingTrack(String address) {
         startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
-        finish();
     }
 
 
@@ -259,9 +296,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     private void tryConnectBluetoothGatt(final String deviceAddress) {
         if(mConnectedBluetoothGatt != null) {
-            Log.e(LOG_TAG, "Already has one bluetoothGatt connected.");
-            mHandler.removeMessages(MSG_GATT_CONNECTION_TIMEOUT);
-            mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, 30 * 1000);
             return;
         }
         mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
@@ -430,12 +464,13 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             if(mScanning) {
                 Log.w(LOG_TAG, "scan alreay start...");
                 return;
-            }
-            mScanning = true;
-            if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
-                Log.i(LOG_TAG, "startLeScan success");
             } else {
-                Log.w(LOG_TAG, "startLeScan failed");
+                mScanning = true;
+                if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
+                    Log.i(LOG_TAG, "startLeScan success");
+                } else {
+                    Log.w(LOG_TAG, "startLeScan failed");
+                }
             }
             mHandler.removeMessages(MSG_RETRY_SCAN_LE);
             mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);

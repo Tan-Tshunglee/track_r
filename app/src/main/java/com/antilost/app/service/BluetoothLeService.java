@@ -288,7 +288,7 @@ public class BluetoothLeService extends Service implements
                     if(!Utils.DEVICE_NAME.equals(name)
                             && !
                             Utils.DEVICE_KEY_PRESSED_NAME.equals(name)) {
-                        Log.d(LOG_TAG, "scan an unkown name devices... with name:");
+                        Log.d(LOG_TAG, "scan an unkown name devices... with name:" + name);
                         return;
                     }
                     Log.i(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());
