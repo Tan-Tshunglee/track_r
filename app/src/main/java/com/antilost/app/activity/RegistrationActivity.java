@@ -172,13 +172,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                         if (command.success()) {
                             showDialog(ACTIVE_EMAIL_DIALOG);
                         } else if (command.resultError()) {
-
                             showDialog(EMAIL_REGISTERED_DIALOG);
-
-//                            Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
-//                            Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
-//                            startActivity(i);
-//                            finish();
                         } else if (command.isNetworkError()) {
                             Toast.makeText(RegistrationActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
                         } else if (command.isStatusBad()) {
