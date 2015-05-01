@@ -163,44 +163,54 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         }
 
         @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+        public void onServicesDiscovered(final BluetoothGatt gatt, int status) {
             Log.d(LOG_TAG, "onServiceDiscovered... " + status);
             if(status == BluetoothGatt.GATT_SUCCESS) {
+               mHandler.postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
+                       if(service != null) {
 
-                BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
-                if(service != null) {
+                           BluetoothGattCharacteristic pressedAddCharacteristic = service.getCharacteristic(UUID.CHARACTERISTIC_PRESSED_FOR_ADD);
+                           if (pressedAddCharacteristic == null) {
+                               Log.w(LOG_TAG, " pressedAddCharacteristic is null");
+                               gatt.close();
+                               scanLeDevice(true);
+                               return;
+                           }
+                           try {
+                               int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
 
-                    BluetoothGattCharacteristic pressedAddCharacteristic = service.getCharacteristic(UUID.CHARACTERISTIC_PRESSED_FOR_ADD);
-                    if (pressedAddCharacteristic == null) {
-                        Log.w(LOG_TAG, " pressedAddCharacteristic is null");
-                        gatt.close();
-                        scanLeDevice(true);
-                        return;
-                    }
-                    int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+                               if(keyPressed == 0) {
+                                   Log.w(LOG_TAG, " scan and add an unpressed track");
+                                   gatt.close();
+                                   scanLeDevice(true);
+                                   return;
+                               }
+                           } catch (Exception e) {
+                               e.printStackTrace();
+                           }
 
-                    if(keyPressed == 0) {
-                        Log.w(LOG_TAG, " scan and add an unpressed track");
-                        gatt.close();
-                        scanLeDevice(true);
-                        return;
-                    }
-                    BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
-                    if(characteristic != null) {
-                        characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
-                        if(gatt.writeCharacteristic(characteristic)) {
-                            log("Write verify code success.");
-                            mConnectedBluetoothGatt = gatt;
-                            startTrackEdit();
-                        } else {
-                            log("Write verify code failed.");
-                        }
-                    } else {
-                        Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
-                    }
-                } else {
-                    Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
-                }
+                           Log.i(LOG_TAG, "find a key pressed track.");
+                           BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
+                           if(characteristic != null) {
+                               characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                               if(gatt.writeCharacteristic(characteristic)) {
+                                   log("Write verify code success.");
+                                   mConnectedBluetoothGatt = gatt;
+                                   startTrackEdit();
+                               } else {
+                                   log("Write verify code failed.");
+                               }
+                           } else {
+                               Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
+                           }
+                       } else {
+                           Log.e(LOG_TAG, "gatt has no custom verified service in verifyConnection");
+                       }
+                   }
+               }, 1000);
             } else {
                 Log.v(LOG_TAG, "onServicesDiscovered status is not sucess.");
                 gatt.close();
