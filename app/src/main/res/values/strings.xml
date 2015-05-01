@@ -252,4 +252,5 @@
     <string name="unregister_email">Email not registered!</string>
     <string name="your_email_need_activation">Inactive account, you can active your account by click the active link in your email box</string>
     <string name="wrong_pass">Wrong password</string>
+    <string name="retrieve_my_pass">Retrieve my password</string>
 </resources>
