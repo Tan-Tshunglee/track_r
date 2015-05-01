@@ -80,11 +80,13 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         @Override
                         public void run() {
 
+
                             if(!mScanning) {
                                 Log.w(LOG_TAG, "scan stoped, but onLeScan callback called");
                                 scanLeDevice(false);
                                 return;
                             }
+
 
                             String deviceName = device.getName();
                             //check device name first
@@ -94,7 +96,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             }
 
                             if(rssi < MIN_RSSI_ACCEPTABLE) {
-                                Log.i(LOG_TAG, String.format("%s 's rssi is too small, rssi:%d", deviceName, rssi));
+                                Log.i(LOG_TAG, String.format("%s 's rssi is too small, rssi:%d", device.getAddress(), rssi));
                                 return;
                             }
 
