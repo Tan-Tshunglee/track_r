@@ -375,13 +375,7 @@ public class BluetoothLeService extends Service implements
         return mSecureRandom.nextInt(1000);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
-            mLastLocation = location;
-        }
-        Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
-    }
+
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -486,15 +480,13 @@ public class BluetoothLeService extends Service implements
                     if(mLostGpsNeedUpdateIds.add(address)) {
                         Log.v(LOG_TAG, "Add lost track's address to update list.");
                     }
-
+                    //request location update to save
                     unregisterAmapLocationListener();
                     registerAmapLocationListener();
 
                     mPrefsManager.saveMissedTrack(address, true);
                     mPrefsManager.saveClosedTrack(address, false);
                     mPrefsManager.saveDeclareLost(address, false);
-
-                    reportTrackLostPosition(address);
 
                     mPrefsManager.saveLastLostTime(address, System.currentTimeMillis());
                     broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
@@ -1256,19 +1248,21 @@ public class BluetoothLeService extends Service implements
             for(String id: idsNeedUpdateLocation) {
                 Log.v(LOG_TAG, "update last loat location info ");
                 mPrefsManager.saveLastLostLocation(loc, id);
+                reportTrackLostPosition(id);
+
             }
 
             Log.i(LOG_TAG, "get location info from amap location,  lat is " + loc.getLatitude() + "the long is " + loc.getLongitude());
-            Set<Map.Entry<String, Integer>> gattStates = mGattConnectionStates.entrySet();
-            for(Map.Entry<String, Integer> gattState: gattStates) {
-                Integer state = gattState.getValue();
-                if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
-                    return;
-                }
-            }
-            Log.i(LOG_TAG, "No connected trackr stop listening gps update");
             disableGpsUpdate();
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            mLastLocation = location;
+        }
+        Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
     }
 
 
