@@ -536,6 +536,7 @@ public class BluetoothLeService extends Service implements
             if(status != BluetoothGatt.GATT_SUCCESS) {
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
                 Log.e(LOG_TAG, "onServicesDiscovered called  with status " + status);
+                Log.i(LOG_TAG, "Try to close and reconnect the wrong status track");
                 //tryConnectGatt will close old gatt
                 mHandler.postDelayed(new Runnable() {
                     @Override
@@ -1359,17 +1360,6 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-        if(mConnectionThread == null) {
-            //scan devices
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scanLeDevice();
-                }
-            }, 100);
-        } else {
-            Log.v(LOG_TAG, "background thread is running,  ignore device scan in repeatConnectLoop()");
-        }
 
 
         //this will read file
@@ -1388,24 +1378,38 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-        
-        
+        if(mConnectionThread == null) {
+            //scan devices
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanLeDevice();
+                }
+            }, 100);
+        } else {
+            Log.v(LOG_TAG, "background thread is running,  ignore device scan in repeatConnectLoop()");
+        }
 
-        
+        if(allTrackConnected()) {
+            Log.d(LOG_TAG, "All tracks are connected, no need to start connecting thread.");
+            return true;
+        }
         if(mConnectionThread == null) {
             mConnectionThread = new Thread () {
                 @Override
                 public void run() {
+                    Log.i(LOG_TAG, "background connecting thread start.");
                     Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
                     for (String address : ids) {
-
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        boolean needWaiting = true;
+                        if(needWaiting) {
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        connectSingleTrack(address);
-
+                        needWaiting = connectSingleTrack(address);
                     }
 
                     try {
@@ -1414,16 +1418,7 @@ public class BluetoothLeService extends Service implements
                         e.printStackTrace();
                     }
                     //if all device connected, exit fast repeat mode;
-                    boolean allConnected = true;
-                    for (String address : ids) {
-                        HashMap<String, Integer> states = (HashMap<String, Integer>) mGattConnectionStates.clone();
-                        Integer state = states.get(address);
-                        if(state == null || state != BluetoothProfile.STATE_CONNECTED) {
-                            allConnected = false;
-                        }
-                    }
-
-                    if(allConnected) {
+                    if(allTrackConnected()) {
                         Log.i(LOG_TAG, "all trackr connected, exit fast repeat mode");
                         exitFastRepeatMode();
                     }
@@ -1440,6 +1435,20 @@ public class BluetoothLeService extends Service implements
         return true;
 
 
+    }
+
+    private boolean allTrackConnected() {
+        Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
+        boolean allConnected = true;
+        for (String address : ids) {
+            HashMap<String, Integer> states = (HashMap<String, Integer>) mGattConnectionStates.clone();
+            Integer state = states.get(address);
+            if(state == null || state != BluetoothProfile.STATE_CONNECTED) {
+                allConnected = false;
+                break;
+            }
+        }
+        return allConnected;
     }
 
 
@@ -1547,18 +1556,6 @@ public class BluetoothLeService extends Service implements
         } else {
             Log.v(LOG_TAG, "start bluetooth scan failed.");
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
-                        Log.v(LOG_TAG, "restart ble scan success..");
-                        mHandler.sendEmptyMessageDelayed(MSG_DELAY_STOP_BLE_SCAN, SCAN_TIMEOUT_MS);
-                    } else {
-                        Log.v(LOG_TAG, "restart ble scan failed.");
-                    };
-                }
-            }, 1000);
         };
 
     }
@@ -1613,7 +1610,7 @@ public class BluetoothLeService extends Service implements
                 && oldState == BluetoothProfile.STATE_CONNECTED) {
             Log.d(LOG_TAG, "Device already connected, just bail out.");
             updatesSingleTrackSleepState(address);
-            return true;
+            return false;
         }
 
 
@@ -1719,10 +1716,12 @@ public class BluetoothLeService extends Service implements
 
         if(mBluetoothAdapter == null) {
             Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is null");
+            return;
         }
 
         if(!mBluetoothAdapter.isEnabled()) {
             Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is disabled");
+            return;
         }
 
         BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
