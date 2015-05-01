@@ -102,7 +102,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
             return;
         }
 
-        String passwordConfirm = mPasswordInput.getText().toString();
+        String passwordConfirm = mPassowrdConfirmInput.getText().toString();
         if(!password.equals(passwordConfirm)) {
 //            Toast.makeText(this, getString(R.string.the_two_passwords_do_not_match), Toast.LENGTH_SHORT).show();
             Toast toast = Toast.makeText(this, R.string.the_two_passwords_do_not_match, Toast.LENGTH_SHORT);
