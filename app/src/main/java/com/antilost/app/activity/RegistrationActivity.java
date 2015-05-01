@@ -33,6 +33,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     private static final String LOG_TAG = "RegistrationActivity";
     public static final int PROMPT_OPEN_NETWORK_ID = 1;
     public static final int ACTIVE_EMAIL_DIALOG = 2;
+    public static final int EMAIL_REGISTERED_DIALOG = 3;
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private EditText mPassowrdConfirmInput;
@@ -41,6 +42,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     private ConnectivityManager mConnectivityManager;
     private AlertDialog mOpenNetworkDialog;
     private AlertDialog mActiveEmailDialog;
+    private AlertDialog mEmailRegisteredDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
         mEmailInput = (EditText) findViewById(R.id.email_address);
         mPasswordInput = (EditText) findViewById(R.id.user_password);
-        mPassowrdConfirmInput =  (EditText) findViewById(R.id.user_password_confirm);
+        mPassowrdConfirmInput = (EditText) findViewById(R.id.user_password_confirm);
 
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
     }
@@ -100,10 +102,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     private void tryRegistrationUser() {
 
 
-
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             Toast toast = Toast.makeText(this, R.string.invalid_email_address, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -112,7 +113,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
         final String password = mPasswordInput.getText().toString();
 
-        if(password.length() < 6 || password.length() > 18) {
+        if (password.length() < 6 || password.length() > 18) {
 //            Toast.makeText(this, R.string.password_length_is_6_to_18_chars, Toast.LENGTH_SHORT).show();
 //            mPassowrdConfirmInput.setText(R.string.password_length_is_6_to_18_chars);
 //            mPasswordInput.setText(R.string.password_length_is_6_to_18_chars);
@@ -124,7 +125,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         }
 
         String passwordConfirm = mPasswordInput.getText().toString();
-        if(!password.equals(passwordConfirm)) {
+        if (!password.equals(passwordConfirm)) {
 //            Toast.makeText(this, getString(R.string.the_two_passwords_do_not_match), Toast.LENGTH_SHORT).show();
             Toast toast = Toast.makeText(this, R.string.the_two_passwords_do_not_match, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -153,7 +154,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         });
         mProgressDialog.show();
 
-        Thread t  = new Thread() {
+        Thread t = new Thread() {
             @Override
             public void run() {
                 final RegisterCommand command = new RegisterCommand(email, password);
@@ -162,22 +163,25 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                     @Override
                     public void run() {
 
-                        if(!mProgressDialog.isShowing()) {
+                        if (!mProgressDialog.isShowing()) {
                             Log.d(LOG_TAG, "user cancel login");
                             return;
                         }
 
                         mProgressDialog.dismiss();
-                        if(command.success()) {
+                        if (command.success()) {
                             showDialog(ACTIVE_EMAIL_DIALOG);
-                        } else if(command.resultError()) {
-                            Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
-                            startActivity(i);
-                            finish();
-                        } else if(command.isNetworkError()) {
+                        } else if (command.resultError()) {
+
+                            showDialog(EMAIL_REGISTERED_DIALOG);
+
+//                            Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
+//                            Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
+//                            startActivity(i);
+//                            finish();
+                        } else if (command.isNetworkError()) {
                             Toast.makeText(RegistrationActivity.this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                        } else if(command.isStatusBad()) {
+                        } else if (command.isStatusBad()) {
                             Toast.makeText(RegistrationActivity.this, getString(R.string.registration_error), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(RegistrationActivity.this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
@@ -192,8 +196,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     private void checkNetwokAvailablity() {
 
         NetworkInfo activeNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
-            showDialog(PROMPT_OPEN_NETWORK_ID);;
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+            showDialog(PROMPT_OPEN_NETWORK_ID);
+            ;
         }
     }
 
@@ -207,20 +212,27 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
             builder.setPositiveButton(R.string.ok, this);
             mOpenNetworkDialog = builder.create();
             return mOpenNetworkDialog;
-        } else if(id == ACTIVE_EMAIL_DIALOG) {
+        } else if (id == ACTIVE_EMAIL_DIALOG) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.warm_prompt);
             builder.setMessage(R.string.registration_success);
             builder.setPositiveButton(R.string.ok, this);
             mActiveEmailDialog = builder.create();
             return mActiveEmailDialog;
+        } else if (id == EMAIL_REGISTERED_DIALOG) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warm_prompt);
+            builder.setMessage(R.string.email_has_been_used);
+            builder.setPositiveButton(R.string.ok, this);
+            mEmailRegisteredDialog = builder.create();
+            return mEmailRegisteredDialog;
         }
         return null;
     }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        if(dialogInterface == mOpenNetworkDialog) {
+        if (dialogInterface == mOpenNetworkDialog) {
             switch (i) {
                 case DialogInterface.BUTTON_POSITIVE:
                     startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
@@ -228,12 +240,16 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
             }
-        } else if(dialogInterface == mActiveEmailDialog){
+        } else if (dialogInterface == mActiveEmailDialog) {
             switch (i) {
                 case DialogInterface.BUTTON_POSITIVE:
                     finish();
                     break;
             }
+        } else if (dialogInterface == mEmailRegisteredDialog) {
+            Intent intent = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
+            startActivity(intent);
+            finish();
         }
 
     }

@@ -144,7 +144,7 @@
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
     <string name="registration_success">Registration Success,Please check your email to activate your account </string>
-    <string name="email_has_been_used">Email has been used.</string>
+    <string name="email_has_been_used">Email has been used. \nSend your password to your email box?</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
     <string name="i_am_here">I am here</string>
