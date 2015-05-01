@@ -32,12 +32,15 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
     private static final String LOG_TAG = "RegistrationActivity";
     public static final int PROMPT_OPEN_NETWORK_ID = 1;
+    public static final int ACTIVE_EMAIL_DIALOG = 2;
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private EditText mPassowrdConfirmInput;
     private ProgressDialog mProgressDialog;
     private Button mBackLoginActivity;
     private ConnectivityManager mConnectivityManager;
+    private AlertDialog mOpenNetworkDialog;
+    private AlertDialog mActiveEmailDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,8 +169,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
-                            finish();
+                            showDialog(ACTIVE_EMAIL_DIALOG);
                         } else if(command.resultError()) {
                             Toast.makeText(RegistrationActivity.this, getString(R.string.email_has_been_used), Toast.LENGTH_LONG).show();
                             Intent i = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
@@ -203,19 +205,36 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
             builder.setMessage(R.string.sign_up_need_network);
             builder.setNegativeButton(R.string.cancel, this);
             builder.setPositiveButton(R.string.ok, this);
-            return builder.create();
+            mOpenNetworkDialog = builder.create();
+            return mOpenNetworkDialog;
+        } else if(id == ACTIVE_EMAIL_DIALOG) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warm_prompt);
+            builder.setMessage(R.string.registration_success);
+            builder.setPositiveButton(R.string.ok, this);
+            mActiveEmailDialog = builder.create();
+            return mActiveEmailDialog;
         }
         return null;
     }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        switch (i) {
-            case DialogInterface.BUTTON_POSITIVE:
-                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
-                break;
-            case DialogInterface.BUTTON_NEGATIVE:
-                break;
+        if(dialogInterface == mOpenNetworkDialog) {
+            switch (i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        } else if(dialogInterface == mActiveEmailDialog){
+            switch (i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    finish();
+                    break;
+            }
         }
+
     }
 }
