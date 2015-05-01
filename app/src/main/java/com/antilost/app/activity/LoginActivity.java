@@ -191,10 +191,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                             startNetworkSyncService();
                             showDialog(FETCHING_TRACKS_DIALOG_ID);
 
-                        } else if (command.invalidateEmailOrPassword()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
+                        } else if (command.unregisteredEmail()) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.unregister_email), Toast.LENGTH_SHORT).show();
+                        } else if(command.invalidatePass()) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.wrong_pass), Toast.LENGTH_SHORT).show();
                         } else if(command.inActiveAccount()) {
-                            Toast.makeText(LoginActivity.this, "Inactive account, you can active your account by click the active link in your email box", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.your_email_need_activation), Toast.LENGTH_LONG).show();
                         } else if (command.isNetworkError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                         } else if (command.isStatusBad()) {

@@ -10,7 +10,7 @@ public class LoginCommand extends Command {
     private static final String LOG_TAG = "LoginCommand";
 
     private static final String UNREGISTERED_EMAIL = "err1";
-    private static final String INVALIDATE_EMAIL = "err2";
+    private static final String INVALIDATE_PASS = "err2";
     private static final String ACCOUNT_INACTIVIED = "err3";
     private final String mEmail;
     private final String mPassword;
@@ -37,21 +37,18 @@ public class LoginCommand extends Command {
         return result;
     }
 
-    public boolean invalidateEmailOrPassword() {
+    public boolean unregisteredEmail() {
+         String status = mResultMap.get(STATUS);
+        return UNREGISTERED_EMAIL.equals(status);
+    }
 
-        if(mResultMap == null) {
-            return false;
-        }
+    public boolean invalidatePass() {
 
         String status = mResultMap.get(STATUS);
-
-        return UNREGISTERED_EMAIL.equals(status) || INVALIDATE_EMAIL.equals(status);
+        return INVALIDATE_PASS.equals(status);
     }
 
     public boolean inActiveAccount() {
-        if(mResultMap == null) {
-            return false;
-        }
 
         String status = mResultMap.get(STATUS);
 
