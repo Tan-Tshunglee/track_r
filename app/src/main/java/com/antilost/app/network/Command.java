@@ -3,6 +3,9 @@ package com.antilost.app.network;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -32,7 +35,17 @@ public abstract class Command {
         if(TextUtils.isEmpty(request)) {
             Log.e(LOG_TAG, "execTask get empty request");
         } else {
-            String entity = HttpRequest.sendPost(SERVER_URL, request);
+            String entity = null;
+            try {
+                entity = HttpRequest.sendPost(SERVER_URL, request);
+            } catch(MalformedURLException e) {
+                Log.e(LOG_TAG, "url is malformated.", e);
+            } catch (SocketTimeoutException e) {
+                mNetworkError = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                mNetworkError = true;
+            }
             if(!TextUtils.isEmpty(entity)) {
                 result = parseResponse(entity);
             }

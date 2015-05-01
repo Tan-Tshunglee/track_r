@@ -1,11 +1,16 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
@@ -23,14 +28,16 @@ import com.antilost.app.network.RegisterCommand;
 
 import java.util.regex.Matcher;
 
-public class RegistrationActivity extends Activity implements View.OnClickListener {
+public class RegistrationActivity extends Activity implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private static final String LOG_TAG = "RegistrationActivity";
+    public static final int PROMPT_OPEN_NETWORK_ID = 1;
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private EditText mPassowrdConfirmInput;
     private ProgressDialog mProgressDialog;
     private Button mBackLoginActivity;
+    private ConnectivityManager mConnectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,8 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         mEmailInput = (EditText) findViewById(R.id.email_address);
         mPasswordInput = (EditText) findViewById(R.id.user_password);
         mPassowrdConfirmInput =  (EditText) findViewById(R.id.user_password_confirm);
+
+        mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
     }
 
     @Override
@@ -65,6 +74,12 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkNetwokAvailablity();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.backBtn:
@@ -80,6 +95,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
     }
 
     private void tryRegistrationUser() {
+
+
+
         final String email = mEmailInput.getText().toString();
         Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
         if(!matcher.matches()) {
@@ -167,5 +185,37 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
             }
         };
         t.start();
+    }
+
+    private void checkNetwokAvailablity() {
+
+        NetworkInfo activeNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if(activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+            showDialog(PROMPT_OPEN_NETWORK_ID);;
+        }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == PROMPT_OPEN_NETWORK_ID) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warm_prompt);
+            builder.setMessage(R.string.sign_up_need_network);
+            builder.setNegativeButton(R.string.cancel, this);
+            builder.setPositiveButton(R.string.ok, this);
+            return builder.create();
+        }
+        return null;
+    }
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+        switch (i) {
+            case DialogInterface.BUTTON_POSITIVE:
+                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                break;
+        }
     }
 }

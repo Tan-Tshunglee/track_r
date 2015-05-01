@@ -272,7 +272,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
-                finish();
                 break;
         }
     }
