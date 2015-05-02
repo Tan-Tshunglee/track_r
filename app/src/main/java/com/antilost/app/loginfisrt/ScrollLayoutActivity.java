@@ -3,6 +3,7 @@ package com.antilost.app.loginfisrt;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.antilost.app.activity.LoginActivity;
 import com.antilost.app.R;
+
+import java.util.Locale;
 
 public class ScrollLayoutActivity extends Activity implements OnViewChangeListener{
    
@@ -24,6 +27,10 @@ public class ScrollLayoutActivity extends Activity implements OnViewChangeListen
 	private LinearLayout leftLayout;
 	private LinearLayout rightLayout;
 	private LinearLayout animLayout;
+	private RelativeLayout firistRLayout;
+	private RelativeLayout secondRLayout;
+	private RelativeLayout threeRLayout;
+	private String TAG = "ScrollLayoutActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,11 +43,31 @@ public class ScrollLayoutActivity extends Activity implements OnViewChangeListen
 		mScrollLayout = (ScrollLayout) findViewById(R.id.ScrollLayout);
 		pointLLayout = (LinearLayout) findViewById(R.id.llayout);
 		mainRLayout = (RelativeLayout) findViewById(R.id.mainRLayout);
+		firistRLayout = (RelativeLayout) findViewById(R.id.rlfirstPage);
+		secondRLayout = (RelativeLayout) findViewById(R.id.rlsecondPage);
+		threeRLayout = (RelativeLayout) findViewById(R.id.rlthreePage);
 		startBtn = (Button) findViewById(R.id.startBtn);
 		startBtn.setOnClickListener(onClick);
 //		animLayout = (LinearLayout) findViewById(R.id.animLayout);
 //		leftLayout = (LinearLayout) findViewById(R.id.leftLayout);
 //		rightLayout = (LinearLayout) findViewById(R.id.rightLayout);
+		//语言包
+		Locale l = Locale.getDefault();
+		String language = l.getLanguage();
+		Log.d(TAG,"The Language is "+language);
+		if(language.equals("zh")){
+			firistRLayout.setBackground(getResources().getDrawable(R.drawable.zh_w001));
+			secondRLayout.setBackground(getResources().getDrawable(R.drawable.zh_w002));
+			threeRLayout.setBackground(getResources().getDrawable(R.drawable.zh_w003));
+		}else if(language.equals("en")){
+			firistRLayout.setBackground(getResources().getDrawable(R.drawable.w001));
+			secondRLayout.setBackground(getResources().getDrawable(R.drawable.w002));
+			threeRLayout.setBackground(getResources().getDrawable(R.drawable.w003));
+		}else if(language.equals("fr")){
+			firistRLayout.setBackground(getResources().getDrawable(R.drawable.fr_w001));
+			secondRLayout.setBackground(getResources().getDrawable(R.drawable.fr_w002));
+			threeRLayout.setBackground(getResources().getDrawable(R.drawable.fr_w003));
+		}
 		count = mScrollLayout.getChildCount();
 		imgs = new ImageView[count];
 		for (int i = 0; i < count; i++) {

@@ -16,18 +16,21 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:id="@+id/rlfirstPage"
             android:background="@drawable/w001" >
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:id="@+id/rlsecondPage"
             android:background="@drawable/w002" >
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:id="@+id/rlthreePage"
             android:background="@drawable/w003" >
 		<!-- 点击该按钮后就进入OtherActivit了 -->
             <Button
