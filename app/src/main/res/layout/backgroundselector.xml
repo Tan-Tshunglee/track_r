@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llbackgroudselector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <!-- 标题栏 -->
+    <RelativeLayout
+        android:id="@+id/rluser_topback"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_bar_height">
+
+        <include layout="@layout/csst_title_layout_trigle" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <!--yellow -->
+        <Button android:id="@+id/bt_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/yellow"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="@string/siliver"/>
+        <!-- gray-->
+        <Button android:id="@+id/bt_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/gray"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:text="@string/siliver"
+            android:layout_gravity="center_vertical" />
+        <!-- siliver-->
+        <Button
+            android:id="@+id/bt_siliver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/silver"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="@string/siliver"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <!--yellow -->
+        <Button android:id="@+id/bt_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/login"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="@string/login"/>
+        <!-- gray-->
+        <Button android:id="@+id/bt_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/black"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="@string/black"
+            android:layout_gravity="center_vertical" />
+        <!-- siliver-->
+        <Button
+            android:id="@+id/bt_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/cloud"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:text="@string/cloud"/>
+    </LinearLayout>
+
+
+</LinearLayout>

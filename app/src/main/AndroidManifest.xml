@@ -261,6 +261,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
 
+        <activity
+            android:name=".activity.BackGroundSelector"
+            android:label="@string/help_title"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
+
         <!-- <activity -->
         <!-- android:name=".camera.Camera_MainActivity_zql" -->
         <!-- android:label="@string/title_activity_camera" -->
