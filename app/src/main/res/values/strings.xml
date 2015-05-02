@@ -253,4 +253,11 @@
     <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
     <string name="wrong_pass">Wrong password</string>
     <string name="retrieve_my_pass">Retrieve my password</string>
+
+    <string name="yellow">yellow</string>
+    <string name="gray">gray</string>
+    <string name="siliver">siliver</string>
+    <string name="black">black</string>
+    <string name="login">login</string>
+    <string name="cloud">cloud</string>
 </resources>
