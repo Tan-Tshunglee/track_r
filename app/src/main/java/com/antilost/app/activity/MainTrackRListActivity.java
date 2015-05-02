@@ -22,9 +22,13 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
@@ -230,9 +234,51 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
         super.onPrepareDialog(id, dialog);
     }
 
-    private Dialog createBluetoothDisabledDialog() {
+
+    private  Dialog  createBluetoothDisabledDialog() {
+
+        final AlertDialog dlg = new AlertDialog.Builder(this).create();
+        dlg.show();
+        Window window = dlg.getWindow();
+        // *** 主要就是在这里实现这种效果的.
+        // 设置窗口的内容页面,shrew_exit_dialog.xml文件中定义view内容
+        window.setContentView(R.layout.tiplayout);
+        TextView title = (TextView) window.findViewById(R.id.title_tip);
+        TextView text = (TextView) window.findViewById(R.id.text_tip);
+        ImageView icontrack = (ImageView) window.findViewById(R.id.tipicon);
+        icontrack.setVisibility(View.GONE);
+        text.setText(getResources().getString(R.string.bluethoot_disabled));
+        title.setText(getResources().getString(R.string.notice));
+        Button ok = (Button) window.findViewById(R.id.tipbtn_ok);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dlg.cancel();
+                Intent bluetoothSettingIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                bluetoothSettingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(bluetoothSettingIntent);
+                } catch (Exception e) {
+                }
+
+
+            }
+
+        });
+        // 关闭alert对话框架
+        Button cancel = (Button) window.findViewById(R.id.tipbtn_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dlg.cancel();
+            }
+        });
+        return dlg;
+    }
+
+
+    private Dialog createBluetoothDisabledDialog1() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?");
+        builder.setMessage(getResources().getString(R.string.bluethoot_disabled));
         builder.setPositiveButton(R.string.ok, this);
         builder.setNegativeButton(R.string.cancel, this);
         mBluetoothDisableDialog = builder.create();
