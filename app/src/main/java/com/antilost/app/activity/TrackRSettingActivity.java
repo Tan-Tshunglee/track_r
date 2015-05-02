@@ -470,11 +470,17 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()) {
             case R.id.itrack_alert_checkbox:
+                if(mBluetoothLeService.inSleepTime()) {
+                    Toast.makeText(this, getString(R.string.in_sleep_mode_track_will_not_alert), Toast.LENGTH_SHORT).show();
+                }
                 mPrefsManager.saveTrackAlert(mBluetoothDeviceAddress, b);
                 mBluetoothLeService.setTrackAlertMode(mBluetoothDeviceAddress, b);
                 break;
 
             case R.id.phone_alert_checkbox:
+                if(mBluetoothLeService.inSleepTime()) {
+                    Toast.makeText(this, getString(R.string.in_sleep_mode_phone_no_alert), Toast.LENGTH_SHORT).show();
+                }
                 mPrefsManager.savePhoneAlert(mBluetoothDeviceAddress, b);
                 break;
 
