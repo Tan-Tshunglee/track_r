@@ -362,7 +362,12 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             mSleepTime.setText(R.string.sleep_mode_off);
         }
-        titleText.setText(mPrefsManager.getTrack(mBluetoothDeviceAddress).name);
+        TrackR track = mPrefsManager.getTrack(mBluetoothDeviceAddress);
+        if(track != null) {
+            titleText.setText(track.name);
+        } else {
+            finish();
+        }
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {
