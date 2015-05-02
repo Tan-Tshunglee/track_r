@@ -262,4 +262,6 @@
     <string name="cloud">cloud</string>
     <string name="in_sleep_mode_phone_no_alert">In sleep mode, phone will not alert</string>
     <string name="in_sleep_mode_track_will_not_alert">In sleep mode, iTrack will not alert</string>
+    <string name="bluethoot_disabled">Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?</string>
+    <string name="notice">Notice</string>
 </resources>
