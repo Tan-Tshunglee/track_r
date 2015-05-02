@@ -162,7 +162,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             rssi = MAX_RSSI_LEVEL;
         }
 
-
         if(rssi < MIN_RSSI_LEVEL) {
             rssi = MIN_RSSI_LEVEL;
         }
@@ -174,6 +173,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         int top = mDistanceImage.getTop();
         int bottom = mDistanceImage.getBottom();
 
+        if(bottom - top == 0) {
+            return;
+        }
         int marginTop = (int) ((bottom - top) * percentage);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTrackRIcon.getLayoutParams();
         params.topMargin = marginTop;
@@ -228,8 +230,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         mRingButton = (Button) findViewById(R.id.ring);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-
-
 
     }
 

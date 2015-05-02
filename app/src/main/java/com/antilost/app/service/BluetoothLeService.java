@@ -1998,7 +1998,7 @@ public class BluetoothLeService extends Service implements
         Integer rssiValue = mGattsRssis.get(bluetoothDeviceAddress);
 
         if (rssiValue == null) {
-            rssiValue = TrackRActivity.MIN_RSSI_LEVEL;
+            rssiValue = TrackRActivity.MAX_RSSI_LEVEL;
         }
 
         if (state == null) {
@@ -2020,7 +2020,7 @@ public class BluetoothLeService extends Service implements
 
     public int getRssiLevel(String address) {
         Integer rssi = mGattsRssis.get(address);
-        return rssi == null ? TrackRActivity.MIN_RSSI_LEVEL : rssi;
+        return rssi == null ? TrackRActivity.MAX_RSSI_LEVEL : rssi;
     }
 
     public int getBatteryLevel(String address) {
@@ -2031,7 +2031,7 @@ public class BluetoothLeService extends Service implements
     public int startReadRssiRepeat(boolean enabled, String address) {
         Integer rssi = mGattsRssis.get(address);
         if (rssi == null) {
-            rssi = TrackRActivity.MIN_RSSI_LEVEL;
+            rssi = TrackRActivity.MAX_RSSI_LEVEL;
         }
 
 
