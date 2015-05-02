@@ -240,8 +240,8 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
         final AlertDialog dlg = new AlertDialog.Builder(this).create();
         dlg.show();
         Window window = dlg.getWindow();
-        // *** Ö÷Òª¾ÍÊÇÔÚÕâÀïÊµÏÖÕâÖÖĞ§¹ûµÄ.
-        // ÉèÖÃ´°¿ÚµÄÄÚÈİÒ³Ãæ,shrew_exit_dialog.xmlÎÄ¼şÖĞ¶¨ÒåviewÄÚÈİ
+        // *** ä¸»è¦å°±æ˜¯åœ¨è¿™é‡Œå®ç°è¿™ç§æ•ˆæœçš„.
+        // è®¾ç½®çª—å£çš„å†…å®¹é¡µé¢,shrew_exit_dialog.xmlæ–‡ä»¶ä¸­å®šä¹‰viewå†…å®¹
         window.setContentView(R.layout.tiplayout);
         TextView title = (TextView) window.findViewById(R.id.title_tip);
         TextView text = (TextView) window.findViewById(R.id.text_tip);
@@ -265,7 +265,7 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
             }
 
         });
-        // ¹Ø±Õalert¶Ô»°¿ò¼Ü
+        // å…³é—­alertå¯¹è¯æ¡†æ¶
         Button cancel = (Button) window.findViewById(R.id.tipbtn_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
