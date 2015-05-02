@@ -424,7 +424,9 @@ public class BluetoothLeService extends Service implements
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
 
             final String address = gatt.getDevice().getAddress();
-            if (status != BluetoothGatt.GATT_SUCCESS) {
+            //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
+            //when track lose power, status is 8
+            if (status != BluetoothGatt.GATT_SUCCESS && status != 8) {
                 try {
                     Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
                     mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
@@ -1714,7 +1716,7 @@ public class BluetoothLeService extends Service implements
         mNotificationManager.notify(NOTIFICATION_ID_TRACK_FOUND_BY_OTHERS, builder.build());
     }
 
-    private void tryConnectGatt(String address, BluetoothDevice device) {
+    private void tryConnectGatt(final String address, final BluetoothDevice device) {
 
         if(mBluetoothAdapter == null) {
             Log.w(LOG_TAG, "In tryConnectGatt mBluetoothAdapter is null");
@@ -1726,34 +1728,42 @@ public class BluetoothLeService extends Service implements
             return;
         }
 
-        BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
+        final BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
 
+        boolean needReconnectionDelay = false;
         if(bluetoothGatt != null) {
+            Log.i(LOG_TAG, "close old  connection waiting gatt.");
             bluetoothGatt.close();
             mBluetoothGatts.remove(address);
+            needReconnectionDelay = true;
         }
 
-        MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MyBluetootGattCallback oldCallback = mBluetoothCallbacks.get(address);
+                if (oldCallback == null) {
+                    Log.i(LOG_TAG, "Trying to create a new callback to " + address);
+                    oldCallback = new MyBluetootGattCallback();
+                } else {
+                    Log.v(LOG_TAG, "Use old callback to connectSingleTrack gatt");
+                }
 
-        if (oldCallback == null) {
-            Log.i(LOG_TAG, "Trying to create a new callback to " + address);
-            oldCallback = new MyBluetootGattCallback();
-        } else {
-            Log.v(LOG_TAG, "Use old callback to connectSingleTrack gatt");
-        }
-        Utils.connectBluetoothGatt(device, this, oldCallback);
+                BluetoothGatt newGatt = Utils.connectBluetoothGatt(device, BluetoothLeService.this, oldCallback);
 
-        if (bluetoothGatt != null) {
-            mBluetoothCallbacks.put(address, oldCallback);
-            mBluetoothGatts.put(address, bluetoothGatt);
-            Log.i(LOG_TAG, "add bluetooth gatt callback to callback list");
-        } else {
-            Log.e(LOG_TAG, "Device connectGatt return null.");
-            mBluetoothCallbacks.put(address, oldCallback);
-        }
+                if (newGatt != null) {
+                    mBluetoothCallbacks.put(address, oldCallback);
+                    mBluetoothGatts.put(address, newGatt);
+                    Log.i(LOG_TAG, "add bluetooth gatt callback to callback list");
+                } else {
+                    Log.e(LOG_TAG, "Device connectGatt return null.");
+                    mBluetoothCallbacks.put(address, oldCallback);
+                }
+            }
+        }, needReconnectionDelay ? 500 : 0);
 
-        mBluetoothGatts.put(address, bluetoothGatt);
-        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+
+
     }
 
 
