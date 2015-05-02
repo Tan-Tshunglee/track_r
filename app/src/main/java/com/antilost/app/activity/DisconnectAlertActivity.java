@@ -183,6 +183,8 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             Log.d(LOG_TAG, "playe alert sound...");
             int alertSecond = mPrefsManager.getAlertTime();
             mHandler.postDelayed(mStopRingRunnable, alertSecond * 1000);
+        } else {
+            Log.i(LOG_TAG, "alert sound turn off.");
         }
     }
 
