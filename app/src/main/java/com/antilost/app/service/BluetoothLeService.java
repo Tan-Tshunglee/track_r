@@ -199,6 +199,8 @@ public class BluetoothLeService extends Service implements
         }
 
         if (PrefsManager.PREFS_SLEEP_MODE_KEY.equals(key)
+                || PrefsManager.PREFS_SLEEP_START_TIME_KEY.equals(key)
+                || PrefsManager.PREFS_SLEEP_END_TIME_KEY.equals(key)
                 || PrefsManager.PREFS_SAFE_ZONE_ENABLED.equals(key)) {
             Log.v(LOG_TAG, "sleep mode or safe zone mode change");
             updateAllTrackSleepState();

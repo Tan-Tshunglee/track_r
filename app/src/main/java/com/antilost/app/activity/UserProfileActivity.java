@@ -194,44 +194,15 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         long endTime = mPrefsManager.getSleepTime(false);
 
         int startHour = (int) startTime / (1000 * 60 * 60);
-        int startMinute = (int) (endTime / (1000 * 60)) % 60;
+        int startMinute = (int) (startTime / (1000 * 60)) % 60;
 
 
         int endHour = (int) endTime / (1000 * 60 * 60);
         int endMinute = (int) (endTime / (1000 * 60)) % 60;
-        String SstartHour = null;
-        if (startHour < 10) {
-            SstartHour = "0" + startHour;
-        } else {
-            SstartHour = Integer.toString(startHour);
-        }
 
 
-        String SstartMinute = null;
-        if (startMinute < 10) {
-            SstartMinute = "0" + startMinute;
-        } else {
-            SstartMinute = Integer.toString(startMinute);
-        }
-
-        String SendHour = null;
-        if (endHour < 10) {
-            SendHour = "0" + endHour;
-        } else {
-            SendHour = Integer.toString(endHour);
-        }
-
-
-        String SendMinute = null;
-        if (endMinute < 10) {
-            SendMinute = "0" + endMinute;
-        } else {
-            SendMinute = Integer.toString(endMinute);
-        }
-
-
-        mSleepStartTime.setText(SstartHour + ":" + SstartMinute);
-        mSleepEndTime.setText(SendHour + ":" + SendMinute);
+        mSleepStartTime.setText(String.format("%02d:%02d", startHour, startMinute));
+        mSleepEndTime.setText(String.format("%02d:%02d", endHour, endMinute));
     }
 
     @Override
