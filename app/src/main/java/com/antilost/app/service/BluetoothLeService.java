@@ -292,6 +292,7 @@ public class BluetoothLeService extends Service implements
                     String deviceAddress = device.getAddress();
                     if (ids.contains(deviceAddress)) {
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
+                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
                         connectTrackAfterScan(deviceAddress);
                     //found an new track r
                     } else {
