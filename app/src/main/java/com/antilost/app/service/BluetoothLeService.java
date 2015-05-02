@@ -1062,7 +1062,7 @@ public class BluetoothLeService extends Service implements
                             BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
 
                             if(characteristic != null) {
-                                characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                                characteristic.setValue(Utils.VERIFY_CODE);
                                 if(gatt.writeCharacteristic(characteristic)) {
                                     log("write verify code success.");
                                 } else {

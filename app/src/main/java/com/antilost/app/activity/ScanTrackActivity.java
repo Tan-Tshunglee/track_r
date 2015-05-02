@@ -125,10 +125,12 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             };
 
     private BluetoothGatt mConnectedBluetoothGatt;
+    private boolean mConnectingGatt;
     private final BluetoothGattCallback  mBluetoothGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
             Log.v(LOG_TAG, "mBluetoothGattCallback.onConnectionStateChange get state " + newState);
+            //status 133 is too easy to happend.
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 if(newState == BluetoothProfile.STATE_CONNECTED) {
                     mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
@@ -138,7 +140,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         public void run() {
                             if(gatt.discoverServices()) {
                                 mHandler.removeMessages(MSG_GATT_CONNECTION_TIMEOUT);
-                                mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, 30 * 1000);
+                                mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, SCAN_PERIOD);
                                 Log.i(LOG_TAG, "send gatt.discoverServices command success.");
                             } else {
                                 Log.e(LOG_TAG, "send gatt.discoverServices command failed..");
@@ -148,6 +150,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         }
                     }, 2000);
                 } else {
+                    mConnectingGatt = true;
                     Log.v(LOG_TAG, "Bluetooth disconnect");
                     gatt.close();
                     mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
@@ -155,12 +158,19 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             } else {
                 Log.e(LOG_TAG, "Scan Track  onConnectionStateChange   status is not success status: " + status);
                 gatt.close();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                mConnectingGatt = false;
+                if(mHandler.hasMessages(MSG_GATT_CONNECTION_TIMEOUT)) {
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mConnectingGatt = true;
+                            Log.i(LOG_TAG, "Retry gatt connection.. after 1000 ms");
+                            Utils.connectBluetoothGatt(gatt.getDevice(), ScanTrackActivity.this, mBluetoothGattCallback);
+                        }
+                    }, 1000);
+                } else {
+                    Log.i(LOG_TAG, "Retry gatt connection.. timeout");
                 }
-                scanLeDevice(true);
             }
         }
 
@@ -216,9 +226,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 try {
                     byte[] valueBytes = pressedAddCharacteristic.getValue();
                     if(valueBytes != null) {
-                        Log.v(LOG_TAG, "value bytes is " + valueBytes);
                         int keyPressed = pressedAddCharacteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
-
                         if(keyPressed == 0) {
                             Log.w(LOG_TAG, " scan and add an unpressed track");
                             gatt.close();
@@ -226,7 +234,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             return;
                         }
                     }
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -238,7 +245,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 Log.i(LOG_TAG, "find a key pressed track.");
                 characteristic = service.getCharacteristic(UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
                 if(characteristic != null) {
-                    characteristic.setValue(new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4, (byte) 0xA5});
+                    characteristic.setValue(Utils.VERIFY_CODE);
                     if(gatt.writeCharacteristic(characteristic)) {
                         log("Write verify code success.");
                         mConnectedBluetoothGatt = gatt;
@@ -294,13 +301,25 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     private void tryConnectBluetoothGatt(final String deviceAddress) {
         if(mConnectedBluetoothGatt != null) {
+            Log.d(LOG_TAG, "in tryConnectBluetoothGatt after le scan, already get one connected gatt.");
             return;
         }
+
+        if(mConnectingGatt) {
+            Log.d(LOG_TAG, "in tryConnectBluetoothGatt after le scan, one conncting gatt is ongoing.");
+        }
+
+
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Utils.connectBluetoothGatt(device, ScanTrackActivity.this, mBluetoothGattCallback);
+                mConnectingGatt = true;
+                mHandler.sendEmptyMessageDelayed(MSG_GATT_CONNECTION_TIMEOUT, SCAN_PERIOD);
+                BluetoothGatt newGatt = Utils.connectBluetoothGatt(device, ScanTrackActivity.this, mBluetoothGattCallback);
+                if(newGatt == null) {
+                    Log.w(LOG_TAG, "Scan track connectbluetoothGatt return null.");
+                }
             }
         }, 1000);
     }
@@ -450,7 +469,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             Log.w(LOG_TAG, "scanLeDevice " + enable);
             if(mScanning) {
                 Log.w(LOG_TAG, "scan alreay start...");
-                mHandler.sendEmptyMessageDelayed(MSG_SHOW_SEARCH_FAILED_PAGE, SCAN_PERIOD);
                 return;
             } else {
                 mScanning = true;
