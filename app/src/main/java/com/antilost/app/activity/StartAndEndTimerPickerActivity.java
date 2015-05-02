@@ -24,6 +24,7 @@ public class StartAndEndTimerPickerActivity extends Activity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_and_end_timer_picker);
         mBtnCancel = (Button) findViewById(R.id.mBtnCancel);
+        mBtnCancel.setText(R.string.cancel);
         mBtnDone = (Button) findViewById(R.id.mBtnDone);
         mTextViewTitle = (TextView) findViewById(R.id.mTVTitle);
         mTextViewTitle.setText(getString(R.string.sleep_mode_time_setting));

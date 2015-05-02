@@ -10,7 +10,8 @@
     <!-- 返回 -->
     <Button
         android:id="@+id/mBtnCancel"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
+        android:minWidth="60dp"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"

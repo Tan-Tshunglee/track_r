@@ -110,6 +110,7 @@ public class AlartTimeActivity extends Activity implements TrackRInitialize {
 
     @Override
     public void initWidgetState() {
+        btmBack.setText(R.string.cancel);
     }
 
     @Override
@@ -122,8 +123,7 @@ public class AlartTimeActivity extends Activity implements TrackRInitialize {
         btmBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-//                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
-//                startActivity(intent);
+
                 AlartTimeActivity.this.finish();
             }
         });
@@ -134,8 +134,6 @@ public class AlartTimeActivity extends Activity implements TrackRInitialize {
                     curUserDataBean.setMalarmtime(Integer.toString(ialarttime));
                     UserDataTable.getInstance().update(mDb, curUserDataBean);
                 }
-//                Intent intent = new Intent(AlartTime.this, UserProfileActivity.class);
-//                startActivity(intent);
                 AlartTimeActivity.this.finish();
             }
         });
