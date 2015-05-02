@@ -60,7 +60,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private ImageView imgUser_usericon;
     private TextView tvtitle, tvtime;
     private RelativeLayout rluser_editor, rluser_noticetimer, rluser_language,
-            rluser_tipback, rluser_background, rluser_version, rluser_topback, rluser_safezone, rluser_help;
+            rluser_tipback, rluser_selectbackground, rluser_version, rluser_topback, rluser_safezone, rluser_help;
     private Button btmexit;
     private CheckBox cbAppring, cbSafeZone;
     private PrefsManager mPrefsManager;
@@ -164,8 +164,9 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 //        rluser_language = (RelativeLayout) findViewById(R.id.rluser_langauage);
         rluser_tipback = (RelativeLayout) findViewById(R.id.rluser_backtip);
         rluser_version = (RelativeLayout) findViewById(R.id.rluser_version);
-        rluser_background = (RelativeLayout) findViewById(R.id.rluser_selectbackground);
         rluser_safezone = (RelativeLayout) findViewById(R.id.rluser_safezone);
+
+        rluser_selectbackground= (RelativeLayout) findViewById(R.id.rluser_selectbackground);
 
         rluser_help = (RelativeLayout) findViewById(R.id.rluser_helep);
 
@@ -246,6 +247,15 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             }
         });
 
+        rluser_selectbackground.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(UserProfileActivity.this, BackGroundSelector.class);
+                startActivity(intent);
+
+            }
+        });
 
         rluser_editor.setOnClickListener(new View.OnClickListener() {
 

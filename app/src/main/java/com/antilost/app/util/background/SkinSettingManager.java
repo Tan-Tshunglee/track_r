@@ -3,11 +3,13 @@ package com.antilost.app.util.background;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import com.antilost.app.R;
+
 public class SkinSettingManager {
 	public final static String SKIN_PREF = "skinSetting";
 	public SharedPreferences skinSettingPreference;
 	private int[] skinResources = { R.drawable.black,
-	R.drawable.gray,R.drawable.login,R.drawable.silver,
+	R.drawable.gray,R.drawable.silver,
 	R.drawable.yellow
 	};
 	private Activity mActivity;
