@@ -39,19 +39,15 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     public static final int MSG_SHOW_CONNECTING_PAGE = 1;
     public static final int MSG_SHOW_SEARCH_FAILED_PAGE = 2;
-    public static final int MSG_SHOW_FIRST_PAGE = 3;
+    public static final int MSG_SHOW_SCANNING_PAGE = 3;
     public static final int MSG_GATT_CONNECTION_TIMEOUT = 4;
 
     public static final int MAX_COUNT = 5;
 
-    public static final int MAX_RETRY_TIMES = 5;//zql  reduce to  25S
-    public static final int MSG_RETRY_SCAN_LE = 100;
-
     private static final String LOG_TAG = "ScanTrackActivity";
 
-    //Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 5000;
-    public static final int MIN_RSSI_ACCEPTABLE = -50;
+    private static final long SCAN_PERIOD = 30 * 1000;
+    public static final int MIN_RSSI_ACCEPTABLE = -65;
 
 
     private RelativeLayout mFirstPage;
@@ -81,13 +77,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         public void run() {
 
 
-                            if(!mScanning) {
-                                Log.w(LOG_TAG, "scan stoped, but onLeScan callback called");
-                                scanLeDevice(false);
-                                return;
-                            }
-
-
                             String deviceName = device.getName();
                             //check device name first
                             if (!Utils.DEVICE_NAME.equals(deviceName)) {
@@ -105,15 +94,15 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                             if (mTrackIds.contains(deviceAddress)
                                     && !mPrefsManager.isMissedTrack(deviceAddress)
                                     && !mPrefsManager.isClosedTrack(deviceAddress)) {
-                                //mPrefsManager.addTrackId(deviceAddress);
                                 Log.v(LOG_TAG, "find already bind device");
                                 return;
                             }
-
+                            //stop scan for connecting
                             scanLeDevice(false);
 
                             if (!mTrackIds.contains(deviceAddress)) {
                                 Log.v(LOG_TAG, "find a new mTrack device.");
+                                mHandler.removeMessages(MSG_SHOW_SEARCH_FAILED_PAGE);
                                 tryConnectBluetoothGatt(deviceAddress);
                             } else {
                                 //find a diconnected or closed mTrack;
@@ -127,6 +116,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 if (mPrefsManager.isMissedTrack(deviceAddress)) {
                                     Log.v(LOG_TAG, "found disconnected trackr.");
                                     reconnectMissingTrack(deviceAddress);
+                                    scanLeDevice(true);
                                 }
                             }
                         }
@@ -141,6 +131,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
             Log.v(LOG_TAG, "mBluetoothGattCallback.onConnectionStateChange get state " + newState);
             if(status == BluetoothGatt.GATT_SUCCESS) {
                 if(newState == BluetoothProfile.STATE_CONNECTED) {
+                    mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
                     Log.v(LOG_TAG, "bluetooth connection state is STATE_CONNECTED");
                     mHandler.postDelayed(new Runnable() {
                         @Override
@@ -155,15 +146,21 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                             }
                         }
-                    }, 1000);
+                    }, 2000);
                 } else {
                     Log.v(LOG_TAG, "Bluetooth disconnect");
                     gatt.close();
                     mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                 }
             } else {
-                gatt.close();
                 Log.e(LOG_TAG, "Scan Track  onConnectionStateChange   status is not success status: " + status);
+                gatt.close();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                scanLeDevice(true);
             }
         }
 
@@ -282,7 +279,6 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
 
     private void reconnectedClosedTrackR(String address) {
-        mPrefsManager.saveClosedTrack(address, false);
         startService(new Intent(ScanTrackActivity.this, BluetoothLeService.class));
     }
 
@@ -300,14 +296,13 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         if(mConnectedBluetoothGatt != null) {
             return;
         }
-        mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
-        runOnUiThread(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Utils.connectBluetoothGatt(device, ScanTrackActivity.this, mBluetoothGattCallback);
             }
-        });
+        }, 1000);
     }
 
     private void startTrackEdit() {
@@ -375,26 +370,15 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mFailedPage.setVisibility(View.GONE);
                         break;
                     case MSG_SHOW_SEARCH_FAILED_PAGE:
+                        scanLeDevice(false);
                         mFirstPage.setVisibility(View.GONE);
                         mConnectingPage.setVisibility(View.GONE);
                         mFailedPage.setVisibility(View.VISIBLE);
                         break;
-                    case MSG_SHOW_FIRST_PAGE:
+                    case MSG_SHOW_SCANNING_PAGE:
                         mFirstPage.setVisibility(View.VISIBLE);
                         mConnectingPage.setVisibility(View.GONE);
                         mFailedPage.setVisibility(View.GONE);
-                        break;
-                    case MSG_RETRY_SCAN_LE:
-                        mScanedTime += SCAN_PERIOD;
-                        if (mScanedTime < MAX_RETRY_TIMES * SCAN_PERIOD) {
-                            Log.v(LOG_TAG, "Scan last time " + mScanedTime / 1000);
-                            scanLeDevice(true);
-                            return;
-                        } else {
-                            scanLeDevice(false);
-                        }
-                        mScanedTime = 0;
-                        sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                         break;
                     case MSG_GATT_CONNECTION_TIMEOUT:
                         if(mConnectedBluetoothGatt != null) {
@@ -406,9 +390,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 }
             }
         };
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        gattServiceIntent.setAction(BluetoothLeService.ACTION_STOP_BACKGROUND_LOOP);
-        startService(gattServiceIntent);
+
         scanLeDevice(true);
     }
 
@@ -461,25 +443,28 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     private void scanLeDevice(final boolean enable) {
         if (enable) {
+            Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+            gattServiceIntent.setAction(BluetoothLeService.ACTION_STOP_BACKGROUND_LOOP);
+            startService(gattServiceIntent);
             // Stops scanning after a pre-defined scan period.
             Log.w(LOG_TAG, "scanLeDevice " + enable);
             if(mScanning) {
                 Log.w(LOG_TAG, "scan alreay start...");
+                mHandler.sendEmptyMessageDelayed(MSG_SHOW_SEARCH_FAILED_PAGE, SCAN_PERIOD);
                 return;
             } else {
                 mScanning = true;
                 if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
                     Log.i(LOG_TAG, "startLeScan success");
                 } else {
-                    Log.w(LOG_TAG, "startLeScan failed");
+                    Log.w(LOG_TAG, "startLeScan failed retry");
                 }
+                mHandler.sendEmptyMessageDelayed(MSG_SHOW_SEARCH_FAILED_PAGE, SCAN_PERIOD);
             }
-            mHandler.removeMessages(MSG_RETRY_SCAN_LE);
-            mHandler.sendEmptyMessageDelayed(MSG_RETRY_SCAN_LE, SCAN_PERIOD);
+
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            mHandler.removeMessages(MSG_RETRY_SCAN_LE);
             Log.v(LOG_TAG, "stop device scan");
         }
         invalidateOptionsMenu();
@@ -503,7 +488,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.tryAgain:
-                mHandler.sendEmptyMessage(MSG_SHOW_FIRST_PAGE);
+                mHandler.sendEmptyMessage(MSG_SHOW_SCANNING_PAGE);
                 scanLeDevice(true);
                 break;
         }

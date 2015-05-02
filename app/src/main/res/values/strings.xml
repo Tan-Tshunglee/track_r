@@ -133,7 +133,7 @@
     <string name="signing_in">Signing In</string>
     <string name="login_success">Login Success</string>
     <string name="invalid_email_or_password">Invalid Email or Password!</string>
-    <string name="network_error">Network Error</string>
+    <string name="network_error">Network Error, You should check your network availability.</string>
     <string name="network_status_error">Login Error</string>
     <string name="unknow_error">Unkown Error</string>
     <string name="warning">Warning</string>
@@ -144,7 +144,7 @@
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
     <string name="registration_success">Registration Success,Please check your email to activate your account </string>
-    <string name="email_has_been_used">Email has been used.</string>
+    <string name="email_has_been_used">Email has been used. \nSend your password to your email box?</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
     <string name="i_am_here">I am here</string>
@@ -165,7 +165,7 @@
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the iTrackpro\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
-    <string name="enable_network_before_login">Enable network before login.</string>
+    <string name="enable_network_before_login">Can not login without network.</string>
     <string name="firststart">Start My iTrack</string>
     <string name="reset">Reset</string>
     <string name="locationsetting">Location name：</string>
@@ -248,4 +248,9 @@
 
     <string name="unbined_tip_disconnected_tip1">Once you delete the  &#160;\"</string>
     <string name="unbined_tip_disconnected_tip2">\", &#160;The item is paired with your account. But it is not connected right now. It is highly recommended to connect it with your phone before you delete it. Otherwise you can not  reconnect and track the lost item any more.</string>
+    <string name="sign_up_need_network">Sign up need available network</string>
+    <string name="unregister_email">Email not registered!</string>
+    <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
+    <string name="wrong_pass">Wrong password</string>
+    <string name="retrieve_my_pass">Retrieve my password</string>
 </resources>

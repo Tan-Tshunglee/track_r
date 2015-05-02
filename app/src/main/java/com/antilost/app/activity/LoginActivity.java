@@ -34,6 +34,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     public static final String LOG_TAG = "LoginActivity";
     public static final int PROMPT_OPEN_NETWORK_ID = 1;
     public static final int FETCHING_TRACKS_DIALOG_ID = 2;
+    public static final int ACTIVE_EMAIL_DIALOG_ID = 3;
 
     private Button mSignInBtn;
     private PrefsManager mPrefsManager;
@@ -191,10 +192,13 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                             startNetworkSyncService();
                             showDialog(FETCHING_TRACKS_DIALOG_ID);
 
-                        } else if (command.invalidateEmailOrPassword()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.invalid_email_or_password), Toast.LENGTH_SHORT).show();
+                        } else if (command.unregisteredEmail()) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.unregister_email), Toast.LENGTH_SHORT).show();
+                        } else if(command.invalidatePass()) {
+                            Toast.makeText(LoginActivity.this, getString(R.string.wrong_pass), Toast.LENGTH_SHORT).show();
                         } else if(command.inActiveAccount()) {
-                            Toast.makeText(LoginActivity.this, "Inactive account, you can active your account by click the active link in your email box", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(LoginActivity.this, getString(R.string.your_email_need_activation), Toast.LENGTH_LONG).show();
+                            showDialog(ACTIVE_EMAIL_DIALOG_ID);
                         } else if (command.isNetworkError()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
                         } else if (command.isStatusBad()) {
@@ -260,6 +264,17 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             builder.setTitle(R.string.just_a_moment);
             builder.setMessage(R.string.fetching_your_tracks);
             return builder.create();
+        } else if(id == ACTIVE_EMAIL_DIALOG_ID) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warm_prompt);
+            builder.setMessage(getString(R.string.your_email_need_activation));
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dismissDialog(ACTIVE_EMAIL_DIALOG_ID);
+                }
+            });
+            return builder.create();
         }
         return null;
     }
@@ -272,7 +287,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
-                finish();
                 break;
         }
     }

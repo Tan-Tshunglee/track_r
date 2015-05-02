@@ -295,22 +295,18 @@ public class BluetoothLeService extends Service implements
 
                     Set<String> ids = mPrefsManager.getTrackIds();
                     String deviceAddress = device.getAddress();
-                    try {
-                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     if (ids.contains(deviceAddress)) {
-
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
                         connectTrackAfterScan(deviceAddress);
-                    //found an new track r or
+                    //found an new track r
                     } else {
                         Log.v(LOG_TAG, "an unkown track has been scanned.");
                         uploadUnTrackGps(deviceAddress);
+                        scanLeDevice();
                     }
                 }
             };
+
 
     private void uploadUnTrackGps(final String deviceAddress) {
 
@@ -1107,6 +1103,7 @@ public class BluetoothLeService extends Service implements
                         break;
                     case MSG_DELAY_STOP_BLE_SCAN:
                         if(mBluetoothAdapter != null) {
+                            Log.v(LOG_TAG, "stop ble scan after a time");
                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                         }
 
@@ -1226,10 +1223,10 @@ public class BluetoothLeService extends Service implements
                     repeatPeriod, //intervalMillis
                     mPendingIntent //operation
             );
-            Log.d(LOG_TAG, "Alerm repeat period is " + repeatPeriod);
+            Log.d(LOG_TAG, "Alarm repeat period is " + repeatPeriod);
         } else {
             mAlarmManager.cancel(mPendingIntent);
-            Log.v(LOG_TAG, "cancel alarm repeat.");
+            Log.v(LOG_TAG, "Cancel alarm repeat.");
         }
 
     }
@@ -1279,9 +1276,10 @@ public class BluetoothLeService extends Service implements
                 Log.e(LOG_TAG, "mBluetoothAdapter is null in onStartCommand");
                 return START_NOT_STICKY;
             }
+            //scan activity need scan, stop background service scan
             if(ACTION_STOP_BACKGROUND_LOOP.equals(intent.getAction())) {
-                updateRepeatAlarmRegister(false);
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                updateRepeatAlarmRegister(false);
             } else {
                 mLastStartCommandMeet = System.currentTimeMillis();
                 repeatConnectLoop();
@@ -1361,7 +1359,6 @@ public class BluetoothLeService extends Service implements
         Log.v(LOG_TAG, "current uid is " + uid);
         if (uid == -1) {
             Log.v(LOG_TAG, "User has logout, exit.");
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
             closeAllTracksAndStopSelf();
             return true;
         }
@@ -1547,9 +1544,6 @@ public class BluetoothLeService extends Service implements
         if(mBluetoothAdapter.startLeScan(mLeScanCallback)) {
             Log.v(LOG_TAG, "start bluetooth le scan successfully.");
             mHandler.sendEmptyMessageDelayed(MSG_DELAY_STOP_BLE_SCAN, SCAN_TIMEOUT_MS);
-        } else {
-            Log.v(LOG_TAG, "start bluetooth scan failed.");
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
         };
 
     }
