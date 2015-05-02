@@ -248,9 +248,11 @@
 
     <string name="unbined_tip_disconnected_tip1">Once you delete the  &#160;\"</string>
     <string name="unbined_tip_disconnected_tip2">\", &#160;The item is paired with your account. But it is not connected right now. It is highly recommended to connect it with your phone before you delete it. Otherwise you can not  reconnect and track the lost item any more.</string>
-    <string name="sign_up_need_network">Sign up need available network</string>
-    <string name="unregister_email">Email not registered!</string>
-    <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
-    <string name="wrong_pass">Wrong password</string>
-    <string name="retrieve_my_pass">Retrieve my password</string>
+
+    <string name="yellow">yellow</string>
+    <string name="gray">gray</string>
+    <string name="siliver">siliver</string>
+    <string name="black">black</string>
+    <string name="login">login</string>
+    <string name="cloud">cloud</string>
 </resources>
