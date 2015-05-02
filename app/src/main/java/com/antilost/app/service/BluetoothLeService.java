@@ -173,6 +173,8 @@ public class BluetoothLeService extends Service implements
     private HashMap<String, Long> mDeclaredLostTrackLastFetchedTime = new HashMap<String, Long>(5);
     private HashMap<String, Boolean> mGattsSleeping = new HashMap<String, Boolean>(5);
 
+    private HashSet<String> mUnkownTrackUpload = new HashSet<String>();
+
     //    private LocationManager mLocationManager;
     private Location mLastLocation;
     private WifiManager mWifiManager;
@@ -183,7 +185,6 @@ public class BluetoothLeService extends Service implements
 //    private LocationClient mBaiduLocationClient;
 
     private boolean mSleeping = false;
-    private volatile Thread mUploadUnknownTrackLocationThread;
     private NotificationManager mNotificationManager;
     private IntentFilter mIntentFilter;
     private ConnectivityManager mConnectivityManager;
@@ -288,18 +289,26 @@ public class BluetoothLeService extends Service implements
                     }
                     Log.i(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());
 
+
+                    try {
+                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                        mHandler.removeMessages(MSG_DELAY_STOP_BLE_SCAN);
+                    } catch (Exception e) {
+                    }
+
                     Set<String> ids = mPrefsManager.getTrackIds();
                     String deviceAddress = device.getAddress();
                     if (ids.contains(deviceAddress)) {
                         Log.v(LOG_TAG, "In LeScanCallback , reconnect to " + deviceAddress);
-                        mBluetoothAdapter.stopLeScan(mLeScanCallback);
                         connectTrackAfterScan(deviceAddress);
                     //found an new track r
                     } else {
-                        Log.v(LOG_TAG, "an unkown track has been scanned.");
-                        uploadUnTrackGps(deviceAddress);
-                        if(mConnectionThread == null) {
-                            scanLeDevice();
+                        if(!mUnkownTrackUpload.contains(deviceAddress)) {
+                            Log.v(LOG_TAG, "an unkown track has been scanned.");
+                            uploadUnTrackGps(deviceAddress);
+                            if(mConnectionThread == null) {
+                                scanLeDevice();
+                            }
                         }
                     }
                 }
@@ -308,28 +317,24 @@ public class BluetoothLeService extends Service implements
 
     private void uploadUnTrackGps(final String deviceAddress) {
 
-        if(mUploadUnknownTrackLocationThread != null) {
-            return;
-        }
-        mUploadUnknownTrackLocationThread = new Thread()  {
+        Thread uploadThread = new Thread() {
             @Override
             public void run() {
-                if(mLastLocation != null) {
+                if (mLastLocation != null) {
                     Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
                     command.execTask();
-                    if(command.success()) {
+                    if (command.success()) {
                         Log.v(LOG_TAG, "Update unkown track r 's location successfully.");
+                        mUnkownTrackUpload.add(deviceAddress);
                     } else {
                         Log.v(LOG_TAG, "Fail to update unkown track r 's location ");
                     }
                 } else {
                     Log.d(LOG_TAG, "found unknown track, but location is missing.");
                 }
-
-                mUploadUnknownTrackLocationThread = null;
             }
         };
-        mUploadUnknownTrackLocationThread.start();
+        uploadThread.start();
     }
 
     private void connectTrackAfterScan(final String address) {
@@ -1102,7 +1107,11 @@ public class BluetoothLeService extends Service implements
                     case MSG_DELAY_STOP_BLE_SCAN:
                         if(mBluetoothAdapter != null) {
                             Log.v(LOG_TAG, "stop ble scan after a time");
-                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                            try {
+                                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                            } catch (Exception e) {
+                                //this may cause java.lang.NullPointerException
+                            }
                         }
 
                         break;
@@ -1277,6 +1286,7 @@ public class BluetoothLeService extends Service implements
             //scan activity need scan, stop background service scan
             if(ACTION_STOP_BACKGROUND_LOOP.equals(intent.getAction())) {
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                mHandler.removeMessages(MSG_DELAY_STOP_BLE_SCAN);
                 updateRepeatAlarmRegister(false);
                 mBackgroundConnectionForbidden = true;
 
