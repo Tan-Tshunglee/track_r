@@ -402,8 +402,9 @@ public class BluetoothLeService extends Service implements
         mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
         gatt.close();
         Message msg = mHandler.obtainMessage(MSG_DELAY_CHECK_NEW_TRACK_CONNECTED, address);
-        mHandler.sendMessageDelayed(msg, 5 * 1000);
+        mBluetoothGatts.remove(address);
         tryConnectGatt(address, device);
+        mHandler.sendMessageDelayed(msg, 5 * 1000);
     }
 
 
