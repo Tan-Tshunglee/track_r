@@ -91,7 +91,6 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
                     try {
                         dismissDialog(BLUETOOTH_DISABLED_DIALOG);
                     } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -163,7 +162,6 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
             try {
                 dismissDialog(BLUETOOTH_DISABLED_DIALOG);
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
@@ -189,11 +187,9 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
             if(!mBluetoothAdapter.isEnabled()) {
                 showDialog(BLUETOOTH_DISABLED_DIALOG);
             } else{
-
                 dismissDialog(BLUETOOTH_DISABLED_DIALOG);
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -383,7 +379,6 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
                         startActivity(bluetoothSettingIntent);
                         dismissDialog(BLUETOOTH_DISABLED_DIALOG);
                     } catch (Exception e) {
-                        e.printStackTrace();
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
