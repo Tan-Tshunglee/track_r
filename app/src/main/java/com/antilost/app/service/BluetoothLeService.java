@@ -188,6 +188,7 @@ public class BluetoothLeService extends Service implements
     private IntentFilter mIntentFilter;
     private ConnectivityManager mConnectivityManager;
     private volatile Thread mConnectionThread;
+    private boolean mBackgroundConnectionForbidden;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -1280,6 +1281,8 @@ public class BluetoothLeService extends Service implements
             if(ACTION_STOP_BACKGROUND_LOOP.equals(intent.getAction())) {
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
                 updateRepeatAlarmRegister(false);
+                mBackgroundConnectionForbidden = true;
+
             } else {
                 mLastStartCommandMeet = System.currentTimeMillis();
                 repeatConnectLoop();
@@ -1288,6 +1291,7 @@ public class BluetoothLeService extends Service implements
                 if(!intent.getBooleanExtra(INTENT_FROM_BROADCAST_EXTRA_KEY_NAME, false)) {
                     Log.v(LOG_TAG, "Service go in fast repeat mode.");
                     enterFastRepeatMode();
+                    mBackgroundConnectionForbidden = false;
                 }
                 updateRepeatAlarmRegister(true);
             }
@@ -1390,8 +1394,14 @@ public class BluetoothLeService extends Service implements
                 @Override
                 public void run() {
                     Log.i(LOG_TAG, "background connecting thread start.");
+
+                    if(mBackgroundConnectionForbidden) {
+                        Log.d(LOG_TAG, "background connection forbidden flag set. finish backgroud thread");
+                        return;
+                    }
                     Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
                     for (String address : ids) {
+
                         boolean needWaiting = true;
                         if(needWaiting) {
                             try {
@@ -1401,6 +1411,10 @@ public class BluetoothLeService extends Service implements
                             }
                         }
                         needWaiting = connectSingleTrack(address);
+                        if(mBackgroundConnectionForbidden) {
+                            Log.d(LOG_TAG, "background connection forbidden flag set. don't connect track");
+                            break;
+                        }
                     }
 
                     try {
