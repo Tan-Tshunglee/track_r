@@ -3,6 +3,7 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -40,8 +41,7 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
         //make sound when system is in silent mode;
         Uri uri = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        int volume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
-        volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+        int volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
 
         audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
 
@@ -52,6 +52,25 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
             ringtone.play();
         }
 
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        //make sound when system is in silent mode;
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int volume = audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+
+        audioManager.setStreamVolume(AudioManager.STREAM_ALARM, volume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+
+        Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        if (ringtone != null) {
+            ringtone.setStreamType(AudioManager.STREAM_ALARM);
+            ringtone.play();
+        }
     }
 
     @Override
