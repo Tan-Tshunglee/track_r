@@ -615,6 +615,13 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
+
+            String address = gatt.getDevice().getAddress();
+            Integer state = mGattConnectionStates.get(address);
+            if(state == null || state != BluetoothProfile.STATE_CONNECTED) {
+                gatt.close();
+                return;
+            }
             Log.v(LOG_TAG, "onCharacteristicChanged....");
             UUID charUuid = characteristic.getUuid();
             if (charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID)) {
@@ -1438,7 +1445,7 @@ public class BluetoothLeService extends Service implements
         }
 
         int uid = mPrefsManager.getUid();
-        if (uid == -1) {
+        if (uid == PrefsManager.INVALID_UID) {
             Log.v(LOG_TAG, "User has logout, exit.");
             closeAllTracksAndStopSelf();
             return true;
@@ -1487,6 +1494,11 @@ public class BluetoothLeService extends Service implements
         for (String address : ids) {
             if (!TextUtils.isEmpty(address)) {
                 silentlyTurnOffTrack(address);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
