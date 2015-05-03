@@ -296,8 +296,6 @@ public class BluetoothLeService extends Service implements
                         Log.d(LOG_TAG, "scan an unkown name devices... with name:" + name);
                         return;
                     }
-                    Log.i(LOG_TAG, "BluetoothAdapter.LeScanCallback get device " + device.getAddress());
-
 
                     Set<String> ids = mPrefsManager.getTrackIds();
                     String deviceAddress = device.getAddress();
@@ -345,6 +343,11 @@ public class BluetoothLeService extends Service implements
     }
 
     private void addTrackToWaitingSet(final String address) {
+
+        if(mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            Log.e(LOG_TAG, "Bluetooth not support or disabled.");
+        }
+
 
         Integer oldState = mGattConnectionStates.get(address);
         BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
