@@ -142,7 +142,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         }
                     }, 1000);
                 } else {
-                    mConnectingGatt = true;
+                    mConnectingGatt = false;
                     Log.v(LOG_TAG, "Bluetooth disconnect");
                     gatt.close();
                     mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
