@@ -101,24 +101,6 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private float scaleHeight = 1;
 
 
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            Log.v(LOG_TAG, String.format("TrackRSettingActivity receiver onReceive get action ") + action);
-            if (BluetoothLeService.ACTION_BATTERY_LEVEL_READ.equals(action)) {
-                int batteryLevel = mBluetoothLeService.getBatteryLevel(mBluetoothDeviceAddress);
-            } else if (BluetoothLeService.ACTION_RSSI_READ.equals(action)) {
-                int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
-                //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                updateDeclareLayoutVisibility();
-            }
-            Log.v(LOG_TAG, "receive ACTION_GATT_CONNECTED");
-        }
-    };
-
     private void updateDeclareLayoutVisibility() {
         if (mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
             mDeclaredLost.setVisibility(View.VISIBLE);

@@ -49,7 +49,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 Log.v(LOG_TAG, "receive ACTION_GATT_SERVICES_DISCOVERED");
                 String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
                 if(mTrackR != null
@@ -195,7 +195,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
         mAlertDialog.show();
 
         Log.v(LOG_TAG, "onResume called.");
-        registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED));
+        registerReceiver(mGattUpdateReceiver, new IntentFilter(BluetoothLeService.ACTION_GATT_CONNECTED));
     }
 
     @Override

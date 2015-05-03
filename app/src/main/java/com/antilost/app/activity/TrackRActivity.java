@@ -117,7 +117,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 int rssi = mBluetoothLeService.getRssiLevel(mBluetoothDeviceAddress);
                 //Toast.makeText(TrackRActivity.this, "Get rssi value is " + rssi, Toast.LENGTH_SHORT).show();
                 updateIconPosition(rssi);
-            } else if(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+            } else if(BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 updateStateUi();
             } else if(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE.equals(action)) {
                 String address = intent.getStringExtra(BluetoothLeService.EXTRA_KEY_BLUETOOTH_ADDRESS);
@@ -373,7 +373,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     private IntentFilter makeBroadcastReceiverIntentFilter() {
         IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_RSSI_READ);
         filter.addAction(BluetoothLeService.ACTION_BATTERY_LEVEL_READ);
-        filter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        filter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         filter.addAction(BluetoothLeService.ACTION_DEVICE_RING_COMMAND_WRITE_DONE);
         filter.addAction(BluetoothLeService.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE);
         return filter;
