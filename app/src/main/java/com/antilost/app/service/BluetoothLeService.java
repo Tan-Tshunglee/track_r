@@ -202,7 +202,7 @@ public class BluetoothLeService extends Service implements
     }
 
     private ConnectionState mConnectionState = ConnectionState.IDLE;
-    private String mConnectingTrack = null;
+    private String mConnectingTrackAddress = null;
     private long mConnectingStartTime = -1;
 
     @Override
@@ -432,7 +432,7 @@ public class BluetoothLeService extends Service implements
                     e.printStackTrace();
                 }
                 Log.i(LOG_TAG, "send MSG_CONNECT_TRACK to re connect gatt.");
-                mHandler.sendEmptyMessage(MSG_CONNECT_TRACK);
+                mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, 1000);
                 return;
             }
 
@@ -522,7 +522,7 @@ public class BluetoothLeService extends Service implements
             final String address = gatt.getDevice().getAddress();
             if(status != BluetoothGatt.GATT_SUCCESS) {
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                Log.e(LOG_TAG, "onServicesDiscovered called  with status " + status);
+                Log.e(LOG_TAG, "onServicesDiscovered called  with error status " + status);
                 mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, 1000);
                 return;
             }
@@ -538,7 +538,6 @@ public class BluetoothLeService extends Service implements
             }
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
-
 
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                 mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
@@ -694,12 +693,7 @@ public class BluetoothLeService extends Service implements
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
                 Log.i(LOG_TAG, "write done callback of verify code ");
 
-                //we think connection established after verify code write callback;
-                Log.i(LOG_TAG, "ble connection success." +address);
-                mWaitingConnectionTracks.remove(address);
-                mConnectionState = ConnectionState.IDLE;
 
-                mHandler.sendEmptyMessage(MSG_CONNECT_TRACK);
                 registerKeyListener(gatt);
                 mHandler.postDelayed(new Runnable() {
                     @Override
@@ -712,7 +706,7 @@ public class BluetoothLeService extends Service implements
                         readBatteryLevel(address);
                         requestRssiLevel(address);
                     }
-                }, 5000);
+                }, 1000);
             //alert sound ring
             } else if(com.antilost.app.bluetooth.UUID.IMMEDIATE_ALERT_SERVICE_UUID.equals(serviceUuid)
                     && com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID.equals(charUuid)
@@ -743,10 +737,19 @@ public class BluetoothLeService extends Service implements
         }
 
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+
+            String address = gatt.getDevice().getAddress();
+            Log.i(LOG_TAG, "ble connection success." + address);
+            mWaitingConnectionTracks.remove(address);
+            if(mConnectionState == ConnectionState.CONNECTING) {
+                mConnectionState = ConnectionState.IDLE;
+            }
             Log.i(LOG_TAG, "onReadRemoteRssi callback rssi is " + rssi);
+            Log.d(LOG_TAG, "it 's time to read next track");
+            mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, 1000);
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
-            String address = gatt.getDevice().getAddress();
+
             receiverRssi(address, rssi);
         }
     }
@@ -1121,11 +1124,11 @@ public class BluetoothLeService extends Service implements
                             Iterator<String> it = mWaitingConnectionTracks.iterator();
                             if (it.hasNext()) {
                                 mConnectionState = ConnectionState.CONNECTING;
-                                mConnectingTrack = it.next();
+                                mConnectingTrackAddress = it.next();
                                 mConnectingStartTime = SystemClock.uptimeMillis();
-                                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mConnectingTrack);
-                                Log.v(LOG_TAG, "connect to waiting track:" + mConnectingTrack);
-                                tryConnectGatt(mConnectingTrack, device);
+                                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mConnectingTrackAddress);
+                                Log.v(LOG_TAG, "connect to waiting track:" + mConnectingTrackAddress);
+                                tryConnectGatt(mConnectingTrackAddress, device);
                                 //delay check connection timeout;
                                 mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, GATT_CONNECTION_TIMEOUT);
                             } else {
@@ -1138,16 +1141,19 @@ public class BluetoothLeService extends Service implements
                                 }
                             }
                         } else if (mConnectionState == ConnectionState.CONNECTING) {
-                            if(SystemClock.uptimeMillis() - mConnectingStartTime > GATT_CONNECTION_TIMEOUT) {
-                                Log.e(LOG_TAG, "Connection timeout." + mConnectingTrack);
+                            Integer connectionState = mGattConnectionStates.get(mConnectingTrackAddress);
+                            if(connectionState == null) connectionState = BluetoothProfile.STATE_DISCONNECTED;
+                            if(SystemClock.uptimeMillis() - mConnectingStartTime > GATT_CONNECTION_TIMEOUT
+                                    && BluetoothProfile.STATE_CONNECTED != connectionState) {
+                                Log.e(LOG_TAG, "Connection timeout." + mConnectingTrackAddress);
                                 //remove the timeout track and set state to idle
-                                mWaitingConnectionTracks.remove(mConnectingTrack);
+                                mWaitingConnectionTracks.remove(mConnectingTrackAddress);
                                 mConnectionState = ConnectionState.IDLE;
                                 mHandler.sendEmptyMessage(MSG_CONNECT_TRACK);
                             } else {
-                                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mConnectingTrack);
-                                Log.v(LOG_TAG, "retry connect to waiting track:" + mConnectingTrack);
-                                tryConnectGatt(mConnectingTrack, device);
+                                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mConnectingTrackAddress);
+                                Log.v(LOG_TAG, "retry connect to waiting track:" + mConnectingTrackAddress);
+                                tryConnectGatt(mConnectingTrackAddress, device);
                                 //delay check connection timeout;
                             }
                         }
@@ -1312,6 +1318,7 @@ public class BluetoothLeService extends Service implements
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(LOG_TAG, "onStartCommand");
+        long start = SystemClock.uptimeMillis();
 
         if (intent != null) {
 
@@ -1349,7 +1356,7 @@ public class BluetoothLeService extends Service implements
             //upload now;
             uploadBindInfoDelay();
         }
-
+        Log.i(LOG_TAG,  "onStartCommand  used time:" + (SystemClock.uptimeMillis() - start) + " ms");
         return START_STICKY;
     }
 
@@ -1411,7 +1418,6 @@ public class BluetoothLeService extends Service implements
             return false;
         }
 
-        //this will read file
         int uid = mPrefsManager.getUid();
         if (uid == -1) {
             Log.v(LOG_TAG, "User has logout, exit.");
@@ -1431,7 +1437,7 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 scanLeDevice();
             }
-        }, 100);
+        }, 1000);
 
         //if all device connected, exit fast repeat mode;
         if(allTrackConnected()) {
@@ -1560,6 +1566,8 @@ public class BluetoothLeService extends Service implements
         if(mConnectionState == ConnectionState.IDLE) {
             if(!mBluetoothAdapter.startLeScan(mLeScanCallback)) {
                 Log.e(LOG_TAG, "mBluetoothAdapter.startLeScan return false.");
+            } else {
+                Log.v(LOG_TAG, "start ble scan successfully.");
             }
             mConnectionState = ConnectionState.SCANNING;
             mHandler.sendEmptyMessageDelayed(MSG_STOP_BLE_SCAN, SCAN_TIMEOUT_MS);
