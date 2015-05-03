@@ -366,13 +366,16 @@ public class BluetoothLeService extends Service implements
 
         if(mWaitingConnectionTracks.contains(address)) {
             Log.v(LOG_TAG, String.format("%s is already waiting for connection.", address));
+            if(mConnectionState == ConnectionState.IDLE) {
+                mHandler.sendEmptyMessage(MSG_CONNECT_TRACK);
+            }
         } else {
             if (mConnectionState == ConnectionState.IDLE) {
                 Log.i(LOG_TAG, "Add track to waiting connection set." + address);
                 mWaitingConnectionTracks.add(address);
                 mHandler.sendEmptyMessage(MSG_CONNECT_TRACK);
             } else {
-                Log.w(LOG_TAG, "try add address to waiting connection set while connection state is not idle.");
+                Log.w(LOG_TAG, address + " is already waiting for connectionry add address to waiting connection set while connection state is not idle.");
             }
         }
     }
@@ -403,19 +406,6 @@ public class BluetoothLeService extends Service implements
         enterFastRepeatMode();
         updateRepeatAlarmRegister(true);
         Log.v(LOG_TAG, "onUserInteraction in BluetoothLeService.");
-    }
-
-    public void addNewTrack(BluetoothGatt gatt) {
-        Log.i(LOG_TAG, "add new track to BluetoothService...");
-        String address = gatt.getDevice().getAddress();
-        mBluetoothCallbacks.put(address, null);
-        BluetoothDevice device = gatt.getDevice();
-        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-        gatt.close();
-        Message msg = mHandler.obtainMessage(MSG_DELAY_CHECK_NEW_TRACK_CONNECTED, address);
-        mBluetoothGatts.remove(address);
-        tryConnectGatt(address, device);
-        mHandler.sendMessageDelayed(msg, 5 * 1000);
     }
 
 

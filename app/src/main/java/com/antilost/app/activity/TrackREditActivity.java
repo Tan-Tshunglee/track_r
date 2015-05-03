@@ -368,11 +368,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                     Log.e(LOG_TAG, "mBluetoothGatt device get device is null.");
                     return;
                 }
-
-                if(mBluetoothGatt != null) {
-                    mBluetoothLeService.addNewTrack(mBluetoothGatt);
-                    mBluetoothGatt = null;
-                }
+                mBluetoothGatt.close();
             }
         } else {
             Log.e(LOG_TAG, "can not add mTrack to bluetoothLe Service, cause mBluetoothLeService is null");
