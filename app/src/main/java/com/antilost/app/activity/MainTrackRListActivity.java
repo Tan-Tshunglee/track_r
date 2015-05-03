@@ -61,7 +61,6 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
             mListViewAdapter.updateData();
-            mBluetoothLeService.tryConnect();
         }
 
         @Override
