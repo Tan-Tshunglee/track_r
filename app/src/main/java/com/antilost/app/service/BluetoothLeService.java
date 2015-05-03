@@ -1134,7 +1134,7 @@ public class BluetoothLeService extends Service implements
                                     Log.v(LOG_TAG, "Not all tracks connected ,restart scan.");
                                     scanLeDevice();
                                 } else {
-                                    Log.i(LOG_TAG, "Not all tracks connected ,restart scan.");
+                                    Log.i(LOG_TAG, "all tracks connected ,nice.");
                                 }
                             }
                         } else if (mConnectionState == ConnectionState.CONNECTING) {
