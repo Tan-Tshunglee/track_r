@@ -1,11 +1,12 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,12 +21,15 @@ import com.antilost.app.prefs.PrefsManager;
 public class ChangePasswordActivity extends Activity {
 
     private static final String LOG_TAG = "ChangePasswordActivity";
+
+    private static final int CHANGING_USER_PASSWORD_DIALOG_ID = 1;
+    private static final int CHANGE_PASSWORD_SUCCESS_DIALOG_ID = 2;
+    private static final int CHANGE_PASSWORD_FAIL_DIALOG_ID = 3;
     private PrefsManager mPrefs;
     private Handler mHandler = new Handler();
     private EditText mOldPassEdit;
     private EditText mNewPassEdit;
     private EditText mNewPassConfirmEdit;
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,7 @@ public class ChangePasswordActivity extends Activity {
         mPrefs = PrefsManager.singleInstance(this);
         mOldPassEdit = (EditText) findViewById(R.id.oldPassword);
         mNewPassEdit = (EditText) findViewById(R.id.newPassword);
-        mNewPassConfirmEdit = (EditText) findViewById(R.id.oldPassword);
+        mNewPassConfirmEdit = (EditText) findViewById(R.id.newPasswordConfirm);
     }
 
 
@@ -57,7 +61,7 @@ public class ChangePasswordActivity extends Activity {
 
         String oldPass = mOldPassEdit.getText().toString();
         String newPass = mNewPassEdit.getText().toString();
-        String newPassConfirm = mNewPassEdit.getText().toString();
+        String newPassConfirm = mNewPassConfirmEdit.getText().toString();
 
         if (oldPass.length() < 6 || oldPass.length() > 18) {
             Toast toast = Toast.makeText(this, getString(R.string.old_password_length_error), Toast.LENGTH_SHORT);
@@ -74,28 +78,13 @@ public class ChangePasswordActivity extends Activity {
         }
 
         if(!newPass.equals(newPassConfirm)) {
-            Toast toast = Toast.makeText(this, "New password don't match the New password confirm.", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.change_password_not_match), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+            return;
         }
 
-        if(mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-            mProgressDialog.setTitle(R.string.new_user_registration);//设置标题
-            mProgressDialog.setIndeterminate(false);//设置进度条是否为不明确
-            mProgressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
-            mProgressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-
-            });
-        }
-
-        mProgressDialog.show();
+        showDialog(CHANGING_USER_PASSWORD_DIALOG_ID);
 
 
         final ChangePasswordCommand command = new ChangePasswordCommand(mPrefs.getUid(), newPass, oldPass);
@@ -103,32 +92,84 @@ public class ChangePasswordActivity extends Activity {
             @Override
             public void run() {
 
-                final String msg;
                 try {
-
                     command.execTask();
-
-                    mProgressDialog.dismiss();
+                    final int dialog_id;
+                    dismissDialog(CHANGING_USER_PASSWORD_DIALOG_ID);
                     if(command.success()) {
-                       msg = getString(R.string.password_change_successfully);
+                        dialog_id  = CHANGE_PASSWORD_SUCCESS_DIALOG_ID;
                     } else {
-                       msg = getString(R.string.failed_change_password);
+                        dialog_id = CHANGE_PASSWORD_FAIL_DIALOG_ID;
                     }
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(ChangePasswordActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            showDialog(dialog_id);
                         }
                     });
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         };
         t.start();
+    }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = null;
+
+        switch (id) {
+            case CHANGING_USER_PASSWORD_DIALOG_ID:
+                ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
+                progressDialog.setTitle(R.string.new_user_registration);//设置标题
+                progressDialog.setIndeterminate(false);//设置进度条是否为不明确
+                progressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
+                progressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+
+                });
+
+                dialog = progressDialog;
+                break;
+            case CHANGE_PASSWORD_FAIL_DIALOG_ID:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.warm_prompt);
+                builder.setMessage(R.string.failed_change_password);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                       dialogInterface.dismiss();
+                    }
+                });
+                dialog = builder.create();
+                break;
+
+            case CHANGE_PASSWORD_SUCCESS_DIALOG_ID:
+
+                builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.warm_prompt);
+                builder.setMessage(R.string.password_change_successfully);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                dialog = builder.create();
+
+                break;
+        }
+
+        return dialog;
     }
 }

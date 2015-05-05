@@ -273,4 +273,5 @@
     <string name="failed_change_password">Failed to Change Password</string>
     <string name="old_password_length_error">Old password length requires 6 to 18 characters</string>
     <string name="new_password_length_error">New password length requires 6 to 18 characters</string>
+    <string name="change_password_not_match">New password don\'t match the New password confirm.</string>
 </resources>
