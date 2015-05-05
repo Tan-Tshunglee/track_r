@@ -264,4 +264,13 @@
     <string name="in_sleep_mode_track_will_not_alert">In sleep mode, iTrack will not alert</string>
     <string name="bluethoot_disabled">Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?</string>
     <string name="notice">Notice</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_confirm">New Password Confirm</string>
+    <string name="change_password">Change Password</string>
+    <string name="password_change_successfully">Password Change Successfully.</string>
+    <string name="failed_change_password">Failed to Change Password</string>
+    <string name="old_password_length_error">Old password length requires 6 to 18 characters</string>
+    <string name="new_password_length_error">New password length requires 6 to 18 characters</string>
 </resources>

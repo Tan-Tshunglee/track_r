@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.network.RegisterCommand;
+import com.antilost.app.util.Utils;
 
 import java.util.regex.Matcher;
 
@@ -103,8 +104,7 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
 
 
         final String email = mEmailInput.getText().toString();
-        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
-        if (!matcher.matches()) {
+        if (!Utils.isValidEmailAddress(email)) {
             Toast toast = Toast.makeText(this, R.string.invalid_email_address, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

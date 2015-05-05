@@ -25,17 +25,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
 import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.dao.UserDataTable;
 import com.antilost.app.model.UserdataBean;
-import com.antilost.app.network.Command;
 import com.antilost.app.network.CommandPerformer;
-import com.antilost.app.network.LostDeclareCommand;
-import com.antilost.app.network.UnbindCommand;
 import com.antilost.app.network.VersionCheckCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.BluetoothLeService;
@@ -79,6 +75,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private ProgressDialog mCheckingUpdatingDialog;
     private AlertDialog mPromtUpdateOrNotDialog;
     private AlertDialog mAppIsUpdatedDialog;
+    private RelativeLayout mChangePasswordItem;
 
 
     @Override
@@ -178,6 +175,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         mSleepStartTime = (TextView) findViewById(R.id.startTimeText);
         mSleepEndTime = (TextView) findViewById(R.id.endTimeText);
 
+        mChangePasswordItem = (RelativeLayout) findViewById(R.id.changePassItem);
     }
 
     @Override
@@ -288,6 +286,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
         mSleepModeSwitch.setOnCheckedChangeListener(this);
         rluser_version.setOnClickListener(this);
+        mChangePasswordItem.setOnClickListener(this);
     }
     private  void confireNotice() {
 
@@ -364,7 +363,14 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             case R.id.rluser_version:
                 tryCheckUpdate();
                 break;
+            case R.id.changePassItem:
+                showChangePasswordActivity();
+                break;
         }
+    }
+
+    private void showChangePasswordActivity() {
+        startActivity(new Intent(this, ChangePasswordActivity.class));
     }
 
     private void tryCheckUpdate() {

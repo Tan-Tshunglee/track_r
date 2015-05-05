@@ -13,6 +13,11 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Patterns;
+import android.view.Gravity;
+import android.widget.Toast;
+
+import com.antilost.app.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 /**
  * Created by Tan on 2015/3/7.
@@ -64,6 +70,11 @@ public class Utils {
         }
 
         return valid;
+    }
+
+    public static boolean isValidEmailAddress(String email) {
+        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
+        return matcher.matches();
     }
 
     public static String sHA1(Context context) {

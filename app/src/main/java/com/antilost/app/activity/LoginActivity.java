@@ -26,6 +26,7 @@ import com.antilost.app.R;
 import com.antilost.app.network.LoginCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.NetworkSyncService;
+import com.antilost.app.util.Utils;
 
 import java.util.regex.Matcher;
 
@@ -140,8 +141,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     private void validateUserInputAndLogin() {
 
         final String email = mEmailInput.getText().toString();
-        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(email);
-        if (!matcher.matches()) {
+        if (!Utils.isValidEmailAddress(email)) {
             Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
             return;
         }

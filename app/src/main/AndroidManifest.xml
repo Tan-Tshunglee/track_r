@@ -96,6 +96,15 @@
             android:name=".activity.RegistrationActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
+
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_change_password"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+        </activity>
+
+
         <activity
             android:name=".activity.PrepareScanActivity"
             android:label="@string/title_activity_bind"
@@ -239,27 +248,23 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar" />
-
         <activity
             android:name=".activity.StartAndEndTimerPickerActivity"
             android:label="@string/title_activity_start_and_end_timer_picker"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
-
         <activity
             android:name=".camera.CameraActivity"
             android:label="@string/title_activity_camera"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" />
-
         <activity
             android:name=".activity.HelpActivity"
             android:label="@string/help_title"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
-
         <activity
             android:name=".activity.BackGroundSelector"
             android:label="@string/help_title"
@@ -287,7 +292,6 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
         </activity>
-
         <activity
             android:name="com.android.mod.VideoCamera"
             android:clearTaskOnLaunch="true"
@@ -297,7 +301,6 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
         </activity>
-
         <activity
             android:name="com.android.mod.panorama.PanoramaActivity"
             android:clearTaskOnLaunch="true"
@@ -307,20 +310,19 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" >
         </activity>
-
         <activity
             android:name=".activity.FoundByOthersActivity"
-            android:taskAffinity="activity.FoundByOthers"
+            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:label="@string/title_activity_found_by_others"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:label="@string/title_activity_found_by_others" >
+            android:taskAffinity="activity.FoundByOthers"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
         </activity>
-        
         <activity
             android:name="com.android.camera.CropImage"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
 
     </application>
 
