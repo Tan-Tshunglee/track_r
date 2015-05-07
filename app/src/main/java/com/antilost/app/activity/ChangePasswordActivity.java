@@ -18,7 +18,7 @@ import com.antilost.app.network.ChangePasswordCommand;
 import com.antilost.app.prefs.PrefsManager;
 
 
-public class ChangePasswordActivity extends Activity {
+public class ChangePasswordActivity extends Activity implements View.OnClickListener {
 
     private static final String LOG_TAG = "ChangePasswordActivity";
 
