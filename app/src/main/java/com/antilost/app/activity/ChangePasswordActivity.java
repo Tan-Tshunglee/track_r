@@ -40,7 +40,7 @@ public class ChangePasswordActivity extends Activity {
         mNewPassEdit = (EditText) findViewById(R.id.newPassword);
         mNewPassConfirmEdit = (EditText) findViewById(R.id.newPasswordConfirm);
 
-        findViewById(R.id.backBtn);
+        findViewById(R.id.backBtn).setOnClickListener(this);
     }
 
 
