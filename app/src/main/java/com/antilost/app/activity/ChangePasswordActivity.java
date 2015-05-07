@@ -39,6 +39,8 @@ public class ChangePasswordActivity extends Activity {
         mOldPassEdit = (EditText) findViewById(R.id.oldPassword);
         mNewPassEdit = (EditText) findViewById(R.id.newPassword);
         mNewPassConfirmEdit = (EditText) findViewById(R.id.newPasswordConfirm);
+
+        findViewById(R.id.backBtn);
     }
 
 
