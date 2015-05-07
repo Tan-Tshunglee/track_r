@@ -35,13 +35,18 @@ public class LocUtils {
         if(loc == null) {
             return null;
         }
-        String[] pair = loc.split("-");
-        Location location = new Location(LocationManager.NETWORK_PROVIDER);
-        double latitude = Double.valueOf(pair[0]);
-        double longitude = Double.valueOf(pair[1]);
+        Location location = null;
+        try {
+            String[] pair = loc.split("-");
+            location = new Location(LocationManager.NETWORK_PROVIDER);
+            double latitude = Double.valueOf(pair[0]);
+            double longitude = Double.valueOf(pair[1]);
 
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
         return location;
     }
