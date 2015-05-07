@@ -124,7 +124,7 @@ public class ChangePasswordActivity extends Activity {
             case CHANGING_USER_PASSWORD_DIALOG_ID:
                 ProgressDialog progressDialog = new ProgressDialog(this);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置风格为圆形进度条
-                progressDialog.setTitle(R.string.new_user_registration);//设置标题
+                progressDialog.setTitle(R.string.changing_password);//设置标题
                 progressDialog.setIndeterminate(false);//设置进度条是否为不明确
                 progressDialog.setCancelable(true);//设置进度条是否可以按退回键取消
                 progressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -163,6 +163,7 @@ public class ChangePasswordActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        finish();
                     }
                 });
                 dialog = builder.create();

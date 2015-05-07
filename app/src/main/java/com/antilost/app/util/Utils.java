@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.activity.ManualAddLocationActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -192,5 +193,13 @@ public class Utils {
 
     public static Bitmap scaleBitmap(Bitmap origin, float scale) {
         return Bitmap.createScaledBitmap(origin, (int) (origin.getWidth() * scale), (int) (origin.getHeight() * scale), true);
+    }
+
+    public static void showShortToast(Context ctx, String msg) {
+        Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showShortToast(ManualAddLocationActivity ctx, int msgResId) {
+        Toast.makeText(ctx, msgResId, Toast.LENGTH_SHORT).show();
     }
 }

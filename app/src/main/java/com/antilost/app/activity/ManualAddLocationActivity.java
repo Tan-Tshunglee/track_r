@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,6 +24,7 @@ import com.antilost.app.dao.TrackRDataBase;
 import com.antilost.app.model.LocationBean;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 import java.util.List;
 import java.util.Locale;
@@ -64,18 +64,13 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
         findViewById(R.id.btnlocatinBack).setOnClickListener(this);
         findViewById(R.id.btnlocationAdd).setOnClickListener(this);
         initdata();
-
-
     }
+
+
 
     private void initdata() {
         trackRDataBase = new TrackRDataBase(this);
         mDb = trackRDataBase.getWritDatabase();
-        //debug
-//        if(LocationTable.getInstance().query(mDb)==null){
-//            LocationTable.getInstance().insert(mDb,new LocationBean("HOME","2015年11月25日10时25分",(float)12.5,(float)12.5));
-//            LocationTable.getInstance().insert(mDb,new LocationBean("OFFICE","2015年11月25日08时26分",(float)12.5,(float)12.5));
-//        }
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -115,9 +110,22 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
         }
         mPrefsManager = PrefsManager.singleInstance(this);
-        //debug
-//        mLocationManagerProxy = LocationManagerProxy.getInstance(this);
-//        mLocationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork,-1, 15, this);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (mDb != null) {
+                mDb.close();
+                mDb = null;
+            }
+
+            trackRDataBase.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -130,13 +138,13 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    // 重命�?
+                    // 重命名
                     case 0:
                         modifyLocationName(locationBean);
                         break;
                     // 删除
                     case 1:
-                        deleteSensor(locationBean);
+                        deleteLocation(locationBean);
                         break;
                 }
             }
@@ -163,7 +171,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
             public void onClick(DialogInterface dialog, int which) {
                 String sensorName = inputServer.getText().toString();
                 if (TextUtils.isEmpty(sensorName)) {
-                    Toast.makeText(ManualAddLocationActivity.this, R.string.modify_locationname_null, Toast.LENGTH_SHORT).show();
+                    Utils.showShortToast(ManualAddLocationActivity.this, R.string.location_name_can_not_be_empty);
                     return;
                 }
                 locationBean.setmLocationName(sensorName);
@@ -175,9 +183,9 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     }
 
     /**
-     * 删除房间
+     * 删除位置
      */
-    private final void deleteSensor(final LocationBean locationBean) {
+    private final void deleteLocation(final LocationBean locationBean) {
         LocationTable.getInstance().delete(mDb, locationBean);
         locationadatper.notifyDataSetChanged();
         if (LocationTable.getInstance().query(mDb) != null) {
@@ -191,13 +199,6 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mDb != null) {
-            mDb.close();
-        }
-    }
 
 
     @Override
@@ -216,15 +217,15 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnlocatinBack:
-                back();
+                finish();
                 break;
             case R.id.btnlocationAdd:
-                Dailog();
+                showLocationAddDialog();
                 break;
         }
     }
 
-    private void Dailog() {
+    private void showLocationAddDialog() {
         final EditText inputServer = new EditText(ManualAddLocationActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(ManualAddLocationActivity.this);
         builder.setIcon(R.drawable.location);
@@ -234,19 +235,21 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Name = inputServer.getText().toString().trim();
-//        String timerStringday =new SimpleDateFormat("yyyy年MM月dd日hh时mm分").format(new java.util.Date());
-//      英文显示
+                        String name = inputServer.getText().toString().trim();
                         String timerStringday = new java.util.Date().toLocaleString();
-                        if (mPrefsManager.getLastAMPALocation() == null) {
-                            //LocationTable.getInstance().insert(mDb, new LocationBean(Name, timerStringday, (float) 1222.3, (float)10.5));
-//            Log.d(LOG_TAG,"the location is null");
-                        } else {
-//          LocationTable.getInstance().insert(mDb,new LocationBean(Name,timerStringday,(float)location.getLongitude(),(float)location.getLongitude()));
-                            LocationTable.getInstance().insert(mDb, new LocationBean(Name, timerStringday, (float) mPrefsManager.getLastAMPALocation().getLatitude(), (float) mPrefsManager.getLastAMPALocation().getLongitude()));
-//            Log.d(LOG_TAG,"111 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
+
+                        if(TextUtils.isEmpty(name)) {
+                            Utils.showShortToast(ManualAddLocationActivity.this, getString(R.string.location_name_can_not_be_empty));
+                            return;
                         }
-//       Log.d(LOG_TAG,"222 the getLastAMPALocation().getLatitude() "+(float)mPrefsManager.getLastAMPALocation().getLatitude()+"getLongitude:"+(float)mPrefsManager.getLastAMPALocation().getLongitude());
+                        if (mPrefsManager.getLastAMPALocation() == null) {
+                            Toast.makeText(ManualAddLocationActivity.this, getString(R.string.unable_detemine_current_position), Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            LocationTable.getInstance().insert(mDb, new LocationBean(name, timerStringday, (float) mPrefsManager.getLastAMPALocation().getLatitude(), (float) mPrefsManager.getLastAMPALocation().getLongitude()));
+                        }
+
+
                         if (LocationTable.getInstance().query(mDb) != null) {
                             locationBeans = LocationTable.getInstance().query(mDb);
                             locationadatper = new locationAdapter(ManualAddLocationActivity.this, locationBeans, mDb);
@@ -257,21 +260,5 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                 }
         );
         builder.show();
-
-    }
-
-    private void back() {
-        finish();
-    }
-
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // 是否触发按键为back键
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // 弹出 退出确认框
-            ManualAddLocationActivity.this.finish();
-            return true;
-        }
-        return true;
     }
 }

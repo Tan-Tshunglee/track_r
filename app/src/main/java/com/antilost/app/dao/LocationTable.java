@@ -15,17 +15,11 @@ import java.util.List;
  */
 public class LocationTable {
     public static final String TAG = "LocationTable";
-    /** 表名 */
     public static final String GEN_TABLE_NAME = "location";
-    /** 设备id */
     public static final String GEN_LOCATION_ID = "location_id";
-    /** 设备名字 */
     public static final String GEN_LOCATION_NAME = "location_name";
-    /** 图片封面是否内置 */
     public static final String GEN_LOCATION_TIME = "location_time";
-    /** 设备封面 */
     public static final String GEN_LOCATION_LONGITUDE = "location_longitude";
-    /** 设备状态 */
     public static final String GEN_LOCATION_LATITUDE = "location_latitude";
 
     /** 建表SQL语句 */
@@ -111,7 +105,6 @@ public class LocationTable {
         c.close();
         return list;
     }
-
 
 
 }

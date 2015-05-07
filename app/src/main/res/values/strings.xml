@@ -274,4 +274,7 @@
     <string name="old_password_length_error">Old password length requires 6 to 18 characters</string>
     <string name="new_password_length_error">New password length requires 6 to 18 characters</string>
     <string name="change_password_not_match">New password don\'t match the New password confirm.</string>
+    <string name="changing_password">Changing password</string>
+    <string name="unable_detemine_current_position">Unable to determine current position</string>
+    <string name="location_name_can_not_be_empty">Location name can not be empty.</string>
 </resources>
