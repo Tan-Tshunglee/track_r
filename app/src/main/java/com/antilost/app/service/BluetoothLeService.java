@@ -1333,6 +1333,7 @@ public class BluetoothLeService extends Service implements
     public void onLocationChanged(Location location) {
         if (location != null) {
             mLastLocation = location;
+            mPrefsManager.saveLastAMPALocation(location);
         }
         Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
     }
