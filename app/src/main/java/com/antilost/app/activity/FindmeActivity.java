@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +22,7 @@ import com.antilost.app.R;
 
 public class FindmeActivity extends Activity implements DialogInterface.OnClickListener {
 
+    private static final String LOG_TAG = "FindmeActivity";
     private AlertDialog mAlertDialog;
     private LayoutInflater mLayoutInflater;
     private Handler mHandler;
@@ -50,6 +52,8 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
         if (ringtone != null) {
             ringtone.setStreamType(AudioManager.STREAM_ALARM);
             ringtone.play();
+        } else {
+            Log.e(LOG_TAG, "default ringtone is null");
         }
 
 
@@ -70,6 +74,8 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
         if (ringtone != null) {
             ringtone.setStreamType(AudioManager.STREAM_ALARM);
             ringtone.play();
+        } else {
+            Log.e(LOG_TAG, "default ringtone is null");
         }
     }
 
