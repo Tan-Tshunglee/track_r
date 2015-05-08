@@ -52,7 +52,7 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="track_r_is_running">iTrack is running.</string>
     <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
-    <string name="title_activity_track_rsetting">iTrackSettingActivity</string>
+    <string name="title_activity_track_rsetting">iTrackproSettingActivity</string>
     <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n\n2.Hold the iTrackPro tag close to your phone.\n\n3.Hold the button on the iTrackPro device until you hear a beep and the LED starts flashing.</string>
     <string name="add_track_r">Add New Item</string>
     <string name="connecting_with_track_r">Connecting with iTrackpro</string>
@@ -70,7 +70,7 @@
     <string name="sleep_on_and_time">Sleep Mode On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
-    <string name="distance_to_track_r">Distance to iTrack</string>
+    <string name="distance_to_track_r">Distance to iTrackpro</string>
     <string name="loc">Map</string>
     <string name="ring">Ring</string>
     <string name="photo">Photo</string>
@@ -133,7 +133,7 @@
     <string name="signing_in">Signing In</string>
     <string name="login_success">Login Success</string>
     <string name="invalid_email_or_password">Invalid Email or Password!</string>
-    <string name="network_error">Network Error, You should check your network availability.</string>
+    <string name="network_error">Network Error</string>
     <string name="network_status_error">Login Error</string>
     <string name="unknow_error">Unkown Error</string>
     <string name="warning">Warning</string>
@@ -144,7 +144,7 @@
     <string name="password_has_been_sent_to_your_email">" Password has been sent to Your Email"</string>
     <string name="the_two_passwords_do_not_match">"The two passwords do not match. "</string>
     <string name="registration_success">Registration Success,Please check your email to activate your account </string>
-    <string name="email_has_been_used">Email has been used. \nRetrieve password?</string>
+    <string name="email_has_been_used">Email has been used.</string>
     <string name="registration_error">Registration Error</string>
     <string name="title_activity_findme">FindmeActivity</string>
     <string name="i_am_here">I am here</string>
@@ -165,7 +165,7 @@
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the iTrackpro\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Warm Prompt</string>
-    <string name="enable_network_before_login">Can not login without network.</string>
+    <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">Start My iTrack</string>
     <string name="reset">Reset</string>
     <string name="locationsetting">Location name：</string>
@@ -239,15 +239,15 @@
     <string name="notice_delete_loser_tip_2">\" &#160;item, the tag will be deleted from your iTrackpro list, you cannot use it unless you add it again.</string>
     <string name="notice_close_loser_tip_1">As you turn off the &#160;\"</string>
     <string name="notice_close_loser_tip_2">\" &#160;you need to wake it up to use it. Are you sure to turn it off?</string>
-    <string name="notice_declare_loser_tip_1">As you declare the &#160;\"</string>
-    <string name="notice_declare_loser_tip_2">\" &#160;as lost, our network will help search it. All data is encrypted and only visible to you. You will be notified as long as we found it.</string>
+    <string name="notice_declare_loser_tip_1">Once you declare lost of this &#160;\"</string>
+    <string name="notice_declare_loser_tip_2">\" &#160;, our network will help you search it. All data is encrypted and only visible to you. You will be notified as soon as we found it.</string>
     <string name="no_location_provider_available">No Location Provider Available, iTrackpro Can not Record Lost Location.</string>
     <string name="sihnout_tip_title">Sign Out</string>
     <string name="sihnout_tip">All iTrackpro tags will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
         Are you sure to log out?</string>
 
-    <string name="unbined_tip_disconnected_tip1">Once you delete the  &#160;\"</string>
-    <string name="unbined_tip_disconnected_tip2">\", &#160;The item is paired with your account. But it is not connected right now. It is highly recommended to connect it with your phone before you delete it. Otherwise you can not  reconnect and track the lost item any more.</string>
+    <string name="unbined_tip_disconnected_tip1">This device is not connected to you phone now. Please make sure you want to unpair or delete it from you phone. Once you delete this device from you phone, you will not be able to locate or ring the &#160;\"</string>
+    <string name="unbined_tip_disconnected_tip2">\".</string>
     <string name="sign_up_need_network">Sign up need available network</string>
     <string name="unregister_email">Email not registered!</string>
     <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
