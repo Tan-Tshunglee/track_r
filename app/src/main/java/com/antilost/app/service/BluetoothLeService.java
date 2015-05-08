@@ -511,6 +511,8 @@ public class BluetoothLeService extends Service implements
                     gatt.close();
                     mBluetoothGatts.remove(address);
 
+
+
                 } else {
                     Log.w(LOG_TAG, "onConnectionStateChange get disconnected state and old state is not connected.");
                     if(mConnectionState == ConnectionState.CONNECTING) {
@@ -1157,6 +1159,13 @@ public class BluetoothLeService extends Service implements
                     //idle mean connect new track
                     //connection means reconnect failed track.
                     case MSG_CONNECT_TRACK:
+
+                        if(mBluetoothAdapter == null
+                                || !mBluetoothAdapter.isEnabled()) {
+                            mConnectionState = ConnectionState.IDLE;
+                            return;
+                        }
+
                         if (mConnectionState == ConnectionState.IDLE) {
                             Iterator<String> it = mWaitingConnectionTracks.iterator();
                             if (it.hasNext()) {
