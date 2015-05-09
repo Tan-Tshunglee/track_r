@@ -39,7 +39,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
-import com.android.mod.MenuHelper;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.TrackRApplication;
@@ -1457,7 +1456,7 @@ public class BluetoothLeService extends Service implements
         int uid = mPrefsManager.getUid();
         if (uid == PrefsManager.INVALID_UID) {
             Log.v(LOG_TAG, "User has logout, exit.");
-            closeAllTracksAndStopSelf();
+            disconectAllTracksAndStopSelf();
             return true;
         }
 
@@ -1498,17 +1497,26 @@ public class BluetoothLeService extends Service implements
     }
 
 
-    private void closeAllTracksAndStopSelf() {
+    private void disconectAllTracksAndStopSelf() {
 
         Set<String> ids = mPrefsManager.getTrackIds();
         for (String address : ids) {
             if (!TextUtils.isEmpty(address)) {
-                silentlyTurnOffTrack(address);
+                mPrefsManager.saveMissedTrack(address, true);
+                BluetoothGatt gatt = mBluetoothGatts.get(address);
                 try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
+                    if(gatt != null) {
+                        gatt.close();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }
 
