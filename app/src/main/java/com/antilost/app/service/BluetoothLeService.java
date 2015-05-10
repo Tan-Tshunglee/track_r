@@ -708,7 +708,31 @@ public class BluetoothLeService extends Service implements
                         //after verify key write done we think this gatt as connected.
                         mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                         broadcastUpdate(ACTION_GATT_CONNECTED, address);
-                        scanLeDevice();
+
+
+                        if(mConnectionState == ConnectionState.CONNECTING) {
+                            mConnectionState = ConnectionState.IDLE;
+                            Log.d(LOG_TAG, "it 's time to read next track");
+                            mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, 1000);
+
+                            if (mPrefsManager.isClosedTrack(address)) {
+                                Log.d(LOG_TAG, "reconnect to closed trackr");
+                                mPrefsManager.saveClosedTrack(address, false);
+                            }
+                            if(mPrefsManager.isMissedTrack(address)) {
+                                notifyDeviceReconnected(address);
+                                mPrefsManager.saveMissedTrack(address, false);
+                            }
+
+                            if(mPrefsManager.isDeclaredLost(address)) {
+                                revokeLostDeclare(address);
+                            }
+                            mPrefsManager.saveDeclareLost(address, false);
+
+                            mPrefsManager.saveLastLocFoundByOthers(null, address);
+                            mPrefsManager.saveLastTimeFoundByOthers(-1, address);
+
+                        }
                     }
                 }, 1000);
             //alert sound ring
@@ -744,33 +768,6 @@ public class BluetoothLeService extends Service implements
 
             String address = gatt.getDevice().getAddress();
             Log.i(LOG_TAG, "onReadRemoteRssi." + address);
-
-
-
-            if(mConnectionState == ConnectionState.CONNECTING) {
-                mConnectionState = ConnectionState.IDLE;
-                Log.i(LOG_TAG, "onReadRemoteRssi callback rssi is " + rssi);
-                Log.d(LOG_TAG, "it 's time to read next track");
-                mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TRACK, 1000);
-
-                if (mPrefsManager.isClosedTrack(address)) {
-                    Log.d(LOG_TAG, "reconnect to closed trackr");
-                    mPrefsManager.saveClosedTrack(address, false);
-                }
-                if(mPrefsManager.isMissedTrack(address)) {
-                    notifyDeviceReconnected(address);
-                    mPrefsManager.saveMissedTrack(address, false);
-                }
-
-                if(mPrefsManager.isDeclaredLost(address)) {
-                    revokeLostDeclare(address);
-                }
-                mPrefsManager.saveDeclareLost(address, false);
-
-                mPrefsManager.saveLastLocFoundByOthers(null, address);
-                mPrefsManager.saveLastTimeFoundByOthers(-1, address);
-
-            }
 
 
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
@@ -1391,6 +1388,7 @@ public class BluetoothLeService extends Service implements
                     }
                 }
                 updateRepeatAlarmRegister(true);
+                registerAmapLocationListener();
             }
 
             //some bind info may not upload successfully.
@@ -1455,6 +1453,9 @@ public class BluetoothLeService extends Service implements
         }
 
         if(!mBluetoothAdapter.isEnabled()) {
+            if(mConnectionState == ConnectionState.CONNECTING) {
+                mConnectionState = ConnectionState.IDLE;
+            }
             Log.w(LOG_TAG, "Bluetooth disable...");
             return false;
         }
