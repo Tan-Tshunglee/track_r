@@ -693,19 +693,22 @@ public class BluetoothLeService extends Service implements
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
                 Log.i(LOG_TAG, "write done callback of verify code ");
 
-                //after verify key write done we truct this gatt as connected.
-                mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
                 registerKeyListener(gatt);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //track lost alert
+                        Log.d(LOG_TAG, "try to read rssi first time.");
                         if (mPrefsManager.getTrackAlert(address)) {
                             Log.d(LOG_TAG, "enable track alert...");
                             setTrackAlertMode(address, true);
                         }
-                        readBatteryLevel(address);
-                        requestRssiLevel(address);
+
+                        mWaitingConnectionTracks.remove(address);
+                        //after verify key write done we think this gatt as connected.
+                        mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTED);
+                        broadcastUpdate(ACTION_GATT_CONNECTED, address);
+                        scanLeDevice();
                     }
                 }, 1000);
             //alert sound ring
@@ -740,8 +743,10 @@ public class BluetoothLeService extends Service implements
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
 
             String address = gatt.getDevice().getAddress();
-            Log.i(LOG_TAG, "ble connection success." + address);
-            mWaitingConnectionTracks.remove(address);
+            Log.i(LOG_TAG, "onReadRemoteRssi." + address);
+
+
+
             if(mConnectionState == ConnectionState.CONNECTING) {
                 mConnectionState = ConnectionState.IDLE;
                 Log.i(LOG_TAG, "onReadRemoteRssi callback rssi is " + rssi);
@@ -766,12 +771,13 @@ public class BluetoothLeService extends Service implements
                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
             }
-            broadcastUpdate(ACTION_GATT_CONNECTED, address);
+
 
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
 
             receiverRssi(address, rssi);
+
         }
     }
 
