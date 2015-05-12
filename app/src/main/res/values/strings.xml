@@ -80,8 +80,8 @@
     <string name="itrak_alart">iTrackpro Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
-    <string name="phone_alart_tip">When this option is turned on, your phone will beep when your iTrackpro tag is disconnected from the phone.</string>
-    <string name="alert_level_tip">When this option is turned on, your iTrackpro tag will beep when it is disconnected from the phone.</string>
+    <string name="phone_alart_tip">When this option is turned on, your phone will beep when your iTrackpro is disconnected from the phone.</string>
+    <string name="alert_level_tip">When this option is turned on, your iTrackpro will beep when it is disconnected from the phone.</string>
     <string name="turn_off_track_r">Turn off iTrackpro</string>
     <string name="unbind_track_r">Delete iTrackpro</string>
     <string name="take_photo">Take Photo</string>
@@ -115,14 +115,14 @@
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="safezone_title">Wifi Safe Zone</string>
-    <string name="safezone_message">When you connect these trusted wifi zone,both iTrackpro tag and phone won\'t beep when disconnection to avoid constant alarm.</string>
+    <string name="safezone_message">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrackpro device and your phone to avoid constant alerts.</string>
     <string name="safezone_home">Home</string>
     <string name="safezone_office">Office</string>
     <string name="safezone_other">Other</string>
     <string name="safezone_modifywifi">Set, click to change</string>
     <string name="safezone_addwifi">Click to add wifi</string>
     <string name="safezone_wifiselcettitle">Choose Safe Wifi</string>
-    <string name="safezone_wifitip">When you connect these trusted wifi zone,both iTrackpro tag and phone won\'t beep when disconnection to avoid constant alarm.</string>
+    <string name="safezone_wifitip">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrackpro device and your phone to avoid constant alerts.</string>
     <string name="wifisameple">WIFI</string>
     <string name="gps_disable_hint">Location is disabled , iTrackpro can\'t save the location info</string>
     <string name="connecting">Connecting</string>
@@ -164,7 +164,7 @@
     <string name="feedbackpush">Submit</string>
     <string name="title_activity_dialog">DialogActivity</string>
     <string name="warm_prompt_open_location_service">In order to record the iTrackpro\'s lost location info, you need open the location service.</string>
-    <string name="warm_prompt">Warm Prompt</string>
+    <string name="warm_prompt">Hint</string>
     <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">Start My iTrack</string>
     <string name="reset">Reset</string>
@@ -211,7 +211,7 @@
     <string name="help_title">help</string>
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
-    <string name="iTrack_close_tip">Please hold the iTrackpro button to wake it up</string>
+    <string name="iTrack_close_tip">Please press the button on your iTrackpro to wake it up</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
     <string name="modify_locationname">Modify name of location</string>
@@ -235,16 +235,16 @@
     <string name="distan_far">Far</string>
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confirm</string>
-    <string name="notice_delete_loser_tip_1">After you delete this&#160;\" </string>
-    <string name="notice_delete_loser_tip_2">\" &#160;item, the tag will be deleted from your iTrackpro list, you cannot use it unless you add it again.</string>
+    <string name="notice_delete_loser_tip_1">Once you delete this&#160;\" </string>
+    <string name="notice_delete_loser_tip_2">\" &#160;item, it will be deleted from your iTrackpro list, you cannot use it unless you add it again.</string>
     <string name="notice_close_loser_tip_1">As you turn off the &#160;\"</string>
     <string name="notice_close_loser_tip_2">\" &#160;you need to wake it up to use it. Are you sure to turn it off?</string>
     <string name="notice_declare_loser_tip_1">Once you declare lost of this &#160;\"</string>
     <string name="notice_declare_loser_tip_2">\" &#160;, our network will help you search it. All data is encrypted and only visible to you. You will be notified as soon as we found it.</string>
     <string name="no_location_provider_available">No Location Provider Available, iTrackpro Can not Record Lost Location.</string>
     <string name="sihnout_tip_title">Sign Out</string>
-    <string name="sihnout_tip">All iTrackpro tags will be disconnected from your phone upon logging out.You won\'t be able to manage them until login again.
-        Are you sure to log out?</string>
+    <string name="sihnout_tip">All iTrackpro will be disconnected from your phone upon logging out.You won\'t be able to manage them until you login again.
+        Are you sure you want to log out?</string>
 
     <string name="unbined_tip_disconnected_tip1">This device is not connected to you phone now. Please make sure you want to unpair or delete it from you phone. Once you delete this device from you phone, you will not be able to locate or ring the &#160;\"</string>
     <string name="unbined_tip_disconnected_tip2">\".</string>
