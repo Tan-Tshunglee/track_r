@@ -158,17 +158,17 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mConnectingGatt = true;
                                 Log.i(LOG_TAG, "Retry gatt connection.. after 1000 ms");
                                 mRetryTimes++;
                                 Utils.connectBluetoothGatt(gatt.getDevice(), ScanTrackActivity.this, mBluetoothGattCallback);
                             }
-                        }, 1000);
+                        }, 500);
                     }
                 } else {
+                    Log.e(LOG_TAG, "after max retry times, give up connections");
+                    mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                     mConnectingGatt = false;
                 }
-
             }
         }
 
@@ -311,18 +311,19 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(deviceAddress);
-
+        mConnectingGatt = true;
+        mBluetoothAdapter.stopLeScan(mLeScanCallback);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mConnectingGatt = true;
+
                 mRetryTimes = 0;
                 BluetoothGatt newGatt = Utils.connectBluetoothGatt(device, ScanTrackActivity.this, mBluetoothGattCallback);
-                if(newGatt == null) {
+                if (newGatt == null) {
                     Log.w(LOG_TAG, "Scan track connect bluetooth Gatt return null.");
                 }
             }
-        }, 1000);
+        }, 2000);
     }
 
     private void startTrackEdit() {

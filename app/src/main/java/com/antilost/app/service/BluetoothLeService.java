@@ -344,6 +344,9 @@ public class BluetoothLeService extends Service implements
 
         if(mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             Log.e(LOG_TAG, "Bluetooth not support or disabled.");
+            if(mConnectionState == ConnectionState.CONNECTING)
+            mConnectionState = ConnectionState.IDLE;
+            return;
         }
 
         Integer oldState = mGattConnectionStates.get(address);
