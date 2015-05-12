@@ -87,7 +87,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
-                LocUtils.viewLocation(ManualAddLocationActivity.this, location);
+                LocUtils.viewLocation(ManualAddLocationActivity.this, location, null);
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

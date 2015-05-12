@@ -23,6 +23,7 @@ import java.util.Locale;
 public class LocUtils {
 
     public static final String LOG_TAG = "LocUtils";
+    public static final String DEVICE_ADDRESS = "device_address";
 
     public static  final String convertLocation(Location loc) {
         if(loc == null) {
@@ -77,7 +78,7 @@ public class LocUtils {
 //        return null;
 //    }
 
-    public static final void viewLocation(Context context, Location loc) {
+    public static final void viewLocation(Context context, Location loc, String address) {
         if (loc == null) {
             Log.e(LOG_TAG, "view null location.");
             return;
@@ -91,6 +92,7 @@ public class LocUtils {
             Log.i(LOG_TAG, "device with updated google play service use google map");
             intent = new Intent(context, GoogleMapActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
+            intent.putExtra(DEVICE_ADDRESS, address);
             intent.setData(Uri.parse(uri));
             try {
                 context.startActivity(intent);
@@ -100,6 +102,7 @@ public class LocUtils {
         } else {
             Log.i(LOG_TAG, "device without google play service use amap");
             intent = new Intent(context, AmapActivity.class);
+            intent.putExtra(DEVICE_ADDRESS, address);
             intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(uri));
 

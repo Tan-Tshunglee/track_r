@@ -150,7 +150,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
             case DialogInterface.BUTTON_POSITIVE:
                 Location loc = mPrefsManager.getLastLostLocation(mBluetoothAddress);
                 if(loc != null) {
-                    LocUtils.viewLocation(this, loc);
+                    LocUtils.viewLocation(this, loc, mBluetoothAddress);
                 }
 
                 finish();

@@ -14,12 +14,15 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.antilost.app.R;
+import com.antilost.app.prefs.PrefsManager;
+import com.antilost.app.util.LocUtils;
 
 public class AmapActivity extends Activity {
 
     public static final String LOG_TAG = "AmapActivity";
     private MapView mAmapView;
     private AMap mAmap;
+    private PrefsManager mPrefsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,9 @@ public class AmapActivity extends Activity {
             finish();
             return;
         }
+        mPrefsManager = PrefsManager.singleInstance(this);
         String schema = uri.getScheme();
-
+        String address = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
         if("geo".equalsIgnoreCase(schema)) {
             MarkerOptions markerOptions = new MarkerOptions();
             String uriStr = uri.toString();
@@ -48,7 +52,9 @@ public class AmapActivity extends Activity {
             double lng = Double.parseDouble(latlngArr[1]);
             markerOptions.position(new LatLng(lat, lng));
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            markerOptions.title(getString(R.string.place_lost));
+            if(mPrefsManager.isMissedTrack(address)) {
+                markerOptions.title(getString(R.string.place_lost));
+            }
             Marker marker = mAmap.addMarker(markerOptions);
             marker.setPosition(new LatLng(lat, lng));
             marker.setVisible(true);
@@ -57,6 +63,8 @@ public class AmapActivity extends Activity {
             //max zoom level
             camera = CameraUpdateFactory.zoomTo(20);
             mAmap.moveCamera(camera);
+
+            mAmap.setMyLocationEnabled(true);
         } else {
             Log.v(LOG_TAG, "unknown uri schema." + uri);
             finish();

@@ -26,7 +26,7 @@ public class FoundByOthersActivity extends Activity {
         if(Utils.isValidMacAddress(address)) {
             Location loc = prefs.getLastLocFoundByOther(address);
             if(loc != null) {
-                LocUtils.viewLocation(this, loc);
+                LocUtils.viewLocation(this, loc, address);
             }
         } else {
             Log.e(LOG_TAG, "get invalid mac address.");
