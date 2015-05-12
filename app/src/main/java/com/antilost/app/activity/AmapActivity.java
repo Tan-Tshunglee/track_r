@@ -74,7 +74,16 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             camera = CameraUpdateFactory.zoomTo(20);
             mAmap.moveCamera(camera);
 
+
+            MyLocationStyle myLocationStyle = new MyLocationStyle();
+            myLocationStyle.strokeColor(Color.YELLOW);// 设置圆形的边框颜色
+            myLocationStyle.radiusFillColor(Color.argb(100, 0, 256, 0));// 设置圆形的填充颜色
+            myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
+            mAmap.setMyLocationStyle(myLocationStyle);
+
+
             mAmap.setLocationSource(this);
+            mAmap.setMyLocationEnabled(true);
         } else {
             Log.v(LOG_TAG, "unknown uri schema." + uri);
             finish();
