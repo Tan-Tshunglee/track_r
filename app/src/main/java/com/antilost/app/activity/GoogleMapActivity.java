@@ -65,7 +65,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
 
         mGoogleMap.addMarker(marker);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 21);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mGoogleMap.moveCamera(cameraUpdate);
     }
 
