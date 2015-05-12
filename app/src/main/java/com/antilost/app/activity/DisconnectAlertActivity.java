@@ -131,7 +131,7 @@ public class DisconnectAlertActivity extends Activity implements DialogInterface
 
             //builder.setMessage(getString(R.string.name_connected, name));
             tv.setText(getString(R.string.name_connected, name));
-            builder.setNegativeButton(getString(R.string.i_known), this);
+            builder.setNegativeButton(getString(R.string.ok), this);
             builder.setPositiveButton(getString(R.string.find), this);
             builder.setCancelable(false);
             mAlertDialog = builder.create();

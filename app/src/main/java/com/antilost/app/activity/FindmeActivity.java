@@ -107,7 +107,7 @@ public class FindmeActivity extends Activity implements DialogInterface.OnClickL
 
             iv.setImageResource(R.drawable.info_icon);
             tv.setText(getString(R.string.i_am_here_find_me));
-            builder.setPositiveButton(getString(R.string.i_known), this);
+            builder.setPositiveButton(getString(R.string.ok), this);
             mAlertDialog = builder.create();
         }
     }

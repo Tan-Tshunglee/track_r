@@ -200,7 +200,7 @@
     <string name="new_version_has_been_released">New version (%1$s) of this app has been release, would you like to download and update to it?</string>
     <string name="format_downloaded">%1$s downloaded.</string>
     <string name="no_update_found">No update found.</string>
-    <string name="your_app_is_updated">Your app is updated.</string>
+    <string name="your_app_is_updated">Your app is up to date.</string>
     <string name="three_seconds">3S</string>
     <string name="declare_lost">Declare loss</string>
     <string name="revoke_statement">Revoke loss declaration</string>
