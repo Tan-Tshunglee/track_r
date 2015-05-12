@@ -59,6 +59,8 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -192,6 +194,7 @@ public class BluetoothLeService extends Service implements
     private NotificationManager mNotificationManager;
     private IntentFilter mIntentFilter;
     private ConnectivityManager mConnectivityManager;
+    private LocationManager mLocationManager;
 
     private enum ConnectionState {
         IDLE,//idle
@@ -482,7 +485,7 @@ public class BluetoothLeService extends Service implements
                     }
                     //request location update to save
                     unregisterAmapLocationListener();
-                    registerAmapLocationListener();
+                    registerLocationListener();
 
                     mPrefsManager.saveMissedTrack(address, true);
                     mPrefsManager.saveClosedTrack(address, false);
@@ -558,7 +561,7 @@ public class BluetoothLeService extends Service implements
             mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
             verifyConnection(gatt);
-            enableGpsUpdate();
+            registerLocationListener();
             broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
 
         }
@@ -906,14 +909,6 @@ public class BluetoothLeService extends Service implements
         }
     }
 
-    private void enableGpsUpdate() {
-        registerAmapLocationListener();
-    }
-
-    private void disableGpsUpdate() {
-        unregisterAmapLocationListener();
-    }
-
     private void verifyConnection(BluetoothGatt gatt) {
 
         Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
@@ -1227,7 +1222,7 @@ public class BluetoothLeService extends Service implements
         updateRepeatAlarmRegister(true);
 
         goForeground();
-        registerAmapLocationListener();
+        registerLocationListener();
         TrackRApplication app = (TrackRApplication) getApplication();
         app.setBluetootLeService(this);
         mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -1241,7 +1236,7 @@ public class BluetoothLeService extends Service implements
         mPrefsManager.removePrefsListener(this);
         mAlarmManager.cancel(mPendingIntent);
 
-        disableGpsUpdate();
+        unregisterAmapLocationListener();
 
 
         Set<Map.Entry<String, BluetoothGatt>> gatts = mBluetoothGatts.entrySet();
@@ -1272,25 +1267,6 @@ public class BluetoothLeService extends Service implements
     }
 
 
-    private void registerAmapLocationListener() {
-        //使用高德定位API
-        if(mAmapLocationManagerProxy == null) {
-            mAmapLocationManagerProxy = LocationManagerProxy.getInstance(this);
-        }
-
-        mAmapLocationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork, LOCATION_UPDATE_PERIOD_IN_MS, MIN_DISTANCE, this);
-        AMapLocation loc = mAmapLocationManagerProxy.getLastKnownLocation(LocationProviderProxy.AMapNetwork);
-
-        if (loc != null) {
-            mLastLocation = LocUtils.convertAmapLocation(loc);
-        }
-    }
-
-    private void unregisterAmapLocationListener() {
-        if (mAmapLocationManagerProxy != null) {
-            mAmapLocationManagerProxy.removeUpdates(this);
-        }
-    }
 
     private void goForeground() {
         Notification notification = new Notification(R.drawable.ic_launcher, getString(R.string.track_r_is_running), System.currentTimeMillis());
@@ -1321,10 +1297,44 @@ public class BluetoothLeService extends Service implements
     }
 
 
+    private void registerLocationListener() {
+
+        if(GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
+            //使用高德定位API
+            if(mAmapLocationManagerProxy == null) {
+                mAmapLocationManagerProxy = LocationManagerProxy.getInstance(this);
+            }
+
+            mAmapLocationManagerProxy.requestLocationData(LocationProviderProxy.AMapNetwork, LOCATION_UPDATE_PERIOD_IN_MS, MIN_DISTANCE, this);
+            AMapLocation loc = mAmapLocationManagerProxy.getLastKnownLocation(LocationProviderProxy.AMapNetwork);
+
+            if (loc != null) {
+                mLastLocation = LocUtils.convertAmapLocation(loc);
+            }
+        } else {
+            if(mLocationManager == null) {
+                mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            }
+
+            mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, getMainLooper());
+        }
+
+    }
+
+    private void unregisterAmapLocationListener() {
+
+        if (mAmapLocationManagerProxy != null) {
+            mAmapLocationManagerProxy.removeUpdates(this);
+        }
+    }
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         Location loc = LocUtils.convertAmapLocation(amapLocation);
+        handleLocationFound(loc);
+    }
+
+    private void handleLocationFound(Location loc) {
         if (loc != null) {
             mLastLocation = loc;
             mPrefsManager.saveLastAMPALocation(loc);
@@ -1335,19 +1345,17 @@ public class BluetoothLeService extends Service implements
                 Log.v(LOG_TAG, "update last loat location info ");
                 mPrefsManager.saveLastLostLocation(loc, id);
                 reportTrackLostPosition(id);
-
             }
 
             Log.i(LOG_TAG, "get location info from amap location,  lat is " + loc.getLatitude() + "the long is " + loc.getLongitude());
-            disableGpsUpdate();
+            unregisterAmapLocationListener();
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            mLastLocation = location;
-            mPrefsManager.saveLastAMPALocation(location);
+            handleLocationFound(location);
         }
         Log.i("LocationManager", "get current location from System LocationManager which is " + mLastLocation);
     }
@@ -1391,7 +1399,7 @@ public class BluetoothLeService extends Service implements
                     }
                 }
                 updateRepeatAlarmRegister(true);
-                registerAmapLocationListener();
+                registerLocationListener();
             }
 
             //some bind info may not upload successfully.
