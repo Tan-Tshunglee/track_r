@@ -1,7 +1,9 @@
 package com.antilost.app.activity;
 
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -14,14 +16,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener{
 
     private MapFragment mMapFragment;
     private GoogleMap mGoogleMap;
     private Location mLostLocation;
+    private LocationManager mLocationManager;
+    private MarkerOptions mCurrentPositionMarker;
     private PrefsManager mPrefs;
 
     @Override
@@ -38,6 +43,8 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
 
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20 * 1000, 20, this);
         mPrefs = PrefsManager.singleInstance(this);
     }
 
@@ -58,10 +65,39 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         marker.position(latLng);
 
         mGoogleMap.addMarker(marker);
-        mGoogleMap.setMyLocationEnabled(true);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mGoogleMap.moveCamera(cameraUpdate);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if(mGoogleMap != null) {
+            if(mCurrentPositionMarker == null) {
+                mCurrentPositionMarker = new MarkerOptions();
+                mCurrentPositionMarker.title(getString(R.string.you_are_here));
+                mCurrentPositionMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.triangle));
+            }
+
+            mCurrentPositionMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+            mGoogleMap.addMarker(mCurrentPositionMarker);
+        }
+
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
 
     }
 }
