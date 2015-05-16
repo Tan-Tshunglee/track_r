@@ -1335,7 +1335,13 @@ public class BluetoothLeService extends Service implements
     }
 
     private void handleLocationFound(Location loc) {
+
         if (loc != null) {
+
+            if(loc.getLatitude() == 0 && loc.getLongitude() == 0) {
+                Log.w(LOG_TAG, "get zero location, ignore it");
+                return;
+            }
             mLastLocation = loc;
             mPrefsManager.saveLastAMPALocation(loc);
 
