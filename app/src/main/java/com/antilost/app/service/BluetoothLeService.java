@@ -1300,6 +1300,11 @@ public class BluetoothLeService extends Service implements
     private void registerLocationListener() {
 
         if(GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
+            if(mLocationManager == null) {
+                mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            }
+            mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, getMainLooper());
+        } else {
             //使用高德定位API
             if(mAmapLocationManagerProxy == null) {
                 mAmapLocationManagerProxy = LocationManagerProxy.getInstance(this);
@@ -1311,12 +1316,6 @@ public class BluetoothLeService extends Service implements
             if (loc != null) {
                 mLastLocation = LocUtils.convertAmapLocation(loc);
             }
-        } else {
-            if(mLocationManager == null) {
-                mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            }
-
-            mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, getMainLooper());
         }
 
     }
@@ -1339,7 +1338,8 @@ public class BluetoothLeService extends Service implements
         if (loc != null) {
 
             if(loc.getLatitude() == 0 && loc.getLongitude() == 0) {
-                Log.w(LOG_TAG, "get zero location, ignore it");
+                Log.w(LOG_TAG, "get zero location, try again it");
+                registerLocationListener();
                 return;
             }
             mLastLocation = loc;
