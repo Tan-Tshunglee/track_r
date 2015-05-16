@@ -348,7 +348,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
         mPrefs.addTrackId(mBluetoothDeviceAddress);
         mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
-
+        startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
         File folder = ensureIconFolder();
         File trackIconFile = new File(folder, mBluetoothDeviceAddress);
         if (trackIconFile.exists()) {
@@ -361,17 +361,10 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             Log.e(LOG_TAG, "Rename to address failed");
         }
 
-        if(mBluetoothLeService != null) {
-            if(mEditNewTrack) {
-                BluetoothDevice device = mBluetoothGatt.getDevice();
-                if (device == null) {
-                    Log.e(LOG_TAG, "mBluetoothGatt device get device is null.");
-                    return;
-                }
-                mBluetoothGatt.close();
-            }
-        } else {
-            Log.e(LOG_TAG, "can not add mTrack to bluetoothLe Service, cause mBluetoothLeService is null");
+
+        if(mBluetoothGatt != null) {
+            mBluetoothGatt.close();
+            mBluetoothGatt = null;
         }
 
         Thread t = new Thread() {
@@ -386,7 +379,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 boolean bindOk = bindcommand.success();
                 if(bindOk) {
                     Log.i(LOG_TAG, "Bind mTrack ok.");
-                    startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
                     UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
                     uploadImageCommand.execTask();
                     if(uploadImageCommand.success()) {
