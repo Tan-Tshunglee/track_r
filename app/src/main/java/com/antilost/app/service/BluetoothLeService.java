@@ -220,24 +220,30 @@ public class BluetoothLeService extends Service implements
     }
 
     private void updateAllTrackSleepState() {
-        Set<String> ids = mPrefsManager.getTrackIds();
-        for(String address: ids) {
-            Integer connectionState = mGattConnectionStates.get(address);
-            BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
-            if(connectionState != null
-                    && bluetoothGatt != null
-                    && connectionState == BluetoothProfile.STATE_CONNECTED) {
-                updatesSingleTrackSleepState(address);
+        Thread t = new Thread () {
+            @Override
+            public void run() {
+                Log.v(LOG_TAG, "background update all track sleep state.");
+                Set<String> ids = mPrefsManager.getTrackIds();
+                for(String address: ids) {
+                    Integer connectionState = mGattConnectionStates.get(address);
+                    BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
+                    if(connectionState != null
+                            && bluetoothGatt != null
+                            && connectionState == BluetoothProfile.STATE_CONNECTED) {
+                        if(updatesSingleTrackSleepState(address)) {
+                            try {
+                                Log.d(LOG_TAG, "sleep one track ok waiting a time.");
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
             }
-        }
-    }
-
-    private void sleepAllTrackR() {
-        Log.d(LOG_TAG, "sleep all trackr.");
-        Set<String> addresses = mBluetoothGatts.keySet();
-        for (String address : addresses) {
-            sleepTrack(address);
-        }
+        };
+        t.start();
     }
 
 
@@ -737,7 +743,7 @@ public class BluetoothLeService extends Service implements
 
                             mPrefsManager.saveLastLocFoundByOthers(null, address);
                             mPrefsManager.saveLastTimeFoundByOthers(-1, address);
-
+                            updateAllTrackSleepState();
                         }
                     }
                 }, 1000);
@@ -1549,11 +1555,11 @@ public class BluetoothLeService extends Service implements
 
     }
 
-    private void sleepTrack(String address) {
+    private boolean sleepTrack(String address) {
         Integer state = mGattConnectionStates.get(address);
         if(state == null) {
             Log.w(LOG_TAG, "trying to sleep an unknown state track.");
-            return;
+            return false;
         }
         if (state == BluetoothProfile.STATE_CONNECTED) {
             try {
@@ -1563,8 +1569,10 @@ public class BluetoothLeService extends Service implements
                 alertLevelChar.setValue(new byte[]{00});
                 if( gatt.writeCharacteristic(alertLevelChar)) {
                     Log.v(LOG_TAG, "write sleep character ok");
+                    return true;
                 } else {
                     Log.e(LOG_TAG, "write sleep character ok");
+                    return false;
                 }
 
             } catch (Exception e) {
@@ -1572,15 +1580,16 @@ public class BluetoothLeService extends Service implements
             }
         } else {
             Log.w(LOG_TAG, "can not close unconnected track r");
-            return;
+            return false;
         }
+        return false;
     }
 
-    private void wakeupTrack(String address) {
+    private boolean wakeupTrack(String address) {
         Integer state = mGattConnectionStates.get(address);
         if(state == null) {
             Log.w(LOG_TAG, "trying to sleep an unknown state track.");
-            return;
+            return false;
         }
 
         if (state == BluetoothProfile.STATE_CONNECTED) {
@@ -1593,6 +1602,7 @@ public class BluetoothLeService extends Service implements
                 alertLevelChar.setValue(new byte[]{(byte) (trackAlertEnabled ? 02 : 00)});
                 if(gatt.writeCharacteristic(alertLevelChar)) {
                     Log.v(LOG_TAG, "write wake character ok");
+                    return true;
                 } else {
                     Log.v(LOG_TAG, "write wake character failed");
                 }
@@ -1601,34 +1611,10 @@ public class BluetoothLeService extends Service implements
             }
         } else {
             Log.w(LOG_TAG, "can not close unconnected track r");
-            return;
         }
+        return false;
     }
 
-
-
-
-    private void silentlyTurnOffTrack(String address) {
-        Integer state = mGattConnectionStates.get(address);
-
-        mPrefsManager.saveClosedTrack(address, true);
-        if (state == null) {
-            Log.w(LOG_TAG, "trying to turn off an unknown state track.");
-            return;
-        }
-        if (state == BluetoothProfile.STATE_CONNECTED) {
-            mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-            BluetoothGatt gatt = mBluetoothGatts.get(address);
-            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
-            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
-            alertLevelChar.setValue(new byte[]{03});
-            gatt.writeCharacteristic(alertLevelChar);
-        } else {
-            Log.w(LOG_TAG, "can not close unconnected track r");
-            return;
-        }
-        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-    }
 
     private void scanLeDevice() {
 
@@ -1655,25 +1641,26 @@ public class BluetoothLeService extends Service implements
      * Update track 's sleep mode state
      * @param address
      */
-    private void updatesSingleTrackSleepState(String address) {
-        Log.i(LOG_TAG, "updateSingleTrackSleepState....");
+    private boolean updatesSingleTrackSleepState(String address) {
+        Log.i(LOG_TAG, "updateSingleTrackSleepState.... with address " + address);
         boolean sleepMode = mPrefsManager.getSleepMode();
         boolean inSleepTime = inSleepTime();
         boolean safeZone = inSafeZone();
         Boolean sleeping = mGattsSleeping.get(address);
         if(safeZone || (sleepMode && inSleepTime)) {
             if(sleeping == null || !sleeping) {
-                sleepTrack(address);
+                return sleepTrack(address);
             } else {
                 Log.d(LOG_TAG, "track already sleep.");
             }
         } else {
-            if(sleeping != null && sleeping) {
-                wakeupTrack(address);
+            if(sleeping == null || sleeping) {
+                return wakeupTrack(address);
             } else {
                 Log.d(LOG_TAG, "track already wakeup.");
             }
         }
+        return false;
     }
 
 
