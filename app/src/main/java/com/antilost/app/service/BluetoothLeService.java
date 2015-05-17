@@ -743,7 +743,7 @@ public class BluetoothLeService extends Service implements
 
                             mPrefsManager.saveLastLocFoundByOthers(null, address);
                             mPrefsManager.saveLastTimeFoundByOthers(-1, address);
-                            updateAllTrackSleepState();
+                            updatesSingleTrackSleepState(address);
                         }
                     }
                 }, 1000);
@@ -1647,6 +1647,7 @@ public class BluetoothLeService extends Service implements
         boolean inSleepTime = inSleepTime();
         boolean safeZone = inSafeZone();
         Boolean sleeping = mGattsSleeping.get(address);
+        boolean alertEnabled = mPrefsManager.getTrackAlert(address);
         if(safeZone || (sleepMode && inSleepTime)) {
             if(sleeping == null || !sleeping) {
                 return sleepTrack(address);
@@ -1654,7 +1655,7 @@ public class BluetoothLeService extends Service implements
                 Log.d(LOG_TAG, "track already sleep.");
             }
         } else {
-            if(sleeping == null || sleeping) {
+            if((sleeping == null || sleeping) && alertEnabled) {
                 return wakeupTrack(address);
             } else {
                 Log.d(LOG_TAG, "track already wakeup.");
