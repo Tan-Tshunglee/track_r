@@ -431,7 +431,8 @@ public class BluetoothLeService extends Service implements
             //phone bluetooth disable status is 22
             if (status != BluetoothGatt.GATT_SUCCESS
                     && status != 8
-                    && status != 22) {
+                    && status != 22
+                    && newState != BluetoothProfile.STATE_DISCONNECTED) {
                 try {
                     Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
                     mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
