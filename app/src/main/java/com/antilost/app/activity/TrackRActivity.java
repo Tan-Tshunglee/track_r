@@ -48,7 +48,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
     public static final int MSG_ENABLE_RING_BUTTON = 2;
     private static final int MSG_DELAY_INIT = 3;
 
-    public static final int TIME_RINGING_STATE_KEEP = 10 * 1000;
+    public static final int TIME_RINGING_STATE_KEEP = 20 * 1000;
     public static final int MAX_RSSI_LEVEL = -33;
     public static final int MIN_RSSI_LEVEL = -129;
 
