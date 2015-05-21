@@ -1,5 +1,6 @@
 package com.antilost.app.network;
 
+import android.util.Base64;
 import android.util.Log;
 
 /**
@@ -23,7 +24,7 @@ public class RegisterCommand extends Command {
         sb.append("cmd:reg").append(LINE_SPLITTER)
             .append("type:1").append(LINE_SPLITTER)
             .append("user:").append(mEmail).append(LINE_SPLITTER)
-            .append("password:").append(mPassword).append(LINE_SPLITTER);
+            .append("password:").append(Base64.encodeToString(mPassword.getBytes(), Base64.NO_WRAP)).append(LINE_SPLITTER);
         String result = sb.toString();
         Log.v(LOG_TAG, "request string is " + result);
         return result;
