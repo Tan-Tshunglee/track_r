@@ -1,5 +1,6 @@
 package com.antilost.app.network;
 
+import android.util.Base64;
 import android.util.Log;
 
 /**
@@ -32,7 +33,7 @@ public class LoginCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append("cmd:login").append(LINE_SPLITTER)
                 .append("user:").append(mEmail).append(LINE_SPLITTER)
-                .append("password:").append(mPassword).append(LINE_SPLITTER);
+                .append("password:").append(Base64.encodeToString(mPassword.getBytes(), Base64.NO_WRAP)).append(LINE_SPLITTER);
         String result = sb.toString();
         return result;
     }
