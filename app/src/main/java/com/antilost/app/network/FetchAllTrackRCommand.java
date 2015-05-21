@@ -26,6 +26,7 @@ public class FetchAllTrackRCommand extends Command {
         StringBuilder sb = new StringBuilder();
         sb.append("cmd:getlosserid").append(LINE_SPLITTER);
         sb.append("uid:").append(mUid).append(LINE_SPLITTER);
+        appendEncodePassword(sb);
         return sb.toString();
     }
 

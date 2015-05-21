@@ -55,6 +55,7 @@ public class NetworkSyncService extends Service {
             if(mPrefs.validUserLog()) {
                 int uid = mPrefs.getUid();
                 FetchAllTrackRCommand fetchAllCommand = new FetchAllTrackRCommand(uid);
+                fetchAllCommand.setPassword(mPrefs.getPassword());
                 fetchAllCommand.execTask();
                 HashMap<String, TrackR> trackRs = fetchAllCommand.getBoundTrackRs();
 

@@ -97,9 +97,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         mUserRegistration = (Button) findViewById(R.id.userRegistrationBtn);
         mUserRegistration.setOnClickListener(this);
 
-        mPasswordInput.setText(mPrefsManager.getPassword());
-        mEmailInput.setText(mPrefsManager.getEmail());
+        boolean savePasswordChecked  = mPrefsManager.getSavePasswordChecked();
+        if(savePasswordChecked) {
+            mPasswordInput.setText(mPrefsManager.getPassword());
+        }
 
+        mEmailInput.setText(mPrefsManager.getEmail());
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
 
@@ -228,12 +231,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
     private void updateRememberPassword(String email, String password) {
         boolean rememberPassword = mRememberPasswordTextView.isSelected();
+        mPrefsManager.setSavePasswordChecked(mRememberPasswordTextView.isSelected());
         mPrefsManager.saveEmail(email);
-        if (rememberPassword) {
-            mPrefsManager.savePassword(password);
-        } else {
-            mPrefsManager.savePassword("");
-        }
+        mPrefsManager.savePassword(password);
     }
 
     @Override

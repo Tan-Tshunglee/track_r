@@ -57,7 +57,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
     private TextView tvtitle, tvtime;
     private RelativeLayout rluser_editor, rluser_noticetimer, rluser_language,
             rluser_tipback, rluser_selectbackground, rluser_version, rluser_topback, rluser_safezone, rluser_help;
-    private Button btmexit;
+    private Button mButtonLogout;
     private CheckBox cbAppring, cbSafeZone;
     private PrefsManager mPrefsManager;
     private TrackRDataBase trackRDataBase;
@@ -167,7 +167,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
         rluser_help = (RelativeLayout) findViewById(R.id.rluser_helep);
 
-        btmexit = (Button) findViewById(R.id.mbtnuserexit);
+        mButtonLogout = (Button) findViewById(R.id.mbtnuserexit);
         cbAppring = (CheckBox) findViewById(R.id.cbuser_appringswitch);
         cbSafeZone = (CheckBox) findViewById(R.id.cbuser_safezoneswitch);
 
@@ -244,7 +244,7 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
 
             }
         });
-        btmexit.setOnClickListener(new View.OnClickListener() {
+        mButtonLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -306,6 +306,8 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPrefsManager.logoutUser();
+                mPrefsManager.setSavePasswordChecked(false);
+                mPrefsManager.savePassword("");
                 sendBroadcast(new Intent(ACTION_USER_LOGOUT));
                 UserProfileActivity.this.finish();
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));

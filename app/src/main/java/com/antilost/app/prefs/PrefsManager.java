@@ -28,6 +28,8 @@ public class PrefsManager {
     @SuppressWarnings("unused")
     public static final String PREFS_NAME_KEY = "name";
     public static final String PREFS_PASSWORD_KEY = "password";
+    public static final String PREFS_SAVE_PASSWORD_CHECKED_KEY = "save_password_checked";
+
     public static final String PREFS_TRACK_IDS_KEY = "tracks";
     public static final String PREFS_EMAIL_KEY = "email";
     public static final String PREFS_MISSING_KEY_PREFIX = "missing_track_prefix";
@@ -161,6 +163,18 @@ public class PrefsManager {
 
     }
 
+    public String getPassword() {
+        return mPrefs.getString(PREFS_PASSWORD_KEY, "");
+    }
+
+    public void setSavePasswordChecked(boolean savePasswordChecked) {
+        mPrefs.edit().putBoolean(PREFS_SAVE_PASSWORD_CHECKED_KEY, savePasswordChecked).commit();
+    }
+
+    public boolean getSavePasswordChecked() {
+        return mPrefs.getBoolean(PREFS_SAVE_PASSWORD_CHECKED_KEY, false);
+    }
+
     public void addPrefsListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         mPrefs.registerOnSharedPreferenceChangeListener(listener);
 
@@ -171,10 +185,7 @@ public class PrefsManager {
     }
 
 
-    public String getPassword() {
-        return mPrefs.getString(PREFS_PASSWORD_KEY, "");
 
-    }
 
     public boolean removeTrackFile(String address) {
         File dir = mCtx.getDir("tracks", 0);
