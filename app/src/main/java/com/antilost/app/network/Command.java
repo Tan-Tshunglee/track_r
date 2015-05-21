@@ -1,6 +1,7 @@
 package com.antilost.app.network;
 
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.IOException;
@@ -26,8 +27,21 @@ public abstract class Command {
     protected HashMap<String, String> mResultMap = new HashMap<String, String>();
     protected StringBuilder mRequestBuffer = new StringBuilder();
 
-
+    protected String mPassword;
     protected abstract String makeRequestString();
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    protected void appendEncodePassword(StringBuilder sb) {
+
+        if(TextUtils.isEmpty(mPassword)) {
+            throw new IllegalArgumentException("Password not set.");
+        }
+        sb.append("password:" + Base64.encodeToString(mPassword.getBytes(), Base64.NO_WRAP));
+        sb.append(LINE_SPLITTER);
+    }
 
     public boolean execTask() {
         boolean result = false;
