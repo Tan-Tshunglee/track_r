@@ -1448,6 +1448,7 @@ public class BluetoothLeService extends Service implements
                             if(bindOk) {
                                 Log.i(LOG_TAG, "Delay Bind mTrack ok.");
                                 UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefsManager.getUid(), id);
+                                uploadImageCommand.setPassword(mPrefsManager.getPassword());
                                 uploadImageCommand.execTask();
 
                                 if(uploadImageCommand.success()) {
