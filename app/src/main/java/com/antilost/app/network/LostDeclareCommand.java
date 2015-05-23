@@ -10,21 +10,24 @@ public class LostDeclareCommand extends Command {
 
     /**
      * Command  declare lost and withdraw the declare,
-     * @param uid user id
+     *
+     * @param uid          user id
      * @param trackAddress the address of track
-     * @param enabled 1 for declare lost 0 for withdraw the declare
+     * @param enabled      1 for declare lost 0 for withdraw the declare
      */
-        public  LostDeclareCommand(int uid, String trackAddress, int enabled) {
+    public LostDeclareCommand(int uid, String trackAddress, int enabled) {
         mUid = uid;
         mTrackAddress = trackAddress;
         mEnabled = enabled;
     }
+
     @Override
     protected String makeRequestString() {
         setCommand("declare");
         addLine("type:" + mEnabled);
         addLine("uid:" + mUid);
         addLine("losserid:" + mTrackAddress);
+        appendEncodePassword(mRequestBuffer);
         return mRequestBuffer.toString();
     }
 }

@@ -89,6 +89,7 @@ public class NetworkSyncService extends Service {
             Set<String> ids = mPrefs.getTrackIds();
             for(String id : ids) {
                 final FetchTrackImageCommand command = new FetchTrackImageCommand(mPrefs.getUid(), id);
+                command.setPassword(mPrefs.getPassword());
                 command.execTask();
                 byte[] rawImageData = command.getRawImageData();
                 if(rawImageData != null) {

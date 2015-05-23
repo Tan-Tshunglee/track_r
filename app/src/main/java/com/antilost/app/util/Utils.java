@@ -13,6 +13,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -201,5 +202,9 @@ public class Utils {
 
     public static void showShortToast(ManualAddLocationActivity ctx, int msgResId) {
         Toast.makeText(ctx, msgResId, Toast.LENGTH_SHORT).show();
+    }
+
+    public static String base64EncodeStr2Str(String origin) {
+        return Base64.encodeToString(origin.getBytes(), Base64.NO_WRAP);
     }
 }

@@ -334,6 +334,7 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 if (mLastLocation != null) {
                     Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
                     if (command.success()) {
                         Log.v(LOG_TAG, "Update unkown track r 's location successfully.");
@@ -893,8 +894,9 @@ public class BluetoothLeService extends Service implements
                 public void run() {
                     ReportLostLocationCommand command
                             = new ReportLostLocationCommand(mPrefsManager.getUid(), mLastLocation, address);
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
-                    command.dumpResult();
+//                    command.dumpResult();
                 }
             };
             t.start();
@@ -905,6 +907,7 @@ public class BluetoothLeService extends Service implements
         int declareTobe =  0;
         Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), address, declareTobe);
         try {
+            declareCommand.setPassword(mPrefsManager.getPassword());
             declareCommand.execTask();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1441,12 +1444,13 @@ public class BluetoothLeService extends Service implements
                                     track.name,
                                     id,
                                     String.valueOf(track.type));
-
+                            bindcommand.setPassword(mPrefsManager.getPassword());
                             bindcommand.execTask();
                             boolean bindOk = bindcommand.success();
                             if(bindOk) {
                                 Log.i(LOG_TAG, "Delay Bind mTrack ok.");
                                 UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefsManager.getUid(), id);
+                                uploadImageCommand.setPassword(mPrefsManager.getPassword());
                                 uploadImageCommand.execTask();
 
                                 if(uploadImageCommand.success()) {
@@ -1676,6 +1680,7 @@ public class BluetoothLeService extends Service implements
                 Long lastTime = mDeclaredLostTrackLastFetchedTime.get(address);
                 if(lastTime == null) {
                     FetchLostLocationCommand command = new FetchLostLocationCommand(address, mPrefsManager.getUid());
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
                     if(command.success()) {
                         try {

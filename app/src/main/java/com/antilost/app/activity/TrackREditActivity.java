@@ -374,12 +374,13 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         name,
                         mBluetoothDeviceAddress,
                         String.valueOf(mTrack.type));
-
+                bindcommand.setPassword(mPrefs.getPassword());
                 bindcommand.execTask();
                 boolean bindOk = bindcommand.success();
                 if(bindOk) {
                     Log.i(LOG_TAG, "Bind mTrack ok.");
                     UpdateTrackImageCommand uploadImageCommand = new UpdateTrackImageCommand(mPrefs.getUid(), mBluetoothDeviceAddress);
+                    uploadImageCommand.setPassword(mPrefs.getPassword());
                     uploadImageCommand.execTask();
                     if(uploadImageCommand.success()) {
                         Log.v(LOG_TAG, "upload mTrack photo to server success.");

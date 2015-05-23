@@ -28,6 +28,7 @@ public class FetchLostLocationCommand extends Command {
         setCommand("getgps");
         addLine("uid:" + mUid);
         addLine("losserid:" + mAddress);
+        appendEncodePassword(mRequestBuffer);
         return mRequestBuffer.toString();
     }
 
