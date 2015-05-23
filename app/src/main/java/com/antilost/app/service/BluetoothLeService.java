@@ -1677,6 +1677,7 @@ public class BluetoothLeService extends Service implements
                 Long lastTime = mDeclaredLostTrackLastFetchedTime.get(address);
                 if(lastTime == null) {
                     FetchLostLocationCommand command = new FetchLostLocationCommand(address, mPrefsManager.getUid());
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
                     if(command.success()) {
                         try {

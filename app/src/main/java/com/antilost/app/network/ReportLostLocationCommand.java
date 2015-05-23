@@ -26,7 +26,7 @@ public class ReportLostLocationCommand extends Command {
         addLine("log:" + mLocation.getLongitude());
         addLine("lat:" + mLocation.getLatitude());
         addLine("time:" + Utils.convertTimeStampToLiteral(System.currentTimeMillis()));
-        appendEncodePassword(sb);
+        appendEncodePassword(mRequestBuffer);
         return mRequestBuffer.toString();
     }
 }
