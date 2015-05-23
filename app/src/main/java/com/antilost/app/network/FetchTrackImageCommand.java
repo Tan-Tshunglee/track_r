@@ -23,6 +23,7 @@ public class FetchTrackImageCommand extends Command {
         sb.append("cmd:getpic").append(LINE_SPLITTER);
         sb.append("uid:").append(mUid).append(LINE_SPLITTER);
         sb.append("losserid:").append(mAddress).append(LINE_SPLITTER);
+        appendEncodePassword(sb);
         return sb.toString();
     }
 
