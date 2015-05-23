@@ -407,6 +407,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                                 int declareTobe = mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress) ? 0 : 1;
                                 Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress, declareTobe);
                                 try {
+                                    declareCommand.setPassword(mPrefsManager.getPassword());
                                     declareCommand.execTask();
                                 } catch (Exception e) {
                                     e.printStackTrace();

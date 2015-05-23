@@ -906,6 +906,7 @@ public class BluetoothLeService extends Service implements
         int declareTobe =  0;
         Command declareCommand = new LostDeclareCommand(mPrefsManager.getUid(), address, declareTobe);
         try {
+            declareCommand.setPassword(mPrefsManager.getPassword());
             declareCommand.execTask();
         } catch (Exception e) {
             e.printStackTrace();
