@@ -391,6 +391,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                             @Override
                             public void run() {
                                 UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
+                                command.setPassword(mPrefsManager.getPassword());
                                 command.execTask();
                                 mBackgroundThread = null;
                             }

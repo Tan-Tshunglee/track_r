@@ -21,6 +21,7 @@ public class UnbindCommand extends Command {
         sb.append("cmd:delete").append(LINE_SPLITTER)
                 .append("uid:").append(mUid).append(LINE_SPLITTER)
                 .append("losserid:").append(mAddress).append(LINE_SPLITTER);
+        appendEncodePassword(sb);
         String result = sb.toString();
         Log.v(LOG_TAG, "request string is " + result);
         return result;
