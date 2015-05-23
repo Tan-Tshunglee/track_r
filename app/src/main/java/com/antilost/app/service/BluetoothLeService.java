@@ -893,8 +893,9 @@ public class BluetoothLeService extends Service implements
                 public void run() {
                     ReportLostLocationCommand command
                             = new ReportLostLocationCommand(mPrefsManager.getUid(), mLastLocation, address);
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
-                    command.dumpResult();
+//                    command.dumpResult();
                 }
             };
             t.start();
