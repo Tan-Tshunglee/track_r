@@ -1653,6 +1653,7 @@ public class BluetoothLeService extends Service implements
         boolean safeZone = inSafeZone();
         Boolean sleeping = mGattsSleeping.get(address);
         boolean alertEnabled = mPrefsManager.getTrackAlert(address);
+        //safe zone and sleep mode in sleep time
         if(safeZone || (sleepMode && inSleepTime)) {
             if(sleeping == null || !sleeping) {
                 return sleepTrack(address);
@@ -1660,10 +1661,14 @@ public class BluetoothLeService extends Service implements
                 Log.d(LOG_TAG, "track already sleep.");
             }
         } else {
-            if((sleeping == null || sleeping) && alertEnabled) {
-                return wakeupTrack(address);
+            if(alertEnabled) {
+                if(sleeping == null || sleeping) {
+                    return wakeupTrack(address);
+                }
             } else {
-                Log.d(LOG_TAG, "track already wakeup.");
+                if(sleeping == null || !sleeping) {
+                    sleepTrack(address);
+                }
             }
         }
         return false;
