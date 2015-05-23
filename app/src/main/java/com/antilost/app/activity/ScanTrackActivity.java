@@ -140,7 +140,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                                 mHandler.sendEmptyMessage(MSG_SHOW_SEARCH_FAILED_PAGE);
                             }
                         }
-                    }, 1000);
+                    }, 500);
                 } else {
                     mConnectingGatt = false;
                     Log.v(LOG_TAG, "Bluetooth disconnect");
@@ -323,7 +323,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                     Log.w(LOG_TAG, "Scan track connect bluetooth Gatt return null.");
                 }
             }
-        }, 2000);
+        }, 500);
     }
 
     private void startTrackEdit() {
