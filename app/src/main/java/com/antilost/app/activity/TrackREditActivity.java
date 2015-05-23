@@ -374,7 +374,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                         name,
                         mBluetoothDeviceAddress,
                         String.valueOf(mTrack.type));
-
+                bindcommand.setPassword(mPrefs.getPassword());
                 bindcommand.execTask();
                 boolean bindOk = bindcommand.success();
                 if(bindOk) {

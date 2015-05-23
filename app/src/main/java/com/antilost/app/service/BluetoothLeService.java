@@ -1441,7 +1441,7 @@ public class BluetoothLeService extends Service implements
                                     track.name,
                                     id,
                                     String.valueOf(track.type));
-
+                            bindcommand.setPassword(mPrefsManager.getPassword());
                             bindcommand.execTask();
                             boolean bindOk = bindcommand.success();
                             if(bindOk) {
