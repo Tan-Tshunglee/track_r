@@ -25,6 +25,7 @@ public class ReportUnkownTrackLocationCommand extends Command {
         addLine("log:" + mLongitude);
         addLine("lat:" + mLatitude);
         addLine("time:" + Utils.convertTimeStampToLiteral(System.currentTimeMillis()));
+        appendEncodePassword(mRequestBuffer);
         return mRequestBuffer.toString();
     }
 }

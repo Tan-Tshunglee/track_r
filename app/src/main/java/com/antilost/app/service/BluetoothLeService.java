@@ -334,6 +334,7 @@ public class BluetoothLeService extends Service implements
             public void run() {
                 if (mLastLocation != null) {
                     Command command = new ReportUnkownTrackLocationCommand(deviceAddress, mLastLocation);
+                    command.setPassword(mPrefsManager.getPassword());
                     command.execTask();
                     if (command.success()) {
                         Log.v(LOG_TAG, "Update unkown track r 's location successfully.");
