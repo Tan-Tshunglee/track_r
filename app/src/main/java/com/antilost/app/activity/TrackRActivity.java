@@ -140,16 +140,31 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
 
     private void updateBatteryIcon(int level) {
         Log.i(LOG_TAG, "updateBatteryIcon " + level);
+
         int resId = R.drawable.battery_2;
-        if(level < 25) {
-            resId = R.drawable.battery_1;
-        } else if(level < 50) {
-            resId = R.drawable.battery_2;
-        } else if(level < 75) {
-            resId = R.drawable.battery_3;
-        } else if(level <= 100) {
-            resId = R.drawable.battery_4;
+        if(isGattConnected()) {
+            if(level < 25) {
+                resId = R.drawable.battery_1;
+            } else if(level < 50) {
+                resId = R.drawable.battery_2;
+            } else if(level < 75) {
+                resId = R.drawable.battery_3;
+            } else if(level <= 100) {
+                resId = R.drawable.battery_4;
+            }
+        } else {
+            if(level < 25) {
+                resId = R.drawable.battery_dis_1;
+            } else if(level < 50) {
+                resId = R.drawable.battery_dis_2;
+            } else if(level < 75) {
+                resId = R.drawable.battery_dis_3;
+            } else if(level <= 100) {
+                resId = R.drawable.battery_dis_4;
+            }
         }
+
+
 
         mBatteryLeve.setImageResource(resId);
     }
@@ -368,6 +383,16 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         } else {
             finish();
         }
+
+        int batteryLevel = 100;
+        if(mBluetoothLeService != null) {
+            batteryLevel = mBluetoothLeService.getBatteryLevel(mBluetoothDeviceAddress);
+        }
+
+        updateBatteryIcon(batteryLevel);
+
+
+
     }
 
     private IntentFilter makeBroadcastReceiverIntentFilter() {
