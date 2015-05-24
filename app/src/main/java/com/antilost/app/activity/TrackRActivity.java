@@ -153,6 +153,8 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 resId = R.drawable.battery_4;
             }
         } else {
+
+            resId = R.drawable.battery_dis_2;
             if(level < 25) {
                 resId = R.drawable.battery_dis_1;
             } else if(level < 50) {
