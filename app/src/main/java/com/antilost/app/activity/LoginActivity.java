@@ -230,7 +230,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
     }
 
     private void updateRememberPassword(String email, String password) {
-        boolean rememberPassword = mRememberPasswordTextView.isSelected();
         mPrefsManager.setSavePasswordChecked(mRememberPasswordTextView.isSelected());
         mPrefsManager.saveEmail(email);
         mPrefsManager.savePassword(password);

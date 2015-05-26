@@ -85,7 +85,7 @@ public class LocUtils {
         }
 
         String uri = String.format(Locale.ENGLISH, "geo:%f,%f", loc.getLatitude(), loc.getLongitude());
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        Intent intent;
 
         int googleServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         if(googleServiceAvailable == ConnectionResult.SUCCESS) {
