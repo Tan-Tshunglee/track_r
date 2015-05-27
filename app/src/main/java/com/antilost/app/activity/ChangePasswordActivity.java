@@ -62,7 +62,7 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
         }
 
         String oldPass = mOldPassEdit.getText().toString();
-        String newPass = mNewPassEdit.getText().toString();
+        final String newPass = mNewPassEdit.getText().toString();
         String newPassConfirm = mNewPassConfirmEdit.getText().toString();
 
         if (oldPass.length() < 6 || oldPass.length() > 18) {
@@ -100,6 +100,7 @@ public class ChangePasswordActivity extends Activity implements View.OnClickList
                     dismissDialog(CHANGING_USER_PASSWORD_DIALOG_ID);
                     if(command.success()) {
                         dialog_id  = CHANGE_PASSWORD_SUCCESS_DIALOG_ID;
+                        mPrefs.savePassword(newPass);
                     } else {
                         dialog_id = CHANGE_PASSWORD_FAIL_DIALOG_ID;
                     }

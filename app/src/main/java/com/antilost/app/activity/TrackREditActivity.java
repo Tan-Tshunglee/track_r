@@ -297,18 +297,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                             rotated.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(croppedTargetFile));
                         }
 
-//                        File folder = ensureIconFolder();
-//                        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
-//                        if(trackIconFile.exists()) {
-//                            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
-//                            trackIconFile.delete();
-//                        }
-
-//
-//                        if (!croppedTargetFile.renameTo(trackIconFile)) {
-//                            Log.e(LOG_TAG, "Rename to address failed");
-//                            return;
-//                        }
                         mImageView.setImageURI(Uri.fromFile(croppedTargetFile));
                     } catch (Exception ex) {
                         System.out.println("The error is " + ex.toString());

@@ -2,10 +2,13 @@ package com.antilost.app.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.antilost.app.model.TrackR;
+import com.antilost.app.network.FetchLostLocationCommand;
 import com.antilost.app.network.FetchTrackImageCommand;
 import com.antilost.app.network.FetchAllTrackRCommand;
 import com.antilost.app.prefs.PrefsManager;
@@ -25,7 +28,7 @@ public class NetworkSyncService extends Service {
 
     public static final String ACTION_TRACKS_FETCH_DONE = "user_tracks_fetched_done";
 
-    private static final String LOG_TAG = "NetworkSyncService"  ;
+    private static final String LOG_TAG = "NetworkSyncService";
     private PrefsManager mPrefs;
 
     @Override
@@ -74,9 +77,6 @@ public class NetworkSyncService extends Service {
                     fetcher.start();
                 }
                 sendBroadcast(new Intent(ACTION_TRACKS_FETCH_DONE));
-
-
-
             } else {
                 Log.e(LOG_TAG, "will to sync data while user is not login.");
             }
@@ -91,6 +91,11 @@ public class NetworkSyncService extends Service {
                 final FetchTrackImageCommand command = new FetchTrackImageCommand(mPrefs.getUid(), id);
                 command.setPassword(mPrefs.getPassword());
                 command.execTask();
+
+                FetchLostLocationCommand fetchLostLocation = new FetchLostLocationCommand(id, mPrefs.getUid());
+                fetchLostLocation.setPassword(mPrefs.getPassword());
+                fetchLostLocation.execTask();
+
                 byte[] rawImageData = command.getRawImageData();
                 if(rawImageData != null) {
                     Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
@@ -98,6 +103,22 @@ public class NetworkSyncService extends Service {
                 } else {
                     CsstSHImageData.removePhoto(id);
                     Log.e(LOG_TAG, "fetch track image No rawImageData return.");
+                }
+
+                if(fetchLostLocation.success()) {
+                    try {
+                        Location loc = new Location(LocationManager.NETWORK_PROVIDER);
+                        loc.setLatitude(fetchLostLocation.getLatitude());
+                        loc.setLongitude(fetchLostLocation.getLongitude());
+                        long timeFound = fetchLostLocation.getLostTime();
+                        mPrefs.saveLastLostLocation(loc, id);
+                        mPrefs.saveLastLostTime(id, timeFound);
+                        Log.v(LOG_TAG, String.format("fetch track 's lost address %f-%f at %d", loc.getLatitude(), loc.getLongitude(), timeFound));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.e(LOG_TAG, "fetch track location fail.");
                 }
             }
         }

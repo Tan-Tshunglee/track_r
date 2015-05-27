@@ -99,12 +99,15 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         Uri customIconUri = CsstSHImageData.getIconImageUri(address);
 
         if(customIconUri != null) {
-            Log.d(LOG_TAG,"user custom track icon");
+            Log.d(LOG_TAG, "user custom track icon");
             icon.setImageURI(customIconUri);
-            icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            icon.setScaleType(ImageView.ScaleType.FIT_XY);
+            int padding = icon.getContext().getResources().getDimensionPixelOffset(R.dimen.track_icon_listview_padding);
+            icon.setPadding(padding, padding, padding, padding);
         } else {
             icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            icon.setPadding(0, 0, 0, 0);
         }
 //        icon.setOnClickListener(this);
         BluetoothLeService service = mActivity.getBluetoothLeService();

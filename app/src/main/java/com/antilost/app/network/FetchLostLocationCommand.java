@@ -53,11 +53,11 @@ public class FetchLostLocationCommand extends Command {
         return false;
     }
 
-    public double getLongitude() {
+    public double getLongitude() throws NumberFormatException {
         return Float.valueOf(mResultMap.get("log"));
     }
 
-    public double getLatitude() {
+    public double getLatitude() throws NumberFormatException {
         return Float.valueOf(mResultMap.get("lat"));
     }
 

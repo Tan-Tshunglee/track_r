@@ -111,28 +111,29 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mAmap.setMyLocationEnabled(false);
+        mAmap.setLocationSource(null);
         mAmapView.onDestroy();
     }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
+        Log.d(LOG_TAG, "activate location source");
         mOnLocationChangedListener = onLocationChangedListener;
 
         if (mAMapLocationManager == null) {
             mAMapLocationManager = LocationManagerProxy.getInstance(this);
-            /*
-             * mAMapLocManager.setGpsEnable(false);
-             * 1.0.2版本新增方法，设置true表示混合定位中包含gps定位，false表示纯网络定位，默认是true Location
-             * API定位采用GPS和网络混合定位方式
-             * ，第一个参数是定位provider，第二个参数时间最短是2000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
-             */
-            mAMapLocationManager.requestLocationUpdates(
-                    LocationProviderProxy.AMapNetwork, 2000, 10, this);
+
         }
+
+        mAMapLocationManager.requestLocationUpdates(
+                LocationProviderProxy.AMapNetwork, 2000, 10, this);
     }
 
     @Override
     public void deactivate() {
+
+        Log.d(LOG_TAG, "deactivate location source");
         mOnLocationChangedListener = null;
         if (mAMapLocationManager != null) {
             mAMapLocationManager.removeUpdates(this);
@@ -144,7 +145,10 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mOnLocationChangedListener != null && aMapLocation != null) {
+            Log.v(LOG_TAG, "onLocationChanged set to mOnLocationChangedListener.");
             mOnLocationChangedListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+        } else {
+            Log.v(LOG_TAG, "cannot update my current location im amap.");
         }
     }
 
