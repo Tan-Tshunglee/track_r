@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.amap.api.location.LocationManagerProxy;
 import com.antilost.app.R;
 import com.antilost.app.adapter.locationAdapter;
 import com.antilost.app.dao.LocationTable;
@@ -36,7 +36,7 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
 
     private ListView mListView;
-    private LocationManager GpsManager;
+    private LocationManager mLocationManager;
 
     //数据库
     private TrackRDataBase trackRDataBase;
@@ -50,23 +50,18 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
 
     private locationAdapter locationadatper = null;
 
-    LocationManagerProxy mLocationManagerProxy;
-    Location location = null;
-
     private PrefsManager mPrefsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localtion_list);
-        GpsManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         mListView = (ListView) findViewById(R.id.lslocation);
         findViewById(R.id.btnlocatinBack).setOnClickListener(this);
         findViewById(R.id.btnlocationAdd).setOnClickListener(this);
         initdata();
     }
-
-
 
     private void initdata() {
         trackRDataBase = new TrackRDataBase(this);
@@ -204,13 +199,30 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
+        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        }, getMainLooper());
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 
 
     @Override
@@ -238,15 +250,26 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
                         String name = inputServer.getText().toString().trim();
                         String timerStringday = new java.util.Date().toLocaleString();
 
-                        if(TextUtils.isEmpty(name)) {
+                        if (TextUtils.isEmpty(name)) {
                             Utils.showShortToast(ManualAddLocationActivity.this, getString(R.string.location_name_can_not_be_empty));
                             return;
                         }
-                        if (mPrefsManager.getLastAMPALocation() == null) {
+                        Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                        if (lastLocation == null) {
+                            lastLocation = mPrefsManager.getLastSavedLocation();
+                        }
+                        if (lastLocation == null) {
                             Toast.makeText(ManualAddLocationActivity.this, getString(R.string.unable_detemine_current_position), Toast.LENGTH_SHORT).show();
                             return;
                         } else {
-                            LocationTable.getInstance().insert(mDb, new LocationBean(name, timerStringday, (float) mPrefsManager.getLastAMPALocation().getLatitude(), (float) mPrefsManager.getLastAMPALocation().getLongitude()));
+                            double lat = lastLocation.getLatitude();
+                            double lng = lastLocation.getLongitude();
+
+                            if(lat == 0 && lng == 0) {
+                                return;
+                            }
+                            LocationTable.getInstance().insert(mDb, new LocationBean(name, timerStringday, (float) lastLocation.getLatitude(), (float)lastLocation.getLongitude()));
                         }
 
 

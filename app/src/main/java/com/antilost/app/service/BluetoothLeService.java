@@ -46,6 +46,7 @@ import com.antilost.app.activity.DisconnectAlertActivity;
 import com.antilost.app.activity.FindmeActivity;
 import com.antilost.app.activity.FoundByOthersActivity;
 import com.antilost.app.activity.MainTrackRListActivity;
+import com.antilost.app.activity.ScanTrackActivity;
 import com.antilost.app.activity.TrackRActivity;
 import com.antilost.app.model.TrackR;
 import com.antilost.app.network.BindCommand;
@@ -195,12 +196,18 @@ public class BluetoothLeService extends Service implements
     private IntentFilter mIntentFilter;
     private ConnectivityManager mConnectivityManager;
     private LocationManager mLocationManager;
+    private ScanResultListener mScanResultListener;
 
     private enum ConnectionState {
         IDLE,//idle
         SCANNING,//scaning track
         CONNECTING, //connecting one track
         BLOCKING //scan and connection is doing in scan activity
+    }
+
+    public interface ScanResultListener {
+        void onFailure();
+        void onSuccess();
     }
 
     private ConnectionState mConnectionState = ConnectionState.IDLE;
@@ -745,6 +752,8 @@ public class BluetoothLeService extends Service implements
 
                             mPrefsManager.saveLastLocFoundByOthers(null, address);
                             mPrefsManager.saveLastTimeFoundByOthers(-1, address);
+
+                            updateAndroidConnection(address);
                             updatesSingleTrackSleepState(address);
                         }
                     }
@@ -788,6 +797,32 @@ public class BluetoothLeService extends Service implements
             broadcastRssiRead();
 
             receiverRssi(address, rssi);
+
+        }
+    }
+
+    private void updateAndroidConnection(String address) {
+        Integer state = mGattConnectionStates.get(address);
+        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            BluetoothGattService customService = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_VERIFIED_SERVICE);
+            if(customService != null) {
+                BluetoothGattCharacteristic androidCharacterisic =
+                        customService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ANDROID_SYSTEM_FLAG);
+
+                if(androidCharacterisic != null) {
+                    androidCharacterisic.setValue(new byte[] {1});
+                    if(gatt.writeCharacteristic(androidCharacterisic)) {
+                        Log.d(LOG_TAG, "gatt write android flag success.");
+                    } else {
+                        Log.e(LOG_TAG, "gatt write android flag failed.");
+                    };
+                } else {
+                    Log.e(LOG_TAG, "android flag characteristic is null.");
+                }
+            } else {
+                Log.e(LOG_TAG, "custom service is null.");
+            }
 
         }
     }
@@ -1353,7 +1388,7 @@ public class BluetoothLeService extends Service implements
                 return;
             }
             mLastLocation = loc;
-            mPrefsManager.saveLastAMPALocation(loc);
+            mPrefsManager.saveLastLocation(loc);
 
             HashSet<String> idsNeedUpdateLocation = new HashSet<String>(mLostGpsNeedUpdateIds);
             mLostGpsNeedUpdateIds.clear();
@@ -2078,6 +2113,43 @@ public class BluetoothLeService extends Service implements
         } else {
             double accuracy = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
             return accuracy;
+        }
+    }
+
+
+
+    private BluetoothAdapter.LeScanCallback mScanForAddCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(BluetoothDevice bluetoothDevice, int rssi, byte[] bytes) {
+            if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
+                String address = bluetoothDevice.getAddress();
+                if(mPrefsManager.getTrackIds().contains(address)) {
+                    return;
+                } else {
+
+                }
+            }
+        }
+    };
+
+    public void startBleScanForAdd(ScanResultListener listener) {
+        mScanResultListener = listener;
+        if(mBluetoothAdapter == null) {
+            notifiyScanFailure();
+        } else {
+            mBluetoothAdapter.startLeScan(mScanForAddCallback);
+        }
+    }
+
+    private void notifiyScanFailure() {
+        if(mScanResultListener != null) {
+            mScanResultListener.onFailure();
+        }
+    }
+
+    private void notifiyScanSuccess() {
+        if(mScanResultListener != null) {
+            mScanResultListener.onSuccess();
         }
     }
 
