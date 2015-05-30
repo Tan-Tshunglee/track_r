@@ -320,12 +320,12 @@ public class PrefsManager {
         return mPrefs.getBoolean(PREFS_GLOBAL_ALERT_RING_ENABLED, true);
     }
 
-    public void saveLastAMPALocation(Location loc) {
+    public void saveLastLocation(Location loc) {
         String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
         mPrefs.edit().putString(key, LocUtils.convertLocation(loc)).commit();
     }
 
-    public Location getLastAMPALocation() {
+    public Location getLastSavedLocation() {
         String key = PREFS_LAST_LOCATION_AMPA_KEY_PREFIX ;
         String loc = mPrefs.getString(key, null);
         if(loc == null) {
