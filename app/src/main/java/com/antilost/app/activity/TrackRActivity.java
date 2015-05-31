@@ -307,7 +307,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         if(mBluetoothLeService == null) {
             mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
             mTrackImage.setText("");
-            mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+            mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg_setting);
         } else {
             if(mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {
                 mTrackImage.setText(getResources().getString(R.string.iTrack_close_tip));
@@ -316,7 +316,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
                 mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
                 mConnection.setText(R.string.closed);
-                mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg_setting);
             } else {
 //                清空显示
                 mTrackImage.setText("");
@@ -324,10 +324,10 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     mTrackRIcon.setImageResource(R.drawable.track_r_icon_green);
                     mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_dot, 0, 0, 0);
                     mConnection.setText(R.string.connected);
-                    mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg);
+                    mTrackImage.setBackgroundResource(R.drawable.connected_icon_bkg_setting);
                 } else {
                     mTrackRIcon.setImageResource(R.drawable.track_r_icon_red);
-                    mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                    mTrackImage.setBackgroundResource(R.drawable.disconnected_icon_bkg_setting);
                     mConnection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_dot, 0, 0, 0);
                     mConnection.setText(R.string.disconnected);
                 }
