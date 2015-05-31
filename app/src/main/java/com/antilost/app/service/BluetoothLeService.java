@@ -734,12 +734,6 @@ public class BluetoothLeService extends Service implements
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //track lost alert
-                        Log.d(LOG_TAG, "try to read rssi first time.");
-                        if (mPrefsManager.getTrackAlert(address)) {
-                            Log.d(LOG_TAG, "enable track alert...");
-                            setTrackAlertMode(address, true);
-                        }
 
                         mWaitingConnectionTracks.remove(address);
                         //after verify key write done we think this gatt as connected.
@@ -2021,29 +2015,7 @@ public class BluetoothLeService extends Service implements
     }
 
     public void setTrackAlertMode(String bluetoothDeviceAddress, boolean enable) {
-        Integer state = mGattConnectionStates.get(bluetoothDeviceAddress);
-        Log.v(LOG_TAG, "setTrackAlertMode state is " + state);
-        BluetoothGatt gatt = mBluetoothGatts.get(bluetoothDeviceAddress);
-
-        if (gatt == null) {
-            Log.w(LOG_TAG, "gatt has not connected....");
-            return;
-        } else {
-            BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
-
-            if (linkLoss == null) {
-                Log.i(LOG_TAG, "linkLoss is null in setTrackAlertMode");
-            }
-
-            BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
-            byte value = (byte) (enable ? 0x02 : 0x00);
-
-            if(alertLevelChar != null) {
-                alertLevelChar.setValue(new byte[]{value});
-                gatt.writeCharacteristic(alertLevelChar);
-            }
-
-        }
+        updatesSingleTrackSleepState(bluetoothDeviceAddress);
     }
 
     public void readBatteryLevel(String bluetoothDeviceAddress) {
