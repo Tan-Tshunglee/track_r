@@ -32,10 +32,11 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     public static final int MSG_SHOW_SCAN_FAILED_PAGE = 2;
     public static final int MSG_SHOW_SCANNING_PAGE = 3;
 
-    public static final int MAX_COUNT = 5;
+    public static final int MAX_TRACK_SUPPORT_COUNT = 5;
 
     private static final String LOG_TAG = "ScanTrackActivity";
     public static final int MIN_RSSI_ACCEPTABLE = -60;
+    public static final int SCAN_TIMEOUT = 30 * 1000;
 
 
     private RelativeLayout mFirstPage;
@@ -51,6 +52,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private ImageView mSearchingIcon;
     private Animation mSearchingAnimation;
     private Handler mHandler;
+    private boolean mDeviceScanSuccess;
 
     private void log(String s) {
         Log.d(LOG_TAG, s);
@@ -66,7 +68,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            scanLeDevice(true);
+            scanLeDevice();
         }
 
         @Override
@@ -76,8 +78,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     };
 
     private void startTrackEdit() {
+        mDeviceScanSuccess = true;
         Intent i = new Intent(ScanTrackActivity.this, TrackREditActivity.class);
         i.putExtra(TrackREditActivity.EXTRA_EDIT_NEW_TRACK, true);
+        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, mBluetoothLeService.getAddingDeviceAddress());
         startActivity(i);
         finish();
     }
@@ -102,7 +106,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
         mPrefsManager = PrefsManager.singleInstance(this);
 
-        if (mPrefsManager.getTrackIds().size() == MAX_COUNT) {
+        if (mPrefsManager.getTrackIds().size() == MAX_TRACK_SUPPORT_COUNT) {
             Toast.makeText(this, getString(R.string.max_device_limit_reached), Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -135,7 +139,9 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mFailedPage.setVisibility(View.GONE);
                         break;
                     case MSG_SHOW_SCAN_FAILED_PAGE:
-                        scanLeDevice(false);
+                        if(mBluetoothLeService != null) {
+                            mBluetoothLeService.scanForAddTimeOut();
+                        }
                         mFirstPage.setVisibility(View.GONE);
                         mConnectingPage.setVisibility(View.GONE);
                         mFailedPage.setVisibility(View.VISIBLE);
@@ -162,40 +168,34 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        scanLeDevice(false);
-        mBindingDotsMarquee.stopMarquee();
-        mConnecingDotsMarquee.stopMarquee();
-    }
 
-    private void scanLeDevice(boolean startBlueScaned) {
-        if(startBlueScaned) {
-            mBluetoothLeService.startBleScanForAdd(new BluetoothLeService.ScanResultListener() {
-                @Override
-                public void onFailure() {
-                    mHandler.sendEmptyMessage(MSG_SHOW_SCAN_FAILED_PAGE);
-                }
 
-                @Override
-                public void onConnectionStart() {
-                    mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
-                }
+    private void scanLeDevice() {
 
-                @Override
-                public void onSuccess() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            startTrackEdit();
-                        }
-                    });
-                }
-            });
-        } else {
-            mBluetoothLeService.stopBleScanForAdd();
-        }
+        mBluetoothLeService.startBleScanForAdd(new BluetoothLeService.ScanResultListener() {
+            @Override
+            public void onFailure() {
+                mHandler.sendEmptyMessage(MSG_SHOW_SCAN_FAILED_PAGE);
+            }
+
+            @Override
+            public void onConnectionStart() {
+                mHandler.sendEmptyMessage(MSG_SHOW_CONNECTING_PAGE);
+            }
+
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startTrackEdit();
+                    }
+                });
+            }
+        });
+        mHandler.sendEmptyMessage(MSG_SHOW_SCANNING_PAGE);
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_SCAN_FAILED_PAGE, SCAN_TIMEOUT);
+
     }
 
     private void startSearchingAnimation() {
@@ -207,18 +207,22 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
     @Override
     protected void onResume() {
-
         super.onResume();
-        if (!mBluetoothAdapter.isEnabled()) {
-            if (!mBluetoothAdapter.isEnabled()) {
-                mBluetoothAdapter.enable();
-            }
-        }
         mBindingDotsMarquee.startMarquee();
         mConnecingDotsMarquee.startMarquee();
         startSearchingAnimation();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mBindingDotsMarquee.stopMarquee();
+        mConnecingDotsMarquee.stopMarquee();
+
+        if(!mDeviceScanSuccess) {
+            mBluetoothLeService.scanForAddTimeOut();
+        }
+    }
 
 
     @Override
@@ -228,7 +232,8 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.tryAgain:
-
+                mBluetoothLeService.scanForAddTimeOut();
+                scanLeDevice();
                 break;
         }
     }

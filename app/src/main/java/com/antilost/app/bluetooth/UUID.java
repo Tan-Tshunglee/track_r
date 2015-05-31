@@ -26,7 +26,7 @@ public class UUID {
     public static final java.util.UUID BATTERY_SERVICE_UUID = java.util.UUID.fromString(BATTERY_SERVICE_UUID_STRING);
     public static final java.util.UUID IMMEDIATE_ALERT_SERVICE_UUID = java.util.UUID.fromString(IMMEDIATE_ALERT_SERVICE_UUID_STRING);
 
-    public static final java.util.UUID CUSTOM_VERIFIED_SERVICE = java.util.UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
+    public static final java.util.UUID CUSTOM_SERVICE = java.util.UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_CUSTOM_SYSTEMID = java.util.UUID.fromString("0000fff3-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_CUSTOM_VERIFIED = java.util.UUID.fromString("0000fff4-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_PRESSED_FOR_ADD = java.util.UUID.fromString("0000fff5-0000-1000-8000-00805f9b34fb");
