@@ -2101,7 +2101,14 @@ public class BluetoothLeService extends Service implements
         }
         //{0x02}; //高音 {0x01}; 低音
         c.setValue(new byte[]{02});
-        return gatt.writeCharacteristic(c);
+
+        if(gatt.writeCharacteristic(c)) {
+            Log.v(LOG_TAG, "write ring characteristic ok");
+            return true;
+        } else {
+            Log.v(LOG_TAG, "write ring characteristic failed");
+        }
+        return false;
     }
 
     public boolean silentRing(String bluetoothDeviceAddress) {
