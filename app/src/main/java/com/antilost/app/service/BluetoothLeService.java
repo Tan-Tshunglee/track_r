@@ -1821,20 +1821,12 @@ public class BluetoothLeService extends Service implements
         boolean alertEnabled = mPrefsManager.getTrackAlert(address);
         //safe zone and sleep mode in sleep time
         if(safeZone || (sleepMode && inSleepTime)) {
-            if(sleeping == null || !sleeping) {
-                return sleepTrack(address);
-            } else {
-                Log.d(LOG_TAG, "track already sleep.");
-            }
+            sleepTrack(address);
         } else {
             if(alertEnabled) {
-                if(sleeping == null || sleeping) {
-                    return wakeupTrack(address);
-                }
+                wakeupTrack(address);
             } else {
-                if(sleeping == null || !sleeping) {
-                    sleepTrack(address);
-                }
+                sleepTrack(address);
             }
         }
         return false;
