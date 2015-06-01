@@ -437,34 +437,9 @@ public class BluetoothLeService extends Service implements
 
     private class MyBluetootGattCallback extends BluetoothGattCallback {
         @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
 
             final String address = gatt.getDevice().getAddress();
-            //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
-            //when track lose power, status is 8
-            //phone bluetooth disable status is 22
-            if (status != BluetoothGatt.GATT_SUCCESS
-                    && status != 8
-                    && status != 22
-                    && newState != BluetoothProfile.STATE_DISCONNECTED) {
-                try {
-                    Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    if(address.equals(mAddingDeviceAddress)) {
-                        notifyScanFailure();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                mConnectionState = ConnectionState.IDLE;
-                mWaitingConnectionTracks.remove(address);
-                Log.e(LOG_TAG, "connect failed,  set state to idle");
-                return;
-            }
-
 
             if(!mPrefsManager.validUserLog()) {
                 Log.v(LOG_TAG, "user logout close connection");
@@ -475,6 +450,40 @@ public class BluetoothLeService extends Service implements
                 mAddingDeviceAddress = null;
                 return;
             }
+
+
+            //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
+            //when track lose power, status is 8
+            //phone bluetooth disable status is 22
+            if (address.equals(mAddingDeviceAddress)) {
+                Log.i(LOG_TAG, "connect new add track failed retry..");
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gatt.connect();
+                    }
+                }, 500);
+                return;
+            } else {
+                if (status != BluetoothGatt.GATT_SUCCESS
+                        && status != 8
+                        && status != 22
+                        && newState != BluetoothProfile.STATE_DISCONNECTED) {
+                    try {
+                        Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
+                        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                        mBluetoothGatts.remove(address);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mConnectionState = ConnectionState.IDLE;
+                    mWaitingConnectionTracks.remove(address);
+                    Log.e(LOG_TAG, "connect failed,  set state to idle");
+                    return;
+                }
+            }
+
+
             if(!mPrefsManager.getTrackIds().contains(address)) {
                 Log.w(LOG_TAG, "close an old connection after unbind.");
 
@@ -701,7 +710,12 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
                                 updateAndroidConnection(address);
-                                updatesSingleTrackSleepState(address);
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updatesSingleTrackSleepState(address);
+                                    }
+                                }, 500);
                                 notifyScanSuccess();
                             }
                         }, 200);
@@ -852,7 +866,12 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
                                 updateAndroidConnection(address);
-                                updatesSingleTrackSleepState(address);
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updatesSingleTrackSleepState(address);
+                                    }
+                                }, 500);
                             }
                         }
                     }, 1000);
@@ -1176,6 +1195,7 @@ public class BluetoothLeService extends Service implements
                     updateRepeatAlarmRegister(true);
                 }
             } else if(WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+                Log.d(LOG_TAG, "NETWORK_STATE_CHANGED_ACTION update all track sleep State");
                 updateAllTrackSleepState();
             }
         }
@@ -1723,7 +1743,7 @@ public class BluetoothLeService extends Service implements
                     Log.v(LOG_TAG, "write sleep character ok");
                     return true;
                 } else {
-                    Log.e(LOG_TAG, "write sleep character ok");
+                    Log.e(LOG_TAG, "write sleep character failed");
                     return false;
                 }
 
@@ -1932,9 +1952,6 @@ public class BluetoothLeService extends Service implements
                 }
             }
         }, needReconnectionDelay ? 500 : 0);
-
-
-
     }
 
 
@@ -2218,6 +2235,10 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onLeScan(final BluetoothDevice bluetoothDevice, int rssi, byte[] bytes) {
             if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
+                String name = bluetoothDevice.getName();
+                if(!Utils.DEVICE_NAME.equals(name)) {
+                    return;
+                }
                 String address = bluetoothDevice.getAddress();
                 if(mPrefsManager.getTrackIds().contains(address)) {
                     return;
@@ -2233,7 +2254,7 @@ public class BluetoothLeService extends Service implements
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            tryConnectGatt(mConnectingTrackAddress, bluetoothDevice);
+                            tryConnectGatt(mAddingDeviceAddress, bluetoothDevice);
                         }
                     }, 1000);
                 }
