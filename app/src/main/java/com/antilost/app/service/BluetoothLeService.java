@@ -60,6 +60,7 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
+import com.antilost.app.util.WiFiManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -1174,6 +1175,8 @@ public class BluetoothLeService extends Service implements
                     enterFastRepeatMode();
                     updateRepeatAlarmRegister(true);
                 }
+            } else if(WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+                updateAllTrackSleepState();
             }
         }
     };
@@ -1375,6 +1378,7 @@ public class BluetoothLeService extends Service implements
         TrackRApplication app = (TrackRApplication) getApplication();
         app.setBluetootLeService(this);
         mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(mReceiver, mIntentFilter);
 
     }
@@ -1656,6 +1660,7 @@ public class BluetoothLeService extends Service implements
             Log.i(LOG_TAG, "all trackr connected, exit fast repeat mode");
             exitFastRepeatMode();
         }
+
         return true;
     }
 
