@@ -69,6 +69,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -608,7 +609,8 @@ public class BluetoothLeService extends Service implements
 
             mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
-            verifyConnection(gatt);
+            Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
+            mHandler.sendMessageDelayed(msg, 1000);
             registerLocationListener();
             broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
 
@@ -916,9 +918,7 @@ public class BluetoothLeService extends Service implements
 
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
-
             receiverRssi(address, rssi);
-
         }
     }
 
@@ -1075,12 +1075,6 @@ public class BluetoothLeService extends Service implements
         }
     }
 
-    private void verifyConnection(BluetoothGatt gatt) {
-
-        Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
-        mHandler.sendMessageDelayed(msg, 500);
-
-    }
 
     private void log(String msg) {
         if(BuildConfig.DEBUG) Log.d(LOG_TAG, msg);
@@ -1251,7 +1245,6 @@ public class BluetoothLeService extends Service implements
 
                         if(service != null) {
                             BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
-
                             if(characteristic != null) {
                                 characteristic.setValue(Utils.VERIFY_CODE);
                                 if(gatt.writeCharacteristic(characteristic)) {
@@ -1261,6 +1254,10 @@ public class BluetoothLeService extends Service implements
                                     log("write verify code failed.");
                                 }
                             } else {
+                                List<BluetoothGattCharacteristic> list = service.getCharacteristics();
+                                for (BluetoothGattCharacteristic c : list) {
+                                    Log.v(LOG_TAG, "custom service has Characteristic with uuid:" + c.getUuid());
+                                }
                                 Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
                             }
                         } else {
@@ -1273,6 +1270,7 @@ public class BluetoothLeService extends Service implements
                         mGattConnectionStates.put(mConnectingTrackAddress, BluetoothProfile.STATE_DISCONNECTED);
 
                         if(gatt.getDevice().getAddress().equals(mAddingDeviceAddress)) {
+                            gatt.close();
                             notifyScanFailure();
                         }
                         break;
@@ -2098,6 +2096,7 @@ public class BluetoothLeService extends Service implements
 
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
         if (c == null) {
+            Log.e(LOG_TAG, "ring characteristic is null");
             return false;
         }
         //{0x02}; //高音 {0x01}; 低音

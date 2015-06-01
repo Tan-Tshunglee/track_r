@@ -81,7 +81,12 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     break;
                 case MSG_DELAY_INIT:
                     updateRssi(true);
-                    updateBatteryLevel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBatteryLevel();
+                        }
+                    }, 1000);
                     break;
             }
         }

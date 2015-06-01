@@ -220,7 +220,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         mConnecingDotsMarquee.stopMarquee();
 
         if(!mDeviceScanSuccess) {
-            mBluetoothLeService.scanForAddTimeOut();
+            if(mBluetoothLeService != null) {
+
+                mBluetoothLeService.scanForAddTimeOut();
+            }
         }
     }
 
