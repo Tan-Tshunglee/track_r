@@ -455,14 +455,15 @@ public class BluetoothLeService extends Service implements
             //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
             //when track lose power, status is 8
             //phone bluetooth disable status is 22
-            if (address.equals(mAddingDeviceAddress)) {
-                Log.i(LOG_TAG, "connect new add track failed retry..");
+            if (address.equals(mAddingDeviceAddress) && status != BluetoothGatt.GATT_SUCCESS) {
+                Log.i(LOG_TAG, "connect new add track failed retry.. status code:" + status);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        gatt.connect();
+                        gatt.close();
+                        tryConnectGatt(address, mBluetoothAdapter.getRemoteDevice(address));
                     }
-                }, 500);
+                }, 1000);
                 return;
             } else {
                 if (status != BluetoothGatt.GATT_SUCCESS
@@ -2237,6 +2238,7 @@ public class BluetoothLeService extends Service implements
             if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
                 String name = bluetoothDevice.getName();
                 if(!Utils.DEVICE_NAME.equals(name)) {
+                    Log.i(LOG_TAG, "onLeScan....");
                     return;
                 }
                 String address = bluetoothDevice.getAddress();
