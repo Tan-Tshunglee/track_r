@@ -110,7 +110,7 @@ public class PrefsManager {
 
     public boolean addTrackId(String trackId) {
         Set<String> ids = getTrackIds();
-        if(ids.size() >= ScanTrackActivity.MAX_COUNT) {
+        if(ids.size() >= ScanTrackActivity.MAX_TRACK_SUPPORT_COUNT) {
             return false;
         }
         return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_TRACK_IDS_KEY, ids).commit();
@@ -130,7 +130,7 @@ public class PrefsManager {
 
     public boolean addNewlyTrackId(String trackId) {
         Set<String> ids = getNewlyTrackIds();
-        if(ids.size() >= ScanTrackActivity.MAX_COUNT) {
+        if(ids.size() >= ScanTrackActivity.MAX_TRACK_SUPPORT_COUNT) {
             return false;
         }
         return ids.add(trackId) &&  mPrefs.edit().putStringSet(PREFS_NEWLY_ADD_TRACKS_KEY, ids).commit();
@@ -426,6 +426,10 @@ public class PrefsManager {
         return false;
     }
 
+    public boolean hasTrack(String address) {
+        return getTrackIds().contains(address);
+    }
+
 
     public void saveDeclareLost(String address, boolean declareLost) {
         String key = PREFS_DECLARE_LOST_KEY_PREFIX + address;
@@ -467,6 +471,7 @@ public class PrefsManager {
         CsstSHImageData.removePhoto(address);
         removeTrackFile(address);
     }
+
 
 
 }

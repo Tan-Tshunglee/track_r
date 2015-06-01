@@ -116,6 +116,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+
         }
 
         @Override
@@ -127,7 +128,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     private ImageView mImageView;
     private String[] mTypeNames;
     private boolean mEditNewTrack;
-    private BluetoothGatt mBluetoothGatt;
     private TextView mTitleTextView;
 
 
@@ -136,20 +136,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
         mEditNewTrack = getIntent().getBooleanExtra(EXTRA_EDIT_NEW_TRACK, false);
-
-        if(mEditNewTrack) {
-            if(ScanTrackActivity.sBluetoothConnected != null) {
-                mBluetoothGatt = ScanTrackActivity.sBluetoothConnected;
-                ScanTrackActivity.sBluetoothConnected = null;
-            }
-
-            if(mBluetoothGatt == null) {
-                Toast.makeText(this, "Try to edit an null connected gatt", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
-        }
-
 
 
         if(TextUtils.isEmpty(mBluetoothDeviceAddress)) {
@@ -176,7 +162,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         Uri customIconUri = CsstSHImageData.getIconImageUri(mBluetoothDeviceAddress);
 
         if(customIconUri != null) {
-//            mImageView.setImageURI(customIconUri);
             mImageView.setImageBitmap(CsstSHImageData.toRoundCorner(CsstSHImageData.getIconImageString(mBluetoothDeviceAddress)));
         }
 
@@ -198,7 +183,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         for(int id: TypeIds) {
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
-        startService(new Intent(this, BluetoothLeService.class));
 
         bindService(new Intent(this, BluetoothLeService.class), mServiceConnection, BIND_AUTO_CREATE);
     }
@@ -213,11 +197,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mBluetoothGatt != null) {
-            mBluetoothGatt.close();
-            mBluetoothGatt = null;
-            Log.i(LOG_TAG, "found unused gatt. close it.");
-        }
         if(mBluetoothLeService != null) {
             unbindService(mServiceConnection);
         }
@@ -350,10 +329,6 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         }
 
 
-        if(mBluetoothGatt != null) {
-            mBluetoothGatt.close();
-            mBluetoothGatt = null;
-        }
 
         Thread t = new Thread() {
             @Override
@@ -382,6 +357,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             }
         };
         t.start();
+        mBluetoothLeService.clearAfterAddSuccess();
         finish();
     }
 

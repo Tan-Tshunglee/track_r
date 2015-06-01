@@ -392,26 +392,11 @@ public class MainTrackRListActivity extends BaseActivity implements View.OnClick
         mDisconnectedDialog = builder.create();
     }
 
-    private void editBluetoothDevice(String deviceAddress) {
-        Intent i = new Intent(this, TrackREditActivity.class);
-        i.putExtra(TrackREditActivity.BLUETOOTH_ADDRESS_BUNDLE_KEY, deviceAddress);
-        startActivity(i);
-    }
 
     public BluetoothLeService getBluetoothLeService() {
         return mBluetoothLeService;
     }
 
-    public boolean isBluetoothConnected(String address) {
-        if(mBluetoothLeService == null) {
-            return false;
-        }
-
-        if(mBluetoothLeService.isGattConnected(address)) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
