@@ -60,6 +60,7 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
+import com.antilost.app.util.WiFiManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -68,6 +69,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -436,34 +438,9 @@ public class BluetoothLeService extends Service implements
 
     private class MyBluetootGattCallback extends BluetoothGattCallback {
         @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
 
             final String address = gatt.getDevice().getAddress();
-            //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
-            //when track lose power, status is 8
-            //phone bluetooth disable status is 22
-            if (status != BluetoothGatt.GATT_SUCCESS
-                    && status != 8
-                    && status != 22
-                    && newState != BluetoothProfile.STATE_DISCONNECTED) {
-                try {
-                    Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    if(address.equals(mAddingDeviceAddress)) {
-                        notifyScanFailure();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                mConnectionState = ConnectionState.IDLE;
-                mWaitingConnectionTracks.remove(address);
-                Log.e(LOG_TAG, "connect failed,  set state to idle");
-                return;
-            }
-
 
             if(!mPrefsManager.validUserLog()) {
                 Log.v(LOG_TAG, "user logout close connection");
@@ -474,6 +451,41 @@ public class BluetoothLeService extends Service implements
                 mAddingDeviceAddress = null;
                 return;
             }
+
+
+            //status 8 means GATT_INSUF_AUTHORIZATION, on Samsung S5 android 5.0,
+            //when track lose power, status is 8
+            //phone bluetooth disable status is 22
+            if (address.equals(mAddingDeviceAddress) && status != BluetoothGatt.GATT_SUCCESS) {
+                Log.i(LOG_TAG, "connect new add track failed retry.. status code:" + status);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gatt.close();
+                        tryConnectGatt(address, mBluetoothAdapter.getRemoteDevice(address));
+                    }
+                }, 1000);
+                return;
+            } else {
+                if (status != BluetoothGatt.GATT_SUCCESS
+                        && status != 8
+                        && status != 22
+                        && newState != BluetoothProfile.STATE_DISCONNECTED) {
+                    try {
+                        Log.e(LOG_TAG, "onConnectionStateChange gatt status is not success. status is " + status);
+                        mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                        mBluetoothGatts.remove(address);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mConnectionState = ConnectionState.IDLE;
+                    mWaitingConnectionTracks.remove(address);
+                    Log.e(LOG_TAG, "connect failed,  set state to idle");
+                    return;
+                }
+            }
+
+
             if(!mPrefsManager.getTrackIds().contains(address)) {
                 Log.w(LOG_TAG, "close an old connection after unbind.");
 
@@ -597,7 +609,8 @@ public class BluetoothLeService extends Service implements
 
             mGattConnectionStates.put(address, BluetoothProfile.STATE_CONNECTING);
             mBluetoothGatts.put(gatt.getDevice().getAddress(), gatt);
-            verifyConnection(gatt);
+            Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
+            mHandler.sendMessageDelayed(msg, 1000);
             registerLocationListener();
             broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED, address);
 
@@ -700,7 +713,12 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
                                 updateAndroidConnection(address);
-                                updatesSingleTrackSleepState(address);
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updatesSingleTrackSleepState(address);
+                                    }
+                                }, 500);
                                 notifyScanSuccess();
                             }
                         }, 200);
@@ -851,7 +869,12 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
                                 updateAndroidConnection(address);
-                                updatesSingleTrackSleepState(address);
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updatesSingleTrackSleepState(address);
+                                    }
+                                }, 500);
                             }
                         }
                     }, 1000);
@@ -895,9 +918,7 @@ public class BluetoothLeService extends Service implements
 
             mGattsRssis.put(gatt.getDevice().getAddress(), rssi);
             broadcastRssiRead();
-
             receiverRssi(address, rssi);
-
         }
     }
 
@@ -1054,12 +1075,6 @@ public class BluetoothLeService extends Service implements
         }
     }
 
-    private void verifyConnection(BluetoothGatt gatt) {
-
-        Message msg = mHandler.obtainMessage(MSG_VERIFY_CONNECTION_AFTER_SERVICE_DISCOVER, gatt);
-        mHandler.sendMessageDelayed(msg, 500);
-
-    }
 
     private void log(String msg) {
         if(BuildConfig.DEBUG) Log.d(LOG_TAG, msg);
@@ -1174,6 +1189,9 @@ public class BluetoothLeService extends Service implements
                     enterFastRepeatMode();
                     updateRepeatAlarmRegister(true);
                 }
+            } else if(WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+                Log.d(LOG_TAG, "NETWORK_STATE_CHANGED_ACTION update all track sleep State");
+                updateAllTrackSleepState();
             }
         }
     };
@@ -1227,7 +1245,6 @@ public class BluetoothLeService extends Service implements
 
                         if(service != null) {
                             BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
-
                             if(characteristic != null) {
                                 characteristic.setValue(Utils.VERIFY_CODE);
                                 if(gatt.writeCharacteristic(characteristic)) {
@@ -1237,6 +1254,10 @@ public class BluetoothLeService extends Service implements
                                     log("write verify code failed.");
                                 }
                             } else {
+                                List<BluetoothGattCharacteristic> list = service.getCharacteristics();
+                                for (BluetoothGattCharacteristic c : list) {
+                                    Log.v(LOG_TAG, "custom service has Characteristic with uuid:" + c.getUuid());
+                                }
                                 Log.e(LOG_TAG, "gatt has no custom verified characteristic in verifyConnection");
                             }
                         } else {
@@ -1249,6 +1270,7 @@ public class BluetoothLeService extends Service implements
                         mGattConnectionStates.put(mConnectingTrackAddress, BluetoothProfile.STATE_DISCONNECTED);
 
                         if(gatt.getDevice().getAddress().equals(mAddingDeviceAddress)) {
+                            gatt.close();
                             notifyScanFailure();
                         }
                         break;
@@ -1375,6 +1397,7 @@ public class BluetoothLeService extends Service implements
         TrackRApplication app = (TrackRApplication) getApplication();
         app.setBluetootLeService(this);
         mIntentFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(mReceiver, mIntentFilter);
 
     }
@@ -1656,6 +1679,7 @@ public class BluetoothLeService extends Service implements
             Log.i(LOG_TAG, "all trackr connected, exit fast repeat mode");
             exitFastRepeatMode();
         }
+
         return true;
     }
 
@@ -1718,7 +1742,7 @@ public class BluetoothLeService extends Service implements
                     Log.v(LOG_TAG, "write sleep character ok");
                     return true;
                 } else {
-                    Log.e(LOG_TAG, "write sleep character ok");
+                    Log.e(LOG_TAG, "write sleep character failed");
                     return false;
                 }
 
@@ -1797,20 +1821,12 @@ public class BluetoothLeService extends Service implements
         boolean alertEnabled = mPrefsManager.getTrackAlert(address);
         //safe zone and sleep mode in sleep time
         if(safeZone || (sleepMode && inSleepTime)) {
-            if(sleeping == null || !sleeping) {
-                return sleepTrack(address);
-            } else {
-                Log.d(LOG_TAG, "track already sleep.");
-            }
+            sleepTrack(address);
         } else {
             if(alertEnabled) {
-                if(sleeping == null || sleeping) {
-                    return wakeupTrack(address);
-                }
+                wakeupTrack(address);
             } else {
-                if(sleeping == null || !sleeping) {
-                    sleepTrack(address);
-                }
+                sleepTrack(address);
             }
         }
         return false;
@@ -1927,9 +1943,6 @@ public class BluetoothLeService extends Service implements
                 }
             }
         }, needReconnectionDelay ? 500 : 0);
-
-
-
     }
 
 
@@ -2075,11 +2088,19 @@ public class BluetoothLeService extends Service implements
 
         BluetoothGattCharacteristic c = alertService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
         if (c == null) {
+            Log.e(LOG_TAG, "ring characteristic is null");
             return false;
         }
         //{0x02}; //高音 {0x01}; 低音
         c.setValue(new byte[]{02});
-        return gatt.writeCharacteristic(c);
+
+        if(gatt.writeCharacteristic(c)) {
+            Log.v(LOG_TAG, "write ring characteristic ok");
+            return true;
+        } else {
+            Log.v(LOG_TAG, "write ring characteristic failed");
+        }
+        return false;
     }
 
     public boolean silentRing(String bluetoothDeviceAddress) {
@@ -2213,6 +2234,11 @@ public class BluetoothLeService extends Service implements
         @Override
         public void onLeScan(final BluetoothDevice bluetoothDevice, int rssi, byte[] bytes) {
             if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
+                String name = bluetoothDevice.getName();
+                if(!Utils.DEVICE_NAME.equals(name)) {
+                    Log.i(LOG_TAG, "onLeScan....");
+                    return;
+                }
                 String address = bluetoothDevice.getAddress();
                 if(mPrefsManager.getTrackIds().contains(address)) {
                     return;
@@ -2228,7 +2254,7 @@ public class BluetoothLeService extends Service implements
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            tryConnectGatt(mConnectingTrackAddress, bluetoothDevice);
+                            tryConnectGatt(mAddingDeviceAddress, bluetoothDevice);
                         }
                     }, 1000);
                 }

@@ -81,7 +81,12 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     break;
                 case MSG_DELAY_INIT:
                     updateRssi(true);
-                    updateBatteryLevel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateBatteryLevel();
+                        }
+                    }, 1000);
                     break;
             }
         }
@@ -93,8 +98,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            updateRssi(true);
-            updateBatteryLevel();
+//            updateBatteryLevel()
             updateStateUi();
         }
 
@@ -279,8 +283,6 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeBroadcastReceiverIntentFilter());
         mHandler.sendEmptyMessageDelayed(MSG_DELAY_INIT, 5000);
-
-        updateRssi(true);
         updateStateUi();
 
     }
@@ -441,9 +443,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
             case R.id.ring:
 
                 if(mBluetoothLeService == null) {
+                    Log.e(LOG_TAG, "service not connected...");
                     return;
                 }
                 if(!mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                    Log.e(LOG_TAG, "track not connected...");
                     return;
                 }
 
@@ -472,7 +476,7 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     if(location != null) {
                         LocUtils.viewLocation(this, location, mBluetoothDeviceAddress);
                     } else {
-                        Log.w(LOG_TAG, "no location found.");
+                        Log.w(LOG_TAG, "o location found.");
                     }
                 } else {
 
