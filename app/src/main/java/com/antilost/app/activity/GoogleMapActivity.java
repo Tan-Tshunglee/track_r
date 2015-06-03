@@ -61,14 +61,13 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         MarkerOptions marker = new MarkerOptions();
+        LatLng latLng = new LatLng(mLostLocation.getLatitude(), mLostLocation.getLongitude());
+
         if(mPrefs.isMissedTrack(getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS))) {
             marker.title(getString(R.string.place_lost));
+            marker.position(latLng);
+            mGoogleMap.addMarker(marker);
         }
-
-        LatLng latLng = new LatLng(mLostLocation.getLatitude(), mLostLocation.getLongitude());
-        marker.position(latLng);
-
-        mGoogleMap.addMarker(marker);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mGoogleMap.moveCamera(cameraUpdate);

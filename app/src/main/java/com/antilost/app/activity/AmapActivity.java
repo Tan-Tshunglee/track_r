@@ -63,11 +63,12 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             markerOptions.position(new LatLng(lat, lng));
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
             if(mPrefsManager.isMissedTrack(address)) {
+                Marker marker = mAmap.addMarker(markerOptions);
                 markerOptions.title(getString(R.string.place_lost));
+                marker.setPosition(new LatLng(lat, lng));
+                marker.setVisible(true);
             }
-            Marker marker = mAmap.addMarker(markerOptions);
-            marker.setPosition(new LatLng(lat, lng));
-            marker.setVisible(true);
+
             CameraUpdate camera = CameraUpdateFactory.newLatLng(new LatLng(lat, lng));
             mAmap.moveCamera(camera);
             //max zoom level

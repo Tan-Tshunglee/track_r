@@ -94,7 +94,7 @@ public class BluetoothLeService extends Service implements
     public static  final String INTENT_FROM_BROADCAST_EXTRA_KEY_NAME = "INTENT_FROM_BROADCAST_EXTRA_KEY_NAME";
 
 
-    //    private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
+    //private static final int MSG_CLEANUP_DISCONNECTED_GATT = 2;
     private static final int MSG_LOOP_READ_RSSI = 3;
     private static final int MSG_FAST_REPEAT_MODE_FLAG = 4;
     private static final int MSG_DISCOVER_BLE_SERVICES = 5;
@@ -423,6 +423,9 @@ public class BluetoothLeService extends Service implements
 
 
     public Location getLastLocation() {
+        if(mLastLocation == null) {
+            registerLocationListener();
+        }
         return mLastLocation;
     }
 

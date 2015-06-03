@@ -221,8 +221,11 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
         if(!mDeviceScanSuccess) {
             if(mBluetoothLeService != null) {
-
                 mBluetoothLeService.scanForAddTimeOut();
+            }
+        } else {
+            if(mBluetoothLeService != null) {
+                mBluetoothLeService.clearAfterAddSuccess();
             }
         }
     }
