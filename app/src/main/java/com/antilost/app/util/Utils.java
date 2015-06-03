@@ -41,6 +41,8 @@ public class Utils {
 
     public static final String DEVICE_NAME = "TrackR";
     public static final String DEVICE_KEY_PRESSED_NAME = "Track0";
+
+    public static final String NAME_NEED_VERSION = "version";
     public static final byte[] VERIFY_CODE = new byte[]{(byte) 0xA1, (byte) 0xA2, (byte) 0xA3, (byte) 0xA4};
 
     public static final boolean isValidMacAddress(String mac) {

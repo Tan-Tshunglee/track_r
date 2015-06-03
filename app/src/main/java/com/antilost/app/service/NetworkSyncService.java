@@ -103,7 +103,7 @@ public class NetworkSyncService extends Service {
                 } else {
                     if(command.success()) {
                         CsstSHImageData.removePhoto(id);
-                        Log.e(LOG_TAG, "fetch track image No rawImageData return.");
+                        Log.d(LOG_TAG, "fetch track image No rawImageData return.");
                     }
                 }
 

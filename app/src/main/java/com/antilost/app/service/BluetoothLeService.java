@@ -162,6 +162,12 @@ public class BluetoothLeService extends Service implements
             "com.antilost.bluetooth.le.ACTION_DEVICE_STOP_RING_COMMAND_WRITE_DONE";
 
 
+    public final static String ACTION_DEVICE_HARDWARE_VERSION_READ =
+            "com.antilost.bluetooth.le.ACTION_DEVICE_HARDWARE_VERSION_READ";
+
+    public final static String EXTRA_KEY_HARDWARE_VERSION =
+            "EXTRA_KEY_HARDWARE_VERSION";
+
 
     public final static String ACTION_STOP_BACKGROUND_LOOP =
             "com.antilost.bluetooth.le.ACTION_STOP_BACKGROUND_LOOP";
@@ -199,7 +205,6 @@ public class BluetoothLeService extends Service implements
     private ConnectivityManager mConnectivityManager;
     private LocationManager mLocationManager;
     private ScanResultListener mScanResultListener;
-
 
 
 
@@ -726,6 +731,12 @@ public class BluetoothLeService extends Service implements
                             }
                         }, 200);
                     }
+                } else if(cId.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_HARDWARE_VERSION)) {
+                    byte[] versions = characteristic.getValue();
+                    Intent i = new Intent(ACTION_DEVICE_HARDWARE_VERSION_READ);
+                    i.putExtra(EXTRA_KEY_BLUETOOTH_ADDRESS, address);
+                    i.putExtra(EXTRA_KEY_HARDWARE_VERSION, versions);
+                    sendBroadcast(i);
                 }
             }
         }
@@ -2315,6 +2326,24 @@ public class BluetoothLeService extends Service implements
 
         mAddingDeviceAddress = null;
         mScanResultListener = null;
+    }
+
+    public void requestTrackHardwareVersion(String address) {
+        Integer state = mGattConnectionStates.get(address);
+        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
+            BluetoothGattService service = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_SERVICE);
+            if(service != null) {
+                BluetoothGattCharacteristic hardWareVersionCharacteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_HARDWARE_VERSION);
+                if(hardWareVersionCharacteristic != null) {
+                    gatt.readCharacteristic(hardWareVersionCharacteristic);
+                } else {
+                    Log.e(LOG_TAG, "read hareware version characteristic is null in requestTrackHardwareVersion");
+                }
+            } else {
+                Log.e(LOG_TAG, "custom service is null in requestTrackHardwareVersion");
+            }
+        }
     }
 
 }

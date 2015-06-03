@@ -278,4 +278,6 @@
     <string name="unable_detemine_current_position">Unable to determine current position</string>
     <string name="location_name_can_not_be_empty">Location name can not be empty.</string>
     <string name="you_are_here">You are here</string>
+
+    <string name="track_hardware_name">Hardware %1$s:%2$s</string>
 </resources>
