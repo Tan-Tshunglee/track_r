@@ -25,7 +25,6 @@ public class UserFeedbackCommand extends Command {
           .append("uid:") .append(mEmail).append(LINE_SPLITTER)
           .append("feedback:").append(encodeFeedback).append(LINE_SPLITTER);
         String result = sb.toString();
-        Log.v(LOG_TAG, "request string is " + result);
         return result;
     }
 }

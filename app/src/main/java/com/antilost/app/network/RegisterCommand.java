@@ -26,7 +26,6 @@ public class RegisterCommand extends Command {
             .append("user:").append(mEmail).append(LINE_SPLITTER)
             .append("password:").append(Base64.encodeToString(mPassword.getBytes(), Base64.NO_WRAP)).append(LINE_SPLITTER);
         String result = sb.toString();
-        Log.v(LOG_TAG, "request string is " + result);
         return result;
     }
 

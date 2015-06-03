@@ -37,7 +37,6 @@ public class FetchAllTrackRCommand extends Command {
                 String[] trackrs = addressesStr.split(",");
 
                 for(String t: trackrs) {
-                    Log.i(LOG_TAG, "t is " + t);
                     //format address|name|type
                     String[] trackInfo = t.split("\\|");
                     String address = trackInfo[0];
