@@ -1528,7 +1528,7 @@ public class BluetoothLeService extends Service implements
                 reportTrackLostPosition(id);
             }
 
-            Log.i(LOG_TAG, "get location info from amap location,  lat is " + loc.getLatitude() + "the long is " + loc.getLongitude());
+            Log.i(LOG_TAG, "get location info,  lat is " + loc.getLatitude() + "the long is " + loc.getLongitude());
             unregisterAmapLocationListener();
         }
     }
