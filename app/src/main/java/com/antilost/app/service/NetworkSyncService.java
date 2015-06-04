@@ -101,8 +101,10 @@ public class NetworkSyncService extends Service {
                     Log.v(LOG_TAG, "get rawImageData length is " + rawImageData.length);
                     saveDataToFile(rawImageData, id);
                 } else {
-                    CsstSHImageData.removePhoto(id);
-                    Log.e(LOG_TAG, "fetch track image No rawImageData return.");
+                    if(command.success()) {
+                        CsstSHImageData.removePhoto(id);
+                        Log.d(LOG_TAG, "fetch track image No rawImageData return.");
+                    }
                 }
 
                 if(fetchLostLocation.success()) {

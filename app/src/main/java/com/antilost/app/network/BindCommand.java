@@ -30,7 +30,6 @@ public class BindCommand extends Command {
                 .append("losserid:").append(mTrackId).append(LINE_SPLITTER);
         appendEncodePassword(sb);
         String result = sb.toString();
-        Log.v(LOG_TAG, "request string is " + result);
         return result;
     }
 }

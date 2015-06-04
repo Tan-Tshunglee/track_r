@@ -63,6 +63,7 @@ public class UpdateTrackImageCommand extends Command {
             sb.append("uid:").append(mUid).append(LINE_SPLITTER);
             sb.append("losserid:").append(mAddress).append(LINE_SPLITTER);
             sb.append("pic:").append(LINE_SPLITTER);
+            appendEncodePassword(sb);
             return sb.toString();
         }
         return null;

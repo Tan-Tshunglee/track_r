@@ -30,6 +30,7 @@ public class UUID {
     public static final java.util.UUID CHARACTERISTIC_CUSTOM_SYSTEMID = java.util.UUID.fromString("0000fff3-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_CUSTOM_VERIFIED = java.util.UUID.fromString("0000fff4-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_PRESSED_FOR_ADD = java.util.UUID.fromString("0000fff5-0000-1000-8000-00805f9b34fb");
+    public static final java.util.UUID CHARACTERISTIC_HARDWARE_VERSION = java.util.UUID.fromString("0000fff2-0000-1000-8000-00805f9b34fb");
     public static final java.util.UUID CHARACTERISTIC_ANDROID_SYSTEM_FLAG = java.util.UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb");
 
 

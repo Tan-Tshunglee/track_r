@@ -19,7 +19,6 @@ public class SendPassowdCommand extends Command {
         sb.append("cmd:getpasswd").append(LINE_SPLITTER)
                 .append("uid:") .append(mEmail).append(LINE_SPLITTER);
         String result = sb.toString();
-        Log.v(LOG_TAG, "request string is " + result);
         return result;
 
     }

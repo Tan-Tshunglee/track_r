@@ -23,7 +23,6 @@ public class UnbindCommand extends Command {
                 .append("losserid:").append(mAddress).append(LINE_SPLITTER);
         appendEncodePassword(sb);
         String result = sb.toString();
-        Log.v(LOG_TAG, "request string is " + result);
         return result;
     }
 }

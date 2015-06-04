@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.mod.Camera;
 import com.antilost.app.R;
@@ -475,8 +476,9 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                     Location location = mBluetoothLeService.getLastLocation();
                     if(location != null) {
                         LocUtils.viewLocation(this, location, mBluetoothDeviceAddress);
+                        return;
                     } else {
-                        Log.w(LOG_TAG, "o location found.");
+                        Log.w(LOG_TAG, "no location found.");
                     }
                 } else {
 
@@ -495,11 +497,14 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                         location = mBluetoothLeService.getLastLocation();
                         if(location != null) {
                             LocUtils.viewLocation(this, location, mBluetoothDeviceAddress);
+                            return;
                         }
                     } else {
                         LocUtils.viewLocation(this, location, mBluetoothDeviceAddress);
+                        return;
                     }
                 }
+                Toast.makeText(this, "Can not find your location!", Toast.LENGTH_SHORT).show();
 
                 break;
 

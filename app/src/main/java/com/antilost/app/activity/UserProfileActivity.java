@@ -280,7 +280,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
                 Intent intent = new Intent(UserProfileActivity.this, FeedBackActivity.class);
                 startActivity(intent);
 
-
             }
         });
 
@@ -307,7 +306,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
             public void onClick(View v) {
                 mPrefsManager.logoutUser();
                 mPrefsManager.setSavePasswordChecked(false);
-                mPrefsManager.savePassword("");
                 sendBroadcast(new Intent(ACTION_USER_LOGOUT));
                 UserProfileActivity.this.finish();
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));

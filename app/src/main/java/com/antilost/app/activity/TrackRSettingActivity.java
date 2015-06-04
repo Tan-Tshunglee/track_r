@@ -13,8 +13,8 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
@@ -69,7 +69,7 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     private CheckBox mTrackAlert;
     private Switch mSleepMode;
     private ImageView mTrackImage;
-    private TextView trackName;
+    private TextView mTrackName;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -84,12 +84,30 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                     updateDeclareLayoutVisibility();
                     updateStateUi();
                 }
+            } else if(BluetoothLeService.ACTION_DEVICE_HARDWARE_VERSION_READ.equals(action)) {
+                if(mBluetoothDeviceAddress.equals(address)) {
+                    byte[] versions = intent.getByteArrayExtra(BluetoothLeService.EXTRA_KEY_HARDWARE_VERSION);
+
+                    if(versions != null) {
+                        mTrackVersion.setVisibility(View.VISIBLE);
+                        mTrackVersion.setText(
+                                getString(
+                                        R.string.track_hardware_name,
+                                        String.valueOf(versions[0]),
+                                        String.valueOf(versions[1])
+                                )
+                        );
+                    } else {
+                        mTrackVersion.setVisibility(View.GONE);
+                    }
+
+                }
             }
         }
     };
 
 
-    private IntentFilter filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
+    private IntentFilter mBroadcastIntentFilter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
     private ConnectivityManager mConnectivityManager;
     private CheckBox mPhoneAlert;
     private View mDeclaredLost;
@@ -99,6 +117,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     //    private Bitmap bmp;
     private float scaleWidth = 1;
     private float scaleHeight = 1;
+    private TextView mTrackVersion;
+    private boolean mActivityPaused = false;
 
 
     private void updateDeclareLayoutVisibility() {
@@ -116,10 +136,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         mBluetoothDeviceAddress = getIntent().getStringExtra(BLUETOOTH_ADDRESS_BUNDLE_KEY);
 
-        filter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
-        filter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
-        filter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        filter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        mBroadcastIntentFilter = new IntentFilter(BluetoothLeService.ACTION_DEVICE_CLOSED);
+        mBroadcastIntentFilter.addAction(BluetoothLeService.ACTION_DEVICE_UNBIND);
+        mBroadcastIntentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        mBroadcastIntentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        mBroadcastIntentFilter.addAction(BluetoothLeService.ACTION_DEVICE_HARDWARE_VERSION_READ);
 
         if (TextUtils.isEmpty(mBluetoothDeviceAddress)) {
             Log.w(LOG_TAG, "get empty bluetooth address.");
@@ -127,7 +148,8 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             return;
         }
         setContentView(R.layout.activity_track_rsetting);
-        trackName = (TextView) findViewById(R.id.track_name);
+        mTrackName = (TextView) findViewById(R.id.track_name);
+        mTrackVersion = (TextView) findViewById(R.id.track_version);
         findViewById(R.id.backBtn).setOnClickListener(this);
         btnCloseItrack =(Button) findViewById(R.id.turnOffTrackR);
         findViewById(R.id.turnOffTrackR).setOnClickListener(this);
@@ -187,7 +209,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
             finish();
             return;
         }
-        trackName.setText(mTrack.name);
+        mTrackName.setText(mTrack.name);
+
+        if(Utils.NAME_NEED_VERSION.equals(mTrack.name)) {
+            showTrackVersion();
+        }
         if (customIconFilePath != null) {
             mTrackImage.setImageURI(null);
             float viewWidth = getResources().getDimensionPixelOffset(R.dimen.track_r_setting_icon_size)
@@ -233,6 +259,12 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
         }
     }
 
+    private void showTrackVersion() {
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.requestTrackHardwareVersion(mBluetoothDeviceAddress);
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -243,13 +275,20 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(mReceiver, filter);
-        updateStateUi();
+        registerReceiver(mReceiver, mBroadcastIntentFilter);
+
+        if(mActivityPaused) {
+            mActivityPaused = false;
+            updateStateUi();
+        }
+
+
     }
 
 
     @Override
     protected void onPause() {
+        mActivityPaused = true;
         super.onPause();
         unregisterReceiver(mReceiver);
     }
