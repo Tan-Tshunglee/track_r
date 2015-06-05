@@ -859,7 +859,7 @@ public class BluetoothLeService extends Service implements
                             if (mConnectionState == ConnectionState.CONNECTING) {
                                 mConnectionState = ConnectionState.IDLE;
                                 Log.d(LOG_TAG, "it 's time to read next track");
-                                mHandler.sendEmptyMessageDelayed(MSG_CONNECT_WAITING_TRACK, 1000);
+                                mHandler.sendEmptyMessageDelayed(MSG_CONNECT_WAITING_TRACK, 2000);
 
                                 if (mPrefsManager.isClosedTrack(address)) {
                                     Log.d(LOG_TAG, "reconnect to closed trackr");
