@@ -60,7 +60,6 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.receiver.Receiver;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
-import com.antilost.app.util.WiFiManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -184,7 +183,6 @@ public class BluetoothLeService extends Service implements
     private HashMap<String, Integer> mGattsBatteryLevel = new HashMap<String, Integer>(5);
     private HashSet<String> mLostGpsNeedUpdateIds = new HashSet<String>(5);
     private HashMap<String, Long> mDeclaredLostTrackLastFetchedTime = new HashMap<String, Long>(5);
-    private HashMap<String, Boolean> mGattsSleeping = new HashMap<String, Boolean>(5);
 
 
     private HashSet<String> mUnkownTrackUpload = new HashSet<String>();
@@ -823,11 +821,9 @@ public class BluetoothLeService extends Service implements
                 //2 means wake link lose
                 } else if(value == 2) {
                     Log.v(LOG_TAG, "track wake up done");
-                    mGattsSleeping.remove(address);
                 //0 means sleep track no link lost
                 } else if(value == 0) {
                     Log.v(LOG_TAG, "track sleep done");
-                    mGattsSleeping.put(address, true);
                 }
 
             //custom verify code write
@@ -1750,7 +1746,20 @@ public class BluetoothLeService extends Service implements
             try {
                 BluetoothGatt gatt = mBluetoothGatts.get(address);
                 BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+                if(linkLoss == null) {
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    mBluetoothGatts.remove(address);
+                    gatt.close();
+                    return false;
+                }
                 BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
+
+                if(alertLevelChar == null) {
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    mBluetoothGatts.remove(address);
+                    gatt.close();
+                    return false;
+                }
                 alertLevelChar.setValue(new byte[]{00});
                 if( gatt.writeCharacteristic(alertLevelChar)) {
                     Log.v(LOG_TAG, "write sleep character ok");
@@ -1781,8 +1790,21 @@ public class BluetoothLeService extends Service implements
             try {
                 BluetoothGatt gatt = mBluetoothGatts.get(address);
                 BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+
+                if(linkLoss == null) {
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    mBluetoothGatts.remove(address);
+                    gatt.close();
+                    return false;
+                }
                 BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
 
+                if(alertLevelChar == null) {
+                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                    mBluetoothGatts.remove(address);
+                    gatt.close();
+                    return false;
+                }
                 boolean trackAlertEnabled = mPrefsManager.getTrackAlert(address);
                 alertLevelChar.setValue(new byte[]{(byte) (trackAlertEnabled ? 02 : 00)});
                 if(gatt.writeCharacteristic(alertLevelChar)) {
@@ -1831,7 +1853,6 @@ public class BluetoothLeService extends Service implements
         boolean sleepMode = mPrefsManager.getSleepMode();
         boolean inSleepTime = inSleepTime();
         boolean safeZone = inSafeZone();
-        Boolean sleeping = mGattsSleeping.get(address);
         boolean alertEnabled = mPrefsManager.getTrackAlert(address);
         //safe zone and sleep mode in sleep time
         if(safeZone || (sleepMode && inSleepTime)) {
@@ -2323,7 +2344,6 @@ public class BluetoothLeService extends Service implements
     }
 
     public void clearAfterAddSuccess() {
-
         mAddingDeviceAddress = null;
         mScanResultListener = null;
     }
