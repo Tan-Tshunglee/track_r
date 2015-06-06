@@ -280,4 +280,6 @@
     <string name="you_are_here">You are here</string>
 
     <string name="track_hardware_name">Hardware %1$s:%2$s</string>
+    <string name="reset_active_email_success">Resent active email success</string>
+    <string name="resent_active_email_failed">Resent active email failed</string>
 </resources>
