@@ -658,11 +658,26 @@ public class BluetoothLeService extends Service implements
 
         private void registerKeyListener(BluetoothGatt gatt) {
             //registry key press notification;
-            if (setCharacteristicNotification(gatt,
+            if (setCharacteristicNotification(
+                    gatt,
                     UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID_STRING),
                     com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
                     true)) {
                 Log.v(LOG_TAG, "setCharacteristicNotification ok");
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(setCharacteristicNotification(
+                    gatt,
+                    com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID,
+                    com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID,
+                    true)) {
+
             }
         }
 
@@ -740,7 +755,7 @@ public class BluetoothLeService extends Service implements
                                     mPrefsManager.saveClosedTrack(address, false);
                                 }
                                 if (mPrefsManager.isMissedTrack(address)) {
-                                    notifyDeviceReconnected(address);
+//                                    notifyDeviceReconnected(address);
                                     mPrefsManager.saveMissedTrack(address, false);
                                 }
 
@@ -801,6 +816,9 @@ public class BluetoothLeService extends Service implements
                     } else if (key == 8) {
                         onTrackKeyClick(gatt.getDevice().getAddress());
                     }
+                } else if(charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
+                    int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
+                    Log.v(LOG_TAG, "battery notify changed " + value);
                 }
             }
         }
