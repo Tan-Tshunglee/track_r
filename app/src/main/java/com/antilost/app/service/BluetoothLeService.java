@@ -1749,23 +1749,11 @@ public class BluetoothLeService extends Service implements
             return false;
         }
         if (state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
             try {
-                BluetoothGatt gatt = mBluetoothGatts.get(address);
-                BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
-                if(linkLoss == null) {
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    return false;
-                }
-                BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
 
-                if(alertLevelChar == null) {
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    return false;
-                }
+                BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
+                BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
                 alertLevelChar.setValue(new byte[]{00});
                 if( gatt.writeCharacteristic(alertLevelChar)) {
                     Log.v(LOG_TAG, "write sleep character ok");
@@ -1777,12 +1765,18 @@ public class BluetoothLeService extends Service implements
 
             } catch (Exception e) {
                 e.printStackTrace();
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                mBluetoothGatts.remove(address);
+                if(gatt != null) {
+                    gatt.close();
+                }
+
+                return false;
             }
         } else {
             Log.w(LOG_TAG, "can not close unconnected track r");
             return false;
         }
-        return false;
     }
 
     private boolean wakeupTrack(String address) {
@@ -1793,24 +1787,11 @@ public class BluetoothLeService extends Service implements
         }
 
         if (state == BluetoothProfile.STATE_CONNECTED) {
+            BluetoothGatt gatt = mBluetoothGatts.get(address);
             try {
-                BluetoothGatt gatt = mBluetoothGatts.get(address);
+
                 BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
-
-                if(linkLoss == null) {
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    return false;
-                }
                 BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
-
-                if(alertLevelChar == null) {
-                    mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
-                    mBluetoothGatts.remove(address);
-                    gatt.close();
-                    return false;
-                }
                 boolean trackAlertEnabled = mPrefsManager.getTrackAlert(address);
                 alertLevelChar.setValue(new byte[]{(byte) (trackAlertEnabled ? 02 : 00)});
                 if(gatt.writeCharacteristic(alertLevelChar)) {
@@ -1821,6 +1802,12 @@ public class BluetoothLeService extends Service implements
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                mBluetoothGatts.remove(address);
+                if(gatt != null) {
+                    gatt.close();
+                }
+                return false;
             }
         } else {
             Log.w(LOG_TAG, "can not close unconnected track r");
