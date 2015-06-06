@@ -217,7 +217,6 @@ public class BluetoothLeService extends Service implements
     public interface ScanResultListener {
         void onConnectionStart();
         void onSuccess();
-        void onFailure();
     }
 
     private ConnectionState mConnectionState = ConnectionState.IDLE;
@@ -640,7 +639,7 @@ public class BluetoothLeService extends Service implements
                 mConnectionState = ConnectionState.IDLE;
                 mWaitingConnectionTracks.remove(address);
                 if(address.equals(mAddingDeviceAddress)) {
-                    notifyScanFailure();
+                    tryConnectGatt(address, gatt.getDevice());
                 }
                 return;
             }
@@ -720,7 +719,7 @@ public class BluetoothLeService extends Service implements
                             gatt.close();
                             stopBackgroundOperation();
                             if(mBluetoothAdapter == null) {
-                                notifyScanFailure();
+
                             } else {
                                 mBluetoothAdapter.startLeScan(mScanForAddCallback);
                             }
@@ -809,19 +808,24 @@ public class BluetoothLeService extends Service implements
         public void onCharacteristicWrite(final BluetoothGatt gatt,
                                           BluetoothGattCharacteristic characteristic, int status) {
             final String address = gatt.getDevice().getAddress();
-            if(status != BluetoothGatt.GATT_SUCCESS) {
-                Log.v(LOG_TAG, "onCharacteristicWrite status is " + status);
-                if(address.equals(mAddingDeviceAddress)) {
-                    notifyScanFailure();
-                }
-                gatt.close();
-                return;
-            }
+
 
             UUID serviceUuid = characteristic.getService().getUuid();
             Log.v(LOG_TAG, "onCharacteristicWrite serviceUuid is " + serviceUuid);
             UUID charUuid = characteristic.getUuid();
             Log.i(LOG_TAG, "onCharacteristicWrite is " + charUuid);
+
+            //
+            if(status != BluetoothGatt.GATT_SUCCESS) {
+                Log.v(LOG_TAG, "onCharacteristicWrite status is " + status);
+                if(address.equals(mAddingDeviceAddress)) {
+                    tryConnectGatt(address, gatt.getDevice());
+                }
+                gatt.close();
+                return;
+            }
+
+
             int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
 
 
@@ -1298,6 +1302,7 @@ public class BluetoothLeService extends Service implements
                             BluetoothGattCharacteristic characteristic = service.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED);
                             if(characteristic != null) {
                                 characteristic.setValue(Utils.VERIFY_CODE);
+                                characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
                                 if(gatt.writeCharacteristic(characteristic)) {
                                     log("write verify code success.");
                                     return;
@@ -2005,7 +2010,7 @@ public class BluetoothLeService extends Service implements
                     mBluetoothCallbacks.put(address, oldCallback);
                 }
             }
-        }, needReconnectionDelay ? 500 : 0);
+        }, needReconnectionDelay ? 1000 : 0);
     }
 
 
@@ -2340,20 +2345,13 @@ public class BluetoothLeService extends Service implements
         if(listener != null) {
             stopBackgroundOperation();
             if(mBluetoothAdapter == null) {
-                notifyScanFailure();
+
             } else {
                 mBluetoothAdapter.startLeScan(mScanForAddCallback);
             }
         }
     }
 
-
-    private void notifyScanFailure() {
-        mAddingDeviceAddress = null;
-        if(mScanResultListener != null) {
-            mScanResultListener.onFailure();
-        }
-    }
 
     private void notifyScanSuccess() {
         if(mScanResultListener != null) {

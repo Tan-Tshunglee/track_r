@@ -177,11 +177,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
     private void scanLeDevice() {
 
         mBluetoothLeService.startBleScanForAdd(new BluetoothLeService.ScanResultListener() {
-            @Override
-            public void onFailure() {
-                Log.e(LOG_TAG, "Scan or connection failed");
-                mHandler.sendEmptyMessage(MSG_SHOW_SCAN_FAILED_PAGE);
-            }
+
 
             @Override
             public void onConnectionStart() {
