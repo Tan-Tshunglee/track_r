@@ -27,6 +27,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.DeadObjectException;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -246,13 +247,20 @@ public class BluetoothLeService extends Service implements
                 Log.v(LOG_TAG, "background update all track sleep state.");
                 mUpdatingAllTrackSleepState = true;
                 Set<String> ids = mPrefsManager.getTrackIds();
-                for(String address: ids) {
+                for(final String address: ids) {
                     Integer connectionState = mGattConnectionStates.get(address);
                     BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
                     if(connectionState != null
                             && bluetoothGatt != null
                             && connectionState == BluetoothProfile.STATE_CONNECTED) {
-                        if(updatesSingleTrackSleepState(address)) {
+
+                        if(!inFastRepeatMode()) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updatesSingleTrackSleepState(address);
+                                }
+                            });
                             try {
                                 Log.d(LOG_TAG, "sleep one track ok waiting a time.");
                                 Thread.sleep(500);
@@ -338,7 +346,7 @@ public class BluetoothLeService extends Service implements
                             }
                         }
                         addTrackToWaitingSet(deviceAddress);
-                    //found an unbind track r
+                    //found an unbind track
                     } else {
                         if(!mUnkownTrackUpload.contains(deviceAddress)) {
                             Log.v(LOG_TAG, "an unbind track has been scanned.");
@@ -1284,9 +1292,7 @@ public class BluetoothLeService extends Service implements
                             mConnectionState = ConnectionState.IDLE;
                         }
                         mGattConnectionStates.put(mConnectingTrackAddress, BluetoothProfile.STATE_DISCONNECTED);
-
                         if(gatt.getDevice().getAddress().equals(mAddingDeviceAddress)) {
-                            gatt.close();
                             notifyScanFailure();
                         }
                         break;
@@ -1294,7 +1300,7 @@ public class BluetoothLeService extends Service implements
                         try {
                             gatt = (BluetoothGatt) msg.obj;
                             if(gatt.discoverServices()) {
-                                Log.v(LOG_TAG, "discover services ok");
+                                Log.v(LOG_TAG, "request discover services ok");
                             } else {
                                 if(mConnectionState == ConnectionState.CONNECTING) {
                                     mConnectionState = ConnectionState.IDLE;
@@ -1751,7 +1757,6 @@ public class BluetoothLeService extends Service implements
         if (state == BluetoothProfile.STATE_CONNECTED) {
             BluetoothGatt gatt = mBluetoothGatts.get(address);
             try {
-
                 BluetoothGattService linkLoss = gatt.getService(com.antilost.app.bluetooth.UUID.LINK_LOSS_SERVICE_UUID);
                 BluetoothGattCharacteristic alertLevelChar = linkLoss.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ALERT_LEVEL_UUID);
                 alertLevelChar.setValue(new byte[]{00});
@@ -1760,11 +1765,11 @@ public class BluetoothLeService extends Service implements
                     return true;
                 } else {
                     Log.e(LOG_TAG, "write sleep character failed");
-                    return false;
+                    throw new DeadObjectException();
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, "sleepTrack ", e) ;
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
                 mBluetoothGatts.remove(address);
                 if(gatt != null) {
@@ -1799,9 +1804,10 @@ public class BluetoothLeService extends Service implements
                     return true;
                 } else {
                     Log.v(LOG_TAG, "write wake character failed");
+                    throw new DeadObjectException();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(LOG_TAG, "wakeupTrack ", e) ;
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
                 mBluetoothGatts.remove(address);
                 if(gatt != null) {
@@ -2324,7 +2330,7 @@ public class BluetoothLeService extends Service implements
         }
     }
 
-    public void scanForAddTimeOut() {
+    public void giveUpConnectNewTrack() {
 
         BluetoothGatt gatt = mBluetoothGatts.get(mAddingDeviceAddress);
         if(gatt != null) {
