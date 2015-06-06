@@ -7,11 +7,13 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,11 +65,20 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         MarkerOptions marker = new MarkerOptions();
         LatLng latLng = new LatLng(mLostLocation.getLatitude(), mLostLocation.getLongitude());
 
-        if(mPrefs.isMissedTrack(getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS))) {
-            marker.title(getString(R.string.place_lost));
+        String addressOrTitle = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
+
+        if(Utils.isValidMacAddress(addressOrTitle))  {
+            if(mPrefs.isMissedTrack(addressOrTitle)) {
+                marker.title(getString(R.string.place_lost));
+                marker.position(latLng);
+                mGoogleMap.addMarker(marker);
+            }
+        } else {
+            marker.title(addressOrTitle);
             marker.position(latLng);
             mGoogleMap.addMarker(marker);
         }
+
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
         mGoogleMap.moveCamera(cameraUpdate);

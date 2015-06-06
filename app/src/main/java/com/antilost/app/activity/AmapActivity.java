@@ -24,6 +24,7 @@ import com.amap.api.maps2d.model.MyLocationStyle;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.LocUtils;
+import com.antilost.app.util.Utils;
 
 public class AmapActivity extends Activity implements LocationSource, AMapLocationListener {
 
@@ -51,7 +52,7 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
         }
         mPrefsManager = PrefsManager.singleInstance(this);
         String schema = uri.getScheme();
-        String address = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
+        String addressOrTitle = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
         if("geo".equalsIgnoreCase(schema)) {
             MarkerOptions markerOptions = new MarkerOptions();
             String uriStr = uri.toString();
@@ -62,12 +63,22 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             double lng = Double.parseDouble(latlngArr[1]);
             markerOptions.position(new LatLng(lat, lng));
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            if(mPrefsManager.isMissedTrack(address)) {
+
+            if(Utils.isValidMacAddress(addressOrTitle)) {
+                if(mPrefsManager.isMissedTrack(addressOrTitle)) {
+                    Marker marker = mAmap.addMarker(markerOptions);
+                    markerOptions.title(getString(R.string.place_lost));
+                    marker.setPosition(new LatLng(lat, lng));
+                    marker.setVisible(true);
+                }
+            } else {
                 Marker marker = mAmap.addMarker(markerOptions);
-                markerOptions.title(getString(R.string.place_lost));
+                markerOptions.title(addressOrTitle);
                 marker.setPosition(new LatLng(lat, lng));
                 marker.setVisible(true);
             }
+
+
 
             CameraUpdate camera = CameraUpdateFactory.newLatLng(new LatLng(lat, lng));
             mAmap.moveCamera(camera);
