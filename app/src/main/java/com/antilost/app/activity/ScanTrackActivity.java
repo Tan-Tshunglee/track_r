@@ -140,7 +140,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         break;
                     case MSG_SHOW_SCAN_FAILED_PAGE:
                         if(mBluetoothLeService != null) {
-                            mBluetoothLeService.scanForAddTimeOut();
+                            mBluetoothLeService.giveUpConnectNewTrack();
                         }
                         mFirstPage.setVisibility(View.GONE);
                         mConnectingPage.setVisibility(View.GONE);
@@ -175,6 +175,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
         mBluetoothLeService.startBleScanForAdd(new BluetoothLeService.ScanResultListener() {
             @Override
             public void onFailure() {
+                Log.e(LOG_TAG, "Scan or connection failed");
                 mHandler.sendEmptyMessage(MSG_SHOW_SCAN_FAILED_PAGE);
             }
 
@@ -221,11 +222,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
 
         if(!mDeviceScanSuccess) {
             if(mBluetoothLeService != null) {
-                mBluetoothLeService.scanForAddTimeOut();
-            }
-        } else {
-            if(mBluetoothLeService != null) {
-                mBluetoothLeService.clearAfterAddSuccess();
+                mBluetoothLeService.giveUpConnectNewTrack();
             }
         }
     }
@@ -238,7 +235,7 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.tryAgain:
-                mBluetoothLeService.scanForAddTimeOut();
+                mBluetoothLeService.giveUpConnectNewTrack();
                 scanLeDevice();
                 break;
         }

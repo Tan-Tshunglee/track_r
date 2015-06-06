@@ -190,16 +190,18 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
 
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(mBluetoothLeService != null) {
+            mBluetoothLeService.giveUpConnectNewTrack();
+        }
+
         if(mBluetoothLeService != null) {
             unbindService(mServiceConnection);
         }
+
+
     }
 
 
