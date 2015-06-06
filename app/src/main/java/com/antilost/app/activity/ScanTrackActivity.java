@@ -139,6 +139,10 @@ public class ScanTrackActivity extends Activity implements View.OnClickListener 
                         mFailedPage.setVisibility(View.GONE);
                         break;
                     case MSG_SHOW_SCAN_FAILED_PAGE:
+
+                        if(isFinishing()) {
+                            return;
+                        }
                         if(mBluetoothLeService != null) {
                             mBluetoothLeService.giveUpConnectNewTrack();
                         }
