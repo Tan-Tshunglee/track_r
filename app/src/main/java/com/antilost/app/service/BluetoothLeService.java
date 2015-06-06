@@ -203,7 +203,7 @@ public class BluetoothLeService extends Service implements
     private ConnectivityManager mConnectivityManager;
     private LocationManager mLocationManager;
     private ScanResultListener mScanResultListener;
-
+    private boolean mUpdatingAllTrackSleepState;
 
 
     private enum ConnectionState {
@@ -236,10 +236,15 @@ public class BluetoothLeService extends Service implements
     }
 
     private void updateAllTrackSleepState() {
+
+        if(mUpdatingAllTrackSleepState) {
+            return;
+        }
         Thread t = new Thread () {
             @Override
             public void run() {
                 Log.v(LOG_TAG, "background update all track sleep state.");
+                mUpdatingAllTrackSleepState = true;
                 Set<String> ids = mPrefsManager.getTrackIds();
                 for(String address: ids) {
                     Integer connectionState = mGattConnectionStates.get(address);
@@ -257,6 +262,7 @@ public class BluetoothLeService extends Service implements
                         }
                     }
                 }
+                mUpdatingAllTrackSleepState = false;
             }
         };
         t.start();
@@ -1558,7 +1564,6 @@ public class BluetoothLeService extends Service implements
         long start = SystemClock.uptimeMillis();
 
         if (intent != null) {
-
             if(mBluetoothAdapter == null) {
                 Log.e(LOG_TAG, "mBluetoothAdapter is null in onStartCommand");
                 return START_NOT_STICKY;
@@ -1680,9 +1685,10 @@ public class BluetoothLeService extends Service implements
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                updateAllTrackSleepState();
                 scanLeDevice();
             }
-        }, 1000);
+        }, 2500);
 
         //if all device connected, exit fast repeat mode;
         if(allTrackConnected()) {
