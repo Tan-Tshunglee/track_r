@@ -413,7 +413,7 @@ public class PrefsManager {
                 if(addTrackId(address)) {
                     saveMissedTrack(address, true);
                     saveTrackToFile(address, track);
-                    Log.v(LOG_TAG, "add one track with address " + address);
+                    Log.v(LOG_TAG, "add one track with name " + track.name);
                 }
             }
         }

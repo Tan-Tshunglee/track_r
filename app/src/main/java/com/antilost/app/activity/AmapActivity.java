@@ -1,7 +1,6 @@
 package com.antilost.app.activity;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,26 +13,26 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.maps2d.model.MyLocationStyle;
 import com.antilost.app.R;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
-public class AmapActivity extends Activity implements LocationSource, AMapLocationListener {
+public class AmapActivity extends Activity implements AMapLocationListener {
 
     public static final String LOG_TAG = "AmapActivity";
     private MapView mAmapView;
     private AMap mAmap;
     private PrefsManager mPrefsManager;
-    private OnLocationChangedListener mOnLocationChangedListener;
     private LocationManagerProxy mAMapLocationManager;
+    private Marker mLocationMarker;
+    private MarkerOptions mCurrentPositionOptions;
+    private Marker mCurrentLocationMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             return;
         }
         mPrefsManager = PrefsManager.singleInstance(this);
+        mAMapLocationManager = LocationManagerProxy.getInstance(this);
         String schema = uri.getScheme();
         String addressOrTitle = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
         if("geo".equalsIgnoreCase(schema)) {
@@ -62,20 +62,22 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             double lat = Double.parseDouble(latlngArr[0]);
             double lng = Double.parseDouble(latlngArr[1]);
             markerOptions.position(new LatLng(lat, lng));
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
             if(Utils.isValidMacAddress(addressOrTitle)) {
                 if(mPrefsManager.isMissedTrack(addressOrTitle)) {
                     Marker marker = mAmap.addMarker(markerOptions);
                     markerOptions.title(getString(R.string.place_lost));
                     marker.setPosition(new LatLng(lat, lng));
                     marker.setVisible(true);
+                    mLocationMarker = marker;
                 }
             } else {
                 Marker marker = mAmap.addMarker(markerOptions);
                 markerOptions.title(addressOrTitle);
                 marker.setPosition(new LatLng(lat, lng));
                 marker.setVisible(true);
+                mLocationMarker = marker;
+
             }
 
 
@@ -87,15 +89,14 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
             mAmap.moveCamera(camera);
 
 
-            MyLocationStyle myLocationStyle = new MyLocationStyle();
-            myLocationStyle.strokeColor(Color.YELLOW);// 设置圆形的边框颜色
-            myLocationStyle.radiusFillColor(Color.argb(100, 0, 256, 0));// 设置圆形的填充颜色
-            myLocationStyle.strokeWidth(1.0f);// 设置圆形的边框粗细
-            mAmap.setMyLocationStyle(myLocationStyle);
+            if(Utils.isValidMacAddress(addressOrTitle)) {
+                mCurrentPositionOptions = new MarkerOptions().title(getString(R.string.current_position));
+                mCurrentPositionOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                mCurrentPositionOptions.position(new LatLng(lat, lng));
+                mCurrentLocationMarker = mAmap.addMarker(mCurrentPositionOptions);
+                mCurrentLocationMarker.setVisible(true);
+            }
 
-
-            mAmap.setLocationSource(this);
-            mAmap.setMyLocationEnabled(true);
         } else {
             Log.v(LOG_TAG, "unknown uri schema." + uri);
             finish();
@@ -106,12 +107,16 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
     protected void onResume() {
         super.onResume();
         mAmapView.onResume();
+        mAMapLocationManager.requestLocationData(
+                LocationProviderProxy.AMapNetwork, 5  * 1000, 15, this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mAmapView.onPause();
+
+        mAMapLocationManager.removeUpdates(this);
     }
 
     @Override
@@ -128,40 +133,22 @@ public class AmapActivity extends Activity implements LocationSource, AMapLocati
         mAmapView.onDestroy();
     }
 
-    @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
-        Log.d(LOG_TAG, "activate location source");
-        mOnLocationChangedListener = onLocationChangedListener;
 
-        if (mAMapLocationManager == null) {
-            mAMapLocationManager = LocationManagerProxy.getInstance(this);
-
-        }
-
-        mAMapLocationManager.requestLocationUpdates(
-                LocationProviderProxy.AMapNetwork, 2000, 10, this);
-    }
-
-    @Override
-    public void deactivate() {
-
-        Log.d(LOG_TAG, "deactivate location source");
-        mOnLocationChangedListener = null;
-        if (mAMapLocationManager != null) {
-            mAMapLocationManager.removeUpdates(this);
-            mAMapLocationManager.destory();
-        }
-        mAMapLocationManager = null;
-    }
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        if (mOnLocationChangedListener != null && aMapLocation != null) {
-            Log.v(LOG_TAG, "onLocationChanged set to mOnLocationChangedListener.");
-            mOnLocationChangedListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
-        } else {
-            Log.v(LOG_TAG, "cannot update my current location im amap.");
+
+        Log.d(LOG_TAG, "get location from amap");
+        if(mCurrentLocationMarker != null) {
+            Double geoLat = aMapLocation.getLatitude();
+            Double geoLng = aMapLocation.getLongitude();
+
+            mCurrentLocationMarker.setPosition(new LatLng(geoLat, geoLng));
+            mCurrentLocationMarker.setVisible(true);
         }
+
+
+
     }
 
     @Override

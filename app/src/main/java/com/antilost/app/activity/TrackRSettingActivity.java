@@ -432,6 +432,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                                 UnbindCommand command = new UnbindCommand(mPrefsManager.getUid(), mBluetoothDeviceAddress);
                                 command.setPassword(mPrefsManager.getPassword());
                                 command.execTask();
+                                if(command.success()) {
+                                    Log.i(LOG_TAG, "delete track on server success..");
+                                } else {
+                                    Log.e(LOG_TAG, "delete track on server fail..");
+                                }
                                 mBackgroundThread = null;
                             }
                         };
