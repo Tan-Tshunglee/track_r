@@ -188,6 +188,7 @@ public class BluetoothLeService extends Service implements
 
     private HashSet<String> mUnkownTrackUpload = new HashSet<String>();
     private HashSet<String> mWaitingConnectionTracks = new HashSet<String>();
+    private String mDelayAlertBySafeZone;
 
 
     //    private LocationManager mLocationManager;
@@ -572,6 +573,7 @@ public class BluetoothLeService extends Service implements
 
                     if (inSafeZone()) {
                         Log.i(LOG_TAG, "In safe zone, ignore alert.");
+                        mDelayAlertBySafeZone = address;
                         return;
                     }
 
@@ -893,6 +895,9 @@ public class BluetoothLeService extends Service implements
                     && charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_CUSTOM_VERIFIED)) {
                 Log.i(LOG_TAG, "write done callback of verify code ");
                 registerKeyListener(gatt);
+                if(address.equals(mDelayAlertBySafeZone)) {
+                    mDelayAlertBySafeZone = null;
+                }
                 if(address.equals(mAddingDeviceAddress)) {
                     mHandler.postDelayed(new Runnable() {
                         @Override
@@ -1264,6 +1269,15 @@ public class BluetoothLeService extends Service implements
             } else if(WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
                 Log.d(LOG_TAG, "NETWORK_STATE_CHANGED_ACTION update all track sleep State");
                 updateAllTrackSleepState();
+
+                NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+
+                if(networkInfo.getState().equals(NetworkInfo.State.DISCONNECTED)) {
+                    if(mDelayAlertBySafeZone != null) {
+                        alertUserTrackDisconnected(mDelayAlertBySafeZone);
+                        mDelayAlertBySafeZone = null;
+                    }
+                }
             }
         }
     };
