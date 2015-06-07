@@ -71,6 +71,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
             if(mPrefs.isMissedTrack(addressOrTitle)) {
                 marker.title(getString(R.string.place_lost));
                 marker.position(latLng);
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
                 mGoogleMap.addMarker(marker);
             }
         } else {
@@ -86,17 +87,19 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onLocationChanged(Location location) {
-        if(mGoogleMap != null) {
-            if(mCurrentPositionMarker == null) {
-                mCurrentPositionMarker = new MarkerOptions();
-                mCurrentPositionMarker.title(getString(R.string.you_are_here));
-                mCurrentPositionMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.triangle));
+        String addressOrTitle = getIntent().getStringExtra(LocUtils.DEVICE_ADDRESS);
+        if(Utils.isValidMacAddress(addressOrTitle)) {
+            if(mGoogleMap != null) {
+                if(mCurrentPositionMarker == null) {
+                    mCurrentPositionMarker = new MarkerOptions();
+                    mCurrentPositionMarker.title(getString(R.string.you_are_here));
+                    mCurrentPositionMarker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                }
+
+                mCurrentPositionMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+                mGoogleMap.addMarker(mCurrentPositionMarker);
             }
-
-            mCurrentPositionMarker.position(new LatLng(location.getLatitude(), location.getLongitude()));
-            mGoogleMap.addMarker(mCurrentPositionMarker);
         }
-
 
     }
 
