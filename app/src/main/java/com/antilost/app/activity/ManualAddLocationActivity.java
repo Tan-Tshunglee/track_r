@@ -69,20 +69,20 @@ public class ManualAddLocationActivity extends Activity implements View.OnClickL
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int mposition = position;
 
-                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", locationBeans.get(mposition).getMlatitude(), locationBeans.get(mposition).getMlongitude());
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", locationBeans.get(position).getMlatitude(), locationBeans.get(position).getMlongitude());
 //                        Uri uri = Uri.parse("geo:38.899533,-77.036476");
                 Log.d(LOG_TAG, "the string is " + uri);
 
 
                 Location location = new Location(LocationManager.NETWORK_PROVIDER);
-                double longitude = Double.valueOf(locationBeans.get(mposition).getMlatitude());
-                double latitude = Double.valueOf(locationBeans.get(mposition).getMlongitude());
+                double longitude = Double.valueOf(locationBeans.get(position).getMlatitude());
+                double latitude = Double.valueOf(locationBeans.get(position).getMlongitude());
 
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
-                LocUtils.viewLocation(ManualAddLocationActivity.this, location, null);
+
+                LocUtils.viewLocation(ManualAddLocationActivity.this, location, locationBeans.get(position).getmLocationName());
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

@@ -158,7 +158,9 @@ public class Utils {
     }
 
     public static boolean isLollipop() {
-        return Build.VERSION.SDK_INT >= 20;
+        //
+        //return Build.VERSION.SDK_INT >= 20;
+        return false;
     }
 
 

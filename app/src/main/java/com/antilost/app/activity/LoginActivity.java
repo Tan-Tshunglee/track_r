@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.antilost.app.BuildConfig;
 import com.antilost.app.R;
 import com.antilost.app.network.LoginCommand;
+import com.antilost.app.network.ResentActiveEmailCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.NetworkSyncService;
 import com.antilost.app.util.Utils;
@@ -273,9 +274,43 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                     dismissDialog(ACTIVE_EMAIL_DIALOG_ID);
                 }
             });
+            builder.setNegativeButton("Resent Active email", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    resentActiveEmail();
+                }
+            });
             return builder.create();
         }
         return null;
+    }
+
+    private void resentActiveEmail() {
+        //TODO: finish api call;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                ResentActiveEmailCommand command = new ResentActiveEmailCommand(mPrefsManager.getEmail());
+                command.execTask();
+                if(command.success()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, getString(R.string.reset_active_email_success), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, getString(R.string.resent_active_email_failed), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        };
+        t.start();
     }
 
 
