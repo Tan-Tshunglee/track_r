@@ -665,7 +665,7 @@ public class BluetoothLeService extends Service implements
                     UUID.fromString(com.antilost.app.bluetooth.UUID.SIMPLE_KEY_SERVICE_UUID_STRING),
                     com.antilost.app.bluetooth.UUID.CHARACTERISTIC_KEY_PRESS_UUID,
                     true)) {
-                Log.v(LOG_TAG, "setCharacteristicNotification ok");
+                Log.v(LOG_TAG, "turn on key press notification ok");
             }
 
             try {
@@ -679,7 +679,7 @@ public class BluetoothLeService extends Service implements
                     com.antilost.app.bluetooth.UUID.BATTERY_SERVICE_UUID,
                     com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID,
                     true)) {
-
+                Log.v(LOG_TAG, "turn on battery notification ok");
             }
         }
 
@@ -821,6 +821,9 @@ public class BluetoothLeService extends Service implements
                 } else if(charUuid.equals(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_BATTERY_LEVEL_UUID)) {
                     int value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0);
                     Log.v(LOG_TAG, "battery notify changed " + value);
+
+                    mGattsBatteryLevel.put(gatt.getDevice().getAddress(), value);
+                    broadcastBatteryLevel(value);
                 }
             }
         }
@@ -2045,34 +2048,6 @@ public class BluetoothLeService extends Service implements
         }, needReconnectionDelay ? 1000 : 0);
     }
 
-
-    /**
-     * Request a read on a given {@code BluetoothGattCharacteristic}. The read result is reported
-     * asynchronously through the {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
-     * callback.
-     *
-     * @param characteristic The characteristic to read from.
-     */
-    public void readCharacteristic(String address, BluetoothGattCharacteristic characteristic) {
-        BluetoothGatt gatt = mBluetoothGatts.get(address);
-        gatt.readCharacteristic(characteristic);
-    }
-
-    /**
-     * Enables or disables notification on a give characteristic.
-     *
-     * @param characteristic Characteristic to act on.
-     * @param enabled        If true, enable notification.  False otherwise.
-     */
-    public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
-                                              boolean enabled) {
-//        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-//            Log.w(LOG_TAG, "BluetoothAdapter not initialized");
-//            return;
-//        }
-//        mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
-
-    }
 
 
     public int getGattConnectState(String address) {
