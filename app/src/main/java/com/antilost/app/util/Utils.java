@@ -1,5 +1,6 @@
 package com.antilost.app.util;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -19,6 +20,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.antilost.app.R;
+import com.antilost.app.activity.LoginActivity;
 import com.antilost.app.activity.ManualAddLocationActivity;
 
 import java.io.File;
@@ -210,5 +212,11 @@ public class Utils {
 
     public static String base64EncodeStr2Str(String origin) {
         return Base64.encodeToString(origin.getBytes(), Base64.NO_WRAP);
+    }
+
+    public static void makeText(Activity activity, String string, int lengthShort) {
+        Toast toast = Toast.makeText(activity, string, lengthShort);
+        toast.setGravity(Gravity.CENTER, 0 ,0);
+        toast.show();
     }
 }

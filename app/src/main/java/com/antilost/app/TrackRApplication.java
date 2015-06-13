@@ -11,6 +11,8 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.HashMap;
 
+import timber.log.Timber;
+
 public class TrackRApplication extends Application {
     private BluetoothLeService mBluetoothLeService;
 
@@ -56,6 +58,8 @@ public class TrackRApplication extends Application {
 
         // Make myHandler the new default uncaught exception handler.
         Thread.setDefaultUncaughtExceptionHandler(myHandler);
+
+        Timber.plant(new Timber.DebugTree());
     }
 
     public void setBluetootLeService(BluetoothLeService service) {

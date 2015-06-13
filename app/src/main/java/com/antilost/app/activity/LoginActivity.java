@@ -15,7 +15,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +27,6 @@ import com.antilost.app.network.ResentActiveEmailCommand;
 import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.service.NetworkSyncService;
 import com.antilost.app.util.Utils;
-
-import java.util.regex.Matcher;
 
 public class LoginActivity extends Activity implements View.OnClickListener, Dialog.OnClickListener {
 
@@ -146,13 +143,13 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
 
         final String email = mEmailInput.getText().toString();
         if (!Utils.isValidEmailAddress(email)) {
-            Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
+            Utils.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT);
             return;
         }
         final String password = mPasswordInput.getText().toString();
 
         if (password.length() < 6 || password.length() > 18) {
-            Toast.makeText(this, getString(R.string.password_length_is_6_to_18_chars), Toast.LENGTH_SHORT).show();
+            Utils.makeText(this, getString(R.string.password_length_is_6_to_18_chars), Toast.LENGTH_SHORT);
             return;
         }
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -192,23 +189,23 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                         mProgressDialog.dismiss();
                         if (command.success()) {
                             mPrefsManager.saveUid(command.getUid());
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT);
                             startNetworkSyncService();
                             showDialog(FETCHING_TRACKS_DIALOG_ID);
 
                         } else if (command.unregisteredEmail()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.unregister_email), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.unregister_email), Toast.LENGTH_SHORT);
                         } else if(command.invalidatePass()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.wrong_pass), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.wrong_pass), Toast.LENGTH_SHORT);
                         } else if(command.inActiveAccount()) {
-//                            Toast.makeText(LoginActivity.this, getString(R.string.your_email_need_activation), Toast.LENGTH_LONG).show();
+//                            Utils.makeText(LoginActivity.this, getString(R.string.your_email_need_activation), Toast.LENGTH_LONG);
                             showDialog(ACTIVE_EMAIL_DIALOG_ID);
                         } else if (command.isNetworkError()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT);
                         } else if (command.isStatusBad()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT);
                         } else {
-                            Toast.makeText(LoginActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT);
                         }
                     }
                 });
@@ -296,7 +293,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(LoginActivity.this, getString(R.string.reset_active_email_success), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.reset_active_email_success), Toast.LENGTH_SHORT);
                         }
                     });
 
@@ -304,7 +301,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(LoginActivity.this, getString(R.string.resent_active_email_failed), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(LoginActivity.this, getString(R.string.resent_active_email_failed), Toast.LENGTH_SHORT);
                         }
                     });
                 }
