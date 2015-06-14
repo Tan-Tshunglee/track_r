@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">iTrackpro</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="new_user_registration">Inscription</string>
+    <string name="user_icon">user icon</string>
+    <string name="remember_password">Se souvenir de moi</string>
+    <string name="sign_in">Connexion</string>
+    <string name="forget_password">Mot de passé oublié?</string>
+    <string name="email_input_hint">Votre adresse e-mail</string>
+    <string name="password_input_hint">Mot de passe</string>
+    <string name="password_confirm_input_hint">Confirmez votre mot de passe</string>
+    <string name="registration"> Inscription</string>
+    <string name="title_activity_bind">BindActivity</string>
+    <string name="title_activity_binding">BindingActivity</string>
+    <string name="title_activity_track_redit">iTrackEditActivity</string>
+    <string name="cancel">Annuler</string>
+    <string name="click_to_add">Ajouter un nouvel objet</string>
+    <string name="title_activity_main_track_rlist">MainiTrackListActivity</string>
+    <string name="change_image">Changer la photo</string>
+    <string name="title_activity_photo_edit">PhotoEditActivity</string>
+    <string name="title_activity_track_r">iTrackActivity</string>
+    <string name="title_activity_forget_password">Mot de passé oublié ?</string>
+    <string name="send">Send</string>
+    <string name="ble_not_support">ble not support.</string>
+
+    <string-array name="default_type_names">
+        <item>Clés</item>
+        <item>Portefeuille</item>
+        <item>Portemonnaie</item>
+        <item>Ordinateur</item>
+        <item>Animal de compagnie</item>
+        <item>Voiture</item>
+        <item>Enfant</item>
+        <item>Autre</item>
+    </string-array>
+
+
+    <string name="Key">Clés</string>
+    <string name="Wallet">Portefeuille</string>
+    <string name="Purse">Portemonnaie</string>
+    <string name="Computer">Ordinateur</string>
+    <string name="Pet">Animal de compagnie</string>
+    <string name="Car">Voiture</string>
+    <string name="Kid">Enfant</string>
+    <string name="Other">Autre</string>
+
+
+
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="track_r_is_running">iTrack is running.</string>
+    <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
+    <string name="title_activity_track_rsetting">iTrackproSettingActivity</string>
+    <string name="binding_steps_describe">1.Assurez-vous d’avoir allumer le Bluetooth sur votre téléphone.\n\n2.Placez le iTrackPro près de votre téléphone.\n\n3.Restez appuyé sur le bouton du iTrackPro jusqu’à entendre un bip et que la LED commence à clignoter.</string>
+    <string name="add_track_r">Ajouter un nouvel objet</string>
+    <string name="connecting_with_track_r">Connexion à l’iTrackpro</string>
+    <string name="connecting_failed">Echec de la connexion</string>
+    <string name="try_again_steps">Tips:\n1.Assurez-vous d’avoir allumer le Bluetooth sur votre téléphone.\n\n2.Assurez-vous de placer le iTrackPro près de votre telephone (moins de 10cm).\n\n3.Assurez-vous de rester appuyé sur le bouton du iTrackPro jusqu’au bip..\n\n4.Appuyez sur “Scanner à nouveau”.</string>
+    <string name="try_again">Scanner à nouveau</string>
+    <string name="send_password_to_my_email">Envoyer le mot de passé par e-mail</string>
+    <string name="or_use">Or Use</string>
+    <string name="my_track_list">Mes objets</string>
+    <string name="crop_image">Crop Image</string>
+    <string name="ok">OK</string>
+    <string name="my_track_r">Mes objets</string>
+    <string name="add_new_item">Ajouter un nouvel objet</string>
+    <string name="prepare_track_r_to_bind">Merci de tenir votre iTrackPro prêt pour l’association</string>
+    <string name="sleep_on_and_time">Mode veille activé\n\n22:00 - 7:00</string>
+    <string name="connected">Connecté</string>
+    <string name="disconnected">Connexion perdue</string>
+    <string name="distance_to_track_r">Distance to iTrackpro</string>
+    <string name="loc">Carte</string>
+    <string name="ring">Alarme</string>
+    <string name="photo">Selfie</string>
+    <string name="share">Partager</string>
+    <string name="change">Changer la photo</string>
+    <string name="key">Clés</string>
+    <string name="itrak_alart">Alerte iTrack</string>
+    <string name="phone_alart">Alerte téléphone</string>
+    <string name="alert_level">Alert level</string>
+    <string name="phone_alart_tip">Lorsque l’option est activée, votre téléphone sonnera quand votre NUT n’y sera plus connecté.</string>
+    <string name="alert_level_tip">Lorsque l’option est activée, votre NUT sonnera quand il ne sera plus connecté à votre téléphone.</string>
+    <string name="turn_off_track_r">Eteindre l’iTrackpro</string>
+    <string name="unbind_track_r">Effacer l’iTrackpro</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="choose_picture">Choisir l’image</string>
+    <string name="reconect_to_s">"Reconnect to %s"</string>
+    <string name="binding_success">Bind Success!</string>
+    <string name="already_binded">Already Binded!</string>
+    <string name="your_device_no_ble_support">Votre appareil n’est pas équipé du bluetooth.</string>
+    <string name="max_device_limit_reached">Limite d’objets connectés atteinte</string>
+    <string name="custom_name">Custom Name</string>
+    <string name="user_title">Myself</string>
+    <string name="user_data">About me</string>
+    <string name="user_app_ring">Sonnerie de l’alerte</string>
+    <string name="user_timering">Durée de l’alerte</string>
+    <string name="user_airsafe">Zone de sécurité Wi-fi</string>
+    <string name="user_language">Language</string>
+    <string name="user_background">Fond d’écran</string>
+    <string name="user_tip">Donnez votre avis</string>
+    <string name="user_version">Verifier la mise à jour: \n(Version actuelle :1.2.0)</string>
+    <string name="userhardware_version">Hardware Version : 1.0</string>
+    <string name="user_exitcount">Log out</string>
+    <string name="user_editor">Edit</string>
+    <string name="user_usericon">Portrait</string>
+    <string name="user_smallname">Nickname:</string>
+    <string name="user_borddate">Birthday:</string>
+    <string name="user_xingzuo">Sign:</string>
+    <string name="user_xuexing">Blood type:</string>
+    <string name="user_liks">Hobby:</string>
+    <string name="user_editorself">Signature:</string>
+    <string name="user_homepage">Homepage:</string>
+    <string name="done">Ok</string>
+    <string name="back">Retour</string>
+    <string name="safezone_title">Zone de sécurité Wi-Fi</string>
+    <string name="safezone_message">Lorsque votre téléphone  est connecté à ces réseaux Wi-Fi reconnus, les distances d’alertes sont désactivées pour éviter les alertes intempestives.</string>
+    <string name="safezone_home">Maison</string>
+    <string name="safezone_office">Bureau</string>
+    <string name="safezone_other">Autre</string>
+    <string name="safezone_modifywifi">Appuyez pour éditer</string>
+    <string name="safezone_addwifi">Appuyer pour ajouter un réseau WiFi</string>
+    <string name="safezone_wifiselcettitle">Choose Safe Wifi</string>
+    <string name="safezone_wifitip">Lorsque votre téléphone  est connecté à ces réseaux Wi-Fi reconnus, les distances d’alertes sont désactivées pour éviter les alertes intempestives.</string>
+    <string name="wifisameple">WIFI</string>
+    <string name="gps_disable_hint">Pas de signal de localisation disponible, itrackpro ne peut pas enregistrer de position de localisation</string>
+    <string name="connecting">Connexion</string>
+    <string name="disconnecting">Déconnexion</string>
+    <string name="closed">Eteint</string>
+    <string name="invalid_email_address">Adresse e-mail invalide !</string>
+    <string name="password_length_is_6_to_18_chars">Le mot de passe doit comprendre entre 6 et 18 caractères.</string>
+    <string name="signing_in">Connexion</string>
+    <string name="login_success">Connexion réussie</string>
+    <string name="invalid_email_or_password">Adresse ou mot de passe invalide!</string>
+    <string name="network_error">Erreur réseau</string>
+    <string name="network_status_error">Erreur de connexion</string>
+    <string name="unknow_error">Erreur inconnue</string>
+    <string name="warning">Attention</string>
+    <string name="name_connected">%s\n Déconnecté</string>
+    <string name="i_known">OK</string>
+    <string name="find">Trouver</string>
+    <string name="sending_mail_which_contains_your_password">Envoi d’un e-mail contenant votre mot de passe.</string>
+    <string name="password_has_been_sent_to_your_email">" Le mot de passe vous a été envoyé par e-mail"</string>
+    <string name="the_two_passwords_do_not_match">"Les deux mots de passe ne correspondent pas. "</string>
+    <string name="registration_success">Enregistrement réussi, vérifiez vos e-mails pour activez votre compte </string>
+    <string name="email_has_been_used">Adresse e-mail déjà utilisée.</string>
+    <string name="registration_error">Erreur d’enregistrement</string>
+    <string name="title_activity_findme">FindmeActivity</string>
+    <string name="i_am_here">Je suis ici</string>
+    <string name="sleep_mode">Mode veille</string>
+    <string name="start">Départ</string>
+    <string name="end">Fin</string>
+    <string name="everyday">Everyday</string>
+    <string name="help">Aide</string>
+    <string name="track_r_settings">iTrack Configuration</string>
+    <string name="i_am_here_find_me">Je suis ici, vous me trouvez?</string>
+    <string name="my_location_title">Localisation ajoutée manuellement</string>
+    <string name="feedback_title">Donnez votre avis</string>
+    <string name="feedback_tip1">Nous vous invitons à nous envoyer toutes vos suggestions ou critiques.</string>
+    <string name="feedback_tip2"> Nous attachons beaucoup d’importance à votre opinion et votre retour nous aidera à améliorer notre application.</string>
+    <string name="feedback_hinttip">Veuillez entrer votre commentaire ci-dessous (500 mots ou moins)</string>
+    <string name="setting">Configuration</string>
+    <string name="feedbackpush">Soumettre</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+    <string name="warm_prompt_open_location_service">Pour enregister les informations de localisation du itrackpro perdu vous devez ouvrir le service de localisation..</string>
+    <string name="warm_prompt">Hint</string>
+    <string name="enable_network_before_login">Activez le réseau avant de vous connecter.</string>
+    <string name="firststart">Démarrer mon iTrackPro</string>
+    <string name="reset">Reset</string>
+    <string name="locationsetting">Location name：</string>
+    <string name="locationtime">time：</string>
+
+    <string name="usereditor_select">"</string>
+    <string name="usereditor_select_bloodtp_o">O</string>
+    <string name="usereditor_select_bloodtp_A">A</string>
+    <string name="usereditor_select_bloodtp_B">B</string>
+    <string name="usereditor_select_bloodtp_AB">AB</string>
+    <string name="alarttime_tip">AlartTime:</string>
+    <string name="alarttime_second">S</string>
+    <string name="alarttime_title">AlartTime SConfiguration</string>
+    <string name="title_activity_amap">AmapActivity</string>
+    <string name="place_lost">Place Lost</string>
+    <string name="unbind_successfully">Suppression réussie</string>
+    <string name="unbind_track_server_error">Erreur serveur, impossible de supprimer cet iTrackpro.</string>
+    <string name="title_activity_google_map">GoogleMapActivity</string>
+    <string name="no_location_data">Pas de données de localization ! </string>
+    <string name="title_activity_start_and_end_timer_picker">StartAndEndTimerPickerActivity</string>
+    <string name="sleep_mode_time_setting">"Time Configuration"</string>
+    <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
+    <string name="title_activity_camera">Camera</string>
+    <string name="sleep_mode_on_and_time_format">Sleep Mode On\n\n%1$s - %2$s</string>
+    <string name="sleep_mode_off">Mode veille éteint</string>
+    <string name="feed_back_success">Merci ! Votre retour est bien pris en compte!</string>
+    <string name="feedback_failed">Désolé ! Votre commentaire n’a pu être soumis. Merci de vérifier votre connexion internet!</string>
+    <string name="empty_feedback_can_not_be_submitted">Un commentaire vide ne peut être envoyé.</string>
+    <string name="wait_a_moment">Merci de patienter.</string>
+    <string name="checking_for_new_version">Checking for new version</string>
+    <string name="new_version_found">Nouvelle version disponible.</string>
+    <string name="new_version_has_been_released">Une nouvelle version (%1$s)de l’application est disponible. Souhaitez-vous la télécharger et la mettre à jour?</string>
+    <string name="format_downloaded">%1$s downloaded.</string>
+    <string name="no_update_found">Aucune mise à jour disponible.</string>
+    <string name="your_app_is_updated">Votre application est à jour.</string>
+    <string name="three_seconds">3S</string>
+    <string name="declare_lost">Déclarer perdu</string>
+    <string name="revoke_statement">Annuler une déclaration de perte</string>
+    <string name="declare_success">Déclaration réussie.</string>
+    <string name="declaration_failed">Désolé, déclaration échouée</string>
+
+
+    <string name="help_title">Aide</string>
+    <string name="help_privacy">Politique de confidentialité</string>
+    <string name="help_use">Conditions d’utilisation</string>
+    <string name="iTrack_close_tip">Veuillez appuyer sur le bouton du iTrackPro pour le reconnecter</string>
+    <string name="found_by_others_at_format">Found by others at %1$s</string>
+    <string name="lost_at">Lost at %1$s</string>
+    <string name="modify_locationname">Changer le nom de la localisation</string>
+    <string name="modify_locationname_null">Name of location is null</string>
+    <string name="good_news">Bonne nouvelle</string>
+    <string name="your_track_is_found_by_others_at">Votre itrackpro a été trouvé par d’autres utilisateurs à %1$s.</string>
+    <string name="title_activity_found_by_others">Trouvez par d’autres</string>
+    <string name="fetching_your_tracks">Comparez vos iTracks.</string>
+    <string name="just_a_moment">Un moment SVP</string>
+    <string name="edit_itrack">Détails de votre objet</string>
+    <string name="delete_track_on_server">Supprimer votre itrackpro du serveur</string>
+    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrackpro.</string>
+
+    <string-array name="modify_location">
+        <item>Rename</item>
+        <item>Delete</item>
+    </string-array>
+
+    <string name="distan_mid">mid</string>
+    <string name="distan_close">Proche</string>
+    <string name="distan_far">Eloigné</string>
+    <string name="notice_delete">Delete</string>
+    <string name="notice_confire">Confirm</string>
+    <string name="notice_delete_loser_tip_1">Après avoir dissocier cet objet&#160;\" </string>
+    <string name="notice_delete_loser_tip_2">\" &#160;il disparaîtra de votre liste d’objet. Vous ne pourrez plus l’utiliser avant de l’associer à nouveau.</string>
+    <string name="notice_close_loser_tip_1">Lorsque vous éteignez un &#160;\"</string>
+    <string name="notice_close_loser_tip_2">\" &#160;vous devez le rallumer pour pouvoir le réutiliser. Etes-vous sûr de vouloir l’éteindre?</string>
+    <string name="notice_declare_loser_tip_1">Lorsque vous déclarez un objet perdu &#160;\"</string>
+    <string name="notice_declare_loser_tip_2">\" &#160;, le réseau vous aidera à le retrouver. Toutes les données sont sécurisées et uniquement visibles par vous. Vous recevrez une notification lorsqu’il sera retrouvé.</string>
+    <string name="no_location_provider_available">Pas de signal de localisation disponible, NUT ne peut pas enregistrer de position de localisation.</string>
+    <string name="sihnout_tip_title">Se déconnecter</string>
+    <string name="sihnout_tip">Tous vos itrackpro se déconnecteront si vous déconnectez de l’application. Vous ne pourrez les gérer jusqu’à votre prochaine connexion à l’application. Etes-vous sûr de vouloir vous déconnecter de l’application ?</string>
+
+    <string name="unbined_tip_disconnected_tip1">Ce dispositif n’est actuellement pas connecté à votre téléphone. Etes-vous sûr de vouloir le dissocier ou l’effacer de votre téléphone. Une fois effacé de votre téléphone, vous ne pourrez plus le localiser ou le faire sonner. &#160;\" . </string>
+ 
+</resources>
