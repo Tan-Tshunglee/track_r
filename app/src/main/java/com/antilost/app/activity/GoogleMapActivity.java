@@ -3,11 +3,9 @@ package com.antilost.app.activity;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.antilost.app.R;
@@ -71,7 +69,7 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
             if(mPrefs.isMissedTrack(addressOrTitle)) {
                 marker.title(getString(R.string.place_lost));
                 marker.position(latLng);
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.itrackpro));
                 mGoogleMap.addMarker(marker);
             }
         } else {
