@@ -1317,7 +1317,6 @@ public class BluetoothLeService extends Service implements
                         Log.v(LOG_TAG, "will read rssi, whose address is " + address);
                         Integer state = mGattConnectionStates.get(address);
                         if (state != null && state == BluetoothProfile.STATE_CONNECTED) {
-                            Log.v(LOG_TAG, "readBatteryLevel()");
                             requestRssiLevel(address);
                         } else {
                             Log.w(LOG_TAG, "can not read rssi of disconnected device. state is " + state);
@@ -1840,6 +1839,7 @@ public class BluetoothLeService extends Service implements
             } catch (Exception e) {
                 Log.e(LOG_TAG, "sleepTrack ", e) ;
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
+                broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
                 mBluetoothGatts.remove(address);
                 if(gatt != null) {
                     gatt.close();
@@ -1876,7 +1876,8 @@ public class BluetoothLeService extends Service implements
                     throw new DeadObjectException();
                 }
             } catch (Exception e) {
-                Log.e(LOG_TAG, "wakeupTrack ", e) ;
+                Log.e(LOG_TAG, "wakeupTrack ", e);
+                broadcastUpdate(ACTION_GATT_DISCONNECTED, address);
                 mGattConnectionStates.put(address, BluetoothProfile.STATE_DISCONNECTED);
                 mBluetoothGatts.remove(address);
                 if(gatt != null) {
@@ -2254,10 +2255,6 @@ public class BluetoothLeService extends Service implements
                     return rssiValue;
                 }
             }
-        }
-
-        if(mConnectionState == ConnectionState.CONNECTING) {
-            mConnectionState = ConnectionState.IDLE;
         }
         return rssiValue;
     }
