@@ -1770,6 +1770,23 @@ public class BluetoothLeService extends Service implements
             exitFastRepeatMode();
         }
 
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                Set<String> ids = mPrefsManager.getTrackIds();
+                for (String id: ids) {
+                    if(mPrefsManager.isDeclaredLost(id) && mPrefsManager.getLastLocFoundByOther(id) == null) {
+                        Long lastFetchTime = mDeclaredLostTrackLastFetchedTime.get(id);
+                        //waint 30 minutes to next same fetch if fetch failed
+                        if(lastFetchTime == null || (System.currentTimeMillis() - lastFetchTime) > 30 * 60 * 1000) {
+                            fetchDeclaredLostTrackGps(id);
+                        }
+                    }
+                }
+            }
+        };
+        t.start();
+
         return true;
     }
 
