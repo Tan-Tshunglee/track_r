@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.network.SendPassowdCommand;
+import com.antilost.app.util.Utils;
 
 public class ForgetPasswordActivity extends Activity implements View.OnClickListener{
 
@@ -65,7 +66,7 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
     private void trySendPasswordToMyEmail() {
         final String email = mEmailInput.getText().toString();
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
+            Utils.makeText(this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT);
             return;
         }
 
@@ -100,16 +101,16 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
                         }
                         mProgressDialog.dismiss();
                         if(command.success()) {
-                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.password_has_been_sent_to_your_email), Toast.LENGTH_LONG).show();
+                            Utils.makeText(ForgetPasswordActivity.this, getString(R.string.password_has_been_sent_to_your_email), Toast.LENGTH_LONG);
                             finish();
                         } else if(command.resultError()) {
-                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(ForgetPasswordActivity.this, getString(R.string.invalid_email_address), Toast.LENGTH_SHORT);
                         } else if(command.isNetworkError()){
-                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(ForgetPasswordActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT);
                         } else if(command.isStatusBad()) {
-                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(ForgetPasswordActivity.this, getString(R.string.network_status_error), Toast.LENGTH_SHORT);
                         } else {
-                            Toast.makeText(ForgetPasswordActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT).show();
+                            Utils.makeText(ForgetPasswordActivity.this, getString(R.string.unknow_error), Toast.LENGTH_SHORT);
                         }
                     }
                 });

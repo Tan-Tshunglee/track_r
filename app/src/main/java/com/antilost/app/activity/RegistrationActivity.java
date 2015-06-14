@@ -241,9 +241,9 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
                     break;
             }
         } else if (dialogInterface == mEmailRegisteredDialog) {
-            Intent intent = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(RegistrationActivity.this, ForgetPasswordActivity.class);
+//            startActivity(intent);
+//            finish();
         }
 
     }
