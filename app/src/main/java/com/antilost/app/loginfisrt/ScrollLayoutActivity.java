@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.antilost.app.activity.LoginActivity;
 import com.antilost.app.R;
+import com.antilost.app.activity.LoginActivity;
 
 import java.util.Locale;
 

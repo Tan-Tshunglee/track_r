@@ -71,7 +71,7 @@ public class AmapActivity extends Activity implements AMapLocationListener, View
             double lat = Double.parseDouble(latlngArr[0]);
             double lng = Double.parseDouble(latlngArr[1]);
             markerOptions.position(new LatLng(lat, lng));
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.itrackpro));
             if(Utils.isValidMacAddress(addressOrTitle)) {
                 if(mPrefsManager.isMissedTrack(addressOrTitle)) {
                     Marker marker = mAmap.addMarker(markerOptions);

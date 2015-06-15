@@ -15,7 +15,7 @@ public class PrepareScanActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_bind);
         findViewById(R.id.mainAddBtn).setOnClickListener(this);
-        findViewById(R.id.btnUserProfile).setOnClickListener(this);
+        findViewById(R.id.btnprepareback).setOnClickListener(this);
         BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
         defaultAdapter.enable();
 
@@ -25,8 +25,8 @@ public class PrepareScanActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnUserProfile:
-                showUserProfile();
+            case R.id.btnprepareback:
+                showMainTrackRListActivitye();
                 break;
             case R.id.mainAddBtn:
                 Intent i = new Intent(this, ScanTrackActivity.class);
@@ -37,8 +37,8 @@ public class PrepareScanActivity extends Activity implements View.OnClickListene
         }
     }
 
-    private void showUserProfile() {
-        Intent i = new Intent(this, UserProfileActivity.class);
+    private void showMainTrackRListActivitye() {
+        Intent i = new Intent(this, MainTrackRListActivity.class);
         startActivity(i);
         this.finish();
 
