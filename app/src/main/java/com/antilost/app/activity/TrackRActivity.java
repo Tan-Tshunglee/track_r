@@ -515,6 +515,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.photo:
+
+                if(!isGattConnected()) {
+                    Utils.makeText(this, getString(R.string.disconnect_track_remote_snapshot_won_t_work), Toast.LENGTH_SHORT);
+                    return;
+                }
                 startActivity(new Intent(this, Camera.class));
                 break;
 

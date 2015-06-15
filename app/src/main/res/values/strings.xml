@@ -284,4 +284,5 @@
     <string name="resent_active_email_failed">Resent active email failed</string>
     <string name="current_position">Current Postion</string>
     <string name="location">Location</string>
+    <string name="disconnect_track_remote_snapshot_won_t_work">iTrack Disconnected, Remote Snapshot Will Not Work.</string>
 </resources>
