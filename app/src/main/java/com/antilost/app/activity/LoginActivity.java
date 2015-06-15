@@ -254,7 +254,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
             builder.setTitle(R.string.warm_prompt);
             builder.setMessage(getString(R.string.enable_network_before_login));
             builder.setNegativeButton(R.string.cancel, this);
-            builder.setPositiveButton(R.string.ok, this);
+            builder.setPositiveButton(R.string.cancel, this);
             return builder.create();
         } else if (id == FETCHING_TRACKS_DIALOG_ID) {
             ProgressDialog.Builder builder = new ProgressDialog.Builder(this);
