@@ -37,16 +37,14 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/item_block_bkg"
+
                 android:orientation="vertical">
                 <!-- 编辑ITEM -->
                 <RelativeLayout
                     android:id="@+id/rluser_editor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:gravity="center_vertical"
                     android:paddingBottom="20dp"
                     android:visibility="gone"
@@ -59,11 +57,11 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="10dp"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:gravity="center"
                         android:src="@drawable/user_usericondefault"
                         android:text="@string/user_usericon"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- 编辑 -->
                     <TextView
@@ -77,7 +75,7 @@
                         android:layout_marginTop="20dp"
                         android:paddingRight="20dp"
                         android:text="@string/user_editor"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
                 <!-- 分隔线 -->
@@ -85,13 +83,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:visibility="gone"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
                 <!-- Appring 报警铃声 -->
                 <RelativeLayout
                     android:id="@+id/rluser_appring"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:padding="@dimen/activity_horizontal_margin">
                     <!-- Appring text -->
                     <TextView
@@ -101,7 +99,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:text="@string/user_app_ring"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- appring switch-->
                     <CheckBox
@@ -117,13 +115,13 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
                 <!-- 提醒时长 -->
                 <RelativeLayout
                     android:id="@+id/rluser_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:padding="@dimen/activity_horizontal_margin">
                     <!-- Appring text -->
                     <TextView
@@ -131,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/user_timering"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- appring switch-->
                     <TextView
@@ -143,7 +141,7 @@
                         android:drawableRight="@drawable/tri_right"
                         android:gravity="center_vertical|right"
                         android:text="@string/three_seconds"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:paddingRight="10dp"
                         android:textSize="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
@@ -151,7 +149,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
 
 
                 <!-- 安全区域 -->
@@ -159,7 +157,7 @@
                     android:id="@+id/rluser_safezone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:padding="@dimen/activity_horizontal_margin">
                     <!-- safezone text -->
                     <TextView
@@ -171,7 +169,7 @@
                         android:drawableLeft="@drawable/wifiicon"
                         android:gravity="center"
                         android:text="@string/user_airsafe"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- zone  switch-->
                     <CheckBox
@@ -192,20 +190,18 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/item_block_bkg"
                 android:orientation="vertical">
                 <!--睡眠模式 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="@dimen/activity_horizontal_margin"
+                    android:background="#ffffffff"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:text="@string/sleep_mode"
                         android:layout_centerVertical="true"
                         android:textSize="@dimen/activity_horizontal_margin" />
@@ -223,13 +219,14 @@
                 <View
                     android:layout_height="1dp"
                     android:layout_width="match_parent"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
                 <!--睡眠模式时间 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:onClick="onClick"
                     android:layout_height="wrap_content"
+                    android:background="#ffffffff"
                     android:id="@+id/sleepModeLayout">
 
                     <ImageView
@@ -244,7 +241,7 @@
                         android:id="@+id/labelStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:text="@string/start"
                         android:textSize="@dimen/activity_horizontal_margin" />
 
@@ -252,7 +249,7 @@
                         android:id="@+id/labelEnd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:text="@string/end"
                         android:layout_below="@id/labelStart"
                         android:textSize="@dimen/activity_horizontal_margin" />
@@ -264,12 +261,14 @@
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
 
                     <TextView
                         android:id="@+id/endTimeText"
                         android:layout_below="@id/startTimeText"
                         android:text="8:00"
+                        android:textColor="@color/black"
                         android:layout_toLeftOf="@id/moreIcon"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:layout_width="wrap_content"
@@ -288,9 +287,6 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/item_block_bkg"
                 android:orientation="vertical">
                 <!-- 背景选择 -->
                 <RelativeLayout
@@ -299,7 +295,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:visibility="gone"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:gravity="center_vertical">
                     <!-- selectbackground text-->
                     <TextView
@@ -308,7 +304,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/user_background"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- select switch-->
                     <ImageButton
@@ -317,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
@@ -327,13 +323,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:visibility="gone"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
                 <!-- 意见反馈 -->
                 <RelativeLayout
                     android:id="@+id/rluser_backtip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical">
                     <!-- tip text-->
@@ -343,7 +339,7 @@
                         android:layout_height="fill_parent"
                         android:gravity="center"
                         android:text="@string/user_tip"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!--tip switch -->
                     <ImageButton
@@ -352,7 +348,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
@@ -361,14 +357,14 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
 
                 <!-- 更新版本 -->
                 <RelativeLayout
                     android:id="@+id/rluser_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical">
                     <!-- language text-->
@@ -378,7 +374,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/user_version"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- 编辑 -->
                     <ImageButton
@@ -387,7 +383,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
@@ -397,7 +393,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
 
                 <!-- 更改密码-->
                 <!-- help -->
@@ -406,7 +402,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:gravity="center_vertical">
                     <!-- selectbackground text-->
                     <TextView
@@ -414,7 +410,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/change_password"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- select switch-->
                     <ImageButton
@@ -422,7 +418,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:src="@drawable/tri_right" />
                 </RelativeLayout>
 
@@ -430,14 +426,14 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="@color/user_data_text" />
+                    android:background="@color/black" />
                 <!-- help -->
                 <RelativeLayout
                     android:id="@+id/rluser_helep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
-                    android:background="@android:color/transparent"
+                    android:background="#ffffffff"
                     android:gravity="center_vertical">
                     <!-- selectbackground text-->
                     <TextView
@@ -446,7 +442,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/help"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/activity_horizontal_margin" />
                     <!-- select switch-->
                     <ImageButton
@@ -455,7 +451,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@android:color/transparent"
+                        android:background="#ffffffff"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:src="@drawable/tri_right" />
