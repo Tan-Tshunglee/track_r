@@ -283,4 +283,5 @@
     <string name="reset_active_email_success">Resent active email success</string>
     <string name="resent_active_email_failed">Resent active email failed</string>
     <string name="current_position">Current Postion</string>
+    <string name="location">Location</string>
 </resources>
