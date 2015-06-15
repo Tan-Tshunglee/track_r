@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,14 +14,15 @@ import android.widget.TextView;
 
 import com.antilost.app.R;
 import com.antilost.app.common.TrackRInitialize;
-import com.antilost.app.prefs.PrefsManager;
+
+import java.util.Locale;
 
 public class HelpActivity extends Activity implements TrackRInitialize {
 
-
+    private String TAG = "HelpActivity";
     private ImageButton imgBack;
     private TextView tvtitle;
-    private RelativeLayout rlhelp_privacity, rlhelp_use,
+    private RelativeLayout rlhelp_privacity, rlhelp_use,rlterms_use,
             rluser_topback;
 
     @Override
@@ -53,6 +53,7 @@ public class HelpActivity extends Activity implements TrackRInitialize {
         imgBack = (ImageButton) findViewById(R.id.mBtnCancel);
         tvtitle = (TextView) findViewById(R.id.mTVTitle);
         rluser_topback = (RelativeLayout) findViewById(R.id.rluser_topback);
+        rlterms_use =  (RelativeLayout) findViewById(R.id.rlterms_use);
         rlhelp_use = (RelativeLayout) findViewById(R.id.rlhelp_use);
         rlhelp_privacity = (RelativeLayout) findViewById(R.id.rlhelp_privacity);
 
@@ -76,7 +77,18 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                Uri uri = Uri.parse("http://wifi.360.cn/howto.html");
+                Locale l = Locale.getDefault();
+                String language = l.getLanguage();
+                Log.d(TAG, "The Language is " + language);
+                String whichCountry = null;
+                if(language.equals("zh")){
+                    whichCountry= "chn/term.html";
+                }else if(language.equals("en")){
+                    whichCountry= "eng/term.html";
+                }else if(language.equals("fr")){
+                    whichCountry= "fra/term.html";
+                }
+                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
                 Intent it = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(it);
             }
@@ -86,12 +98,42 @@ public class HelpActivity extends Activity implements TrackRInitialize {
 
             @Override
             public void onClick(View arg0) {
-                 Uri uri = Uri.parse("http://www.chofn.com/ysxy.html");
+                Locale l = Locale.getDefault();
+                String language = l.getLanguage();
+                Log.d(TAG, "The Language is " + language);
+                String whichCountry = null;
+                if(language.equals("zh")){
+                    whichCountry= "chn/policy.html";
+                }else if(language.equals("en")){
+                    whichCountry= "eng/policy.html";
+                }else if(language.equals("fr")){
+                    whichCountry= "fra/policy.html";
+                }
+                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
                  Intent it = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(it);
             }
         });
+        rlterms_use.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View arg0) {
+                Locale l = Locale.getDefault();
+                String language = l.getLanguage();
+                Log.d(TAG, "The Language is " + language);
+                String whichCountry = null;
+                if(language.equals("zh")){
+                    whichCountry= "chn/home.html";
+                }else if(language.equals("en")){
+                    whichCountry= "eng/home.html";
+                }else if(language.equals("fr")){
+                    whichCountry= "fra/home.html";
+                }
+                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
+                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(it);
+            }
+        });
     }
 
     @Override
