@@ -5,6 +5,9 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -23,7 +26,7 @@ import com.antilost.app.prefs.PrefsManager;
 import com.antilost.app.util.LocUtils;
 import com.antilost.app.util.Utils;
 
-public class AmapActivity extends Activity implements AMapLocationListener {
+public class AmapActivity extends Activity implements AMapLocationListener, View.OnClickListener {
 
     public static final String LOG_TAG = "AmapActivity";
     private MapView mAmapView;
@@ -33,12 +36,18 @@ public class AmapActivity extends Activity implements AMapLocationListener {
     private Marker mLocationMarker;
     private MarkerOptions mCurrentPositionOptions;
     private Marker mCurrentLocationMarker;
+    private ImageButton mBackBtn;
+    private TextView mTitleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amap);
 
+        mBackBtn = (ImageButton) findViewById(R.id.mBtnCancel);
+        mBackBtn.setOnClickListener(this);
+        mTitleText = (TextView) findViewById(R.id.mTVTitle);
+        mTitleText.setText(R.string.location);
         mAmapView = (MapView) findViewById(R.id.map);
         mAmapView.onCreate(savedInstanceState);// 必须要写
         mAmap = mAmapView.getMap();
@@ -98,7 +107,7 @@ public class AmapActivity extends Activity implements AMapLocationListener {
             }
 
         } else {
-            Log.v(LOG_TAG, "unknown uri schema." + uri);
+            Log.v(LOG_TAG, "Unknown uri schema." + uri);
             finish();
         }
     }
@@ -169,5 +178,14 @@ public class AmapActivity extends Activity implements AMapLocationListener {
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mBtnCancel:
+                finish();
+                break;
+        }
     }
 }

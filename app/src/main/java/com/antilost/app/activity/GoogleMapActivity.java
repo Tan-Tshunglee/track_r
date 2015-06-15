@@ -6,6 +6,9 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antilost.app.R;
@@ -21,7 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener{
+public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener {
 
     private MapFragment mMapFragment;
     private GoogleMap mGoogleMap;
@@ -30,6 +33,8 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     private MarkerOptions mCurrentPositionMarker;
     private PrefsManager mPrefs;
     private Uri mData;
+    private ImageButton mBackBtn;
+    private TextView mTitleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,9 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
 
         mData = getIntent().getData();
         mLostLocation = LocUtils.parseLocationUri(getIntent().getData());
+
+
+
         if(mLostLocation == null) {
             Toast.makeText(this, getString(R.string.no_location_data), Toast.LENGTH_SHORT).show();
             finish();
@@ -44,6 +52,12 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
         }
 
         setContentView(R.layout.activity_google_map);
+
+        mBackBtn = (ImageButton) findViewById(R.id.mBtnCancel);
+        mBackBtn.setOnClickListener(this);
+        mTitleText = (TextView) findViewById(R.id.mTVTitle);
+        mTitleText.setText(R.string.location);
+
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
 
@@ -114,5 +128,14 @@ public class GoogleMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mBtnCancel:
+                finish();
+                break;
+        }
     }
 }
