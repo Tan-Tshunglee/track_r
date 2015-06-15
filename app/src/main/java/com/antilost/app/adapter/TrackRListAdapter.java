@@ -114,8 +114,8 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
 
         if (mPrefs.isClosedTrack(address)) {
             state.setText(mActivity.getString(R.string.closed));
-            state.setTextColor(Color.LTGRAY);
-            icon.setBackgroundResource(R.drawable.closed_icon_bkg);
+            state.setTextColor(Color.RED);
+            icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
             last.setVisibility(View.GONE);
         } else {
             if(service != null) {

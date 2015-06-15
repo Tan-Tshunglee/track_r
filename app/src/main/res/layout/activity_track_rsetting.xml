@@ -46,9 +46,10 @@
                 android:id="@+id/iconAndName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_block_bkg"
+                android:background="#ffffffff"
                 android:padding="@dimen/activity_horizontal_margin"
-                android:layout_margin="@dimen/activity_horizontal_margin">
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
 
                 <ImageButton
                     android:id="@+id/icon"
@@ -60,7 +61,7 @@
                     android:id="@+id/track_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/user_data_text"
+                    android:textColor="@color/black"
                     android:text="@string/key"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/icon"
@@ -85,18 +86,19 @@
                 android:id="@+id/linkLostLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@drawable/item_block_bkg"
+                    android:background="@color/white"
                     android:layout_height="55sp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:text="@string/itrak_alart"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -132,13 +134,13 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@drawable/item_block_bkg"
+                    android:background="@color/white"
                     android:layout_height="55sp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/user_data_text"
+                        android:textColor="@color/black"
                         android:text="@string/phone_alart"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
