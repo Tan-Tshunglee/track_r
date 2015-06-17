@@ -272,6 +272,7 @@
             android:paddingLeft="20dp"
             android:maxLength="10"
             android:textColor="@color/user_data_text"
+            android:inputType="textVisiblePassword"
             android:layout_height="@dimen/type_descript_textview_height" />
     </LinearLayout>
 
