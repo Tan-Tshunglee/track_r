@@ -2,7 +2,6 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -88,8 +87,11 @@ public class HelpActivity extends Activity implements TrackRInitialize {
                 }else if(language.equals("fr")){
                     whichCountry= "fra/term.html";
                 }
-                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
+//                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(it);
+                Intent it = new Intent(HelpActivity.this, HelpWebView.class);
+                it.putExtra("URL","http://www.ieasytec.com/help/" + whichCountry);
                 startActivity(it);
             }
         });
@@ -109,9 +111,15 @@ public class HelpActivity extends Activity implements TrackRInitialize {
                 }else if(language.equals("fr")){
                     whichCountry= "fra/policy.html";
                 }
-                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
-                 Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
+//
+//                 Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(it);
+                Intent it = new Intent(HelpActivity.this, HelpWebView.class);
+                it.putExtra("URL","http://www.ieasytec.com/help/" + whichCountry);
                 startActivity(it);
+
+
             }
         });
         rlterms_use.setOnClickListener(new OnClickListener() {
@@ -129,9 +137,13 @@ public class HelpActivity extends Activity implements TrackRInitialize {
                 }else if(language.equals("fr")){
                     whichCountry= "fra/home.html";
                 }
-                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
-                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                Uri uri = Uri.parse("http://www.ieasytec.com/help/"+whichCountry);
+//                Intent it = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(it);
+                Intent it = new Intent(HelpActivity.this, HelpWebView.class);
+                it.putExtra("URL","http://www.ieasytec.com/help/" + whichCountry);
                 startActivity(it);
+
             }
         });
     }

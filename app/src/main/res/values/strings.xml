@@ -100,7 +100,7 @@
     <string name="user_language">Language</string>
     <string name="user_background">Background</string>
     <string name="user_tip">Feedback</string>
-    <string name="user_version">Check for updates: \n(current version :732ff4216)</string>
+    <string name="user_version">Check for updates: \n(current version : a2c319ce)</string>
     <string name="userhardware_version">Hardware Version : 1.0</string>
     <string name="user_exitcount">Log out</string>
     <string name="user_editor">Edit</string>
