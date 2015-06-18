@@ -46,7 +46,7 @@
                 android:id="@+id/iconAndName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffffff"
+                android:background="@drawable/item_block_bkg"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin">
@@ -92,7 +92,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@color/white"
+                    android:background="#ffffffff"
                     android:layout_height="55sp">
 
                     <TextView
@@ -134,7 +134,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:background="@color/white"
+                    android:background="#ffffffff"
                     android:layout_height="55sp">
 
                     <TextView

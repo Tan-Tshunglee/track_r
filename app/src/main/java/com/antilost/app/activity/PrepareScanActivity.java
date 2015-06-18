@@ -38,8 +38,8 @@ public class PrepareScanActivity extends Activity implements View.OnClickListene
     }
 
     private void showMainTrackRListActivitye() {
-        Intent i = new Intent(this, MainTrackRListActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(this, MainTrackRListActivity.class);
+//        startActivity(i);
         this.finish();
 
     }
