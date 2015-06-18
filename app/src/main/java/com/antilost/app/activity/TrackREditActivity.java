@@ -94,11 +94,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             if(position != -1) {
                 mTrack.type  = position;
             }
-            int drawableId = DrawableIds[mTrack.type];
-            mImageView.setImageResource(drawableId);
-            mTrackRName.setText(mTypeNames[mTrack.type]);
 
-            CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
+            if(!CsstSHImageData.getIconFile(mTrack.address).exists() && !(new File(TEMP_ICON_FOR_CROPPED_FILE).exists())) {
+                int drawableId = DrawableIds[mTrack.type];
+                mImageView.setImageResource(drawableId);
+                mTrackRName.setText(mTypeNames[mTrack.type]);
+            };
+
+
+            //CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
         }
 
         private int positionOfView(View v) {
@@ -417,6 +421,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
+                new File(TEMP_ICON_FOR_CROPPED_FILE).delete();
                 int drawableId = DrawableIds[mTrack.type];
                 mImageView.setImageResource(drawableId);
             }
