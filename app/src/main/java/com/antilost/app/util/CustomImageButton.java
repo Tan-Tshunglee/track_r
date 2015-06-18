@@ -2,8 +2,6 @@ package com.antilost.app.util;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -43,7 +41,8 @@ public class CustomImageButton extends ImageButton {
         TextPaint textPaint = new TextPaint();
         textPaint.setColor(_color);
         textPaint.setTextSize(_textsize);
-        StaticLayout layout = new StaticLayout(_text,textPaint,250,Layout.Alignment.ALIGN_CENTER,1.5F,0,false);
+        textPaint.setTextScaleX(0.7f);
+        StaticLayout layout = new StaticLayout(_text,textPaint,250,Layout.Alignment.ALIGN_CENTER,1F,0,false);
         canvas.translate(40, 100);
         layout.draw(canvas);
     }
