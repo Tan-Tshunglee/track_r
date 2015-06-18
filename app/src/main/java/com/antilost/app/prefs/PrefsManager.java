@@ -239,7 +239,7 @@ public class PrefsManager {
 
     public boolean isMissedTrack(String address) {
         String key = PREFS_MISSING_KEY_PREFIX + address;
-        return mPrefs.getBoolean(key, false);
+        return mPrefs.getBoolean(key, true);
     }
 
     public void saveClosedTrack(String address, boolean cloased) {
