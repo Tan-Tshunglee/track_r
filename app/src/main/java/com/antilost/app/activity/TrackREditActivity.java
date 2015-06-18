@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -19,6 +20,7 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,11 +94,15 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             if(position != -1) {
                 mTrack.type  = position;
             }
-            int drawableId = DrawableIds[mTrack.type];
-            mImageView.setImageResource(drawableId);
-            mTrackRName.setText(mTypeNames[mTrack.type]);
 
-            CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
+            if(!CsstSHImageData.getIconFile(mTrack.address).exists() && !(new File(TEMP_ICON_FOR_CROPPED_FILE).exists())) {
+                int drawableId = DrawableIds[mTrack.type];
+                mImageView.setImageResource(drawableId);
+                mTrackRName.setText(mTypeNames[mTrack.type]);
+            };
+
+
+            //CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
         }
 
         private int positionOfView(View v) {
@@ -183,7 +189,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         for(int id: TypeIds) {
             findViewById(id).setOnClickListener(mTypesIconClickListener);
         }
-
+        findViewById(android.R.id.content).setOnClickListener(this);
         bindService(new Intent(this, BluetoothLeService.class), mServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -227,7 +233,16 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             case R.id.btnOK:
                 saveTrackRSetting();
                 break;
+            case android.R.id.content:
+                hideKeyBoard();
+                break;
         }
+    }
+
+    private void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTrackRName.getWindowToken(), 0);
     }
 
     private void dismissImageSourceDialog() {
@@ -406,6 +421,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 CsstSHImageData.removePhoto(mBluetoothDeviceAddress);
+                new File(TEMP_ICON_FOR_CROPPED_FILE).delete();
                 int drawableId = DrawableIds[mTrack.type];
                 mImageView.setImageResource(drawableId);
             }
