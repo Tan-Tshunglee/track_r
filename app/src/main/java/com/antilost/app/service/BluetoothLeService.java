@@ -551,6 +551,10 @@ public class BluetoothLeService extends Service implements
                     if (mLostGpsNeedUpdateIds.add(address)) {
                         Log.v(LOG_TAG, "Add lost track's address to update list.");
                     }
+
+                    if(mLastLocation != null) {
+                        mPrefsManager.saveLastLostLocation(mLastLocation, address);
+                    }
                     //request location update to save
                     unregisterAmapLocationListener();
                     registerLocationListener();
