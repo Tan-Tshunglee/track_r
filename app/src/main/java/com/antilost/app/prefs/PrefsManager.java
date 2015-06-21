@@ -277,7 +277,7 @@ public class PrefsManager {
 
     public boolean getPhoneAlert(String address) {
         String key = PREFS_PHONE_ALERT_PREFIX + address;
-        return mPrefs.getBoolean(key, true);
+        return mPrefs.getBoolean(key, false);
     }
 
     public void saveSafeZoneEnable(boolean enabled) {
