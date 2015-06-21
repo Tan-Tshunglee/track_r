@@ -23,7 +23,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:text="type or name"
                 android:textSize="@dimen/track_listview_item_track_type_textsize"
                 android:maxWidth="@dimen/track_type_textview_max_width" />
