@@ -2,6 +2,7 @@ package com.antilost.app.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
         setContentView(R.layout.activity_forget_password);
         mEmailInput = (EditText) findViewById(R.id.email_address);
         findViewById(R.id.sendBtn).setOnClickListener(this);
+        findViewById(android.R.id.content).setOnClickListener(this);
 
     }
 
@@ -59,8 +62,17 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
         switch (v.getId()) {
             case R.id.sendBtn:
                 trySendPasswordToMyEmail();
+            case android.R.id.content:
+                hideKeyBoard();
                 break;
+
         }
+    }
+
+    private void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEmailInput.getWindowToken(), 0);
     }
 
     private void trySendPasswordToMyEmail() {

@@ -4,30 +4,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.antilost.app.R;
 import com.antilost.app.network.RegisterCommand;
 import com.antilost.app.util.Utils;
-
-import java.util.regex.Matcher;
 
 public class RegistrationActivity extends Activity implements View.OnClickListener, DialogInterface.OnClickListener {
 
@@ -52,11 +48,11 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.registrationBtn).setOnClickListener(this);
         findViewById(R.id.backLoginActivity).setOnClickListener(this);
-
+        findViewById(android.R.id.content).setOnClickListener(this);
         mEmailInput = (EditText) findViewById(R.id.email_address);
         mPasswordInput = (EditText) findViewById(R.id.user_password);
         mPassowrdConfirmInput = (EditText) findViewById(R.id.user_password_confirm);
-
+        findViewById(android.R.id.content).setOnClickListener(this);
         mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
     }
 
@@ -97,9 +93,18 @@ public class RegistrationActivity extends Activity implements View.OnClickListen
             case R.id.backLoginActivity:
                 finish();
                 break;
+            case android.R.id.content:
+                hideKeyBoard();
+                break;
+
         }
     }
 
+    private void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEmailInput.getWindowToken(), 0);
+    }
     private void tryRegistrationUser() {
 
 

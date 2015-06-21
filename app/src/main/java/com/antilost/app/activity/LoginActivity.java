@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -91,6 +92,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         mPasswordInput = (EditText) findViewById(R.id.user_password);
         mForgetPassword = (Button) findViewById(R.id.forgetPassword);
         mForgetPassword.setOnClickListener(this);
+        findViewById(android.R.id.content).setOnClickListener(this);
 
         mUserRegistration = (Button) findViewById(R.id.userRegistrationBtn);
         mUserRegistration.setOnClickListener(this);
@@ -130,11 +132,18 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
                 i = new Intent(this, ForgetPasswordActivity.class);
                 startActivity(i);
                 break;
+            case android.R.id.content:
+                hideKeyBoard();
+                break;
 
         }
     }
 
-
+    private void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEmailInput.getWindowToken(), 0);
+    }
     private void onUserClickRememberMe() {
         mRememberPasswordTextView.setSelected(!mRememberPasswordTextView.isSelected());
     }

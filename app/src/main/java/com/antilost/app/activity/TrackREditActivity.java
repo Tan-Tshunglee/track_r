@@ -3,8 +3,6 @@ package com.antilost.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -228,6 +226,7 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
                 dismissImageSourceDialog();
                 break;
             case R.id.btnCancel:
+                new File(TEMP_ICON_FOR_CROPPED_FILE).delete();
                 finish();
                 break;
             case R.id.btnOK:
@@ -334,16 +333,21 @@ public class TrackREditActivity extends Activity implements View.OnClickListener
         mPrefs.saveTrackToFile(mBluetoothDeviceAddress, mTrack);
         startService(new Intent(TrackREditActivity.this, BluetoothLeService.class));
         File folder = ensureIconFolder();
-        File trackIconFile = new File(folder, mBluetoothDeviceAddress);
-        if (trackIconFile.exists()) {
-            Log.v(LOG_TAG, "mTrack icon file exist delete it.");
-            trackIconFile.delete();
+
+        File temp = new File(TEMP_ICON_FOR_CROPPED_FILE);
+
+        if(temp.exists()) {
+            File trackIconFile = new File(folder, mBluetoothDeviceAddress);
+            if (trackIconFile.exists()) {
+                Log.v(LOG_TAG, "mTrack icon file exist delete it.");
+                trackIconFile.delete();
+            }
+
+            if (new File(TEMP_ICON_FOR_CROPPED_FILE).renameTo(trackIconFile)) {
+                Log.e(LOG_TAG, "Rename to address failed");
+            }
         }
 
-
-        if (new File(TEMP_ICON_FOR_CROPPED_FILE).renameTo(trackIconFile)) {
-            Log.e(LOG_TAG, "Rename to address failed");
-        }
 
 
 
