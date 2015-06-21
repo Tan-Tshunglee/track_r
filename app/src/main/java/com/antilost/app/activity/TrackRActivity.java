@@ -483,6 +483,11 @@ public class TrackRActivity extends Activity implements View.OnClickListener {
                         Log.w(LOG_TAG, "no location found.");
                     }
                 } else {
+                    //update missed state for unknown reason some disconnected track 's missed state is not true;
+                    if(mBluetoothLeService != null
+                            && !mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress)) {
+                        mPrefsManager.saveMissedTrack(mBluetoothDeviceAddress, true);
+                    }
 
                     if(mPrefsManager.isDeclaredLost(mBluetoothDeviceAddress)
                             && mPrefsManager.isMissedTrack(mBluetoothDeviceAddress)) {
