@@ -102,6 +102,7 @@ public class BluetoothLeService extends Service implements
     private static final int MSG_DELAY_CHECK_NEW_TRACK_CONNECTED = 7;
     private static final int MSG_STOP_BLE_SCAN = 8;
     private static final int MSG_CONNECT_WAITING_TRACK = 9;
+    private static final int MSG_BLOCKING_CLEAN_UP_DEAD_CONNECTION = 10;
 
 
     public static final int ALARM_REPEAT_PERIOD = 2 * 60 * 1000;
@@ -276,6 +277,51 @@ public class BluetoothLeService extends Service implements
         t.start();
     }
 
+
+    private void cleanUpDeadConnection() {
+        Thread t = new Thread () {
+            @Override
+            public void run() {
+
+                if(mHandler.hasMessages(MSG_BLOCKING_CLEAN_UP_DEAD_CONNECTION)) {
+                    Log.v(LOG_TAG, "blocking clean up dean connection.");
+                    return;
+                }
+                //wait for 3 hour to next check
+                mHandler.sendEmptyMessageDelayed(MSG_BLOCKING_CLEAN_UP_DEAD_CONNECTION, 3 * 60 * 60 * 1000);
+                Log.v(LOG_TAG, "background update all track sleep state.");
+
+                Set<String> ids = mPrefsManager.getTrackIds();
+
+                for(final String address: ids) {
+                    Integer connectionState = mGattConnectionStates.get(address);
+                    BluetoothGatt bluetoothGatt = mBluetoothGatts.get(address);
+                    if(connectionState != null
+                            && bluetoothGatt != null
+                            && connectionState == BluetoothProfile.STATE_CONNECTED) {
+
+
+
+                        if(!inFastRepeatMode()) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updatesSingleTrackSleepState(address);
+                                }
+                            });
+                            try {
+                                Log.d(LOG_TAG, "sleep one track ok waiting a time.");
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        t.start();
+    }
 
     public boolean inSleepTime() {
         boolean sleepMode = mPrefsManager.getSleepMode();
@@ -1763,7 +1809,7 @@ public class BluetoothLeService extends Service implements
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                updateAllTrackSleepState();
+                cleanUpDeadConnection();
                 scanLeDevice();
             }
         }, 2500);
@@ -1793,6 +1839,8 @@ public class BluetoothLeService extends Service implements
 
         return true;
     }
+
+
 
     private boolean allTrackConnected() {
         Set<String> ids = new HashSet<String>(mPrefsManager.getTrackIds());
