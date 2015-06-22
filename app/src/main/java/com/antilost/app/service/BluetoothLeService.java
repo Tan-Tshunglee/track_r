@@ -819,7 +819,7 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastLocFoundByOthers(null, address);
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
-                                updateAndroidConnection(address);
+//                                updateAndroidConnection(address);
                                 mHandler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -998,7 +998,7 @@ public class BluetoothLeService extends Service implements
                                 mPrefsManager.saveLastLocFoundByOthers(null, address);
                                 mPrefsManager.saveLastTimeFoundByOthers(-1, address);
 
-                                updateAndroidConnection(address);
+//                                updateAndroidConnection(address);
 //                                mHandler.postDelayed(new Runnable() {
 //                                    @Override
 //                                    public void run() {
@@ -1052,31 +1052,31 @@ public class BluetoothLeService extends Service implements
         }
     }
 
-    private void updateAndroidConnection(String address) {
-        Integer state = mGattConnectionStates.get(address);
-        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
-            BluetoothGatt gatt = mBluetoothGatts.get(address);
-            BluetoothGattService customService = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_SERVICE);
-            if(customService != null) {
-                BluetoothGattCharacteristic androidCharacterisic =
-                        customService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ANDROID_SYSTEM_FLAG);
-
-                if(androidCharacterisic != null) {
-                    androidCharacterisic.setValue(new byte[] {1});
-                    if(gatt.writeCharacteristic(androidCharacterisic)) {
-                        Log.d(LOG_TAG, "gatt write android flag success.");
-                    } else {
-                        Log.e(LOG_TAG, "gatt write android flag failed.");
-                    };
-                } else {
-                    Log.e(LOG_TAG, "android flag characteristic is null.");
-                }
-            } else {
-                Log.e(LOG_TAG, "custom service is null.");
-            }
-
-        }
-    }
+//    private void updateAndroidConnection(String address) {
+//        Integer state = mGattConnectionStates.get(address);
+//        if(state != null && state == BluetoothProfile.STATE_CONNECTED) {
+//            BluetoothGatt gatt = mBluetoothGatts.get(address);
+//            BluetoothGattService customService = gatt.getService(com.antilost.app.bluetooth.UUID.CUSTOM_SERVICE);
+//            if(customService != null) {
+//                BluetoothGattCharacteristic androidCharacterisic =
+//                        customService.getCharacteristic(com.antilost.app.bluetooth.UUID.CHARACTERISTIC_ANDROID_SYSTEM_FLAG);
+//
+//                if(androidCharacterisic != null) {
+//                    androidCharacterisic.setValue(new byte[] {1});
+//                    if(gatt.writeCharacteristic(androidCharacterisic)) {
+//                        Log.d(LOG_TAG, "gatt write android flag success.");
+//                    } else {
+//                        Log.e(LOG_TAG, "gatt write android flag failed.");
+//                    };
+//                } else {
+//                    Log.e(LOG_TAG, "android flag characteristic is null.");
+//                }
+//            } else {
+//                Log.e(LOG_TAG, "custom service is null.");
+//            }
+//
+//        }
+//    }
 
     private void notifyDeviceReconnected(String address) {
         mNotificationManager.cancel(address, NOTIFICATION_ID_TRACK_DISCONNECTED);
