@@ -305,7 +305,6 @@ public class UserProfileActivity extends Activity implements TrackRInitialize,
         ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPrefsManager.logoutUser();
-                mPrefsManager.setSavePasswordChecked(false);
                 sendBroadcast(new Intent(ACTION_USER_LOGOUT));
                 UserProfileActivity.this.finish();
                 startService(new Intent(UserProfileActivity.this, BluetoothLeService.class));

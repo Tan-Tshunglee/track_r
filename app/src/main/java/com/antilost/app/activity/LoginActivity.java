@@ -100,6 +100,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Dia
         boolean savePasswordChecked  = mPrefsManager.getSavePasswordChecked();
         if(savePasswordChecked) {
             mPasswordInput.setText(mPrefsManager.getPassword());
+            mRememberPasswordTextView.setSelected(savePasswordChecked);
         }
 
         mEmailInput.setText(mPrefsManager.getEmail());
