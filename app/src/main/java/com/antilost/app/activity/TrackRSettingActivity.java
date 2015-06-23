@@ -342,9 +342,11 @@ public class TrackRSettingActivity extends Activity implements View.OnClickListe
                 break;
             case R.id.declared_lost:
                 if (mBackgroundThread != null||(mBluetoothLeService.isGattConnected(mBluetoothDeviceAddress))) {
+                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.can_not_connected_declare_itrack), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mPrefsManager.isClosedTrack(mBluetoothDeviceAddress)) {//close can not to declared
+                    Toast.makeText(TrackRSettingActivity.this, getString(R.string.can_not_close_declare_itrack), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 confireNotice(view);
