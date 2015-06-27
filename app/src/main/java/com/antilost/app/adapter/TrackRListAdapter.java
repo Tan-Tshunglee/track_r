@@ -107,7 +107,7 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         } else {
             icon.setImageResource(TrackREditActivity.DrawableIds[track.type]);
             icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            icon.setPadding(0, 0, 0, 0);
+            icon.setPadding(5,5,5,5);
         }
 //        icon.setOnClickListener(this);
         BluetoothLeService service = mActivity.getBluetoothLeService();
@@ -115,7 +115,7 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
         if (mPrefs.isClosedTrack(address)) {
             state.setText(mActivity.getString(R.string.closed));
             state.setTextColor(Color.RED);
-            icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+            icon.setBackgroundResource(R.drawable.disconnected_icon_bkg );
             last.setVisibility(View.GONE);
         } else {
             if(service != null) {
@@ -123,26 +123,26 @@ public class TrackRListAdapter extends BaseAdapter implements View.OnClickListen
                 state.setText(getStateString(stateValue));
                 switch (stateValue) {
                     case BluetoothProfile.STATE_DISCONNECTED:
-                        icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                        icon.setBackgroundResource(R.drawable.disconnected_icon_bkg );
                         state.setTextColor(Color.RED);
                         last.setText(getLastTimeAndLocation(address));
                         last.setVisibility(View.VISIBLE);
                         break;
                     case BluetoothProfile.STATE_CONNECTED:
-                        icon.setBackgroundResource(R.drawable.connected_icon_bkg);
+                        icon.setBackgroundResource(R.drawable.connected_icon_bkg );
                         state.setTextColor(Color.GREEN);
                         last.setVisibility(View.GONE);
                         break;
                     case BluetoothProfile.STATE_CONNECTING:
                     case BluetoothProfile.STATE_DISCONNECTING:
-                        icon.setBackgroundResource(R.drawable.connecting_icon_bkg);
+                        icon.setBackgroundResource(R.drawable.connecting_icon_bkg );
                         state.setTextColor(Color.YELLOW);
                         last.setVisibility(View.GONE);
                         break;
                 }
             } else {
                 Log.v(LOG_TAG, "service is null");
-                icon.setBackgroundResource(R.drawable.disconnected_icon_bkg);
+                icon.setBackgroundResource(R.drawable.disconnected_icon_bkg );
                 state.setText(mActivity.getString(R.string.disconnected));
                 state.setTextColor(Color.RED);
                 last.setText(getLastTimeAndLocation(address));

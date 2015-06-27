@@ -63,12 +63,14 @@
         android:id="@+id/icon"
         android:layout_width="@dimen/track_r_listview_icon_size"
         android:layout_height="@dimen/track_r_listview_icon_size"
-        android:src="@drawable/other"
+        android:src="@drawable/car"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:focusable="false"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@drawable/closed_icon_bkg" />
+        android:padding="10dp"
+        android:background="@drawable/connected_icon_bkg" />
 
     <View
         android:id="@+id/bottomDivider"

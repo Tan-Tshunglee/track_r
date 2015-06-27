@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">iTrackpro</string>
+    <string name="app_name">iTrack Easy</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="new_user_registration">Sign Up</string>
@@ -52,12 +52,12 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="track_r_is_running">iTrack is running.</string>
     <string name="title_activity_disconnect_alert">DisconnectAlertActivity</string>
-    <string name="title_activity_track_rsetting">iTrackproSettingActivity</string>
-    <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n\n2.Hold the iTrackPro tag close to your phone.\n\n3.Hold the button on the iTrackPro device until you hear a beep and the LED starts flashing.</string>
+    <string name="title_activity_track_rsetting">iTrackSettingActivity</string>
+    <string name="binding_steps_describe">1.Make sure to turn on your phone’s Bluetooth.\n\n2.Hold the iTrack tag close to your phone.\n\n3.Hold the button on the iTrack device until you hear a beep and the LED starts flashing.</string>
     <string name="add_track_r">Add New Item</string>
-    <string name="connecting_with_track_r">Connecting with iTrackpro</string>
+    <string name="connecting_with_track_r">Connecting with iTrack</string>
     <string name="connecting_failed">Failed to Connect</string>
-    <string name="try_again_steps">Tips:\n1.Make sure you turn on the Bluetooth on your phone.\n\n2.Make sure the iTrackPro device is near your phone (less than 4 inches).\n\n3.Make sure to hold the button on the iTrackPro device until you hear the beep.\n\n4.Tap “Re-scan” to try again.</string>
+    <string name="try_again_steps">Tips:\n1.Make sure you turn on the Bluetooth on your phone.\n\n2.Make sure the iTrack device is near your phone (less than 4 inches).\n\n3.Make sure to hold the button on the iTrack device until you hear the beep.\n\n4.Tap “Re-scan” to try again.</string>
     <string name="try_again">Re-scan</string>
     <string name="send_password_to_my_email">Send Password to My Email</string>
     <string name="or_use">Or Use</string>
@@ -66,24 +66,24 @@
     <string name="ok">OK</string>
     <string name="my_track_r">My Items</string>
     <string name="add_new_item">Add New Item</string>
-    <string name="prepare_track_r_to_bind">Please have your iTrackPro device ready to begin pairing</string>
+    <string name="prepare_track_r_to_bind">Please have your iTrack device ready to begin pairing</string>
     <string name="sleep_on_and_time">Sleep Mode On\n\n22:00 - 7:00</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
-    <string name="distance_to_track_r">Distance to iTrackpro</string>
+    <string name="distance_to_track_r">Distance to iTrack</string>
     <string name="loc">Map</string>
     <string name="ring">Ring</string>
     <string name="photo">Photo</string>
     <string name="share">Share</string>
     <string name="change">Change photo</string>
     <string name="key">Key</string>
-    <string name="itrak_alart">iTrackpro Alert</string>
+    <string name="itrak_alart">iTrack Alert</string>
     <string name="phone_alart">Phone Alert</string>
     <string name="alert_level">Alert level</string>
-    <string name="phone_alart_tip">When this option is turned on, your phone will beep when your iTrackpro is disconnected from the phone.</string>
-    <string name="alert_level_tip">When this option is turned on, your iTrackpro will beep when it is disconnected from the phone.</string>
-    <string name="turn_off_track_r">Turn off iTrackpro</string>
-    <string name="unbind_track_r">Delete iTrackpro</string>
+    <string name="phone_alart_tip">When this option is turned on, your phone will beep when your iTrack is disconnected from the phone.</string>
+    <string name="alert_level_tip">When this option is turned on, your iTrack will beep when it is disconnected from the phone.</string>
+    <string name="turn_off_track_r">Turn off iTrack</string>
+    <string name="unbind_track_r">Delete iTrack</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_picture">Choose Picture</string>
     <string name="reconect_to_s">"Reconnect to %s"</string>
@@ -100,7 +100,7 @@
     <string name="user_language">Language</string>
     <string name="user_background">Background</string>
     <string name="user_tip">Feedback</string>
-    <string name="user_version">Check for updates: \n(current version : a2c319ce)</string>
+    <string name="user_version">Check for updates: \n(current version : 31a13f92d)</string>
     <string name="userhardware_version">Hardware Version : 1.0</string>
     <string name="user_exitcount">Log out</string>
     <string name="user_editor">Edit</string>
@@ -115,16 +115,16 @@
     <string name="done">Done</string>
     <string name="back">Back</string>
     <string name="safezone_title">Wifi Safe Zone</string>
-    <string name="safezone_message">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrackpro device and your phone to avoid constant alerts.</string>
+    <string name="safezone_message">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrack device and your phone to avoid constant alerts.</string>
     <string name="safezone_home">Home</string>
     <string name="safezone_office">Office</string>
     <string name="safezone_other">Other</string>
     <string name="safezone_modifywifi">Set, click to change</string>
     <string name="safezone_addwifi">Click to add wifi</string>
     <string name="safezone_wifiselcettitle">Choose Safe Wifi</string>
-    <string name="safezone_wifitip">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrackpro device and your phone to avoid constant alerts.</string>
+    <string name="safezone_wifitip">When you connect to these trusted wifi networks, distance alerts are disabled in the iTrack device and your phone to avoid constant alerts.</string>
     <string name="wifisameple">WIFI</string>
-    <string name="gps_disable_hint">Location is disabled , iTrackpro can\'t save the location info</string>
+    <string name="gps_disable_hint">Location is disabled , iTrack can\'t save the location info</string>
     <string name="connecting">Connecting</string>
     <string name="disconnecting">Disconnecting</string>
     <string name="closed">Off</string>
@@ -163,7 +163,7 @@
     <string name="setting">setting</string>
     <string name="feedbackpush">Submit</string>
     <string name="title_activity_dialog">DialogActivity</string>
-    <string name="warm_prompt_open_location_service">In order to record the iTrackpro\'s lost location info, you need open the location service.</string>
+    <string name="warm_prompt_open_location_service">In order to record the iTrack\'s lost location info, you need open the location service.</string>
     <string name="warm_prompt">Hint</string>
     <string name="enable_network_before_login">Enable network before login.</string>
     <string name="firststart">Start My iTrack</string>
@@ -211,19 +211,21 @@
     <string name="help_title">help</string>
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
-    <string name="iTrack_close_tip">Please press the button on your iTrackpro to wake it up</string>
+    <string name="iTrack_close_tip">Please press the button on your iTrack to wake it up</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
     <string name="modify_locationname">Modify name of location</string>
     <string name="modify_locationname_null">Name of location is null</string>
     <string name="good_news">Good news</string>
-    <string name="your_track_is_found_by_others_at">Your iTrackpro is found by others at %1$s.</string>
+    <string name="your_track_is_found_by_others_at">Your iTrack is found by others at %1$s.</string>
     <string name="title_activity_found_by_others">FoundByOthers</string>
     <string name="fetching_your_tracks">Fetching Your iTracks.</string>
     <string name="just_a_moment">Just a moment, please</string>
     <string name="edit_itrack">Edit Item</string>
-    <string name="delete_track_on_server">Delete iTrackpro on Server</string>
-    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrackpro.</string>
+    <string name="delete_track_on_server">Delete iTrack on Server</string>
+    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
+    <string name="can_not_connected_declare_itrack">iTrack is connected ,can not declare loss</string>
+    <string name="can_not_close_declare_itrack">iTrack is closed ,can not declare loss</string>
 
     <string-array name="modify_location">
         <item>Rename</item>
@@ -236,14 +238,14 @@
     <string name="notice_delete">Delete</string>
     <string name="notice_confire">Confirm</string>
     <string name="notice_delete_loser_tip_1">Once you delete this&#160;\" </string>
-    <string name="notice_delete_loser_tip_2">\" &#160;item, it will be deleted from your iTrackpro list, you cannot use it unless you add it again.</string>
+    <string name="notice_delete_loser_tip_2">\" &#160;item, it will be deleted from your iTrack list, you cannot use it unless you add it again.</string>
     <string name="notice_close_loser_tip_1">As you turn off the &#160;\"</string>
     <string name="notice_close_loser_tip_2">\" &#160;you need to wake it up to use it. Are you sure to turn it off?</string>
     <string name="notice_declare_loser_tip_1">Once you declare lost of this &#160;\"</string>
     <string name="notice_declare_loser_tip_2">\" &#160;, our network will help you search it. All data is encrypted and only visible to you. You will be notified as soon as we found it.</string>
-    <string name="no_location_provider_available">No Location Provider Available, iTrackpro Can not Record Lost Location.</string>
+    <string name="no_location_provider_available">No Location Provider Available, iTrack Can not Record Lost Location.</string>
     <string name="sihnout_tip_title">Sign Out</string>
-    <string name="sihnout_tip">All iTrackpro will be disconnected from your phone upon logging out.You won\'t be able to manage them until you login again.
+    <string name="sihnout_tip">All iTrack will be disconnected from your phone upon logging out.You won\'t be able to manage them until you login again.
         Are you sure you want to log out?</string>
 
     <string name="unbined_tip_disconnected_tip1">This device is not connected to you phone now. Please make sure you want to unpair or delete it from you phone. Once you delete this device from you phone, you will not be able to locate or ring the &#160;\"</string>
@@ -286,7 +288,7 @@
     <string name="location">Location</string>
     <string name="disconnect_track_remote_snapshot_won_t_work">iTrack Disconnected, Remote Snapshot Will Not Work.</string>
     <string name="title_name">Registration</string>
-    <string name="turn_on_itrack">Turn on iTrackpro</string>
+    <string name="turn_on_itrack">Turn on iTrack</string>
 
     <string name="close_turnon_tip1">Long press the button on  &#160;\"</string>
     <string name="close_turnon_tip2">\" to turn it on .</string>

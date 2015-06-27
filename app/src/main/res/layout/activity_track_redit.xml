@@ -55,7 +55,9 @@
                 android:layout_height="153dp"
                 android:layout_centerInParent="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/key_large_icon"/>
+                android:src="@drawable/key_large_icon"
+
+                />
 
             <Button android:id="@+id/changeImage"
                 android:layout_width="wrap_content"
