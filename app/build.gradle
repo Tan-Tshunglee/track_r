@@ -14,6 +14,12 @@ android {
             storeFile file('../development.jks')
             storePassword '123456654321'
         }
+        ieasytec {
+            keyAlias 'ieasytec'
+            keyPassword 'ieasytec'
+            storeFile file('G:/MY_WORKSPACE/Android_Studio/track_r/ieasytec.jks')
+            storePassword 'Kkm1234567'
+        }
     }
     compileSdkVersion 18
     buildToolsVersion '21.1.2'
@@ -21,16 +27,16 @@ android {
         applicationId "com.antilost.app"
         minSdkVersion 18
         targetSdkVersion 18
-        signingConfig signingConfigs.test1
+        signingConfig signingConfigs.ieasytec
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.test1
+            signingConfig signingConfigs.ieasytec
         }
         debug {
-            signingConfig signingConfigs.test1
+            signingConfig signingConfigs.ieasytec
         }
     }
     productFlavors {
