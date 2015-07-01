@@ -374,8 +374,7 @@ public class BluetoothLeService extends Service implements
                     }
                     String name = device.getName();
                     if(!Utils.DEVICE_NAME.equals(name)
-                            && !
-                            Utils.DEVICE_KEY_PRESSED_NAME.equals(name)) {
+                            && !Utils.DEVICE_NAME_NEW.equals(name)) {
                         Log.d(LOG_TAG, "scan an unkown name devices... with name:" + name);
                         return;
                     }
@@ -2380,7 +2379,8 @@ public class BluetoothLeService extends Service implements
         public void onLeScan(final BluetoothDevice bluetoothDevice, int rssi, byte[] bytes) {
             if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
                 String name = bluetoothDevice.getName();
-                if(!Utils.DEVICE_NAME.equals(name)) {
+                if(!Utils.DEVICE_NAME.equals(name)
+                        && !Utils.DEVICE_NAME.equals(name)) {
                     Log.i(LOG_TAG, "onLeScan....");
                     return;
                 }

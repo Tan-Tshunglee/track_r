@@ -42,6 +42,8 @@ import java.util.regex.Matcher;
 public class Utils {
 
     public static final String DEVICE_NAME = "TrackR";
+    public static final String DEVICE_NAME_NEW = "iTrack";
+
     public static final String DEVICE_KEY_PRESSED_NAME = "Track0";
 
     public static final String NAME_NEED_VERSION = "version";
