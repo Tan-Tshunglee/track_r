@@ -2380,8 +2380,8 @@ public class BluetoothLeService extends Service implements
             if(rssi > ScanTrackActivity.MIN_RSSI_ACCEPTABLE) {
                 String name = bluetoothDevice.getName();
                 if(!Utils.DEVICE_NAME.equals(name)
-                        && !Utils.DEVICE_NAME.equals(name)) {
-                    Log.i(LOG_TAG, "onLeScan....");
+                        && !Utils.DEVICE_NAME_NEW.equals(name)) {
+                    Log.i(LOG_TAG, "onLeScan for add, with unknown name " + name);
                     return;
                 }
                 String address = bluetoothDevice.getAddress();
