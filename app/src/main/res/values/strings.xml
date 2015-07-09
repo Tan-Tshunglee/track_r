@@ -100,7 +100,7 @@
     <string name="user_language">Language</string>
     <string name="user_background">Background</string>
     <string name="user_tip">Feedback</string>
-    <string name="user_version">Check for updates: \n(current version : 31a13f92d)</string>
+    <string name="user_version">Check for updates: \n(current version : 1.0)</string>
     <string name="userhardware_version">Hardware Version : 1.0</string>
     <string name="user_exitcount">Log out</string>
     <string name="user_editor">Edit</string>
@@ -149,14 +149,14 @@
     <string name="title_activity_findme">FindmeActivity</string>
     <string name="i_am_here">I am here</string>
     <string name="sleep_mode">Sleep Mode</string>
-    <string name="start">Start</string>
-    <string name="end">End</string>
+    <string name="start">From</string>
+    <string name="end">To</string>
     <string name="everyday">Everyday</string>
     <string name="help">Help</string>
     <string name="track_r_settings">iTrack Setting</string>
     <string name="i_am_here_find_me">I am here, find me?</string>
     <string name="my_location_title">Manually Added Location</string>
-    <string name="feedback_title">FeedBack</string>
+    <string name="feedback_title">Feedback</string>
     <string name="feedback_tip1">We highly appreciate your feedback and suggestions.</string>
     <string name="feedback_tip2"> Every word  will be helpful for us to improve this software.</string>
     <string name="feedback_hinttip">Please input your feedback（Up to 500 words）</string>
@@ -187,14 +187,14 @@
     <string name="no_location_data">No Location Data! </string>
     <string name="title_activity_start_and_end_timer_picker">StartAndEndTimerPickerActivity</string>
     <string name="sleep_mode_time_setting">"Time Setting"</string>
-    <string name="end_time_should_smaller_than_start_time">End time should be smaller than start time.</string>
+    <string name="end_time_should_smaller_than_start_time">Ending time should be smaller than starting time.</string>
     <string name="title_activity_camera">Camera</string>
     <string name="sleep_mode_on_and_time_format">Sleep Mode On\n\n%1$s - %2$s</string>
     <string name="sleep_mode_off">Sleep Mode off</string>
     <string name="feed_back_success">Thanks,your feedback is submitted!</string>
     <string name="feedback_failed">Sorry,your feedback failed to submit, please check your internet!</string>
     <string name="empty_feedback_can_not_be_submitted">Empty Feedback can not be submitted</string>
-    <string name="wait_a_moment">Wait a moment.</string>
+    <string name="wait_a_moment">Wait for a moment.</string>
     <string name="checking_for_new_version">Checking for new version</string>
     <string name="new_version_found">New version found.</string>
     <string name="new_version_has_been_released">New version (%1$s) of this app has been release, would you like to download and update to it?</string>
@@ -202,16 +202,16 @@
     <string name="no_update_found">No update found.</string>
     <string name="your_app_is_updated">Your app is up to date.</string>
     <string name="three_seconds">3S</string>
-    <string name="declare_lost">Declare loss</string>
-    <string name="revoke_statement">Revoke loss declaration</string>
-    <string name="declare_success">Declaration success.</string>
-    <string name="declaration_failed">Sorry declaration failed</string>
+    <string name="declare_lost">Mark as lost</string>
+    <string name="revoke_statement">Revoke Mark as Lost</string>
+    <string name="declare_success">Mark as Lost successful.</string>
+    <string name="declaration_failed">Sorry, mark as lost failed because the device is connected now.</string>
 
 
     <string name="help_title">help</string>
     <string name="help_privacy">Privacy Policy</string>
     <string name="help_use">Terms of use</string>
-    <string name="iTrack_close_tip">Please press the button on your iTrack to wake it up</string>
+    <string name="iTrack_close_tip">Please hold the button on your iTrack to wake it up</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
     <string name="lost_at">Lost at %1$s</string>
     <string name="modify_locationname">Modify name of location</string>
@@ -224,8 +224,8 @@
     <string name="edit_itrack">Edit Item</string>
     <string name="delete_track_on_server">Delete iTrack on Server</string>
     <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
-    <string name="can_not_connected_declare_itrack">iTrack is connected ,can not declare loss</string>
-    <string name="can_not_close_declare_itrack">iTrack is closed ,can not declare loss</string>
+    <string name="can_not_connected_declare_itrack">iTrack is connected ,can not mark as lost.</string>
+    <string name="can_not_close_declare_itrack">iTrack is closed ,can not mark as lost.</string>
 
     <string-array name="modify_location">
         <item>Rename</item>
@@ -250,9 +250,9 @@
 
     <string name="unbined_tip_disconnected_tip1">This device is not connected to you phone now. Please make sure you want to unpair or delete it from you phone. Once you delete this device from you phone, you will not be able to locate or ring the &#160;\"</string>
     <string name="unbined_tip_disconnected_tip2">\".</string>
-    <string name="sign_up_need_network">Sign up need available network</string>
+    <string name="sign_up_need_network">Registration need network available</string>
     <string name="unregister_email">Email not registered!</string>
-    <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
+    <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email.</string>
     <string name="wrong_pass">Wrong password</string>
     <string name="retrieve_my_pass">Retrieve my password</string>
 
@@ -262,34 +262,34 @@
     <string name="black">black</string>
     <string name="login">login</string>
     <string name="cloud">cloud</string>
-    <string name="in_sleep_mode_phone_no_alert">In sleep mode, phone will not alert</string>
-    <string name="in_sleep_mode_track_will_not_alert">In sleep mode, iTrack will not alert</string>
-    <string name="bluethoot_disabled">Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?</string>
+    <string name="in_sleep_mode_phone_no_alert">In sleep mode, phone will not alert.</string>
+    <string name="in_sleep_mode_track_will_not_alert">In sleep mode, iTrack will not alert.</string>
+    <string name="bluethoot_disabled">Bluetooth is disabled, iTrack will not work without bluetooth, do you want to enable it?</string>
     <string name="notice">Notice</string>
     <string name="title_activity_change_password">ChangePasswordActivity</string>
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="new_password_confirm">New Password Confirm</string>
     <string name="change_password">Change Password</string>
-    <string name="password_change_successfully">Password Change Successfully.</string>
-    <string name="failed_change_password">Failed to Change Password</string>
-    <string name="old_password_length_error">Old password length requires 6 to 18 characters</string>
-    <string name="new_password_length_error">New password length requires 6 to 18 characters</string>
-    <string name="change_password_not_match">New password don\'t match the New password confirm.</string>
+    <string name="password_change_successfully">Change password successful!</string>
+    <string name="failed_change_password">Change password failed, please check your network connection.</string>
+    <string name="old_password_length_error">Old password length requires 6 to 18 characters.</string>
+    <string name="new_password_length_error">New password length requires 6 to 18 characters.</string>
+    <string name="change_password_not_match">The two new passwords do not match.</string>
     <string name="changing_password">Changing password</string>
     <string name="unable_detemine_current_position">Unable to determine current position</string>
     <string name="location_name_can_not_be_empty">Location name can not be empty.</string>
     <string name="you_are_here">You are here</string>
 
     <string name="track_hardware_name">Hardware %1$s.%2$s</string>
-    <string name="reset_active_email_success">Resent active email success</string>
-    <string name="resent_active_email_failed">Resent active email failed</string>
+    <string name="reset_active_email_success">Resend Email successful</string>
+    <string name="resent_active_email_failed">Resend Email failed</string>
     <string name="current_position">Current Postion</string>
     <string name="location">Location</string>
     <string name="disconnect_track_remote_snapshot_won_t_work">iTrack Disconnected, Remote Snapshot Will Not Work.</string>
     <string name="title_name">Registration</string>
     <string name="turn_on_itrack">Turn on iTrack</string>
 
-    <string name="close_turnon_tip1">Long press the button on  &#160;\"</string>
+    <string name="close_turnon_tip1">Long hold the button on  &#160;\"</string>
     <string name="close_turnon_tip2">\" to turn it on .</string>
 </resources>

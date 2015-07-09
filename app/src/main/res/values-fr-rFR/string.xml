@@ -48,6 +48,13 @@
     <string name="Other">Autre</string>
 
 
+    <string name="yellow">yellow</string>
+    <string name="gray">gray</string>
+    <string name="siliver">siliver</string>
+    <string name="black">black</string>
+    <string name="login">login</string>
+    <string name="cloud">cloud</string>
+
 
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="track_r_is_running">iTrack is running.</string>
@@ -70,7 +77,7 @@
     <string name="sleep_on_and_time">Mode veille activé\n\n22:00 - 7:00</string>
     <string name="connected">Connecté</string>
     <string name="disconnected">Connexion perdue</string>
-    <string name="distance_to_track_r">Distance to iTrack</string>
+    <string name="distance_to_track_r">Distance de l’iTrack</string>
     <string name="loc">Carte</string>
     <string name="ring">Alarme</string>
     <string name="photo">Selfie</string>
@@ -81,7 +88,7 @@
     <string name="phone_alart">Alerte téléphone</string>
     <string name="alert_level">Alert level</string>
     <string name="phone_alart_tip">Lorsque l’option est activée, votre téléphone sonnera quand votre NUT n’y sera plus connecté.</string>
-    <string name="alert_level_tip">Lorsque l’option est activée, votre NUT sonnera quand il ne sera plus connecté à votre téléphone.</string>
+    <string name="alert_level_tip">Lorsque l’option est activée, votre iTrack sonnera quand il ne sera plus connecté à votre téléphone.</string>
     <string name="turn_off_track_r">Eteindre l’iTrack</string>
     <string name="unbind_track_r">Effacer l’iTrack</string>
     <string name="take_photo">Prendre une photo</string>
@@ -92,7 +99,7 @@
     <string name="your_device_no_ble_support">Votre appareil n’est pas équipé du bluetooth.</string>
     <string name="max_device_limit_reached">Limite d’objets connectés atteinte</string>
     <string name="custom_name">Custom Name</string>
-    <string name="user_title">Myself</string>
+    <string name="user_title">Moi</string>
     <string name="user_data">About me</string>
     <string name="user_app_ring">Sonnerie de l’alerte</string>
     <string name="user_timering">Durée de l’alerte</string>
@@ -100,8 +107,9 @@
     <string name="user_language">Language</string>
     <string name="user_background">Fond d’écran</string>
     <string name="user_tip">Donnez votre avis</string>
-    <string name="user_version">Verifier la mise à jour: \n(Version actuelle :1.2.0)</string>
-    <string name="userhardware_version">Hardware Version : 1.0</string>
+    <string name="user_version">Verifier la mise à jour: \n(Version actuelle :1.0)</string>
+    <string name="userhardware_version">Hardware Version : 1.0</string>=
+
     <string name="user_exitcount">Log out</string>
     <string name="user_editor">Edit</string>
     <string name="user_usericon">Portrait</string>
@@ -155,7 +163,7 @@
     <string name="help">Aide</string>
     <string name="track_r_settings">iTrack Configuration</string>
     <string name="i_am_here_find_me">Je suis ici, vous me trouvez?</string>
-    <string name="my_location_title">Localisation ajoutée manuellement</string>
+    <string name="my_location_title">Lieu ajouté</string>
     <string name="feedback_title">Donnez votre avis</string>
     <string name="feedback_tip1">Nous vous invitons à nous envoyer toutes vos suggestions ou critiques.</string>
     <string name="feedback_tip2"> Nous attachons beaucoup d’importance à votre opinion et votre retour nous aidera à améliorer notre application.</string>
@@ -168,7 +176,7 @@
     <string name="enable_network_before_login">Activez le réseau avant de vous connecter.</string>
     <string name="firststart">Démarrer mon iTrack</string>
     <string name="reset">Reset</string>
-    <string name="locationsetting">Location name：</string>
+    <string name="locationsetting">Nom du lieu：</string>
     <string name="locationtime">time：</string>
 
     <string name="usereditor_select">"</string>
@@ -213,7 +221,7 @@
     <string name="help_use">Conditions d’utilisation</string>
     <string name="iTrack_close_tip">Veuillez appuyer sur le bouton du iTrack pour le reconnecter</string>
     <string name="found_by_others_at_format">Found by others at %1$s</string>
-    <string name="lost_at">Lost at %1$s</string>
+    <string name="lost_at">Perdue à %1$s</string>
     <string name="modify_locationname">Changer le nom de la localisation</string>
     <string name="modify_locationname_null">Name of location is null</string>
     <string name="good_news">Bonne nouvelle</string>
@@ -223,9 +231,9 @@
     <string name="just_a_moment">Un moment SVP</string>
     <string name="edit_itrack">Détails de votre objet</string>
     <string name="delete_track_on_server">Supprimer votre iTrack du serveur</string>
-    <string name="can_not_close_disconnected_itrack">Can not close disconnected iTrack.</string>
-    <string name="can_not_connected_declare_itrack">iTrack is connected ,can not declare loss</string>
-    <string name="can_not_close_declare_itrack">iTrack is closed ,can not declare loss</string>
+    <string name="can_not_close_disconnected_itrack">Vous ne pouvez pas éteindre un iTrack déconnecté.</string>   
+	<string name="can_not_connected_declare_itrack">iTrack connect, ne peut tre dclar comme perdu</string>
+    <string name="can_not_close_declare_itrack">L&#38;iTrack est éteint, il ne peut pas être déclaré comme perdu.</string>
 
     <string-array name="modify_location">
         <item>Rename</item>
@@ -265,50 +273,45 @@
 
 
 
-    <string name="unbined_tip_disconnected_tip2">\".</string>
-    <string name="sign_up_need_network">Sign up need available network</string>
-    <string name="unregister_email">Email not registered!</string>
-    <string name="your_email_need_activation">Inactive account, you can active your account by click the activation link in your email box</string>
-    <string name="wrong_pass">Wrong password</string>
-    <string name="retrieve_my_pass">Retrieve my password</string>
+	<string name="unbined_tip_disconnected_tip2">\".</string>
+    <string name="sign_up_need_network">L&#38;enregistrement ncessite une connexion rseau.</string>
+    <string name="unregister_email">Adresse email non enregistre !</string>
+    <string name="your_email_need_activation">Compte inactif. Vous pouvez l&#38;activez en cliquant sur le lien reu par email.</string>
+    <string name="wrong_pass">Mot de passe incorect</string>
+    <string name="retrieve_my_pass">Rcuprer mon mot de passe</string>
 
-
-    <string name="yellow">yellow</string>
-    <string name="gray">gray</string>
-    <string name="siliver">siliver</string>
-    <string name="black">black</string>
-    <string name="login">login</string>
-    <string name="cloud">cloud</string>
-    <string name="in_sleep_mode_phone_no_alert">In sleep mode, phone will not alert</string>
-    <string name="in_sleep_mode_track_will_not_alert">In sleep mode, iTrack will not alert</string>
-    <string name="bluethoot_disabled">Bluetooth is disabled, iTrack will not work without Bluetooth,Do you want to enable it?</string>
+    
+    <string name="in_sleep_mode_phone_no_alert">En mode veille, le tlphone ne sonnera pas.</string>
+    <string name="in_sleep_mode_track_will_not_alert">En mode veille, L&#38;itrack ne sonnera pas.</string>
+    <string name="bluethoot_disabled">Bluetooth désactivé, l&#38;iTrack ne fonctionnera pas sans Buetooth. Voulez-vous l&#38;activer ?</string>
     <string name="notice">Notice</string>
-    <string name="title_activity_change_password">ChangePasswordActivity</string>
-    <string name="old_password">Old Password</string>
-    <string name="new_password">New Password</string>
-    <string name="new_password_confirm">New Password Confirm</string>
-    <string name="change_password">Change Password</string>
-    <string name="password_change_successfully">Password Change Successfully.</string>
-    <string name="failed_change_password">Failed to Change Password</string>
-    <string name="old_password_length_error">Old password length requires 6 to 18 characters</string>
-    <string name="new_password_length_error">New password length requires 6 to 18 characters</string>
-    <string name="change_password_not_match">New password don\'t match the New password confirm.</string>
-    <string name="changing_password">Changing password</string>
-    <string name="unable_detemine_current_position">Unable to determine current position</string>
-    <string name="location_name_can_not_be_empty">Location name can not be empty.</string>
-    <string name="you_are_here">You are here</string>
+    <string name="title_activity_change_password">Changement de mot de passe</string>
+    <string name="old_password">Ancien MPD</string>
+    <string name="new_password">Nouveau MDP</string>
+    <string name="new_password_confirm">Confirmer le nouveau MDP</string>
+    <string name="change_password">Changer de MDP</string>
+    <string name="password_change_successfully">Changement de mot de passe russi !</string>
+    <string name="failed_change_password">Changement de mot de passe chou, vrifiez votre connexion.</string>
+    <string name="old_password_length_error">Le mot de passe requiert entre 6 et 18 caractères</string>
+    <string name="new_password_length_error">Le nouveau mot de passe doit faire entre 6 et 18 caractres.</string>
+    <string name="change_password_not_match">Les deux nouveaux mots de passe ne correspondent pas.</string>
+    <string name="changing_password">Changement de mot de passe</string>
+    <string name="unable_detemine_current_position">Impossible de dterminer la position actuelle.</string>
+    <string name="location_name_can_not_be_empty">Le nom du lieu de peut pas tre vide.</string>
+    <string name="you_are_here">Vous êtes ici </string>
+ 
 
     <string name="track_hardware_name">Hardware %1$s.%2$s</string>
-    <string name="reset_active_email_success">Resent active email success</string>
-    <string name="resent_active_email_failed">Resent active email failed</string>
-    <string name="current_position">Current Postion</string>
-    <string name="location">Location</string>
-    <string name="disconnect_track_remote_snapshot_won_t_work">iTrack Disconnected, Remote Snapshot Will Not Work.</string>
-    <string name="title_name">Registration</string>
-    <string name="turn_on_itrack">Turn on iTrack</string>
+    <string name="reset_active_email_success">Rexpdition de l&#38;email russie</string>
+    <string name="resent_active_email_failed">Rexpdition de l&#38;email choue</string>
+    <string name="current_position">Position actuelle</string>
+    <string name="location">Localisation</string>
+    <string name="disconnect_track_remote_snapshot_won_t_work">iTrack est dconnect, la tlcommande ne peut pas fonctionner.</string>
+    <string name="title_name">Enregistrementn</string>
+    <string name="turn_on_itrack">Allumer iTrack</string>
 
-    <string name="close_turnon_tip1">Long press the button on  &#160;\"</string>
-    <string name="close_turnon_tip2">\" to turn it on .</string>
+    <string name="close_turnon_tip1">Maintenez le bouton  &#160;\"</string>
+    <string name="close_turnon_tip2">\"pour l&#38;allumer .</string>
 
 
 
@@ -358,10 +361,10 @@
     <!-- message for the dialog showing the camera is disabled because of security policies. Camera cannot be used. -->
     <string name="camera_disabled">Camera has been disabled because of security policies.</string>
 
-    <!-- label for the icon meaning 'show me all the images that were taken with the camera' -->
+    <!-- label for the icon meaning &#38;show me all the images that were taken with the camera&#38; -->
     <string name="camera_label">Camera</string>
 
-    <!-- label for the 'video recording application shown in the top level 'all applications' -->
+    <!-- label for the &#38;video recording application shown in the top level &#38;all applications&#38; -->
     <string name="video_camera_label">Camcorder</string>
 
     <!-- label for the folder that contains Camera pictures in the gallery -->
@@ -383,7 +386,7 @@
     <string name="preparing_sd" product="default">Preparing SD card\u2026</string>
 
     <!-- alert to the user that the camera fails to read or write the SD card. -->
-    <string name="access_sd_fail" product="default">Couldn\'t access SD card.</string>
+    <string name="access_sd_fail" product="default">Couldn\&#38;t access SD card.</string>
 
     <!-- Confirmation dialog when restoring settings -->
     <string name="confirm_restore_title">Restore defaults</string>
@@ -609,7 +612,7 @@
     <string name="effect_backdropper_gallery">Pick your own</string>
 
     <!-- Message displayed in overlay during background replacement training [CHAR LIMIT=180]-->
-    <string name="bg_replacement_message">Place your device on a steady surface and be sure there\'s no movement behind you.\n\nThen step out of the camera\'s view.</string>
+    <string name="bg_replacement_message">Place your device on a steady surface and be sure there\&#38;s no movement behind you.\n\nThen step out of the camera\&#38;s view.</string>
 
     <!-- Toast after trying to select a setting that is not allowed to change in effect [CHAR LIMIT=50] -->
     <string name="not_selectable_in_effect">This is not selectable when the effect is on.</string>
